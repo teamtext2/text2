@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Match - Connect Love</title>
+        <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw">
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script> 
+    <meta name="description" content="Tool to check compatibility between two people based on names - Love Match!">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e94057;
+            --primary-dark: #be2643;
+            --accent: #ffb4c6;
+            --background: #fff0f6;
+            --white: #fff;
+            --shadow: rgba(233, 64, 87, 0.12) 0 4px 24px;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #2d2d2d;
+        }
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(233,64,87,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .container {
+            max-width: 540px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 56px;
+        }
+        /* Menu button for mobile/tablet */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: var(--white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(233,64,87,0.07);
+            transition: background 0.2s;
+        }
+        .menu-toggle:active, .menu-toggle:focus {
+            background: #ffe2ec;
+            outline: none;
+        }
+        .bar {
+            width: 26px;
+            height: 3px;
+            background: var(--primary);
+            margin: 3px 0;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            margin-right: 12px;
+        }
+        .logo span {
+            margin-left: 8px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        nav a {
+            color: #5e5e5e;
+            font-weight: 500;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover, nav a:focus {
+            color: var(--primary-dark);
+        }
+        /* Hide nav on mobile, show when menu button is clicked */
+        @media (max-width: 700px) {
+            .nav {
+                min-height: 44px;
+            }
+            .logo {
+                font-size: 1.18rem;
+            }
+            nav ul {
+                position: absolute;
+                top: 56px;
+                right: 12px;
+                background: var(--white);
+                box-shadow: 0 4px 14px rgba(233,64,87,0.14);
+                border-radius: 14px;
+                flex-direction: column;
+                gap: 0;
+                min-width: 150px;
+                padding: 10px 0;
+                z-index: 9999;
+                display: none;
+                margin: 0;
+            }
+            nav ul.active {
+                display: flex;
+            }
+            nav ul li {
+                width: 100%;
+                text-align: left;
+                padding: 0;
+            }
+            nav ul li a {
+                display: block;
+                padding: 10px 24px;
+                font-size: 1rem;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+        }
+        @media (min-width: 701px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 0 48px 0;
+            background: linear-gradient(135deg, #ffe2ec 40%, #fad0c4 100%);
+        }
+        .love-box {
+            background: var(--white);
+            padding: 40px 30px 32px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        .love-box h1 {
+            color: var(--primary);
+            font-size: 2.1rem;
+            margin-bottom: 4px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .love-box p {
+            color: #555;
+            margin-bottom: 32px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            padding: 14px 16px;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.22s, box-shadow 0.2s;
+            background: #fff;
+        }
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px #ffd6e6;
+        }
+        .btn-calc {
+            width: 100%;
+            margin-top: 18px;
+            padding: 14px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary), #ffb4c6 120%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 3px 14px 0 rgba(233, 64, 87, 0.13);
+            transition: background 0.22s, transform 0.1s;
+        }
+        .btn-calc:hover, .btn-calc:focus {
+            background: linear-gradient(90deg, var(--primary-dark), #ffb4c6 120%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .error-message {
+            color: var(--primary);
+            font-size: 1rem;
+            margin: 10px 0;
+            min-height: 20px;
+            display: block;
+        }
+        #result {
+            margin-top: 30px;
+            min-height: 54px;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #222;
+            background: #fff0f5;
+            border-radius: 12px;
+            padding: 16px 12px;
+            box-sizing: border-box;
+            box-shadow: 0 3px 16px rgba(255,51,102,.06);
+        }
+        .heart-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            vertical-align: middle;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1);}
+            20% { transform: scale(1.2);}
+            40% { transform: scale(1);}
+            60% { transform: scale(1.15);}
+            80% { transform: scale(1);}
+        }
+        footer {
+            background: var(--white);
+            width: 100%;
+            box-shadow: 0 -1px 6px rgba(233,64,87,0.07);
+            margin-top: auto;
+        }
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 16px 16px 16px;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        .footer-links a {
+            color: #5e5e5e;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+        .copyright {
+            color: #b8b8b8;
+            font-size: 0.98rem;
+        }
+
+        @media (max-width: 600px) {
+            .container { max-width: 100%; padding: 0 6px; }
+            .love-box { padding: 28px 4px 22px 4px; }
+            nav ul { top: 44px; right: 2px; min-width: 120px; }
+            .footer-links { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="#" class="logo">
+                <span aria-label="Love" role="img">❤️</span>
+                <span>Love Match</span>
+            </a>
+            <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-list">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav>
+                <ul id="nav-list">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="love-box" aria-label="Compatibility tool">
+            <h1>❤️ Love Match</h1>
+            <p>Discover the compatibility between you and your loved one by entering names below!</p>
+            <form id="loveForm" autocomplete="off">
+                <div class="input-group">
+                    <input id="name1" name="name1" placeholder="Enter first person's name..." type="text" maxlength="32" autocomplete="off" required />
+                    <input id="name2" name="name2" placeholder="Enter second person's name..." type="text" maxlength="32" autocomplete="off" required />
+                </div>
+                <button type="submit" class="btn-calc">Calculate Compatibility</button>
+                <span class="error-message" id="error" aria-live="polite"></span>
+                <div id="result" aria-live="polite"></div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="copyright">© 2024 Love Match. All rights reserved by the development team.</div>
+        </div>
+    </footer>
+    <script>
+        // Toggle menu for mobile/tablet
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navList = document.getElementById('nav-list');
+        menuBtn.addEventListener('click', function() {
+            navList.classList.toggle('active');
+            let expanded = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', String(!expanded));
+        });
+        // Close menu when click outside
+        document.addEventListener('click', function(e) {
+            if (!menuBtn.contains(e.target) && !navList.contains(e.target)) {
+                navList.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        const form = document.getElementById('loveForm');
+        const name1Input = document.getElementById('name1');
+        const name2Input = document.getElementById('name2');
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        function calculateCompatibility(name1, name2) {
+            let str1 = name1.trim().toLowerCase();
+            let str2 = name2.trim().toLowerCase();
+            let totalValue = 0;
+            for (let char of (str1 + str2)) totalValue += char.charCodeAt(0);
+            let lovePercentage = totalValue % 101;
+            let message = '';
+            if (lovePercentage >= 80) {
+                message = "A match made in heaven! 💑";
+            } else if (lovePercentage >= 60) {
+                message = "Very compatible! 💕";
+            } else if (lovePercentage >= 40) {
+                message = "Potential for development! 💖";
+            } else {
+                message = "Maybe start as friends first! 💔";
+            }
+            return `<span class="heart-icon">❤️</span> Compatibility Score: <strong>${lovePercentage}%</strong><br>${message}`;
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name1 = name1Input.value;
+            const name2 = name2Input.value;
+            resultDiv.innerHTML = '';
+            errorDiv.textContent = '';
+
+            if (!name1 || !name2) {
+                errorDiv.textContent = "Please enter both names!";
+                return;
+            }
+            if (name1.length > 32 || name2.length > 32) {
+                errorDiv.textContent = "Name too long (maximum 32 characters)!";
+                return;
+            }
+            resultDiv.innerHTML = calculateCompatibility(name1, name2);
+        });
+
+        // Support pressing Enter to submit
+        [name1Input, name2Input].forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    form.dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

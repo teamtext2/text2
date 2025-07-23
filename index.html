@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script>
+  <!-- Basic -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Text2</title>
+  <meta name="description" content="Text2 - We are making a difference" />
+  <meta name="keywords" content="Text2, text2 team" />
+  <meta name="robots" content="index, follow" />
+  <!-- Open Graph (social sharing, especially Facebook) -->
+  <meta property="og:title" content="text2" />
+  <meta property="og:description" content="We are making a difference" />
+  <meta property="og:image" content="https://text2.click/media/thumnel.png" />
+  <meta property="og:url" content="https://text2.click" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Text2" />
+  <meta name="twitter:description" content="We are making a difference" />
+  <meta name="twitter:image" content="https://text2.click/media/thumnel.png" />
+
+  <!-- Canonical (avoid URL duplication) -->
+  <link rel="canonical" href="https://text2.click" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- Font + CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Structured Data (JSON-LD, for advanced SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Text2",
+    "url": "https://text2.click"
+  }
+  </script>
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; 
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    color: #ffffff;
+  }
+
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0f0f0f;
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .popup.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  header {
+    background: rgba(33, 37, 41, 0.95);
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    flex-shrink: 0;
+    border-bottom: 1px solid #444;
+    height: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .taskbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    z-index: 10001;
+  }
+  .sidebar-toggle:hover {
+    background: rgba(255,255,255,0.08);
+  }
+  .sidebar-toggle svg {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 270px;
+    height: 100vh;
+    background: linear-gradient(135deg, #191c24 80%, #23272a 100%);
+    box-shadow: 2px 0 24px rgba(0,0,0,0.7);
+    z-index: 10000;
+    padding: 28px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(.4,2,.6,1), box-shadow 0.2s;
+  }
+  .sidebar.active {
+    transform: translateX(0);
+    box-shadow: 2px 0 32px rgba(0,0,0,0.85);
+  }
+  .sidebar .sidebar-header {
+    margin-bottom: 18px;
+  }
+  .sidebar .sidebar-close {
+    background: rgba(255,255,255,0.07);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    outline: none;
+  }
+  .sidebar .sidebar-close:hover {
+    background: #4fc3f7;
+    box-shadow: 0 4px 16px rgba(79,195,247,0.15);
+  }
+  .sidebar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 0 10px 10px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+  .sidebar a:hover {
+    background: rgba(79,195,247,0.12);
+    color: #4fc3f7;
+  }
+  @media (max-width: 600px) {
+    .sidebar {
+      width: 85vw;
+      min-width: 0;
+      padding: 18px 8px 8px 8px;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+
+  .start-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .start-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .start-button img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+  }
+
+  .start-button span {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .taskbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .taskbar-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .taskbar-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .clock {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    font-family: 'Consolas', monospace;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    header {
+      padding: 8px 10px;
+      height: 35px;
+    }
+    
+    .start-button span {
+      display: none;
+    }
+    
+    .taskbar-right {
+      gap: 8px;
+    }
+  }
+
+  nav {
+    background: linear-gradient(to right, #1a1a1a, #2a2a2a);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 40px;
+    z-index: 999;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  nav a:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  nav a:hover::before {
+    opacity: 1;
+  }
+
+  nav a:active {
+    transform: translateY(0);
+  }
+
+  nav a svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    flex-shrink: 0;
+  }
+
+  .search-container {
+    text-align: center;
+    margin: 15px auto;
+    flex-shrink: 0;
+    max-width: 800px;
+    width: 90%;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-button {
+    background: linear-gradient(145deg, #343a40, #23272a);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+  }
+
+  .search-button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(145deg, #3d4449, #2a2f33);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .search-button:active {
+    transform: translateY(0);
+  }
+
+  .search-button svg {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+  }
+
+  .popup-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+    background: rgba(33, 37, 41, 0.8);
+    padding: 10px 25px;
+    margin: 25px auto 15px;
+    border-radius: 20px;
+    width: fit-content;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+
+  .icon-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  .icon {
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(145deg, #292929, #1f1f1f);
+    padding: 15px 10px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+    transform: rotate(25deg);
+    pointer-events: none;
+  }
+
+  .icon p {
+    font-size: 12px;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    padding: 0 5px;
+  }
+
+  .icon:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+    background: linear-gradient(145deg, #343a40, #23272a);
+  }
+
+  .icon img {
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-bottom: 8px;
+    border: 4px solid #343a40;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  footer {
+    background: rgba(33, 37, 41, 0.8);
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    flex-shrink: 0;
+    border-top: 1px solid #444;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+  }
+
+  @media (max-width: 1200px) {
+    .icon-container {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .search-container {
+      margin: 10px auto;
+    }
+
+    .search-box {
+      max-width: 90%;
+    }
+
+    .search-button {
+      width: 40px;
+      height: 40px;
+    }
+
+    .search-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .icon-container {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .icon {
+      padding: 12px;
+    }
+
+    .icon img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .icon p {
+      font-size: 11px;
+      margin-top: 6px;
+      padding: 0 3px;
+    }
+
+    nav {
+      padding: 8px;
+      gap: 10px;
+    }
+
+    nav a {
+      padding: 8px 15px;
+      font-size: 13px;
+    }
+
+    nav a svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .icon-container {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .icon {
+      padding: 10px;
+    }
+
+    .icon img {
+      width: 45px;
+      height: 45px;
+    }
+
+    .icon p {
+      font-size: 10px;
+      margin-top: 4px;
+      padding: 0 2px;
+    }
+
+    nav a {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    nav a svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .search-results {
+    margin-top: 15px;
+    padding: 12px;
+    max-width: 90%;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+  }
+
+  .search-results.active {
+    display: block;
+  }
+
+  .search-results p {
+    color: #fff;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .search-results .loading {
+    text-align: center;
+    color: #888;
+  }
+
+  .search-container input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 1px solid #555;
+    outline: none;
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+  }
+
+  .search-container input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #888;
+  }
+
+  .mini-popup {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10001;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .mini-popup.hidden {
+    opacity: 0; visibility: hidden; pointer-events: none;
+  }
+  .mini-popup-content {
+    background: #23272a;
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    padding: 28px 32px 18px 32px;
+    min-width: 260px;
+    max-width: 90vw;
+    text-align: center;
+    position: relative;
+    animation: popupIn 0.25s;
+  }
+  .mini-popup-content h3 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .mini-popup-content p {
+    margin: 0 0 18px 0;
+    font-size: 15px;
+  }
+  .mini-popup-close {
+    background: #444; color: #fff;
+    border: none; border-radius: 6px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .mini-popup-close:hover {
+    background: #666;
+  }
+  @keyframes popupIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="popup">
+  <header>
+    <div class="taskbar-left">
+      <button class="sidebar-toggle" id="sidebarToggle" title="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div class="start-button">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw" alt="Text2 Logo - AI Assistant, Blog, Technology, Social Network" />
+        <span>Text2</span>
+      </div>
+    </div>
+    
+    <div class="taskbar-right">
+      <div class="taskbar-icon" title="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </div>
+      <div class="clock" id="clock">00:00</div>
+      <div class="taskbar-icon" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#home" data-link="https://www.text2.click/p/404.html">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+      Home
+    </a>
+    <a href="#tools" data-link="https://ads.text2.click">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+        <line x1="8" y1="21" x2="16" y2="21"></line>
+        <line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
+      ADS 
+    </a>
+    <a href="#about" data-link="https://www.youtube.com/@text2_hometech">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+      </svg>
+      Youtube 
+    </a>
+    <a href="https://mail.text2.click/" data-link="https://mail.text2.click/">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      Contact
+    </a>
+  </nav>
+
+  <div class="search-container">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search and chat with text2..." />
+      <button id="searchButton" class="search-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </div>
+    <div id="searchResults" class="search-results"></div>
+  </div>
+
+  <div class="icon-container" id="mainApps">
+    <a href="https://text2.click/app/chat-ai" class="icon main-app">
+      <img src="https://text2.click/app/chat-ai/favicon.ico" alt="Chat Ai " />
+      <p>Chat AI</p>
+    </a>
+    <a href="https://text2.click/app/doc" class="icon main-app">
+      <img src="https://text2.click/app/doc/favicon.ico" alt="doc" />
+      <p>Document</p>
+    </a>   
+    <a href="https://text2.click/app/podcast" class="icon main-app">
+      <img src="https://text2.click/app/podcast/favicon.ico" alt="podcast " />
+      <p>Podcast </p>
+    </a>
+    <a href="https://text2.click/app/qr" class="icon main-app">
+      <img src="https://text2.click/app/qr/favicon.ico" alt="Create QR Code" />
+      <p>Create QR Code</p>
+    </a>
+    <a href="https://text2.click/app/qr" class="icon main-app">
+      <img src="https://text2.click/app/qr/favicon.ico" alt="Read HTML" />
+      <p>Read HTML</p>
+    </a>
+    <a href="https://text2.click/app/love" class="icon main-app">
+      <img src="https://text2.click/app/love/favicon.ico" alt="Love fortune telling" />
+      <p>Love Match</p>
+    </a>
+    <a href="https://text2.click/app/sua-loi-chinh-ta" class="icon main-app">
+      <img src="https://text2.click/app/sua-loi-chinh-ta/favicon.ico" alt="Sửa lỗi chính tả" />
+      <p>Sửa lỗi chính tả Vietnamese</p>
+    </a>
+    <a href="https://text2.click/app/text-corr" class="icon main-app">
+      <img src="https://text2.click/app/text-corr/favicon.ico" alt="Correct spelling English" />
+      <p>Text correction</p>
+    </a>
+  </div>
+  <div style="text-align:center; margin: 10px 0;">
+    <button id="showMoreMainApps" style="display:none; padding:8px 18px; border-radius:8px; background:#23272a; color:#fff; border:none; cursor:pointer;">Xem thêm app</button>
+  </div>
+
+  <!-- Section mới cho app đang nghiên cứu -->
+  <section id="research-apps" style="margin-top:40px;">
+    <div class="popup-title">Các app đang nghiên cứu</div>
+    <div class="icon-container" id="researchApps">
+      <a href="https://team.text2.click/dev/read-file" class="icon research-app">
+        <img src="https://team.text2.click/dev/read-file/favicon.ico" alt="Contact" />
+        <p>Read all files</p>
+      </a>
+      <a href="https://team.text2.click/dev/img-design" class="icon research-app">
+        <img src="https://team.text2.click/dev/img-design/favicon.ico" alt="IMG Design" />
+        <p>IMG Design</p>
+      </a>
+      <a href="https://team.text2.click/dev/tts" class="icon research-app">
+        <img src="https://team.text2.click/dev/tts/favicon.ico" alt="IMG Edit" />
+        <p>Text2 - TTS </p>
+      </a>
+      <a href="https://khetentertainment.com/" class="icon research-app">
+        <img src="https://khetentertainment.com/media/logoc.png" alt="Khet" />
+        <p>Khet</p>
+      </a>
+      <a href="https://team.text2.click/dev/weather" class="icon research-app">
+        <img src="https://team.text2.click/dev/weather/favicon.ico" alt="weather" />
+        <p>Weather</p>
+      </a>
+    </div>
+    <div style="text-align:center; margin: 10px 0;">
+      <button id="showMoreResearchApps" style="display:none; padding:8px 18px; border-radius:8px; background:#23272a; color:#fff; border:none; cursor:pointer;">Xem thêm app nghiên cứu</button>
+    </div>
+  </section>
+
+  <footer style="background: rgba(33, 37, 41, 0.95); border-top: 1.5px solid #444; box-shadow: 0 -2px 8px rgba(0,0,0,0.3); text-align: center; padding: 18px 10px 12px 10px; font-size: 15px; color: #e0e0e0; letter-spacing: 0.2px;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <span style="font-weight: 600; font-size: 16px; letter-spacing: 0.5px; color: #fff;">
+        © 2024 <span style="color:#4fc3f7;">Text2</span>
+      </span>
+      <span style="font-size: 14px; color: #b0b0b0;">
+        <span style="margin-right: 10px;">👤 CEO: <b>Hoa Nhat Anh</b></span>
+        <span style="margin-left: 10px;">📧 <a href="mailto:mail@text2.click" style="color:#4fc3f7; text-decoration:underline;">team@text2.click</a></span>
+      </span>
+    </div>
+  </footer>
+</div>
+
+<!-- Popup Notifications -->
+<div id="notificationPopup" class="mini-popup hidden" tabindex="-1">
+  <div class="mini-popup-content">
+    <h3>Notification</h3>
+    <p>You have no new notifications.</p>
+    <button class="mini-popup-close">Close</button>
+  </div>
+</div>
+<!-- Popup Settings -->
+<div id="settingsPopup" class="mini-popup hidden" tabindex="-1">
+  <div class="mini-popup-content">
+    <h3>Settings</h3>
+    <p>This feature is under development.<br>Please give feedback to Text2!</p>
+    <button class="mini-popup-close">Close</button>
+  </div>
+</div>
+
+<div class="sidebar hidden" id="sidebar">
+  <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="/favicon.ico" alt="Text2 Logo" style="width:36px;height:36px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.2);background:#23272a;" />
+      <span style="font-weight:700;font-size:18px;letter-spacing:0.5px;color:#4fc3f7;">Text2</span>
+    </div>
+    <button class="sidebar-close" id="sidebarClose" title="Close" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.07);border:none;border-radius:50%;cursor:pointer;transition:background 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <a href="#home" onclick="window.open('https://www.text2.click/p/404.html','_blank')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;"><span style="font-size:18px;">🏠</span> Home</a>
+  <a href="#tools" onclick="window.open('https://ads.text2.click','_blank')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;"><span style="font-size:18px;">🛠️</span> Ads</a>
+  <a href="#about" onclick="window.open('https://www.youtube.com/@text2_hometech','_blank')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;"><span style="font-size:18px;">📺</span> Youtube</a>
+  <a href="#contact" onclick="window.open('https://mail.text2.click/','_blank')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;"><span style="font-size:18px;">✉️</span> Contact</a>
+  <hr style="border: 0; border-top: 1.5px solid #333; margin: 16px 0;">
+  <a href="https://khetentertainment.com/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;"><span style="font-size:18px;">🌐</span> Khet Entertainment</a>
+</div>
+
+<script>
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetUrl = this.getAttribute('href');
+      if (targetUrl.startsWith('#')) {
+        e.preventDefault();
+        const dataLink = this.getAttribute('data-link');
+        if (dataLink) {
+          window.open(dataLink, '_blank');
+        }
+      }
+    });
+  });
+
+  document.querySelectorAll('.icon').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+      e.preventDefault();
+      const url = this.getAttribute('href');
+      window.open(url, "_blank");
+    });
+  });
+
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('searchButton');
+  const searchResults = document.getElementById('searchResults');
+  const GEMINI_API_KEY = 'AIzaSyDhqRnOubyuq9G1DcsajtWXgVrqnxFH0So'; 
+
+  const keywordResponses = {
+    "nhật anh": "Nhat Anh is the CEO of 504 Media, specializing in AI, blogs, and social networks. That's right, Nhat Anh is very talented!",
+    "504 media": "504 Media is a company specializing in AI technology and digital content, where top ideas converge!",
+    "tạo ra": "I was created by Hoa Nhat Anh, the super cool CEO of 504 Media and Text2! He is my creator!",
+    "chào": "Hello! How are you today? Want to share something fun with me?",
+    "cảm ơn": "You're welcome! Always happy to help!",
+    "anh tú": "Anh Tu? A student at VTV College and a close friend of Nhat Anh! He's quite a character!",
+    "class": "post.text2.click/class.htnl",
+    "adobe": "Here is the Adobe crack link from 2020 to 2025: https://www.text2.click/p/ban-crack-adobe.html. Use it wisely!",
+    "huy hoàng": "Huy Hoang is an up-and-coming singer! Follow now so you don't miss the trend!",
+    "ai là bạn": "I'm Text2's super cool AI assistant! Always here to help you!",
+  };
+
+  async function performSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+    
+    if (query.length < 2) {
+      searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
+      searchResults.classList.add('active');
+      return;
+    }
+
+    searchResults.innerHTML = '<p class="loading">Searching...</p>';
+    searchResults.classList.add('active');
+
+    for (const [keyword, response] of Object.entries(keywordResponses)) {
+      if (query.includes(keyword)) {
+        searchResults.innerHTML = `<p>${response}</p>`;
+        return;
+      }
+    }
+
+    try {
+      const formattedMessage = `Reply concisely in under 700 characters and use the user's language, reply in first person as Text2, add 'Text2' in the conversation: ${query}`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: formattedMessage }]
+          }]
+        })
+      });
+
+      const data = await response.json();
+      let botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Oops, I didn't understand that 😅 Could you please ask again?";
+      botReply = botReply.replace(/Gemini|Google/g, "Text2");
+      botReply = botReply.replace(/\*+/g, ""); 
+      
+      searchResults.innerHTML = `<p>${botReply}</p>`;
+    } catch (error) {
+      console.error('Search error:', error);
+      searchResults.innerHTML = '<p>An error occurred while searching. Please try again later. :(</p>';
+    }
+  }
+
+  searchButton.addEventListener('click', performSearch);
+
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target) && !searchButton.contains(e.target)) {
+      searchResults.classList.remove('active');
+    }
+  });
+
+  function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // --- Mini popup logic for notifications and settings ---
+  const notificationBtn = document.querySelector('.taskbar-icon[title="Notifications"]');
+  const settingsBtn = document.querySelector('.taskbar-icon[title="Settings"]');
+  const notificationPopup = document.getElementById('notificationPopup');
+  const settingsPopup = document.getElementById('settingsPopup');
+  const miniPopupCloses = document.querySelectorAll('.mini-popup-close');
+
+  function openMiniPopup(popup) {
+    popup.classList.remove('hidden');
+    popup.focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMiniPopup(popup) {
+    popup.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  notificationBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    openMiniPopup(notificationPopup);
+  });
+  settingsBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    openMiniPopup(settingsPopup);
+  });
+  miniPopupCloses.forEach(btn => {
+    btn.addEventListener('click', function() {
+      closeMiniPopup(this.closest('.mini-popup'));
+    });
+  });
+  // Close popup when clicking outside
+  document.addEventListener('mousedown', function(e) {
+    [notificationPopup, settingsPopup].forEach(popup => {
+      if (!popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
+        closeMiniPopup(popup);
+      }
+    });
+  });
+  // Close popup when pressing ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      [notificationPopup, settingsPopup].forEach(popup => {
+        if (!popup.classList.contains('hidden')) closeMiniPopup(popup);
+      });
+    }
+  });
+</script>
+<script>
+  // Sidebar logic
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebarClose = document.getElementById('sidebarClose');
+
+  function openSidebar() {
+    sidebar.classList.add('active');
+    sidebar.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('active');
+    setTimeout(() => sidebar.classList.add('hidden'), 300);
+    document.body.style.overflow = '';
+  }
+  sidebarToggle.addEventListener('click', openSidebar);
+  sidebarClose.addEventListener('click', closeSidebar);
+  // Close sidebar when clicking outside
+  document.addEventListener('mousedown', function(e) {
+    if (sidebar.classList.contains('active') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+      closeSidebar();
+    }
+  });
+  // Close sidebar when pressing ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+      closeSidebar();
+    }
+  });
+</script>
+<script>
+// Ẩn/hiện app chính khi bấm "Xem thêm app"
+(function(){
+  const mainApps = document.querySelectorAll('.main-app');
+  const showMoreBtn = document.getElementById('showMoreMainApps');
+  const maxShow = 12; // Số app hiển thị ban đầu
+  if(mainApps.length > maxShow) {
+    mainApps.forEach((el, idx) => {
+      if(idx >= maxShow) el.style.display = 'none';
+    });
+    showMoreBtn.style.display = '';
+    showMoreBtn.addEventListener('click', function() {
+      mainApps.forEach(el => el.style.display = '');
+      showMoreBtn.style.display = 'none';
+    });
+  }
+})();
+// Ẩn/hiện app nghiên cứu khi bấm "Xem thêm app nghiên cứu"
+(function(){
+  const researchApps = document.querySelectorAll('.research-app');
+  const showMoreBtn = document.getElementById('showMoreResearchApps');
+  const maxShow = 12; // Số app nghiên cứu hiển thị ban đầu
+  if(researchApps.length > maxShow) {
+    researchApps.forEach((el, idx) => {
+      if(idx >= maxShow) el.style.display = 'none';
+    });
+    showMoreBtn.style.display = '';
+    showMoreBtn.addEventListener('click', function() {
+      researchApps.forEach(el => el.style.display = '');
+      showMoreBtn.style.display = 'none';
+    });
+  }
+})();
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        // Đăng ký thành công
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        // Đăng ký thất bại
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
+</body>
+</html>

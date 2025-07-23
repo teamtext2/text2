@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text2 - Read HTML | Online HTML, CSS, JS Reader & Extractor Tool</title>
+  <meta name="description" content="Text2 - Read HTML: An online tool to read, preview, extract, and download HTML, CSS, JavaScript code easily. Supports quick preview and file export.">
+  <meta name="keywords" content="text2, read html, html reader, extract css js, html tool online, html preview, html to css js, html editor">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <link rel="canonical" href="https://html.text2.click/" />
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+  <style>
+    /* Reset CSS */
+    #fullscreenPopup * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #fullscreenPopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(248, 249, 250, 1);
+      z-index: 999999;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      animation: popupFadeIn 0.5s ease-in-out;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes popupFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #fullscreenPopup h1 {
+      text-align: center;
+      background: linear-gradient(135deg, #343a40, #495057);
+      color: white;
+      margin: 0;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup h1:hover {
+      background: linear-gradient(135deg, #495057, #343a40);
+      transform: translateY(-2px);
+    }
+
+    #fullscreenPopup .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+      animation: containerSlideUp 0.5s ease-out;
+    }
+
+    @keyframes containerSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    #fullscreenPopup .upload-section,
+    #fullscreenPopup .editor-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    #fullscreenPopup textarea {
+      width: 100%;
+      height: 200px;
+      resize: vertical;
+      font-family: monospace;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    #fullscreenPopup textarea:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+      outline: none;
+    }
+
+    #fullscreenPopup input[type="file"] {
+      display: block;
+      margin-top: 5px;
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup input[type="file"]:hover {
+      transform: translateY(-2px);
+    }
+
+    #fullscreenPopup .preview-button {
+      text-align: center;
+    }
+
+    #fullscreenPopup button {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 10px 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    #fullscreenPopup button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #218838, #28a745);
+    }
+
+    #fullscreenPopup button:active {
+      transform: translateY(0);
+    }
+
+    #fullscreenPopup iframe {
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    #fullscreenPopup iframe:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    #fullscreenPopup label {
+      font-weight: bold;
+      color: #495057;
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup label:hover {
+      color: #28a745;
+    }
+
+    #fullscreenPopup .section {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup .section:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    #fullscreenPopup .editor-wrapper {
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup .editor-wrapper:hover {
+      transform: translateY(-2px);
+    }
+
+    #fullscreenPopup input[type="file"]::file-selector-button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #fullscreenPopup input[type="file"]::file-selector-button:hover {
+      background: #218838;
+    }
+
+    #fullscreenPopup .preview-button button:first-child {
+      animation: buttonPulse 2s infinite;
+    }
+
+    @keyframes buttonPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text2 - Read HTML",
+    "description": "An online tool to read, preview, extract, and download HTML, CSS, JavaScript code easily.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "url": "https://html.text2.click/",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="fullscreenPopup">
+    <h1>Text2 - Read HTML: HTML, CSS, JS Reader & Extractor Tool</h1>
+    <div class="container">
+      <div class="upload-section section">
+        <div>
+          <label for="htmlFile">🔺 Upload HTML</label>
+          <input accept=".html" id="htmlFile" onchange="loadAndFill(this, 'htmlCode')" type="file" />
+        </div>
+        <div>
+          <label for="cssFile">🔺 Upload CSS</label>
+          <input accept=".css" id="cssFile" onchange="loadAndFill(this, 'cssCode')" type="file" />
+        </div>
+        <div>
+          <label for="jsFile">🔺 Upload JavaScript</label>
+          <input accept=".js" id="jsFile" onchange="loadAndFill(this, 'jsCode')" type="file" />
+        </div>
+      </div>
+
+      <div class="editor-section section">
+        <div class="editor-wrapper">
+          <label>HTML</label>
+          <textarea id="htmlCode" placeholder="Type HTML code here..."></textarea>
+          <button onclick="downloadCode('html')">Download HTML</button>
+        </div>
+        <div class="editor-wrapper">
+          <label>CSS</label>
+          <textarea id="cssCode" placeholder="Type CSS code here..."></textarea>
+          <button onclick="downloadCode('css')">Download CSS</button>
+        </div>
+        <div class="editor-wrapper">
+          <label>JavaScript</label>
+          <textarea id="jsCode" placeholder="Type JavaScript code here..."></textarea>
+          <button onclick="downloadCode('js')">Download JavaScript</button>
+        </div>
+      </div>
+
+      <div class="preview-button">
+        <button onclick="preview()">RUN NOW</button>
+        <button onclick="downloadHTML()">Download .html</button>
+        <button onclick="extractCSSAndJS()" style="background: linear-gradient(135deg, #007bff, #0056b3);">Extract CSS & JS</button>
+      </div>
+
+      <div class="section">
+        <label>text2 run result</label>
+        <button onclick="openInNewTab()" style="margin-bottom: 10px;">SEE ALL</button>
+        <iframe id="previewFrame" sandbox="allow-scripts"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let generatedHTML = '';
+
+    function readFileContent(inputElement, callback) {
+      const file = inputElement.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          callback(e.target.result);
+        };
+        reader.readAsText(file);
+      } else {
+        callback('');
+      }
+    }
+
+    function loadAndFill(input, textareaId) {
+      const textarea = document.getElementById(textareaId);
+      if (textarea.value.trim() !== '') {
+        if (!confirm('Nội dung cũ sẽ bị ghi đè. Tiếp tục?')) return;
+      }
+      readFileContent(input, function(content) {
+        textarea.value = content;
+      });
+    }
+
+    function preview() {
+      const htmlCode = document.getElementById('htmlCode').value;
+      const cssCode = document.getElementById('cssCode').value;
+      const jsCode = document.getElementById('jsCode').value;
+
+      const fullHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>${cssCode}</style>
+</head>
+<body>
+  ${htmlCode}
+  <script>${jsCode}<\/script>
+</body>
+</html>`;
+
+      generatedHTML = fullHTML;
+
+      const iframe = document.getElementById('previewFrame');
+      iframe.srcdoc = fullHTML;
+    }
+
+    // Add event listeners for live preview
+    document.getElementById('htmlCode').addEventListener('input', preview);
+    document.getElementById('cssCode').addEventListener('input', preview);
+    document.getElementById('jsCode').addEventListener('input', preview);
+
+    function downloadHTML() {
+      if (!generatedHTML) {
+        alert("You need to click 'RUN NOW' before downloading.");
+        return;
+      }
+      const blob = new Blob([generatedHTML], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "text2_output.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function downloadCode(type) {
+      let content = '';
+      let filename = '';
+      let mime = 'text/plain';
+
+      switch(type) {
+        case 'html':
+          content = document.getElementById('htmlCode').value;
+          filename = 'code.html';
+          mime = 'text/html';
+          break;
+        case 'css':
+          content = document.getElementById('cssCode').value;
+          filename = 'style.css';
+          mime = 'text/css';
+          break;
+        case 'js':
+          content = document.getElementById('jsCode').value;
+          filename = 'script.js';
+          mime = 'text/javascript';
+          break;
+      }
+
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function openInNewTab() {
+      if (!generatedHTML) {
+        alert("You need to click 'RUN NOW' before opening in a new tab.");
+        return;
+      }
+      const blob = new Blob([generatedHTML], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+
+    function extractCSSAndJS() {
+      const htmlContent = document.getElementById('htmlCode').value;
+      if (!htmlContent) {
+        alert("Please enter HTML in the HTML box before extracting CSS & JS");
+        return;
+      }
+      if ((document.getElementById('cssCode').value.trim() !== '' || document.getElementById('jsCode').value.trim() !== '')) {
+        if (!confirm('CSS hoặc JS hiện tại sẽ bị ghi đè. Tiếp tục?')) return;
+      }
+
+      // Sử dụng DOMParser để phân tích HTML
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, 'text/html');
+
+      // Tách CSS từ thẻ <style>
+      let extractedCSS = '';
+      doc.querySelectorAll('style').forEach(style => {
+        extractedCSS += style.textContent + '\n';
+        style.remove();
+      });
+
+      // Tách JS từ thẻ <script>
+      let extractedJS = '';
+      doc.querySelectorAll('script').forEach(script => {
+        extractedJS += script.textContent + '\n';
+        script.remove();
+      });
+
+      // Tách inline style thành class
+      let styleCount = 0;
+      doc.querySelectorAll('[style]').forEach(element => {
+        styleCount++;
+        const className = 'extracted-style-' + styleCount;
+        extractedCSS += `.${className} { ${element.getAttribute('style')} }\n`;
+        element.classList.add(className);
+        element.removeAttribute('style');
+      });
+
+      // Lấy lại HTML đã làm sạch
+      const cleanHTML = doc.body.innerHTML;
+
+      // Cập nhật các textarea
+      if (extractedCSS) {
+        document.getElementById('cssCode').value = extractedCSS.trim();
+      }
+      if (extractedJS) {
+        document.getElementById('jsCode').value = extractedJS.trim();
+      }
+      document.getElementById('htmlCode').value = cleanHTML.trim();
+
+      // Thông báo kết quả
+      if (extractedCSS || extractedJS || styleCount > 0) {
+        alert("Đã tách thành công CSS và JS!");
+      } else {
+        alert("Không tìm thấy CSS hoặc JS trong HTML!");
+      }
+    }
+  </script>
+</body>
+</html>
