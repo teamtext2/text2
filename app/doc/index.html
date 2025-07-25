@@ -1,881 +1,251 @@
 <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soạn Thảo Văn Bản Online Siêu Xịn</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the contenteditable div */
+        [contenteditable]:empty:before {
+            content: attr(data-placeholder);
+            color: #a0aec0; /* Tailwind gray-400 */
+            pointer-events: none;
+            display: block; /* For a block-level placeholder */
+        }
+
+        /* Smooth transition for dark mode */
+        body, .bg-white, .text-gray-900, .bg-gray-100, .border-gray-300, .shadow-md {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Dark mode specific styles */
+        body.dark {
+            background-color: #1a202c; /* Tailwind gray-900 */
+            color: #e2e8f0; /* Tailwind gray-200 */
+        }
+        body.dark .bg-white {
+            background-color: #2d3748; /* Tailwind gray-800 */
+            color: #e2e8f0;
+        }
+        body.dark .text-gray-900 {
+            color: #e2e8f0;
+        }
+        body.dark .bg-gray-100 {
+            background-color: #4a5568; /* Tailwind gray-700 */
+        }
+        body.dark .border-gray-300 {
+            border-color: #4a5568;
+        }
+        body.dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12);
+        }
+        body.dark button {
+            background-color: #4a5568; /* Tailwind gray-700 */
+            color: #e2e8f0;
+        }
+        body.dark button:hover {
+            background-color: #6a7488; /* Slightly lighter gray for hover */
+        }
+        body.dark button.active {
+            background-color: #63b3ed; /* Tailwind blue-400 for active in dark mode */
+            color: #1a202c;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-100 text-gray-900 flex items-center justify-center min-h-screen p-4">
+    <div class="container mx-auto max-w-4xl bg-white rounded-xl shadow-lg p-6 space-y-6 border border-gray-200">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">Soạn Thảo Văn Bản Online</h1>
+
+        <!-- Toolbar -->
+        <div class="flex flex-wrap gap-2 p-3 bg-gray-100 rounded-lg border border-gray-200 shadow-sm">
+            <button onclick="formatDoc('bold')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150 font-bold" title="In đậm"><i class="fas fa-bold"></i></button>
+            <button onclick="formatDoc('italic')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150 italic" title="In nghiêng"><i class="fas fa-italic"></i></button>
+            <button onclick="formatDoc('underline')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150 underline" title="Gạch chân"><i class="fas fa-underline"></i></button>
+            <button onclick="formatDoc('strikeThrough')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150 line-through" title="Gạch ngang"><i class="fas fa-strikethrough"></i></button>
+            <button onclick="formatDoc('removeFormat')" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+
+            <select onchange="formatDoc('fontSize', this.value)" class="px-3 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out duration-150" title="Chọn cỡ chữ">
+                <option value="1">Cỡ chữ 1</option>
+                <option value="2">Cỡ chữ 2</option>
+                <option value="3" selected>Cỡ chữ 3 (Mặc định)</option>
+                <option value="4">Cỡ chữ 4</option>
+                <option value="5">Cỡ chữ 5</option>
+                <option value="6">Cỡ chữ 6</option>
+                <option value="7">Cỡ chữ 7</option>
+            </select>
+
+            <input type="color" onchange="formatDoc('foreColor', this.value)" class="w-10 h-10 p-1 border border-gray-300 rounded-lg cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out duration-150" title="Chọn màu chữ">
+            <input type="color" onchange="formatDoc('backColor', this.value)" class="w-10 h-10 p-1 border border-gray-300 rounded-lg cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out duration-150" title="Chọn màu nền chữ">
+
+            <button onclick="formatDoc('justifyLeft')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Căn trái"><i class="fas fa-align-left"></i></button>
+            <button onclick="formatDoc('justifyCenter')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Căn giữa"><i class="fas fa-align-center"></i></button>
+            <button onclick="formatDoc('justifyRight')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Căn phải"><i class="fas fa-align-right"></i></button>
+            <button onclick="formatDoc('insertUnorderedList')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Danh sách không thứ tự"><i class="fas fa-list-ul"></i></button>
+            <button onclick="formatDoc('insertOrderedList')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition ease-in-out duration-150" title="Danh sách có thứ tự"><i class="fas fa-list-ol"></i></button>
+        </div>
+
+        <!-- Dark Mode Toggle -->
+        <div class="flex justify-end">
+            <button id="darkModeToggle" class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-opacity-50 transition ease-in-out duration-150">
+                Chế độ tối
+            </button>
+        </div>
+
+        <!-- Editor Area -->
+        <div id="editor"
+             contenteditable="true"
+             data-placeholder="Bắt đầu viết lách ở đây nhé, Nhật Anh!"
+             class="min-h-[400px] w-full p-6 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 overflow-auto text-lg leading-relaxed">
+        </div>
+
+        <div class="text-center text-gray-500 text-sm mt-4">
+            Được tạo bởi AI nữ xinh đẹp, thông minh và sắc sảo.
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        // Function to apply formatting
+        function formatDoc(command, value = null) {
+            // Ensure the editor has focus before applying command
+            editor.focus();
+            try {
+                document.execCommand(command, false, value);
+            } catch (e) {
+                console.error("Lỗi khi thực hiện lệnh định dạng:", e);
+                // Fallback or user notification if a command fails
+                // For example, some commands might not be supported in all browsers or contexts
+            }
+        }
+
+        // Dark mode toggle functionality
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            const isDarkMode = document.body.classList.contains('dark');
+            darkModeToggle.textContent = isDarkMode ? 'Chế độ sáng' : 'Chế độ tối';
+            // Store preference in localStorage (optional, but good for persistence)
+            localStorage.setItem('darkMode', isDarkMode);
+        });
+
+        // Check for dark mode preference on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark');
+                darkModeToggle.textContent = 'Chế độ sáng';
+            } else {
+                document.body.classList.remove('dark');
+                darkModeToggle.textContent = 'Chế độ tối';
+            }
+
+            // Set initial font size to 3 (default)
+            formatDoc('fontSize', '3');
+        });
+
+        // Optional: Add event listener to update button states (e.g., bold button active when text is bold)
+        // This is more complex and requires listening to 'selectionchange' and querying document.queryCommandState
+        // For simplicity, it's omitted in this basic version.
+    </script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>text2 - Document | Trình soạn thảo tài liệu trực tuyến</title>
-  <meta name="description" content="text2 - Document: Trình soạn thảo tài liệu trực tuyến, hỗ trợ Markdown, HTML, PDF, Word. Soạn thảo, lưu trữ và xuất tài liệu dễ dàng tại https://doc.text2.click.">
-  <meta name="keywords" content="text2, Document, soạn thảo tài liệu, editor, Markdown, HTML, PDF, Word, doc.text2.click, lưu trữ ghi chú, online document editor">
-  <link rel="canonical" href="https://doc.text2.click/">
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://doc.text2.click/">
-  <meta property="og:title" content="text2 - Document | Trình soạn thảo tài liệu trực tuyến">
-  <meta property="og:description" content="text2 - Document: Trình soạn thảo tài liệu trực tuyến, hỗ trợ Markdown, HTML, PDF, Word. Soạn thảo, lưu trữ và xuất tài liệu dễ dàng.">
-  <meta property="og:image" content="favicon.ico">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://doc.text2.click/">
-  <meta name="twitter:title" content="text2 - Document | Trình soạn thảo tài liệu trực tuyến">
-  <meta name="twitter:description" content="text2 - Document: Trình soạn thảo tài liệu trực tuyến, hỗ trợ Markdown, HTML, PDF, Word. Soạn thảo, lưu trữ và xuất tài liệu dễ dàng.">
-  <meta name="twitter:image" content="favicon.ico">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- Google tag (gtag.js) - GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-6J85STMJ14');
-</script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glass Notice</title>
   <style>
-    html, body {
-      background: #f6f8fb;
-      color: #23272f;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-      min-height: 100vh;
-      transition: background 0.25s, color 0.25s;
     }
-    [data-theme="dark"] {
-      background: #181b1f;
-      color: #f0f2f6;
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .container { max-width: 820px; margin: 32px auto 0 auto; padding: 0 10px; }
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0;
-      padding: 6px 8px 4px 8px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px 0 rgba(0,0,0,.06);
-      border: 1px solid #e3e6eb;
-      position: relative;
-      overflow-x: auto;
-      align-items: center;
-      min-height: 48px;
-    }
-    [data-theme="dark"] .toolbar {
-      background: #23272f;
-      border-color: #373d46;
-      box-shadow: 0 2px 10px 0 rgba(0,0,0,.22);
-    }
-    .toolbar button, .toolbar select, .toolbar input[type="color"] {
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: #23272f;
-      font-size: 17px;
-      padding: 0 10px;
-      cursor: pointer;
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
-      min-width: 36px;
-      min-height: 36px;
-      height: 36px;
-      outline: none;
-      transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-      margin: 0 1px;
+      justify-content: center;
+      z-index: 9999;
     }
-    [data-theme="dark"] .toolbar button,
-    [data-theme="dark"] .toolbar select,
-    [data-theme="dark"] .toolbar input[type="color"] {
-      background: transparent;
-      color: #f0f2f6;
-      border: none;
-    }
-    .toolbar button i { color: #333; font-size: 18px; }
-    [data-theme="dark"] .toolbar button i { color: #e0e6f2; }
-    .toolbar button:hover, .toolbar select:focus, .toolbar input[type="color"]:focus {
-      background: #e8f0fe;
-      color: #185dc6;
-      box-shadow: 0 1px 4px 0 rgba(24,93,198,0.08);
-    }
-    [data-theme="dark"] .toolbar button:hover, 
-    [data-theme="dark"] .toolbar select:focus,
-    [data-theme="dark"] .toolbar input[type="color"]:focus {
-      background: #233d6e;
+
+    .glass-box {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
       color: #fff;
+      max-width: 400px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.3s ease-in-out;
     }
-    .toolbar select {
-      min-width: 40px;
-      height: 36px;
-      border-radius: 6px;
-      background: #f7fafd;
-      color: #23272f;
-      font-size: 15px;
-      margin: 0 2px;
-      padding: 0 8px;
-      border: none;
-      box-shadow: none;
+
+    .glass-box h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
     }
-    [data-theme="dark"] .toolbar select {
-      background: #23272f;
-      color: #f0f2f6;
-    }
-    .toolbar input[type="color"] {
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      border-radius: 6px;
-      background: transparent;
-      border: none;
-      margin: 0 2px;
-    }
-    .toolbar-separator {
-      display: inline-block;
-      width: 1px;
-      height: 28px;
-      background: #e3e6eb;
-      margin: 0 7px;
-      vertical-align: middle;
-    }
-    [data-theme="dark"] .toolbar-separator {
-      background: #373d46;
-    }
-    .toolbar .dropdown {
-      position: relative;
-      display: inline-block;
-      margin: 0 1px;
-    }
-    .toolbar .dropdown-content {
-      display: none;
-      position: absolute;
-      left: 0; top: 110%;
-      min-width: 180px;
-      background: #f5f7fa;
-      box-shadow: 0 2px 10px 0 rgba(0,0,0,.07);
-      border-radius: 10px;
-      z-index: 11;
-      border: 1px solid #e3e6eb;
-      padding: 4px 0;
-    }
-    [data-theme="dark"] .toolbar .dropdown-content {
-      background: #23272f;
-      color: #f0f2f6;
-      border: 1px solid #373d46;
-    }
-    .toolbar .dropdown:hover .dropdown-content, .toolbar .dropdown:focus-within .dropdown-content {
-      display: block;
-    }
-    .toolbar .dropdown button {
-      background: transparent;
-      border: none;
-      color: inherit;
-      min-width: 36px;
-      min-height: 36px;
-      padding: 0 10px;
-      border-radius: 6px;
-      font-size: 17px;
-      margin: 0;
-    }
-    .toolbar .dropdown-content button {
-      width: 100%;
-      text-align: left;
-      padding: 7px 14px;
-      background: none;
-      border: none;
-      color: #23272f;
-      font-size: 15px;
-      border-radius: 6px;
-      transition: background 0.18s, color 0.18s;
-    }
-    .toolbar .dropdown-content button:hover {
-      background: #e8f0fe;
-      color: #185dc6;
-    }
-    [data-theme="dark"] .toolbar .dropdown-content button {
-      color: #f0f2f6;
-    }
-    [data-theme="dark"] .toolbar .dropdown-content button:hover {
-      background: #233d6e;
-      color: #fff;
-    }
-    /* Responsive for toolbar */
-    @media (max-width: 480px) {
-      .toolbar {
-        flex-wrap: wrap;
-        padding: 4px 2px 2px 2px;
-        border-radius: 6px;
-        min-height: 36px;
-      }
-      .toolbar button, .toolbar select, .toolbar input[type="color"] {
-        min-width: 28px;
-        min-height: 28px;
-        height: 28px;
-        font-size: 13px;
-        padding: 0 5px;
-      }
-      .toolbar .dropdown button {
-        min-width: 28px;
-        min-height: 28px;
-        font-size: 13px;
-        padding: 0 5px;
-      }
-      .toolbar-separator {
-        height: 20px;
-        margin: 0 3px;
-      }
-    }
-    .editor-outer {
-      background: #fff;
-      border-radius: 0 0 18px 18px;
-      border: 1.5px solid #e3e6eb;
-      border-top: none;
-      box-shadow: 0 4px 50px 0 rgba(0,0,0,0.12);
-      transition: background 0.2s, color 0.2s;
-    }
-    [data-theme="dark"] .editor-outer {
-      background: #23272f;
-      border-color: #373d46;
-    }
-    .editor {
-      width: 100%;
-      min-height: 320px;
-      max-height: 60vh;
-      border: none;
-      outline: none;
-      resize: vertical;
-      padding: 32px 30px 28px 30px;
-      border-radius: 0 0 18px 18px;
-      font-size: 1.19rem;
+
+    .glass-box p {
+      font-size: 16px;
       line-height: 1.6;
-      background: transparent;
-      color: inherit;
-      transition: background 0.2s, color 0.2s;
+      margin-bottom: 25px;
     }
-    .editor[contenteditable="true"]:empty:before {
-      content: attr(data-placeholder);
-      color: #8e99ab;
-      pointer-events: none;
-      display: block;
-    }
-    [data-theme="dark"] .editor[contenteditable="true"]:empty:before {
-      color: #4f5664;
-    }
-    .wordcount {
-      text-align: right;
-      margin: 8px 8px 8px 0;
-      font-size: 14px;
-      color: #556080;
-      user-select: none;
-      padding-right: 4px;
-    }
-    [data-theme="dark"] .wordcount { color: #b6c1d6; }
-    .saved-notes-btn {
-      background: #03397d;
-      color: #fff;
-      border-radius: 8px;
-      padding: 7px 14px;
-      margin-left: 10px;
+
+    .btn-close {
+      padding: 10px 25px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 12px;
       font-size: 15px;
       cursor: pointer;
-      border: none;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: background 0.2s;
+      backdrop-filter: blur(4px);
+      transition: 0.3s;
     }
-    .saved-notes-btn:hover { background: #185dc6; }
-    [data-theme="dark"] .saved-notes-btn { background: #377bf9; color: #fff; }
-    [data-theme="dark"] .saved-notes-btn:hover { background: #185dc6; }
-    .saved-notes-modal-bg {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.70); z-index: 99999;
-      display: flex; align-items: flex-start; justify-content: center;
-    }
-    .saved-notes-modal {
-      background: #fff; color: #23272f;
-      border-radius: 14px; padding: 24px 20px 14px 20px;
-      min-width: 320px; max-width: 96vw; max-height: 85vh; overflow-y: auto;
-      box-shadow: 0 1px 20px 0 rgba(0,0,0,.10);
-    }
-    [data-theme="dark"] .saved-notes-modal {
-      background: #23272f; color: #f0f2f6;
-    }
-    .saved-notes-modal h2 { margin: 0 0 14px 0; font-size: 1.3em; }
-    .saved-note-item { background: #f5f7fa; border-radius: 8px; padding: 14px 10px; margin-bottom: 12px; border: 1px solid #e3e6eb; position: relative; box-shadow: 0 2px 8px 0 rgba(0,0,0,.04);}
-    [data-theme="dark"] .saved-note-item { background: #23272f; border-color: #373d46; color: #f0f2f6;}
-    .saved-note-actions { position: absolute; right: 10px; top: 8px; display: flex; gap: 7px;}
-    .saved-note-actions button {
-      background: none; border: none; color: #185dc6; cursor: pointer; font-size: 17px; padding: 2px 7px; border-radius: 6px;
-    }
-    [data-theme="dark"] .saved-note-actions button { color: #79aaff; }
-    .saved-note-actions button:hover { background: #e3f0ff; color: #03397d;}
-    [data-theme="dark"] .saved-note-actions button:hover { background: #233d6e; color: #fff; }
-    .saved-note-title { font-weight: bold; font-size: 1em; margin-bottom: 6px;}
-    .saved-note-date { font-size: 0.95em; color: #8e99ab; margin-bottom: 7px;}
-    [data-theme="dark"] .saved-note-date { color: #b6c1d6; }
-    /* Dark Mode Toggle Switch */
-    .toggle-darkmode {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: none;
-      border: none;
-      color: inherit;
-      font-size: 18px;
-      cursor: pointer;
-      padding: 7px 13px;
-      border-radius: 8px;
-      transition: background 0.2s;
-    }
-    .toggle-darkmode:hover {
-      background: #dbeafe;
-      color: #185dc6;
-    }
-    [data-theme="dark"] .toggle-darkmode:hover {
-      background: #233d6e;
-      color: #fff;
-    }
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 2px;
-        margin-top: 10px;
-      }
-      .toolbar {
-        border-radius: 8px 8px 0 0;
-        padding: 6px 2px 4px 2px;
-        gap: 3px;
-        background: rgba(255,255,255,0.98);
-        backdrop-filter: blur(2px);
-      }
-      [data-theme="dark"] .toolbar {
-        background: rgba(35,39,47,0.98);
-      }
-      .toolbar button, .toolbar select, .toolbar input[type="color"] {
-        min-width: 32px;
-        min-height: 32px;
-        font-size: 13px;
-        padding: 5px 7px;
-        width: auto;
-        margin: 0 1px;
-      }
-      .toolbar button i {
-        font-size: 15px;
-      }
-      .toggle-darkmode, .saved-notes-btn {
-        width: auto;
-        min-width: 32px;
-        font-size: 13px;
-        padding: 5px 7px;
-        margin-left: 0;
-      }
-      .dropdown-content, .search-content {
-        min-width: 120px;
-        font-size: 13px;
-      }
-      .editor-outer {
-        border-radius: 0 0 12px 12px;
-        padding: 0;
-      }
-      .editor {
-        padding: 16px 6px 14px 6px;
-        font-size: 1em;
-        min-height: 180px;
-        max-height: 40vh;
-      }
-      .wordcount {
-        font-size: 12px;
-        margin: 4px 4px 4px 0;
-        padding-right: 2px;
-      }
-      .saved-notes-modal {
-        min-width: 0;
-        max-width: 98vw;
-        padding: 10px 4px 8px 4px;
-        font-size: 0.98em;
-      }
-      .saved-note-item {
-        padding: 8px 4px;
-        font-size: 0.98em;
-      }
-      .saved-note-title {
-        font-size: 1em;
-      }
-      .saved-note-date {
-        font-size: 0.95em;
-      }
-      .img-modal-bg img {
-        max-width: 98vw;
-        max-height: 60vh;
-      }
-    }
-    /* Responsive for tables, images, iframes in editor */
-    .editor table {
-      max-width: 100%;
-      overflow-x: auto;
-      display: block;
-    }
-    .editor img, .editor iframe {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-    .editor iframe {
-      min-width: 200px;
-    }
-    .img-modal-bg {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.85); z-index: 100001;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .img-modal-bg img {
-      max-width: 90vw; max-height: 85vh; border-radius: 8px; box-shadow: 0 6px 32px 0 rgba(0,0,0,.18);
-      background: #fff;
-    }
-    [data-theme="dark"] .img-modal-bg img { background: #23272f; }
-    .editor, .saved-notes-modal, pre, code {
-      white-space: pre-wrap;
-      word-break: break-word;
-      overflow-wrap: break-word;
+
+    .btn-close:hover {
+      background: rgba(255, 255, 255, 0.4);
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/turndown/dist/turndown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
 </head>
-<body data-theme="light">
-  <div class="container">
-    <h1 style="display:none;">text2 - Document | Trình soạn thảo tài liệu trực tuyến</h1>
-    <div class="toolbar" id="toolbar">
-      <!-- 1. File (Import/Export) -->
-      <div class="dropdown">
-        <button title="Import file"><i class="fas fa-file-import"></i></button>
-        <div class="dropdown-content">
-          <input type="file" id="fileInput" accept=".txt, .html, .md" style="display: none;" onchange="importFile(event)">
-          <button onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-upload"></i> Choose file</button>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button title="Export file"><i class="fas fa-file-export"></i></button>
-        <div class="dropdown-content">
-          <button onclick="exportFile('txt')"><i class="fas fa-file-alt"></i> Export TXT</button>
-          <button onclick="exportFile('html')"><i class="fas fa-code"></i> Export HTML</button>
-          <button onclick="exportFile('md')"><i class="fas fa-file-markdown"></i> Export Markdown</button>
-          <button onclick="exportFile('pdf')"><i class="fas fa-file-pdf"></i> Export PDF</button>
-          <button onclick="exportFile('doc')"><i class="fas fa-file-word"></i> Export Word</button>
-        </div>
-      </div>
-      <span class="toolbar-separator"></span>
+<body>
 
-      <!-- 2. Undo/Redo -->
-      <button onclick="format('undo')" title="Undo"><i class="fas fa-undo"></i></button>
-      <button onclick="format('redo')" title="Redo"><i class="fas fa-redo"></i></button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 3. Heading -->
-      <select onchange="insertHeading(this.value); this.value=''" title="Heading">
-        <option value="">Heading</option>
-        <option value="H1">Heading 1</option>
-        <option value="H2">Heading 2</option>
-        <option value="H3">Heading 3</option>
-        <option value="P">Normal paragraph</option>
-      </select>
-      <span class="toolbar-separator"></span>
-
-      <!-- 4. Font -->
-      <select onchange="format('fontName', this.value)" title="Font">
-        <option value="">Font</option>
-        <option value="Arial">Arial</option>
-        <option value="Courier New">Courier</option>
-        <option value="Times New Roman">Times</option>
-        <option value="Comic Sans MS">Comic Sans</option>
-      </select>
-      <span class="toolbar-separator"></span>
-
-      <!-- 5. Size -->
-      <select onchange="format('fontSize', this.value)" title="Font size">
-        <option value="">Font size</option>
-        <option value="1">Very small</option>
-        <option value="3">Normal</option>
-        <option value="5">Large</option>
-        <option value="7">Very large</option>
-      </select>
-      <span class="toolbar-separator"></span>
-
-      <!-- 6. Text formatting -->
-      <button onclick="format('bold')" title="Bold"><i class="fas fa-bold"></i></button>
-      <button onclick="format('italic')" title="Italic"><i class="fas fa-italic"></i></button>
-      <button onclick="format('underline')" title="Underline"><i class="fas fa-underline"></i></button>
-      <button onclick="format('strikeThrough')" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
-      <input type="color" onchange="format('foreColor', this.value)" title="Text color">
-      <input type="color" onchange="format('hiliteColor', this.value)" title="Background color">
-      <button onclick="format('removeFormat')" title="Remove formatting"><i class="fas fa-eraser"></i></button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 7. Alignment, indentation, lists -->
-      <button onclick="format('justifyLeft')" title="Align left"><i class="fas fa-align-left"></i></button>
-      <button onclick="format('justifyCenter')" title="Align center"><i class="fas fa-align-center"></i></button>
-      <button onclick="format('justifyRight')" title="Align right"><i class="fas fa-align-right"></i></button>
-      <button onclick="format('justifyFull')" title="Justify"><i class="fas fa-align-justify"></i></button>
-      <button onclick="format('outdent')" title="Decrease indent"><i class="fas fa-outdent"></i></button>
-      <button onclick="format('indent')" title="Increase indent"><i class="fas fa-indent"></i></button>
-      <button onclick="format('insertUnorderedList')" title="Bullet list"><i class="fas fa-list-ul"></i></button>
-      <button onclick="format('insertOrderedList')" title="Numbered list"><i class="fas fa-list-ol"></i></button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 8. Insert -->
-      <button onclick="insertLink()" title="Add link"><i class="fas fa-link"></i></button>
-      <input type="file" id="imgInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-      <button onclick="document.getElementById('imgInput').click()" title="Add image from device"><i class="fas fa-image"></i></button>
-      <button onclick="insertTable()" title="Add table"><i class="fas fa-table"></i></button>
-      <button onclick="insertVideo()" title="Insert YouTube video"><i class="fas fa-video"></i></button>
-      <button onclick="insertCodeBlock()" title="Insert code block"><i class="fas fa-code"></i></button>
-      <button onclick="insertEmoji()" title="Insert emoji"><i class="fas fa-smile"></i></button>
-      <button onclick="insertHorizontalLine()" title="Insert horizontal line"><i class="fas fa-minus"></i></button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 9. Find & Replace -->
-      <button onclick="openFindReplaceModal()" title="Find & Replace"><i class="fas fa-search"></i></button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 10. Notes -->
-      <button class="saved-notes-btn" onclick="openSavedNotesModal()" title="Saved notes"><i class="fas fa-bookmark"></i> Saved notes</button>
-      <button onclick="saveNote()" title="Save note"><i class="fas fa-save"></i> Save</button>
-      <span class="toolbar-separator"></span>
-
-      <!-- 11. Dark/Light mode -->
-      <button class="toggle-darkmode" id="toggleDarkMode" title="Toggle Dark/Light Mode">
-        <i class="fas fa-moon"></i> <span id="darkModeLabel">Dark</span>
-      </button>
-    </div>
-    <div class="editor-outer">
-      <div id="editor" class="editor" contenteditable="true" spellcheck="true" aria-label="Editor area" data-placeholder="✍️ Start typing text..."></div>
-    </div>
-    <div class="wordcount" id="wordcount">0 words, 0 characters</div>
+<div class="overlay" id="appNotice">
+  <div class="glass-box">
+    <h2>🚧 App in Development</h2>
+    <p>We're working hard to improve your experience.<br>
+    Some features are still in progress. Stay tuned!</p>
+    <button class="btn-close" onclick="closeNotice()">Continue</button>
   </div>
-  <script>
-    const editor = document.getElementById('editor');
-    const showdownConverter = new showdown.Converter();
-    const turndownService = new TurndownService();
+</div>
 
-    function format(cmd, val = null) {
-      editor.focus();
-      document.execCommand(cmd, false, val);
-      updateWordCount();
-    }
-    function insertLink() {
-      const url = prompt("Enter URL:");
-      if (url) format('createLink', url);
-    }
-    function insertVideo() {
-      const url = prompt("Paste YouTube link:");
-      if (url) {
-        let embedUrl = url;
-        if (/youtube\.com\/watch\?v=/.test(url)) {
-          embedUrl = url.replace("watch?v=", "embed/");
-        } else if (/youtu\.be\//.test(url)) {
-          embedUrl = "https://www.youtube.com/embed/" + url.split('/').pop();
-        }
-        const iframe = `<br><iframe width='100%' height='315' src='${embedUrl}' frameborder='0' allowfullscreen style="max-width:100%;"></iframe><br>`;
-        document.execCommand('insertHTML', false, iframe);
-        updateWordCount();
-      }
-    }
-    function insertTable() {
-      let rows = parseInt(prompt("Enter number of rows:", "2"));
-      let cols = parseInt(prompt("Enter number of columns:", "2"));
-      if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1) return;
-      let table = document.createElement('table');
-      table.style.borderCollapse = "collapse";
-      table.style.width = "100%";
-      table.style.margin = "10px 0";
-      table.style.background = "inherit";
-      for (let r = 0; r < rows; r++) {
-        let tr = document.createElement('tr');
-        for (let c = 0; c < cols; c++) {
-          let cell = r === 0 ? document.createElement('th') : document.createElement('td');
-          cell.innerHTML = r === 0 ? `Header ${c+1}` : `Data`;
-          cell.style.border = "1px solid #e3e6eb";
-          cell.style.padding = "6px 10px";
-          tr.appendChild(cell);
-        }
-        table.appendChild(tr);
-      }
-      insertNodeAtCaret(table);
-      updateWordCount();
-    }
-    function insertNodeAtCaret(node) {
-      let sel = window.getSelection();
-      if (!sel.rangeCount) {
-        editor.appendChild(node);
-        return;
-      }
-      let range = sel.getRangeAt(0);
-      range.collapse(false);
-      range.insertNode(node);
-      range.setStartAfter(node);
-      range.setEndAfter(node);
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
-    // Export file
-    function exportFile(type) {
-      let filename = 'document_text2';
-      let content, mimeType;
-      switch (type) {
-        case 'txt':
-          content = editor.innerText;
-          mimeType = 'text/plain';
-          filename += '.txt';
-          saveBlob(content, mimeType, filename);
-          break;
-        case 'html':
-          content = editor.innerHTML;
-          mimeType = 'text/html';
-          filename += '.html';
-          saveBlob(content, mimeType, filename);
-          break;
-        case 'md':
-          content = turndownService.turndown(editor.innerHTML);
-          mimeType = 'text/markdown';
-          filename += '.md';
-          saveBlob(content, mimeType, filename);
-          break;
-        case 'pdf':
-          exportPDF();
-          break;
-        case 'doc':
-          exportDoc();
-          break;
-        default: return;
-      }
-    }
-    function saveBlob(content, mimeType, filename) {
-      const blob = new Blob([content], { type: mimeType });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 500);
-    }
-    // Export PDF with auto download, preserve formatting
-    function exportPDF() {
-      const opt = {
-        margin:       10,
-        filename:     'document_text2.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = editor.innerHTML;
-      tempDiv.style.fontFamily = "'Segoe UI', Arial, sans-serif";
-      tempDiv.style.fontSize = "16px";
-      document.body.appendChild(tempDiv);
-      html2pdf().set(opt).from(tempDiv).save().then(() => {
-        document.body.removeChild(tempDiv);
-      });
-    }
-    // Export Word preserve formatting
-    function exportDoc() {
-      var content = `
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <title>Export Word - Text2</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; font-size:16px; }
-          table { border-collapse: collapse; width: 100%; }
-          th, td { border: 1px solid #ccc; padding: 6px 10px; }
-          img { max-width: 100%; }
-        </style>
-      </head>
-      <body>
-        <div>${editor.innerHTML}</div>
-      </body>
-      </html>
-      `;
-      var converted = window.htmlDocx.asBlob(content, {orientation: 'portrait'});
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(converted);
-      a.download = "document_text2.docx";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 500);
-    }
-    function handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (!file || !file.type.startsWith('image/')) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.className = "resizable-draggable";
-        img.setAttribute("tabindex", "0");
-        img.onclick = (ev) => showImageModal(img.src);
-        makeImageDraggableAndResizable(img);
-        insertNodeAtCaret(img);
-        updateWordCount();
-      };
-      reader.readAsDataURL(file);
-    }
-    function makeImageDraggableAndResizable(img) {
-      img.classList.add('resizable-draggable');
-      img.draggable = true;
-      img.style.resize = "both";
-      img.style.overflow = "auto";
-    }
-    function importFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        let content = e.target.result;
-        if (file.name.endsWith('.md')) {
-          content = showdownConverter.makeHtml(content);
-        }
-        editor.innerHTML = content;
-        updateWordCount();
-        setTimeout(() => {
-          setupAllImages();
-        }, 100);
-      };
-      reader.readAsText(file);
-    }
-    function updateWordCount() {
-      const text = editor.innerText.replace(/\u200B/g, '').trim();
-      const words = text.split(/\s+/).filter(Boolean);
-      document.getElementById('wordcount').innerText = `${words.length} words, ${text.length} characters`;
-    }
-    function setupAllImages() {
-      editor.querySelectorAll('img').forEach(img => {
-        if (!img.classList.contains('resizable-draggable')) {
-          img.classList.add('resizable-draggable');
-          img.setAttribute("tabindex", "0");
-          img.onclick = (ev) => showImageModal(img.src);
-        }
-        makeImageDraggableAndResizable(img);
-      });
-    }
-    function showImageModal(src) {
-      const modal = document.createElement('div');
-      modal.className = 'img-modal-bg';
-      modal.innerHTML = '<img src="' + src + '" />';
-      modal.onclick = function() {
-        document.body.removeChild(modal);
-      };
-      document.body.appendChild(modal);
-    }
-    // SAVED NOTES
-    function saveNote() {
-      let html = editor.innerHTML.trim();
-      if (!html) {
-        alert("No content to save!");
-        return;
-      }
-      let title = prompt("Enter title for note:", "Note " + (new Date().toLocaleString('en')));
-      if (!title) return;
-      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-      notes.unshift({
-        title: title,
-        html: html,
-        datetime: new Date().toLocaleString('en')
-      });
-      localStorage.setItem("text2_notes", JSON.stringify(notes));
-      alert("Note saved!");
-      updateSavedNotesBtn();
-    }
-    function openSavedNotesModal() {
-      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-      const modalBg = document.createElement('div');
-      modalBg.className = 'saved-notes-modal-bg';
-      modalBg.onclick = function(e) {
-        if (e.target === modalBg) document.body.removeChild(modalBg);
-      };
-      const modal = document.createElement('div');
-      modal.className = 'saved-notes-modal';
-      modal.innerHTML = `<h2>Saved notes</h2>
-        <div id="savedNotesList"></div>
-        <div style="text-align:right; margin-top: 0;">
-          <button onclick="document.body.removeChild(this.closest('.saved-notes-modal-bg'))" class="saved-notes-btn" style="margin:0;"><i class="fas fa-times"></i> Close</button>
-        </div>`;
-      modalBg.appendChild(modal);
-      document.body.appendChild(modalBg);
+<script>
+  function closeNotice() {
+    document.getElementById("appNotice").style.display = "none";
+  }
+</script>
 
-      function renderNotes() {
-        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-        let html = "";
-        if (!notes.length) {
-          html = "<div style='color: #8e99ab; text-align:center;'>No notes found!</div>";
-        } else {
-          notes.forEach((n, i) => {
-            html += `
-              <div class="saved-note-item">
-                <div class="saved-note-title">${n.title}</div>
-                <div class="saved-note-date">${n.datetime}</div>
-                <div style="margin-bottom:8px;max-height:80px;overflow:auto;border:1px dashed #eee;padding:4px;border-radius:6px;background:rgba(0,0,0,.01);">${n.html.length < 300 ? n.html : n.html.substring(0,300)+'...'}</div>
-                <div class="saved-note-actions">
-                  <button title="Open" onclick="restoreSavedNote(${i});event.stopPropagation();"><i class="fas fa-upload"></i></button>
-                  <button title="Delete" onclick="deleteSavedNote(${i});event.stopPropagation();"><i class="fas fa-trash"></i></button>
-                </div>
-              </div>
-            `;
-          });
-        }
-        modal.querySelector('#savedNotesList').innerHTML = html;
-      }
-      window.restoreSavedNote = function(idx) {
-        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-        if (notes[idx]) {
-          if (confirm("Do you want to open this note? Current content will be replaced!")) {
-            editor.innerHTML = notes[idx].html;
-            updateWordCount();
-            document.body.removeChild(modalBg);
-          }
-        }
-      };
-      window.deleteSavedNote = function(idx) {
-        let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-        if (notes[idx] && confirm("Delete this note?")) {
-          notes.splice(idx, 1);
-          localStorage.setItem("text2_notes", JSON.stringify(notes));
-          renderNotes();
-          updateSavedNotesBtn();
-        }
-      };
-      renderNotes();
-    }
-    function updateSavedNotesBtn() {
-      let notes = JSON.parse(localStorage.getItem("text2_notes") || "[]");
-      let btn = document.querySelector('.saved-notes-btn');
-      if (btn) {
-        btn.innerHTML = `<i class="fas fa-bookmark"></i> Saved notes${notes.length ? ` (${notes.length})` : ''}`;
-      }
-    }
-    // Dark mode
-    function setTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-      localStorage.setItem('text2_theme', theme);
-      const btn = document.getElementById('toggleDarkMode');
-      if (theme === 'dark') {
-        btn.innerHTML = `<i class="fas fa-sun"></i> <span id="darkModeLabel">Light</span>`;
-      } else {
-        btn.innerHTML = `<i class="fas fa-moon"></i> <span id="darkModeLabel">Dark</span>`;
-      }
-    }
-    function toggleTheme() {
-      const cur = document.body.getAttribute('data-theme') || 'light';
-      setTheme(cur === 'dark' ? 'light' : 'dark');
-    }
-    document.getElementById('toggleDarkMode').onclick = toggleTheme;
-    editor.addEventListener('input', () => {
-      updateWordCount();
-      setupAllImages();
-    });
-    (function(){
-      const savedTheme = localStorage.getItem('text2_theme');
-      if(savedTheme) setTheme(savedTheme);
-    })();
-    updateWordCount();
-    updateSavedNotesBtn();
-  </script>
 </body>
 </html>
