@@ -846,93 +846,9 @@
   </div>
 </div>
 
-<!-- Welcome Popup -->
-<div id="welcomePopup" class="mini-popup hidden" tabindex="-1" style="backdrop-filter: blur(8px);">
-  <div class="mini-popup-content" style="animation: welcomeIn 0.4s cubic-bezier(.4,2,.6,1);">
-    <h3 class="welcome-title">Welcome to Text2!</h3>
-    <p class="welcome-desc">Explore our AI-powered tools and enjoy your experience.<br>Let Text2 help you make a difference!</p>
-    <button class="mini-popup-close welcome-btn">Close</button>
-  </div>
-</div>
-<style>
-@keyframes welcomeIn {
-  from { transform: scale(0.85) translateY(30px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
-}
-#welcomePopup .mini-popup-content {
-  box-shadow: 0 12px 40px rgba(79,195,247,0.18), 0 2px 16px rgba(0,0,0,0.25), 0 0 30px 5px #4fc3f7;
-  border: 2px solid #4fc3f7;
-  animation: welcomeGlow 2.5s infinite alternate;
-}
-@keyframes welcomeGlow {
-  from {
-    box-shadow: 0 12px 40px rgba(79,195,247,0.18), 0 2px 16px rgba(0,0,0,0.25), 0 0 10px 2px #4fc3f7;
-    border-color: #4fc3f7;
-  }
-  to {
-    box-shadow: 0 12px 40px rgba(79,195,247,0.18), 0 2px 16px rgba(0,0,0,0.25), 0 0 40px 10px #4fc3f7;
-    border-color: #fff;
-  }
-}
-.welcome-title {
-  opacity: 0;
-  transform: translateY(-20px) scale(0.95);
-  animation: fadeInUp 0.7s 0.2s forwards;
-}
-.welcome-desc {
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  animation: fadeInUp 0.7s 0.4s forwards;
-}
-.welcome-btn {
-  opacity: 0;
-  transform: scale(0.8);
-  animation: fadeInUp 0.7s 0.7s forwards;
-}
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-</style>
-<script>
-(function(){
-  const welcomePopup = document.getElementById('welcomePopup');
-  const closeBtn = welcomePopup.querySelector('.mini-popup-close');
-  // Hiện popup sau 400ms khi vào trang, và tự động ẩn sau 1.5s
-  window.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function(){
-      welcomePopup.classList.remove('hidden');
-      welcomePopup.focus();
-      document.body.style.overflow = 'hidden';
-      setTimeout(function(){
-        welcomePopup.classList.add('hidden');
-        document.body.style.overflow = '';
-      }, 1500);
-    }, 400);
-  });
-  // Đóng popup thủ công (vẫn giữ lại cho ESC/click ngoài)
-  closeBtn.addEventListener('click', function() {
-    welcomePopup.classList.add('hidden');
-    document.body.style.overflow = '';
-  });
-  // Đóng khi click ngoài
-  document.addEventListener('mousedown', function(e) {
-    if (!welcomePopup.classList.contains('hidden') && !welcomePopup.querySelector('.mini-popup-content').contains(e.target)) {
-      welcomePopup.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-  });
-  // Đóng khi nhấn ESC
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !welcomePopup.classList.contains('hidden')) {
-      welcomePopup.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-  });
-})();
-</script>
+
+
+
 <div class="sidebar hidden" id="sidebar">
   <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
     <div style="display:flex;align-items:center;gap:10px;">
