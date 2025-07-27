@@ -1492,32 +1492,8 @@ class PWAInstaller {
   }
 
   showUpdateNotification(message = 'New version available!') {
-    const updateNotification = document.createElement('div');
-    updateNotification.innerHTML = `
-      <div style="padding: 15px; background: #4fc3f7; color: white; border-radius: 8px; margin: 10px; text-align: center;">
-        <p style="margin: 0 0 10px 0; font-weight: 600;">${message}</p>
-        <button onclick="location.reload()" style="background: white; color: #4fc3f7; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-          Update Now
-        </button>
-      </div>
-    `;
-    updateNotification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10001;
-      max-width: 300px;
-      animation: slideIn 0.3s ease;
-    `;
-    
-    document.body.appendChild(updateNotification);
-    
-    // Auto remove after 10 seconds
-    setTimeout(() => {
-      if (updateNotification.parentNode) {
-        updateNotification.remove();
-      }
-    }, 10000);
+    // Update notifications disabled - do nothing
+    return;
   }
 
   updateOnlineStatus(isOnline) {
