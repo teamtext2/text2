@@ -1,7 +1,7 @@
 {
-  "name": "Text2 - AI Assistant & Tools",
+  "name": "Text2",
   "short_name": "Text2",
-  "description": "Text2 - We are making a difference with AI tools, chat, and digital services",
+  "description": "Text2 - Hi Guys",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
