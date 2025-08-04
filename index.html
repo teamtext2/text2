@@ -465,6 +465,42 @@
     color: #888;
   }
 
+  /* Search button loading state */
+  .search-button.loading {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .search-button.loading svg {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Search button pulse effect */
+  .search-button.searching {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+      box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+    }
+    100% {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+  }
+
   /* Content sections */
   .popup-title {
     text-align: center;
@@ -1444,7 +1480,7 @@
 
 <script>
   // Global variables
-  const GEMINI_API_KEY = 'AIzaSyDhqRnOubyuq9G1DcsajtWXgVrqnxFH0So';
+  const TOGETHER_API_KEY = '4cf2ed88b3d39e9f196ab88cefa8bf0bc21d698ce9cdf8f20cf80a596247378c';
   const keywordResponses = {
     "nhật anh": "Nhat Anh is the CEO of 504 Media, specializing in AI, blogs, and social networks. That's right, Nhat Anh is very talented!",
     "504 media": "504 Media is a company specializing in AI technology and digital content, where top ideas converge!",
@@ -1505,6 +1541,10 @@
         return;
       }
 
+      // Add search effects
+      elements.searchButton.classList.add('loading', 'searching');
+      elements.searchButton.disabled = true;
+      
       elements.searchResults.innerHTML = '<p class="loading">Searching...</p>';
       elements.searchResults.classList.add('active');
 
@@ -1512,6 +1552,9 @@
       for (const [keyword, response] of Object.entries(keywordResponses)) {
         if (query.includes(keyword)) {
           elements.searchResults.innerHTML = `<p>${response}</p>`;
+          // Remove search effects
+          elements.searchButton.classList.remove('loading', 'searching');
+          elements.searchButton.disabled = false;
           return;
         }
       }
@@ -1519,21 +1562,40 @@
       // AI search
       try {
         const formattedMessage = `Reply concisely in under 700 characters and use the user's language, reply in first person as Text2, add 'Text2' in the conversation: ${query}`;
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        const response = await fetch('https://api.together.xyz/v1/chat/completions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Authorization': `Bearer ${TOGETHER_API_KEY}`,
+            'Content-Type': 'application/json' 
+          },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: formattedMessage }] }]
+            model: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free',
+            messages: [
+              {
+                role: 'user',
+                content: formattedMessage
+              }
+            ]
           })
         });
 
         const data = await response.json();
-        let botReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Oops, I didn't understand that 😅 Could you please ask again?";
-        botReply = botReply.replace(/Gemini|Google/g, "Text2").replace(/\*+/g, "");
+        let botReply = data.choices?.[0]?.message?.content || "I am thinkkkk ";
+        botReply = botReply.replace(/DeepSeek|Together/g, "Text2").replace(/\*+/g, "");
+        // Remove any content within <think></think> tags
+        botReply = botReply.replace(/<think>.*?<\/think>/gs, "");
         elements.searchResults.innerHTML = `<p>${botReply}</p>`;
+        
+        // Remove search effects
+        elements.searchButton.classList.remove('loading', 'searching');
+        elements.searchButton.disabled = false;
       } catch (error) {
         console.error('Search error:', error);
         elements.searchResults.innerHTML = '<p>An error occurred while searching. Please try again later. :(</p>';
+        
+        // Remove search effects
+        elements.searchButton.classList.remove('loading', 'searching');
+        elements.searchButton.disabled = false;
       }
     },
 
