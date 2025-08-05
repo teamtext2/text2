@@ -501,6 +501,61 @@
     }
   }
 
+  /* Welcome Message Styles */
+  .welcome-message {
+    text-align: center;
+    margin: 15px auto;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4fc3f7;
+    min-height: 30px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .welcome-message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .welcome-message.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .welcome-message .typewriter {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #4fc3f7;
+    white-space: nowrap;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #4fc3f7; }
+  }
+
+  .welcome-message .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: #4fc3f7;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
   /* Content sections */
   .popup-title {
     text-align: center;
@@ -686,6 +741,11 @@
     .search-button svg {
       width: 18px;
       height: 18px;
+    }
+
+    .welcome-message {
+      font-size: 16px;
+      margin: 10px auto;
     }
 
     .icon-container {
@@ -1176,6 +1236,7 @@
       </button>
     </div>
     <div id="searchResults" class="search-results"></div>
+    <div id="welcomeMessage" class="welcome-message"></div>
   </div>
 
   <div class="icon-container" id="mainApps">
@@ -1591,6 +1652,7 @@
     searchInput: document.getElementById('searchInput'),
     searchButton: document.getElementById('searchButton'),
     searchResults: document.getElementById('searchResults'),
+    welcomeMessage: document.getElementById('welcomeMessage'),
     clock: document.getElementById('clock'),
     notificationBtn: document.querySelector('.taskbar-icon[title="Notifications"]'),
     settingsBtn: document.querySelector('.taskbar-icon[title="Settings"]'),
@@ -1722,6 +1784,44 @@
       elements.sidebar.classList.remove('active');
       setTimeout(() => elements.sidebar.classList.add('hidden'), 150);
       document.body.style.overflow = '';
+    },
+
+    // Welcome message functionality
+    showWelcomeMessage: () => {
+      const messages = [
+        "Chào mừng bạn đến với Text2! 👋",
+        "Welcome to Text2! 👋",
+        "Xin chào! Tôi là Text2 AI Assistant 🤖",
+        "Hello! I'm Text2 AI Assistant 🤖"
+      ];
+      
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      const welcomeElement = elements.welcomeMessage;
+      
+      // Show the message container
+      welcomeElement.classList.add('show');
+      
+      // Create typewriter effect
+      let i = 0;
+      const typeWriter = () => {
+        if (i < randomMessage.length) {
+          welcomeElement.innerHTML = `<span class="typewriter">${randomMessage.substring(0, i + 1)}</span><span class="cursor"></span>`;
+          i++;
+          setTimeout(typeWriter, 100);
+        } else {
+          // Keep the complete message for a moment
+          setTimeout(() => {
+            welcomeElement.classList.add('fade-out');
+            setTimeout(() => {
+              welcomeElement.classList.remove('show', 'fade-out');
+              welcomeElement.innerHTML = '';
+            }, 500);
+          }, 2000);
+        }
+      };
+      
+      // Start the typewriter effect after a short delay
+      setTimeout(typeWriter, 300);
     }
   };
 
@@ -1750,6 +1850,9 @@
     // Clock
     handlers.updateClock();
     setInterval(handlers.updateClock, 1000);
+
+    // Welcome message
+    handlers.showWelcomeMessage();
 
     // Popups
     elements.notificationBtn.addEventListener('click', (e) => {
