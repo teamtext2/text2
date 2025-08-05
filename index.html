@@ -1562,10 +1562,9 @@
       // AI search
       try {
         const formattedMessage = `Reply concisely in under 700 characters and use the user's language, reply in first person as Text2, add 'Text2' in the conversation: ${query}`;
-        const response = await fetch('https://api.together.xyz/v1/chat/completions', {
+        const response = await fetch('https://text2-team-api-key-llm.text2team.workers.dev/', {
           method: 'POST',
           headers: { 
-            'Authorization': `Bearer ${TOGETHER_API_KEY}`,
             'Content-Type': 'application/json' 
           },
           body: JSON.stringify({
