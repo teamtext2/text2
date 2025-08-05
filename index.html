@@ -694,6 +694,12 @@
       padding: 12px;
     }
 
+    /* Social media section specific responsive */
+    #social-media .icon-container {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+    }
+
     .icon {
       padding: 12px;
     }
@@ -740,6 +746,12 @@
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 10px;
       padding: 10px;
+    }
+
+    /* Social media section specific responsive */
+    #social-media .icon-container {
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
 
     .icon {
@@ -965,23 +977,6 @@
   /* Responsive design for social media section */
   @media (max-width: 768px) {
     .social-media-group {
-      padding: 15px;
-      margin-bottom: 12px;
-    }
-
-    .social-media-header {
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
-    .social-link {
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .social-media-group {
       padding: 12px;
       margin-bottom: 10px;
     }
@@ -989,11 +984,108 @@
     .social-media-header {
       font-size: 14px;
       margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .social-media-header svg {
+      width: 16px;
+      height: 16px;
     }
 
     .social-link {
-      padding: 6px 10px;
+      padding: 8px 10px;
       font-size: 12px;
+      gap: 6px;
+    }
+
+    .social-link svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .social-media-group {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .social-media-header {
+      font-size: 13px;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .social-media-header svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .social-link {
+      padding: 6px 8px;
+      font-size: 11px;
+      gap: 5px;
+    }
+
+    .social-link svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .icon-container {
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 8px;
+      padding: 8px;
+    }
+
+    /* Social media section specific responsive */
+    #social-media .icon-container {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .social-media-group {
+      padding: 8px;
+      margin-bottom: 6px;
+    }
+
+    .social-media-header {
+      font-size: 12px;
+      margin-bottom: 6px;
+      gap: 5px;
+    }
+
+    .social-media-header svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .social-link {
+      padding: 5px 6px;
+      font-size: 10px;
+      gap: 4px;
+    }
+
+    .social-link svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .icon {
+      padding: 8px;
+    }
+
+    .icon img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .icon p {
+      font-size: 9px;
+      margin-top: 3px;
+      padding: 0 1px;
     }
   }
 </style>
@@ -1176,7 +1268,7 @@
 
   <!-- Section Mạng xã hội -->
   <section id="social-media" style="margin-top:40px;">
-    <div class="popup-title">Mạng xã hội</div>
+    <div class="popup-title">Net</div>
     <div class="icon-container" id="socialMediaApps">
       <!-- Facebook -->
       <div class="social-media-group">
