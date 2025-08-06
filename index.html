@@ -948,6 +948,7 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .social-media-group::before {
@@ -977,11 +978,21 @@
     font-weight: 600;
     font-size: 16px;
     letter-spacing: 0.5px;
+    position: relative;
   }
 
   .social-media-header svg {
     color: #4fc3f7;
     flex-shrink: 0;
+  }
+
+  .mobile-expand-icon {
+    display: none;
+    width: 16px;
+    height: 16px;
+    color: #4fc3f7;
+    transition: transform 0.3s ease;
+    margin-left: auto;
   }
 
   .social-media-links {
@@ -1093,6 +1104,59 @@
     }
   }
 
+  /* Mobile-optimized social media section */
+  @media (max-width: 768px) {
+    .mobile-expand-icon {
+      display: block;
+    }
+
+    .social-media-group {
+      padding: 15px;
+      margin-bottom: 8px;
+    }
+
+    .social-media-header {
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .social-media-links {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .social-media-group.expanded .social-media-links {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 10px;
+    }
+
+    .social-media-group.expanded .mobile-expand-icon {
+      transform: rotate(180deg);
+    }
+
+    .social-title {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .social-media-group {
+      padding: 12px;
+    }
+
+    .social-media-header {
+      font-size: 14px;
+    }
+
+    .mobile-expand-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
   @media (max-width: 360px) {
     .icon-container {
       grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -1107,17 +1171,21 @@
     }
 
     .social-media-group {
-      padding: 8px;
+      padding: 10px;
       margin-bottom: 6px;
     }
 
     .social-media-header {
-      font-size: 12px;
-      margin-bottom: 6px;
+      font-size: 13px;
       gap: 5px;
     }
 
     .social-media-header svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .mobile-expand-icon {
       width: 12px;
       height: 12px;
     }
@@ -1331,12 +1399,15 @@
     <div class="popup-title">Net</div>
     <div class="icon-container" id="socialMediaApps">
       <!-- Facebook -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="facebook">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
           </svg>
-          <span>Facebook</span>
+          <span class="social-title">Facebook</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://www.facebook.com/text2.click" target="_blank" class="social-link">Text2 Official</a>
@@ -1345,13 +1416,16 @@
       </div>
 
       <!-- YouTube -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="youtube">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
             <polygon points="9.75,15.02 15.5,11.75 9.75,8.48 9.75,15.02"></polygon>
           </svg>
-          <span>YouTube</span>
+          <span class="social-title">YouTube</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://www.youtube.com/@text2_team" target="_blank" class="social-link">Text2 Home</a>
@@ -1362,12 +1436,15 @@
       </div>
 
       <!-- TikTok -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="tiktok">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
           </svg>
-          <span>TikTok</span>
+          <span class="social-title">TikTok</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://www.tiktok.com/@text2_" target="_blank" class="social-link">Text2 Vietnam</a>
@@ -1376,14 +1453,17 @@
       </div>
 
       <!-- Instagram -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="instagram">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
           </svg>
-          <span>Instagram</span>
+          <span class="social-title">Instagram</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://www.instagram.com/text2_magic" target="_blank" class="social-link">Text2 Official</a>
@@ -1391,12 +1471,15 @@
       </div>
 
       <!-- Twitter -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="twitter">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
           </svg>
-          <span>Twitter (X)</span>
+          <span class="social-title">Twitter (X)</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://x.com/Text2click" target="_blank" class="social-link">Text2</a>
@@ -1405,12 +1488,15 @@
       </div>
 
       <!-- Threads -->
-      <div class="social-media-group">
+      <div class="social-media-group" data-platform="threads">
         <div class="social-media-header">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
-          <span>Threads</span>
+          <span class="social-title">Threads</span>
+          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6,9 12,15 18,9"></polyline>
+          </svg>
         </div>
         <div class="social-media-links">
           <a href="https://www.threads.com/@text2_magic?__pwa=1" target="_blank" class="social-link">Text2</a>
@@ -1428,21 +1514,60 @@
 
   <!-- Section Giới thiệu -->
   <section id="introduction" style="margin-top:40px; width: 100%;">
-    <div class="popup-title">Giới thiệu</div>
+    <div class="popup-title">helo</div>
     <div style="width: 100%; height: 600px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.3);">
       <iframe src="https://text2.click/src/helo.html" style="width: 100%; height: 100%; border: none;" title="Giới thiệu Text2"></iframe>
     </div>
   </section>
-
-  <footer style="background: rgba(33, 37, 41, 0.95); border-top: 1.5px solid #444; box-shadow: 0 -2px 8px rgba(0,0,0,0.3); text-align: center; padding: 18px 10px 12px 10px; font-size: 15px; color: #e0e0e0; letter-spacing: 0.2px;">
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-      <span style="font-weight: 600; font-size: 16px; letter-spacing: 0.5px; color: #fff;">
-        © 2024 <span style="color:#4fc3f7;">Text2</span>
-      </span>
-      <span style="font-size: 14px; color: #b0b0b0;">
-        <span style="margin-right: 10px;">👤 CEO: <b>Hoa Nhat Anh</b></span>
-        <span style="margin-left: 10px;">📧 <a href="mailto:mail@text2.click" style="color:#4fc3f7; text-decoration:underline;">team@text2.click</a></span>
-      </span>
+  <footer style="background: rgba(33, 37, 41, 0.97); border-top: 1.5px solid #444; box-shadow: 0 -2px 8px rgba(0,0,0,0.3); text-align: center; padding: 32px 10px 12px 10px; font-size: 15px; color: #e0e0e0; letter-spacing: 0.2px; margin-top: 40px;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; max-width: 1200px; margin: 0 auto 12px auto;">
+      <!-- Thông tin Text2 -->
+      <div style="flex: 1 1 220px; min-width: 200px; text-align: left;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+          <img src="/logoc.jpg" alt="Text2 Logo" style="width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); background: #23272a;" />
+          <span style="font-weight: 700; font-size: 18px; letter-spacing: 0.5px; color: #4fc3f7;">Text2</span>
+        </div>
+        <div style="font-size: 14px; color: #b0b0b0; margin-bottom: 8px;">We are making a difference with AI tools, chat, and digital services.</div>
+        <div style="font-size: 13px; color: #b0b0b0;">CEO: <b style='color:#fff;'>Hoa Nhat Anh</b></div>
+        <div style="font-size: 13px; color: #b0b0b0; margin-top: 2px;">📧 <a href="mailto:team@text2.click" style="color:#4fc3f7; text-decoration:underline;">team@text2.click</a></div>
+      </div>
+      <!-- Liên kết nhanh -->
+      <div style="flex: 1 1 160px; min-width: 140px; text-align: left;">
+        <div style="font-weight: 600; color: #4fc3f7; margin-bottom: 10px; font-size: 15px;">Quick Links</div>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li><a href="#home" style="color: #fff; text-decoration: none; transition: color 0.2s;">Home</a></li>
+          <li><a href="#blog" style="color: #fff; text-decoration: none; transition: color 0.2s;">Blog</a></li>
+          <li><a href="mailto:team@text2.click" style="color: #fff; text-decoration: none; transition: color 0.2s;">Contact</a></li>
+          <li><a href="/privacy.html" style="color: #fff; text-decoration: none; transition: color 0.2s;">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <!-- Mạng xã hội -->
+      <div style="flex: 1 1 220px; min-width: 200px; text-align: left;">
+        <div style="font-weight: 600; color: #4fc3f7; margin-bottom: 10px; font-size: 15px;">Follow us</div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <a href="https://www.facebook.com/text2.click" target="_blank" title="Facebook" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="https://www.youtube.com/@text2_team" target="_blank" title="YouTube" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75,15.02 15.5,11.75 9.75,8.48 9.75,15.02"></polygon></svg>
+          </a>
+          <a href="https://www.tiktok.com/@text2_" target="_blank" title="TikTok" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+          </a>
+          <a href="https://www.instagram.com/text2_magic" target="_blank" title="Instagram" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="https://x.com/Text2click" target="_blank" title="Twitter/X" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+          </a>
+          <a href="https://www.threads.com/@text2_magic?__pwa=1" target="_blank" title="Threads" style="color:#4fc3f7;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 24px; border-top: 1px solid #333; padding-top: 10px; font-size: 13px; color: #b0b0b0; text-align: center;">
+      © 2024 <span style="color:#4fc3f7; font-weight:600;">Text2</span> &nbsp;|&nbsp; All rights reserved.
     </div>
   </footer>
 </div>
@@ -2351,6 +2476,43 @@
       
       document.removeEventListener('click', closeDropdownOnOutsideClick);
     }
+  });
+
+  // Mobile Social Media Expand/Collapse Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const socialMediaGroups = document.querySelectorAll('.social-media-group');
+    
+    socialMediaGroups.forEach(group => {
+      const header = group.querySelector('.social-media-header');
+      
+      header.addEventListener('click', function(e) {
+        // Only handle on mobile devices
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Close other expanded groups
+          socialMediaGroups.forEach(otherGroup => {
+            if (otherGroup !== group) {
+              otherGroup.classList.remove('expanded');
+            }
+          });
+          
+          // Toggle current group
+          group.classList.toggle('expanded');
+        }
+      });
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        // Reset all groups on desktop
+        socialMediaGroups.forEach(group => {
+          group.classList.remove('expanded');
+        });
+      }
+    });
   });
 </script>
 </body>
