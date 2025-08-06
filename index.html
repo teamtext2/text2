@@ -1236,7 +1236,6 @@
       </button>
     </div>
     <div id="searchResults" class="search-results"></div>
-    <div id="welcomeMessage" class="welcome-message"></div>
   </div>
 
   <div class="icon-container" id="mainApps">
@@ -1652,7 +1651,6 @@
     searchInput: document.getElementById('searchInput'),
     searchButton: document.getElementById('searchButton'),
     searchResults: document.getElementById('searchResults'),
-    welcomeMessage: document.getElementById('welcomeMessage'),
     clock: document.getElementById('clock'),
     notificationBtn: document.querySelector('.taskbar-icon[title="Notifications"]'),
     settingsBtn: document.querySelector('.taskbar-icon[title="Settings"]'),
@@ -1784,44 +1782,6 @@
       elements.sidebar.classList.remove('active');
       setTimeout(() => elements.sidebar.classList.add('hidden'), 150);
       document.body.style.overflow = '';
-    },
-
-    // Welcome message functionality
-    showWelcomeMessage: () => {
-      const messages = [
-        "Chào mừng bạn đến với Text2! 👋",
-        "Welcome to Text2! 👋",
-        "Xin chào! Tôi là Text2 AI Assistant 🤖",
-        "Hello! I'm Text2 AI Assistant 🤖"
-      ];
-      
-      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-      const welcomeElement = elements.welcomeMessage;
-      
-      // Show the message container
-      welcomeElement.classList.add('show');
-      
-      // Create typewriter effect
-      let i = 0;
-      const typeWriter = () => {
-        if (i < randomMessage.length) {
-          welcomeElement.innerHTML = `<span class="typewriter">${randomMessage.substring(0, i + 1)}</span><span class="cursor"></span>`;
-          i++;
-          setTimeout(typeWriter, 100);
-        } else {
-          // Keep the complete message for a moment
-          setTimeout(() => {
-            welcomeElement.classList.add('fade-out');
-            setTimeout(() => {
-              welcomeElement.classList.remove('show', 'fade-out');
-              welcomeElement.innerHTML = '';
-            }, 500);
-          }, 2000);
-        }
-      };
-      
-      // Start the typewriter effect after a short delay
-      setTimeout(typeWriter, 300);
     }
   };
 
@@ -1850,9 +1810,6 @@
     // Clock
     handlers.updateClock();
     setInterval(handlers.updateClock, 1000);
-
-    // Welcome message
-    handlers.showWelcomeMessage();
 
     // Popups
     elements.notificationBtn.addEventListener('click', (e) => {
