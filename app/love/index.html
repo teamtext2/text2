@@ -377,20 +377,166 @@
         function calculateCompatibility(name1, name2) {
             let str1 = name1.trim().toLowerCase();
             let str2 = name2.trim().toLowerCase();
+            
+            // Enhanced compatibility calculation
+            let compatibility = {
+                basic: calculateBasicCompatibility(str1, str2),
+                zodiac: calculateZodiacCompatibility(str1, str2),
+                numerology: calculateNumerologyCompatibility(str1, str2),
+                nameAnalysis: calculateNameAnalysis(str1, str2),
+                emotional: calculateEmotionalCompatibility(str1, str2)
+            };
+            
+            // Weighted average of all factors
+            let totalScore = (
+                compatibility.basic * 0.25 +
+                compatibility.zodiac * 0.25 +
+                compatibility.numerology * 0.20 +
+                compatibility.nameAnalysis * 0.20 +
+                compatibility.emotional * 0.10
+            );
+            
+            let lovePercentage = Math.round(totalScore);
+            let message = getCompatibilityMessage(lovePercentage);
+            let details = getDetailedAnalysis(compatibility);
+            
+            return `<span class="heart-icon">❤️</span> Compatibility Score: <strong>${lovePercentage}%</strong><br>${message}<br><br><details><summary>📊 Detailed Analysis</summary><div style="text-align: left; margin-top: 10px; font-size: 0.9rem;">${details}</div></details>`;
+        }
+
+        function calculateBasicCompatibility(str1, str2) {
             let totalValue = 0;
-            for (let char of (str1 + str2)) totalValue += char.charCodeAt(0);
-            let lovePercentage = totalValue % 101;
-            let message = '';
-            if (lovePercentage >= 80) {
-                message = "A match made in heaven! 💑";
-            } else if (lovePercentage >= 60) {
-                message = "Very compatible! 💕";
-            } else if (lovePercentage >= 40) {
-                message = "Potential for development! 💖";
-            } else {
-                message = "Maybe start as friends first! 💔";
+            for (let char of (str1 + str2)) {
+                totalValue += char.charCodeAt(0);
             }
-            return `<span class="heart-icon">❤️</span> Compatibility Score: <strong>${lovePercentage}%</strong><br>${message}`;
+            return (totalValue % 101);
+        }
+
+        function calculateZodiacCompatibility(str1, str2) {
+            // Simple zodiac calculation based on name length and character distribution
+            let zodiac1 = getZodiacSign(str1);
+            let zodiac2 = getZodiacSign(str2);
+            
+            let compatibility = {
+                'aries': { 'aries': 85, 'leo': 90, 'sagittarius': 85, 'gemini': 70, 'aquarius': 75, 'libra': 65, 'cancer': 60, 'virgo': 55, 'scorpio': 65, 'capricorn': 60, 'pisces': 55, 'taurus': 50 },
+                'taurus': { 'taurus': 90, 'virgo': 85, 'capricorn': 85, 'cancer': 80, 'pisces': 80, 'scorpio': 75, 'libra': 70, 'gemini': 55, 'aquarius': 50, 'aries': 50, 'leo': 60, 'sagittarius': 55 },
+                'gemini': { 'gemini': 85, 'libra': 85, 'aquarius': 85, 'aries': 70, 'leo': 75, 'sagittarius': 80, 'virgo': 60, 'cancer': 55, 'scorpio': 50, 'capricorn': 55, 'pisces': 60, 'taurus': 55 },
+                'cancer': { 'cancer': 90, 'scorpio': 85, 'pisces': 85, 'taurus': 80, 'virgo': 75, 'capricorn': 70, 'libra': 60, 'gemini': 55, 'aquarius': 50, 'aries': 60, 'leo': 65, 'sagittarius': 60 },
+                'leo': { 'leo': 90, 'aries': 90, 'sagittarius': 85, 'gemini': 75, 'libra': 80, 'aquarius': 75, 'cancer': 65, 'virgo': 60, 'scorpio': 70, 'capricorn': 65, 'pisces': 60, 'taurus': 60 },
+                'virgo': { 'virgo': 85, 'taurus': 85, 'capricorn': 85, 'cancer': 75, 'scorpio': 75, 'pisces': 70, 'libra': 65, 'gemini': 60, 'aquarius': 55, 'aries': 55, 'leo': 60, 'sagittarius': 55 },
+                'libra': { 'libra': 85, 'gemini': 85, 'aquarius': 85, 'leo': 80, 'sagittarius': 75, 'aries': 65, 'cancer': 60, 'virgo': 65, 'scorpio': 70, 'capricorn': 60, 'pisces': 65, 'taurus': 70 },
+                'scorpio': { 'scorpio': 90, 'cancer': 85, 'pisces': 85, 'taurus': 75, 'virgo': 75, 'capricorn': 70, 'libra': 70, 'gemini': 50, 'aquarius': 55, 'aries': 65, 'leo': 70, 'sagittarius': 65 },
+                'sagittarius': { 'sagittarius': 85, 'aries': 85, 'leo': 85, 'gemini': 80, 'libra': 75, 'aquarius': 80, 'cancer': 60, 'virgo': 55, 'scorpio': 65, 'capricorn': 70, 'pisces': 65, 'taurus': 55 },
+                'capricorn': { 'capricorn': 90, 'taurus': 85, 'virgo': 85, 'cancer': 70, 'scorpio': 70, 'pisces': 75, 'libra': 60, 'gemini': 55, 'aquarius': 65, 'aries': 60, 'leo': 65, 'sagittarius': 70 },
+                'aquarius': { 'aquarius': 85, 'gemini': 85, 'libra': 85, 'sagittarius': 80, 'aries': 75, 'leo': 75, 'cancer': 50, 'virgo': 55, 'scorpio': 55, 'capricorn': 65, 'pisces': 70, 'taurus': 50 },
+                'pisces': { 'pisces': 90, 'cancer': 85, 'scorpio': 85, 'taurus': 80, 'virgo': 70, 'capricorn': 75, 'libra': 65, 'gemini': 60, 'aquarius': 70, 'aries': 55, 'leo': 60, 'sagittarius': 65 }
+            };
+            
+            return compatibility[zodiac1] ? compatibility[zodiac1][zodiac2] || 60 : 60;
+        }
+
+        function getZodiacSign(name) {
+            let sum = 0;
+            for (let char of name) {
+                sum += char.charCodeAt(0);
+            }
+            let zodiacSigns = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+            return zodiacSigns[sum % 12];
+        }
+
+        function calculateNumerologyCompatibility(str1, str2) {
+            let num1 = calculateNameNumber(str1);
+            let num2 = calculateNameNumber(str2);
+            
+            let compatibility = {
+                1: { 1: 85, 2: 70, 3: 80, 4: 65, 5: 90, 6: 75, 7: 80, 8: 70, 9: 85 },
+                2: { 1: 70, 2: 90, 3: 75, 4: 85, 5: 70, 6: 90, 7: 75, 8: 85, 9: 70 },
+                3: { 1: 80, 2: 75, 3: 85, 4: 70, 5: 80, 6: 75, 7: 90, 8: 70, 9: 85 },
+                4: { 1: 65, 2: 85, 3: 70, 4: 90, 5: 65, 6: 85, 7: 70, 8: 90, 9: 65 },
+                5: { 1: 90, 2: 70, 3: 80, 4: 65, 5: 85, 6: 70, 7: 80, 8: 65, 9: 90 },
+                6: { 1: 75, 2: 90, 3: 75, 4: 85, 5: 70, 6: 90, 7: 75, 8: 85, 9: 70 },
+                7: { 1: 80, 2: 75, 3: 90, 4: 70, 5: 80, 6: 75, 7: 85, 8: 70, 9: 80 },
+                8: { 1: 70, 2: 85, 3: 70, 4: 90, 5: 65, 6: 85, 7: 70, 8: 90, 9: 65 },
+                9: { 1: 85, 2: 70, 3: 85, 4: 65, 5: 90, 6: 70, 7: 80, 8: 65, 9: 85 }
+            };
+            
+            return compatibility[num1] ? compatibility[num1][num2] || 70 : 70;
+        }
+
+        function calculateNameNumber(name) {
+            let sum = 0;
+            for (let char of name) {
+                if (char >= 'a' && char <= 'z') {
+                    sum += char.charCodeAt(0) - 96;
+                }
+            }
+            while (sum > 9) {
+                sum = Math.floor(sum / 10) + (sum % 10);
+            }
+            return sum;
+        }
+
+        function calculateNameAnalysis(str1, str2) {
+            let vowels1 = (str1.match(/[aeiou]/g) || []).length;
+            let vowels2 = (str2.match(/[aeiou]/g) || []).length;
+            let consonants1 = str1.length - vowels1;
+            let consonants2 = str2.length - vowels2;
+            
+            let vowelBalance = Math.abs(vowels1 - vowels2);
+            let consonantBalance = Math.abs(consonants1 - consonants2);
+            
+            let score = 100 - (vowelBalance * 3 + consonantBalance * 2);
+            return Math.max(score, 30);
+        }
+
+        function calculateEmotionalCompatibility(str1, str2) {
+            let emotional1 = calculateEmotionalValue(str1);
+            let emotional2 = calculateEmotionalValue(str2);
+            
+            let difference = Math.abs(emotional1 - emotional2);
+            return Math.max(100 - difference * 2, 40);
+        }
+
+        function calculateEmotionalValue(name) {
+            let emotionalScore = 0;
+            for (let char of name) {
+                emotionalScore += char.charCodeAt(0) % 10;
+            }
+            return emotionalScore % 50 + 50;
+        }
+
+        function getCompatibilityMessage(percentage) {
+            if (percentage >= 90) {
+                return "🌟 Soulmates! A perfect cosmic connection! 💫";
+            } else if (percentage >= 80) {
+                return "💑 A match made in heaven! Incredible compatibility! 💕";
+            } else if (percentage >= 70) {
+                return "💖 Excellent compatibility! Great potential for love! ✨";
+            } else if (percentage >= 60) {
+                return "💕 Very good compatibility! Strong foundation for love! 🌹";
+            } else if (percentage >= 50) {
+                return "💝 Good compatibility! With effort, love can flourish! 🌸";
+            } else if (percentage >= 40) {
+                return "💫 Moderate compatibility! Friendship first, love may follow! 🌺";
+            } else if (percentage >= 30) {
+                return "🌱 Potential for growth! Start as friends and see what happens! 🌿";
+            } else {
+                return "💔 Challenging compatibility! Focus on friendship first! 🌱";
+            }
+        }
+
+        function getDetailedAnalysis(compatibility) {
+            return `
+                <div style="margin-bottom: 15px;">
+                    <strong>🔢 Basic Compatibility:</strong> ${compatibility.basic}%<br>
+                    <strong>⭐ Zodiac Compatibility:</strong> ${compatibility.zodiac}%<br>
+                    <strong>🔮 Numerology:</strong> ${compatibility.numerology}%<br>
+                    <strong>📝 Name Analysis:</strong> ${compatibility.nameAnalysis}%<br>
+                    <strong>💝 Emotional Bond:</strong> ${compatibility.emotional}%
+                </div>
+                <div style="font-size: 0.85rem; color: #666;">
+                    💡 <em>This analysis combines multiple factors including cosmic energies, name vibrations, and emotional resonance to provide a comprehensive compatibility assessment.</em>
+                </div>
+            `;
         }
 
         form.addEventListener('submit', (e) => {
