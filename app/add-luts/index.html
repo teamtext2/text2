@@ -3,50 +3,103 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Apply .CUBE LUT to Image — Simple Web App</title>
+  <title>Text2 -  add luts</title>
+  <meta name="description" content="Áp LUT (.cube) lên ảnh trực tiếp trên trình duyệt. Giao diện hiện đại, tối ưu cho mobile và PC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:18px;color:#111}
-    h1{font-size:20px;margin:0 0 10px}
-    .row{display:flex;gap:12px;flex-wrap:wrap}
-    .card{border:1px solid #ddd;padding:12px;border-radius:8px;min-width:280px}
-    canvas{max-width:100%;height:auto;border:1px solid #ccc}
-    input[type=file]{display:block}
-    button{padding:8px 12px;border-radius:6px;border:1px solid #888;background:#f5f5f5;cursor:pointer}
-    small{color:#666}
+    :root{--bg1:#0f0f0f;--bg2:#1a1a1a;--card:#23272a;--muted:#9aa4ad;--border:#2f3337;--accent:#4fc3f7}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;min-height:100vh;font-family:'Poppins','Segoe UI',system-ui,Roboto,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#fff}
+    header{background:rgba(33,37,41,.95);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.5);border-bottom:1px solid #444;height:44px;position:sticky;top:0;z-index:10}
+    .start-button{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;cursor:pointer;transition:background .2s}
+    .start-button:hover{background:rgba(255,255,255,.08)}
+    .start-button img{width:22px;height:22px;border-radius:6px}
+    .app-title{font-weight:700;font-size:15px;letter-spacing:.3px;color:#fff;opacity:.95}
+    main{max-width:1200px;margin:18px auto;padding:0 16px}
+    .page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px}
+    .page-head h1{font-size:18px;margin:0;font-weight:700;color:#fff}
+    .page-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:1fr 1.35fr;gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 15px rgba(0,0,0,.35)}
+    .card h2{margin:0 0 10px;font-size:14px;color:#cfe9f6;font-weight:700}
+    label{display:block;font-size:13px;margin:10px 0 6px;color:#dce7ee}
+    input[type=file]{width:100%;padding:10px;background:rgba(255,255,255,.06);border:1px dashed #3b4046;border-radius:10px;color:#e6edf3}
+    .hint{color:var(--muted);font-size:12px;margin-top:6px}
+    hr{border:0;border-top:1px solid #30343a;margin:14px 0}
+    .btn-row{display:flex;flex-wrap:wrap;gap:10px}
+    button{padding:10px 14px;border-radius:10px;border:1px solid #3a4046;background:linear-gradient(145deg,#343a40,#23272a);color:#fff;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s}
+    button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.25);background:linear-gradient(145deg,#3d4449,#2a2f33)}
+    button:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+    .btn-accent{background:linear-gradient(145deg,#4fc3f7,#29b6f6);border-color:#2d8fb6;color:#07141a}
+    .btn-accent:hover{background:linear-gradient(145deg,#67d2ff,#3bc3ff)}
+    .btn-danger{background:linear-gradient(145deg,#ef5350,#e53935);border-color:#b71c1c;color:#1b0a0a}
+    .btn-danger:hover{background:linear-gradient(145deg,#ff6b68,#ff4541)}
+    .preview-wrap{display:flex;gap:10px;flex-wrap:wrap}
+    .canvas-box{flex:1;min-width:260px}
+    .canvas-title{font-size:12px;color:#c9d6dd;margin:0 0 6px}
+    canvas{max-width:100%;height:auto;border:1px solid #31363c;border-radius:10px;background:#0f1113}
+    .lut-info{margin-top:8px;color:#cfe9f6;font-size:12px}
+    .drop-hint{margin-top:8px;color:#9fb6c2;font-size:12px}
+    footer{color:#9aa4ad;text-align:center;padding:18px 10px;font-size:12px;opacity:.9}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+    .item-card{background:#15171a;border:1px solid #2b3036;border-radius:12px;padding:10px}
+    .item-title{font-size:12px;color:#c9d6dd;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .thumb{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;border:1px solid #2f3337;background:#0f1113}
+    .mini-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+    select{width:100%;padding:10px;border-radius:10px;border:1px solid #3a4046;background:#1a1d21;color:#e6edf3}
+    @media (max-width:1024px){.grid{grid-template-columns:1fr}}
+    @media (max-width:480px){header{height:40px}.app-title{font-size:14px}.page-head h1{font-size:16px}}
   </style>
 </head>
 <body>
-  <h1>Ứng dụng áp LUT (.cube) lên ảnh — index.html</h1>
-  <p>Kéo thả hoặc chọn ảnh và file <code>.cube</code>. Ứng dụng này đọc LUT 3D (LUT_3D_SIZE) và áp dụng bằng nội suy trilinear trên CPU.</p>
-
-  <div class="row">
-    <div class="card">
-      <label><strong>1) Chọn ảnh</strong></label>
-      <input id="imgFile" type="file" accept="image/*">
-      <div style="margin-top:8px"><small>Kích thước lớn có thể xử lý chậm — resize trước nếu cần.</small></div>
-      <hr>
-      <label><strong>2) Chọn file .cube</strong></label>
-      <input id="lutFile" type="file" accept=".cube">
-      <div id="lutInfo" style="margin-top:8px;color:#333"></div>
-      <hr>
-      <button id="applyBtn" disabled>Áp LUT</button>
-      <button id="downloadBtn" disabled>Download kết quả</button>
+  <header>
+    <div class="start-button" onclick="window.location.href='/'" title="Về trang chủ">
+      <img src="https://text2.click/favicon.ico" alt="Text2" />
+      <span style="font-weight:600">Text2</span>
     </div>
-
-    <div class="card" style="flex:1">
-      <strong>Preview</strong>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <div>
-          <div style="font-size:12px;margin-bottom:6px">Ảnh gốc</div>
-          <canvas id="srcCanvas"></canvas>
-        </div>
-        <div>
-          <div style="font-size:12px;margin-bottom:6px">Ảnh có LUT</div>
-          <canvas id="dstCanvas"></canvas>
-        </div>
+    <div class="app-title">Áp LUT (.cube) lên ảnh</div>
+  </header>
+  <main>
+    <div class="page-head">
+      <div>
+        <h1>Trình áp LUT 3D (.cube)</h1>
+        <p>Kéo thả hoặc chọn ảnh và file .cube. Xử lý bằng nội suy trilinear, chạy trực tiếp trên trình duyệt.</p>
       </div>
     </div>
-  </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Chọn tệp</h2>
+        <label for="imgFiles"><strong>1) Ảnh nguồn (chọn nhiều)</strong></label>
+        <input id="imgFiles" type="file" accept="image/*" multiple>
+        <div class="hint">Ảnh lớn có thể xử lý chậm. Nên resize trước nếu cần.</div>
+        <hr>
+        <label for="lutFiles"><strong>2) LUT (.cube) — có thể chọn nhiều</strong></label>
+        <input id="lutFiles" type="file" accept=".cube" multiple>
+        <div id="lutInfo" class="lut-info"></div>
+        <label for="lutSelect" style="margin-top:10px"><strong>Chọn LUT để áp dụng</strong></label>
+        <select id="lutSelect"></select>
+        <div class="drop-hint">Tip: Kéo thả ảnh và LUT vào trang để thêm nhanh.</div>
+        <hr>
+        <div class="btn-row">
+          <button id="applyAllBtn" class="btn-accent" disabled>Áp LUT cho tất cả ảnh</button>
+          <button id="clearBtn" class="btn-danger">Xóa danh sách</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Ảnh đã chọn</h2>
+        <div id="imagesGrid" class="gallery"></div>
+      </div>
+      <div class="card">
+        <h2>Kết quả</h2>
+        <div id="resultsGrid" class="gallery"></div>
+      </div>
+    </div>
+  </main>
+  <footer>© 2024 Text2 • Làm việc hoàn toàn trên máy của bạn, không upload dữ liệu.</footer>
 
   <script>
   // Helpers
@@ -153,92 +206,165 @@
     return new ImageData(dst, width, height);
   }
 
-  // Setup UI
-  const imgFileEl = document.getElementById('imgFile');
-  const lutFileEl = document.getElementById('lutFile');
-  const applyBtn = document.getElementById('applyBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
+  // Setup UI (batch mode)
+  const imgFilesEl = document.getElementById('imgFiles');
+  const lutFilesEl = document.getElementById('lutFiles');
+  const lutSelectEl = document.getElementById('lutSelect');
+  const applyAllBtn = document.getElementById('applyAllBtn');
+  const clearBtn = document.getElementById('clearBtn');
   const lutInfo = document.getElementById('lutInfo');
-  const srcCanvas = document.getElementById('srcCanvas');
-  const dstCanvas = document.getElementById('dstCanvas');
-  const srcCtx = srcCanvas.getContext('2d');
-  const dstCtx = dstCanvas.getContext('2d');
+  const imagesGrid = document.getElementById('imagesGrid');
+  const resultsGrid = document.getElementById('resultsGrid');
 
-  let currentImage = null;
-  let currentLUT = null;
-  let lastResultImageData = null;
+  const MAX_WIDTH = 1920;
+  const currentImages = []; // {fileName, img, width, height, thumbUrl}
+  const currentLUTs = [];   // {name, size, data}
+  const results = [];       // {fileName, lutName, url}
 
-  imgFileEl.addEventListener('change', async (e)=>{
-    if(!e.target.files || !e.target.files[0]) return;
-    try{
-      const img = await readFileAsImage(e.target.files[0]);
-      currentImage = img;
-      // draw to canvas with natural size but cap to 1920 width for performance
-      const maxW = 1920;
-      let w = img.naturalWidth, h = img.naturalHeight;
-      if(w>maxW){ h = Math.round(h * (maxW / w)); w = maxW; }
-      srcCanvas.width = w; srcCanvas.height = h; dstCanvas.width = w; dstCanvas.height = h;
-      srcCtx.clearRect(0,0,w,h); srcCtx.drawImage(img,0,0,w,h);
-      // clear dst
-      dstCtx.clearRect(0,0,w,h);
-      downloadBtn.disabled = true;
-      if(currentLUT) applyBtn.disabled = false;
-    }catch(err){ alert('Không thể mở ảnh: '+err.message); }
-  });
+  function updateButtonsState(){
+    applyAllBtn.disabled = !(currentImages.length && currentLUTs.length);
+  }
 
-  lutFileEl.addEventListener('change', async (e)=>{
-    if(!e.target.files || !e.target.files[0]) return;
-    try{
-      const text = await readFileAsText(e.target.files[0]);
-      const lutObj = parseCube(text);
-      currentLUT = lutObj;
-      lutInfo.textContent = `LUT loaded — size: ${lutObj.size}³; entries: ${lutObj.size*lutObj.size*lutObj.size}`;
-      if(currentImage) applyBtn.disabled = false;
-    }catch(err){ alert('Lỗi khi đọc LUT: '+err.message); lutInfo.textContent=''; currentLUT=null; applyBtn.disabled=true; }
-  });
+  function fileBaseName(name){
+    const i = name.lastIndexOf('.');
+    return i>0 ? name.slice(0,i) : name;
+  }
 
-  applyBtn.addEventListener('click', ()=>{
-    if(!currentImage || !currentLUT) return alert('Vui lòng chọn ảnh và LUT trước.');
-    applyBtn.disabled = true; applyBtn.textContent='Đang xử lý...';
-    setTimeout(()=>{ // yield UI
-      const w = srcCanvas.width, h = srcCanvas.height;
-      const srcImageData = srcCtx.getImageData(0,0,w,h);
+  function renderLUTSelect(){
+    lutSelectEl.innerHTML = '';
+    currentLUTs.forEach((l, idx)=>{
+      const opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = `${l.name} — ${l.size}³`;
+      lutSelectEl.appendChild(opt);
+    });
+    lutInfo.textContent = currentLUTs.length ? `Đã tải ${currentLUTs.length} LUT` : '';
+  }
+
+  function renderImages(){
+    imagesGrid.innerHTML = '';
+    currentImages.forEach((it, idx)=>{
+      const card = document.createElement('div'); card.className = 'item-card';
+      const title = document.createElement('div'); title.className='item-title'; title.textContent = `${it.fileName} (${it.width}×${it.height})`;
+      const img = document.createElement('img'); img.className='thumb'; img.src = it.thumbUrl;
+      const row = document.createElement('div'); row.className='mini-row';
+      const removeBtn = document.createElement('button'); removeBtn.textContent='Xóa'; removeBtn.className='btn-danger';
+      removeBtn.onclick = ()=>{ URL.revokeObjectURL(it.thumbUrl); currentImages.splice(idx,1); renderImages(); updateButtonsState(); };
+      row.appendChild(document.createElement('div'));
+      row.appendChild(removeBtn);
+      card.appendChild(title); card.appendChild(img); card.appendChild(row);
+      imagesGrid.appendChild(card);
+    });
+  }
+
+  function addImagesFromFileList(fileList){
+    const files = Array.from(fileList || []);
+    files.forEach(async f=>{
+      if(!(f.type.startsWith('image/') || f.name.match(/\.(jpg|jpeg|png|webp|bmp)$/i))) return;
       try{
-        const out = applyLUTToImageData(srcImageData, currentLUT);
-        dstCanvas.width = w; dstCanvas.height = h; dstCtx.putImageData(out,0,0);
-        lastResultImageData = out;
-        downloadBtn.disabled = false;
-      }catch(err){ alert('Lỗi khi áp LUT: '+err.message); }
-      applyBtn.disabled = false; applyBtn.textContent='Áp LUT';
-    }, 50);
+        const img = await readFileAsImage(f);
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if(w>MAX_WIDTH){ h = Math.round(h * (MAX_WIDTH / w)); w = MAX_WIDTH; }
+        // build thumbnail
+        const c = document.createElement('canvas'); c.width = 320; c.height = Math.round(320 * (h/w));
+        const ctx = c.getContext('2d'); ctx.imageSmoothingQuality='high'; ctx.drawImage(img,0,0,w,h,0,0,c.width,c.height);
+        const url = c.toDataURL('image/jpeg',0.85);
+        currentImages.push({fileName:f.name, img, width:w, height:h, thumbUrl:url});
+        renderImages(); updateButtonsState();
+      }catch(err){ alert('Không thể mở ảnh: '+err.message); }
+    });
+  }
+
+  function addLUTsFromFileList(fileList){
+    const files = Array.from(fileList || []);
+    files.forEach(async f=>{
+      if(!f.name.match(/\.cube$/i)) return;
+      try{
+        const text = await readFileAsText(f);
+        const lutObj = parseCube(text);
+        currentLUTs.push({name:f.name, size:lutObj.size, data:lutObj.data});
+        renderLUTSelect(); updateButtonsState();
+      }catch(err){ alert('Lỗi khi đọc LUT: '+err.message); }
+    });
+  }
+
+  imgFilesEl.addEventListener('change', e=>{
+    if(!e.target.files || !e.target.files.length) return;
+    addImagesFromFileList(e.target.files);
+    // reset input to allow re-adding same files
+    e.target.value='';
   });
 
-  downloadBtn.addEventListener('click', ()=>{
-    if(!lastResultImageData) return;
-    // create a temporary canvas and make blob
-    const temp = document.createElement('canvas'); temp.width = lastResultImageData.width; temp.height = lastResultImageData.height;
-    temp.getContext('2d').putImageData(lastResultImageData,0,0);
-    temp.toBlob(blob=>{
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'image_with_lut.png'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
-    }, 'image/png');
+  lutFilesEl.addEventListener('change', e=>{
+    if(!e.target.files || !e.target.files.length) return;
+    addLUTsFromFileList(e.target.files);
+    e.target.value='';
   });
 
-  // Simple drag & drop for image
+  clearBtn.addEventListener('click', ()=>{
+    // revoke urls
+    currentImages.forEach(it=> URL.revokeObjectURL(it.thumbUrl));
+    results.forEach(r=> URL.revokeObjectURL(r.url));
+    currentImages.length = 0; currentLUTs.length = 0; results.length = 0;
+    imagesGrid.innerHTML=''; resultsGrid.innerHTML='';
+    lutSelectEl.innerHTML=''; lutInfo.textContent='';
+    updateButtonsState();
+  });
+
+  function appendResultCard(fileName, lutName, blob){
+    const url = URL.createObjectURL(blob);
+    results.push({fileName, lutName, url});
+    const card = document.createElement('div'); card.className='item-card';
+    const title = document.createElement('div'); title.className='item-title'; title.textContent = `${fileName} • ${lutName}`;
+    const img = document.createElement('img'); img.className='thumb'; img.src=url;
+    const row = document.createElement('div'); row.className='mini-row';
+    const dlBtn = document.createElement('button'); dlBtn.className='btn-accent'; dlBtn.textContent='Tải';
+    dlBtn.onclick = ()=>{ const a=document.createElement('a'); a.href=url; a.download=`${fileBaseName(fileName)}_${fileBaseName(lutName)}.png`; document.body.appendChild(a); a.click(); a.remove(); };
+    row.appendChild(document.createElement('div'));
+    row.appendChild(dlBtn);
+    card.appendChild(title); card.appendChild(img); card.appendChild(row);
+    resultsGrid.appendChild(card);
+  }
+
+  async function processImageWithLUT(imageEntry, lut){
+    const {img, width, height} = imageEntry;
+    const srcCanvas = document.createElement('canvas'); srcCanvas.width=width; srcCanvas.height=height;
+    const srcCtx = srcCanvas.getContext('2d'); srcCtx.drawImage(img,0,0,width,height);
+    const srcImageData = srcCtx.getImageData(0,0,width,height);
+    const out = applyLUTToImageData(srcImageData, lut);
+    const outCanvas = document.createElement('canvas'); outCanvas.width=width; outCanvas.height=height;
+    const outCtx = outCanvas.getContext('2d'); outCtx.putImageData(out,0,0);
+    return new Promise(res=> outCanvas.toBlob(b=>res(b), 'image/png'));
+  }
+
+  applyAllBtn.addEventListener('click', async ()=>{
+    if(!(currentImages.length && currentLUTs.length)) return alert('Vui lòng thêm ảnh và LUT.');
+    const lutIndex = parseInt(lutSelectEl.value || '0',10) || 0;
+    const lut = currentLUTs[lutIndex];
+    applyAllBtn.disabled = true; const originalText = applyAllBtn.textContent; applyAllBtn.textContent = 'Đang xử lý...';
+    resultsGrid.innerHTML = '';
+    for(let i=0;i<currentImages.length;i++){
+      applyAllBtn.textContent = `Đang xử lý (${i+1}/${currentImages.length})...`;
+      try{
+        const blob = await processImageWithLUT(currentImages[i], lut);
+        appendResultCard(currentImages[i].fileName, lut.name, blob);
+      }catch(err){ alert('Lỗi khi xử lý ảnh: '+err.message); }
+    }
+    applyAllBtn.textContent = originalText; applyAllBtn.disabled = false;
+  });
+
+  // Simple drag & drop for image & LUT
   ['dragover','drop'].forEach(evt => {
     window.addEventListener(evt, e=>{
       e.preventDefault(); e.stopPropagation();
     });
   });
   window.addEventListener('drop', async (e)=>{
-    const f = e.dataTransfer.files && e.dataTransfer.files[0];
-    if(!f) return;
-    if(f.name.match(/\.cube$/i)) {
-      lutFileEl.files = e.dataTransfer.files;
-      const ev = new Event('change'); lutFileEl.dispatchEvent(ev);
-    } else if(f.type.startsWith('image/') || f.name.match(/\.(jpg|jpeg|png|webp|bmp)$/i)){
-      imgFileEl.files = e.dataTransfer.files;
-      const ev = new Event('change'); imgFileEl.dispatchEvent(ev);
-    }
+    const files = e.dataTransfer.files;
+    if(!files || !files.length) return;
+    // Add all compatible files
+    addImagesFromFileList(files);
+    addLUTsFromFileList(files);
   });
 
   </script>
