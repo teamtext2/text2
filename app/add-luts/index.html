@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apply .CUBE LUT to Image — Simple Web App</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:18px;color:#111}
+    h1{font-size:20px;margin:0 0 10px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .card{border:1px solid #ddd;padding:12px;border-radius:8px;min-width:280px}
+    canvas{max-width:100%;height:auto;border:1px solid #ccc}
+    input[type=file]{display:block}
+    button{padding:8px 12px;border-radius:6px;border:1px solid #888;background:#f5f5f5;cursor:pointer}
+    small{color:#666}
+  </style>
+</head>
+<body>
+  <h1>Ứng dụng áp LUT (.cube) lên ảnh — index.html</h1>
+  <p>Kéo thả hoặc chọn ảnh và file <code>.cube</code>. Ứng dụng này đọc LUT 3D (LUT_3D_SIZE) và áp dụng bằng nội suy trilinear trên CPU.</p>
+
+  <div class="row">
+    <div class="card">
+      <label><strong>1) Chọn ảnh</strong></label>
+      <input id="imgFile" type="file" accept="image/*">
+      <div style="margin-top:8px"><small>Kích thước lớn có thể xử lý chậm — resize trước nếu cần.</small></div>
+      <hr>
+      <label><strong>2) Chọn file .cube</strong></label>
+      <input id="lutFile" type="file" accept=".cube">
+      <div id="lutInfo" style="margin-top:8px;color:#333"></div>
+      <hr>
+      <button id="applyBtn" disabled>Áp LUT</button>
+      <button id="downloadBtn" disabled>Download kết quả</button>
+    </div>
+
+    <div class="card" style="flex:1">
+      <strong>Preview</strong>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <div>
+          <div style="font-size:12px;margin-bottom:6px">Ảnh gốc</div>
+          <canvas id="srcCanvas"></canvas>
+        </div>
+        <div>
+          <div style="font-size:12px;margin-bottom:6px">Ảnh có LUT</div>
+          <canvas id="dstCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Helpers
+  function readFileAsText(file){
+    return new Promise((res,rej)=>{
+      const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=e=>rej(e); r.readAsText(file);
+    });
+  }
+  function readFileAsImage(file){
+    return new Promise((res,rej)=>{
+      const url = URL.createObjectURL(file);
+      const img = new Image(); img.onload = ()=>{ URL.revokeObjectURL(url); res(img); }; img.onerror = rej; img.src = url; img.crossOrigin = "anonymous";
+    });
+  }
+
+  // Parse .cube LUT (supports comments and header). Returns {size, data:Float32Array}
+  function parseCube(text){
+    const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
+    let size = null;
+    const dataLines = [];
+    for(const l of lines){
+      const t = l.split(/\s+/);
+      if(t[0].toUpperCase()==='LUT_3D_SIZE'){
+        size = parseInt(t[1],10);
+      } else if(/^TITLE/i.test(t[0]) || /^DOMAIN_MIN/i.test(t[0]) || /^DOMAIN_MAX/i.test(t[0])){
+        // ignore for now
+      } else {
+        // value line (3 floats)
+        if(t.length>=3){
+          const f0 = parseFloat(t[0]);
+          const f1 = parseFloat(t[1]);
+          const f2 = parseFloat(t[2]);
+          if(!Number.isNaN(f0) && !Number.isNaN(f1) && !Number.isNaN(f2)) dataLines.push(f0, f1, f2);
+        }
+      }
+    }
+    if(!size) throw new Error('Không tìm thấy LUT_3D_SIZE trong file .cube');
+    const expected = size*size*size*3;
+    if(dataLines.length < expected) throw new Error('File LUT có ít dòng dữ liệu hơn yêu cầu: '+dataLines.length+' < '+expected);
+    // Store data into Float32Array in index order: lut[(b*size + g)*size + r]
+    const data = new Float32Array(size*size*size*3);
+    // Many .cube files list entries with R fastest, then G, then B — we'll assume that order.
+    // dataLines already in that order; copy first expected floats
+    for(let i=0;i<expected;i++) data[i]=dataLines[i];
+    return {size, data};
+  }
+
+  // Trilinear sampling from the LUT array.
+  // pos components are in [0,1]
+  function sampleLUT(lut, size, r, g, b){
+    const s = size - 1;
+    const vr = r * s;
+    const vg = g * s;
+    const vb = b * s;
+    const r0 = Math.floor(vr), r1 = Math.min(r0+1, s);
+    const g0 = Math.floor(vg), g1 = Math.min(g0+1, s);
+    const b0 = Math.floor(vb), b1 = Math.min(b0+1, s);
+    const fr = vr - r0, fg = vg - g0, fb = vb - b0;
+    // helper to fetch RGB from LUT at integer indices
+    const get = (ri,gi,bi)=>{
+      // index ordering: ((bi*size + gi)*size + ri) *3
+      const idx = ((bi*size + gi)*size + ri) * 3;
+      return [lut[idx], lut[idx+1], lut[idx+2]];
+    };
+    const c000 = get(r0,g0,b0);
+    const c100 = get(r1,g0,b0);
+    const c010 = get(r0,g1,b0);
+    const c110 = get(r1,g1,b0);
+    const c001 = get(r0,g0,b1);
+    const c101 = get(r1,g0,b1);
+    const c011 = get(r0,g1,b1);
+    const c111 = get(r1,g1,b1);
+    // interpolate
+    const out = [0,0,0];
+    for(let k=0;k<3;k++){
+      const c00 = c000[k]*(1-fr) + c100[k]*fr;
+      const c10 = c010[k]*(1-fr) + c110[k]*fr;
+      const c01 = c001[k]*(1-fr) + c101[k]*fr;
+      const c11 = c011[k]*(1-fr) + c111[k]*fr;
+      const c0 = c00*(1-fg) + c10*fg;
+      const c1 = c01*(1-fg) + c11*fg;
+      out[k] = c0*(1-fb) + c1*fb;
+    }
+    return out;
+  }
+
+  // Apply LUT to image via CPU. Returns ImageData.
+  function applyLUTToImageData(srcImageData, lutObj){
+    const {data: src, width, height} = srcImageData;
+    const dst = new Uint8ClampedArray(src.length);
+    const lut = lutObj.data; const size = lutObj.size;
+    const len = width*height;
+    for(let i=0, p=0;i<len;i++, p+=4){
+      const r = src[p]/255;
+      const g = src[p+1]/255;
+      const b = src[p+2]/255;
+      const a = src[p+3];
+      const mapped = sampleLUT(lut, size, r, g, b);
+      dst[p] = Math.max(0, Math.min(255, Math.round(mapped[0]*255)));
+      dst[p+1] = Math.max(0, Math.min(255, Math.round(mapped[1]*255)));
+      dst[p+2] = Math.max(0, Math.min(255, Math.round(mapped[2]*255)));
+      dst[p+3] = a;
+    }
+    return new ImageData(dst, width, height);
+  }
+
+  // Setup UI
+  const imgFileEl = document.getElementById('imgFile');
+  const lutFileEl = document.getElementById('lutFile');
+  const applyBtn = document.getElementById('applyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const lutInfo = document.getElementById('lutInfo');
+  const srcCanvas = document.getElementById('srcCanvas');
+  const dstCanvas = document.getElementById('dstCanvas');
+  const srcCtx = srcCanvas.getContext('2d');
+  const dstCtx = dstCanvas.getContext('2d');
+
+  let currentImage = null;
+  let currentLUT = null;
+  let lastResultImageData = null;
+
+  imgFileEl.addEventListener('change', async (e)=>{
+    if(!e.target.files || !e.target.files[0]) return;
+    try{
+      const img = await readFileAsImage(e.target.files[0]);
+      currentImage = img;
+      // draw to canvas with natural size but cap to 1920 width for performance
+      const maxW = 1920;
+      let w = img.naturalWidth, h = img.naturalHeight;
+      if(w>maxW){ h = Math.round(h * (maxW / w)); w = maxW; }
+      srcCanvas.width = w; srcCanvas.height = h; dstCanvas.width = w; dstCanvas.height = h;
+      srcCtx.clearRect(0,0,w,h); srcCtx.drawImage(img,0,0,w,h);
+      // clear dst
+      dstCtx.clearRect(0,0,w,h);
+      downloadBtn.disabled = true;
+      if(currentLUT) applyBtn.disabled = false;
+    }catch(err){ alert('Không thể mở ảnh: '+err.message); }
+  });
+
+  lutFileEl.addEventListener('change', async (e)=>{
+    if(!e.target.files || !e.target.files[0]) return;
+    try{
+      const text = await readFileAsText(e.target.files[0]);
+      const lutObj = parseCube(text);
+      currentLUT = lutObj;
+      lutInfo.textContent = `LUT loaded — size: ${lutObj.size}³; entries: ${lutObj.size*lutObj.size*lutObj.size}`;
+      if(currentImage) applyBtn.disabled = false;
+    }catch(err){ alert('Lỗi khi đọc LUT: '+err.message); lutInfo.textContent=''; currentLUT=null; applyBtn.disabled=true; }
+  });
+
+  applyBtn.addEventListener('click', ()=>{
+    if(!currentImage || !currentLUT) return alert('Vui lòng chọn ảnh và LUT trước.');
+    applyBtn.disabled = true; applyBtn.textContent='Đang xử lý...';
+    setTimeout(()=>{ // yield UI
+      const w = srcCanvas.width, h = srcCanvas.height;
+      const srcImageData = srcCtx.getImageData(0,0,w,h);
+      try{
+        const out = applyLUTToImageData(srcImageData, currentLUT);
+        dstCanvas.width = w; dstCanvas.height = h; dstCtx.putImageData(out,0,0);
+        lastResultImageData = out;
+        downloadBtn.disabled = false;
+      }catch(err){ alert('Lỗi khi áp LUT: '+err.message); }
+      applyBtn.disabled = false; applyBtn.textContent='Áp LUT';
+    }, 50);
+  });
+
+  downloadBtn.addEventListener('click', ()=>{
+    if(!lastResultImageData) return;
+    // create a temporary canvas and make blob
+    const temp = document.createElement('canvas'); temp.width = lastResultImageData.width; temp.height = lastResultImageData.height;
+    temp.getContext('2d').putImageData(lastResultImageData,0,0);
+    temp.toBlob(blob=>{
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'image_with_lut.png'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+    }, 'image/png');
+  });
+
+  // Simple drag & drop for image
+  ['dragover','drop'].forEach(evt => {
+    window.addEventListener(evt, e=>{
+      e.preventDefault(); e.stopPropagation();
+    });
+  });
+  window.addEventListener('drop', async (e)=>{
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if(!f) return;
+    if(f.name.match(/\.cube$/i)) {
+      lutFileEl.files = e.dataTransfer.files;
+      const ev = new Event('change'); lutFileEl.dispatchEvent(ev);
+    } else if(f.type.startsWith('image/') || f.name.match(/\.(jpg|jpeg|png|webp|bmp)$/i)){
+      imgFileEl.files = e.dataTransfer.files;
+      const ev = new Event('change'); imgFileEl.dispatchEvent(ev);
+    }
+  });
+
+  </script>
+</body>
+</html>
