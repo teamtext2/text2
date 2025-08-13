@@ -1,237 +1,156 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trình Soạn Thảo Văn Bản Hiện Đại</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Mammoth.js for docx import -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.1.0/mammoth.browser.min.js"></script>
-    <!-- html-docx-js for docx export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.min.js"></script>
-    <!-- html2pdf.js for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- Thêm QuillJS CDN vào head -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <style>
-        [contenteditable]:empty:before {
-            content: attr(data-placeholder);
-            color: #a0aec0;
-            pointer-events: none;
-            display: block;
-        }
-        body, .bg-white, .text-gray-900, .bg-gray-100, .border-gray-300, .shadow-md {
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        body.dark {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        body.dark .bg-white {
-            background-color: #2d3748;
-            color: #e2e8f0;
-        }
-        body.dark .text-gray-900 {
-            color: #e2e8f0;
-        }
-        body.dark .bg-gray-100 {
-            background-color: #4a5568;
-        }
-        body.dark .border-gray-300 {
-            border-color: #4a5568;
-        }
-        body.dark .shadow-md {
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2), 0 2px 4px -1px rgba(0,0,0,0.12);
-        }
-        body.dark button {
-            background-color: #4a5568;
-            color: #e2e8f0;
-        }
-        body.dark button:hover {
-            background-color: #6a7488;
-        }
-        body.dark button.active {
-            background-color: #63b3ed;
-            color: #1a202c;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trình soạn thảo của Nhật Anh</title>
+  <!-- Nhúng Tailwind CSS để giao diện trông "sịn sò" -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nhúng Font Awesome để có các icon đẹp -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Nhúng TinyMCE từ CDN -->
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+    .editor-container { max-width: 1000px; }
+  </style>
 </head>
-<body class="font-inter bg-gray-100 text-gray-900 min-h-screen flex flex-col">
-    <div class="flex-1 flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-5xl bg-white rounded-2xl shadow-2xl border border-gray-200 p-0 overflow-hidden">
-            <!-- Toolbar -->
-            <div class="flex flex-wrap items-center gap-4 px-6 py-3 bg-white/80 backdrop-blur border-b border-gray-200 shadow-md rounded-t-2xl sticky top-0 z-10">
-                <!-- Định dạng văn bản -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="In đậm (Ctrl+B)" onclick="formatDoc('bold')"><i class="fas fa-bold"></i></button>
-                    <button class="toolbar-btn" title="In nghiêng (Ctrl+I)" onclick="formatDoc('italic')"><i class="fas fa-italic"></i></button>
-                    <button class="toolbar-btn" title="Gạch chân (Ctrl+U)" onclick="formatDoc('underline')"><i class="fas fa-underline"></i></button>
-                    <button class="toolbar-btn" title="Gạch ngang (Alt+Shift+S)" onclick="formatDoc('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Căn lề -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Căn trái (Ctrl+Shift+L)" onclick="formatDoc('justifyLeft')"><i class="fas fa-align-left"></i></button>
-                    <button class="toolbar-btn" title="Căn giữa (Ctrl+Shift+E)" onclick="formatDoc('justifyCenter')"><i class="fas fa-align-center"></i></button>
-                    <button class="toolbar-btn" title="Căn phải (Ctrl+Shift+R)" onclick="formatDoc('justifyRight')"><i class="fas fa-align-right"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Danh sách -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Danh sách không thứ tự (Ctrl+Shift+U)" onclick="formatDoc('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-                    <button class="toolbar-btn" title="Danh sách có thứ tự (Ctrl+Shift+O)" onclick="formatDoc('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Chèn -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Chèn liên kết (Ctrl+K)" onclick="insertLink()"><i class="fas fa-link"></i></button>
-                    <button class="toolbar-btn" title="Chèn ảnh (Ctrl+Shift+I)" onclick="insertImage()"><i class="fas fa-image"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Undo/Redo -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Hoàn tác (Ctrl+Z)" onclick="formatDoc('undo')"><i class="fas fa-undo"></i></button>
-                    <button class="toolbar-btn" title="Làm lại (Ctrl+Y)" onclick="formatDoc('redo')"><i class="fas fa-redo"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Tiêu đề & nâng cao -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Tiêu đề 1" onclick="formatDoc('formatBlock', '<h1>')">H1</button>
-                    <button class="toolbar-btn" title="Tiêu đề 2" onclick="formatDoc('formatBlock', '<h2>')">H2</button>
-                    <button class="toolbar-btn" title="Tiêu đề 3" onclick="formatDoc('formatBlock', '<h3>')">H3</button>
-                    <button class="toolbar-btn" title="Đoạn trích (blockquote)" onclick="formatDoc('formatBlock', '<blockquote>')"><i class="fas fa-quote-left"></i></button>
-                    <button class="toolbar-btn" title="Dòng phân cách" onclick="formatDoc('insertHorizontalRule')"><i class="fas fa-minus"></i></button>
-                    <button class="toolbar-btn" title="Tăng cỡ chữ" onclick="changeFontSize(1)"><i class="fas fa-plus"></i>A</button>
-                    <button class="toolbar-btn" title="Giảm cỡ chữ" onclick="changeFontSize(-1)"><i class="fas fa-minus"></i>A</button>
-                    <button class="toolbar-btn" title="Tăng thụt lề" onclick="formatDoc('indent')"><i class="fas fa-indent"></i></button>
-                    <button class="toolbar-btn" title="Giảm thụt lề" onclick="formatDoc('outdent')"><i class="fas fa-outdent"></i></button>
-                    <input type="color" id="colorPicker" title="Chọn màu chữ" class="toolbar-color" onchange="formatDoc('foreColor', this.value)">
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Xóa định dạng & xóa nội dung -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Xóa định dạng (Ctrl+Space)" onclick="formatDoc('removeFormat')"><i class="fas fa-eraser"></i></button>
-                    <button class="toolbar-btn" title="Xóa tất cả nội dung" onclick="clearEditor()"><i class="fas fa-trash"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Nhập/Xuất file -->
-                <div class="flex gap-1">
-                    <input type="file" id="fileInput" accept=".txt,.md,.html" class="hidden" />
-                    <button class="toolbar-btn" title="Nhập file" onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-import"></i></button>
-                    <button class="toolbar-btn" title="Nhập file Word" onclick="document.getElementById('docxInput').click()"><i class="fas fa-file-word"></i></button>
-                    <button class="toolbar-btn" title="Xuất file" onclick="exportFile()"><i class="fas fa-file-export"></i></button>
-                    <button class="toolbar-btn" title="Xuất file Word" onclick="exportDocx()"><i class="fas fa-file-word"></i></button>
-                    <button class="toolbar-btn" title="Xuất PDF" onclick="exportPDF()"><i class="fas fa-file-pdf"></i></button>
-                    <input type="file" id="docxInput" accept=".docx" class="hidden" />
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Dark mode -->
-                <button id="darkModeToggle" class="toolbar-btn px-3" title="Chế độ tối"><i class="fas fa-moon"></i></button>
-            </div>
-            <!-- Editor Area -->
-            <div class="relative">
-                <div id="quill-editor" class="min-h-[400px] w-full p-8 text-lg leading-relaxed focus:outline-none bg-transparent"></div>
-                <div class="absolute bottom-2 right-4 text-xs text-gray-400 select-none flex gap-4" id="statusBar">
-                    <span id="wordCount">0 từ, 0 ký tự</span>
-                    <span id="saveStatus" class="ml-4"></span>
-                </div>
-            </div>
-        </div>
-        <div class="mt-6 text-center text-gray-500 text-sm">
-            Được tạo bởi AI nữ xinh đẹp, thông minh và sắc sảo.<br>
-            <span class="opacity-60">Phiên bản hiện đại, đầy đủ tính năng.</span>
-        </div>
+<body class="p-6 md:p-10 flex justify-center items-start min-h-screen">
+
+  <div class="editor-container w-full bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200">
+    <!-- Tiêu đề và nút chức năng -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b pb-4">
+      <h1 class="text-3xl font-extrabold text-gray-800 mb-4 md:mb-0">Trình soạn thảo của tui! ✨</h1>
+      <div class="flex space-x-2">
+        <!-- Nút Tạo tài liệu mới -->
+        <button id="new-doc-btn" class="bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-indigo-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-file-alt mr-2"></i>Mới
+        </button>
+        <!-- Nút Lưu tài liệu -->
+        <button id="save-btn" class="bg-green-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-save mr-2"></i>Lưu
+        </button>
+        <!-- Nút Lưu thành tên mới -->
+        <button id="save-as-btn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-yellow-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-file-export mr-2"></i>Lưu thành
+        </button>
+        <!-- Nút Mở tài liệu -->
+        <button id="open-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-blue-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-folder-open mr-2"></i>Mở
+        </button>
+      </div>
     </div>
-    <style>
-        .toolbar-btn {
-            @apply px-2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin: 0 2px;
+    
+    <!-- Đây là nơi TinyMCE sẽ hiển thị -->
+    <textarea id="editor"></textarea>
+
+    <!-- Modal thông báo -->
+    <div id="message-box" class="hidden fixed bottom-6 right-6 bg-gray-800 text-white p-4 rounded-xl shadow-lg transition-transform duration-300 ease-out transform translate-y-20 opacity-0">
+      <p id="message-text" class="flex items-center">
+        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+        Đã lưu tài liệu thành công!
+      </p>
+    </div>
+
+    <!-- Input ẩn để mở file -->
+    <input type="file" id="file-input" class="hidden" accept=".html,.txt">
+  </div>
+
+  <script>
+    // Khởi tạo TinyMCE
+    let editor;
+
+    tinymce.init({
+      selector: '#editor',
+      height: 600,
+      menubar: false,
+      skin: 'oxide',
+      content_css: 'default',
+      // Thêm các plugins để có đầy đủ tính năng như bạn yêu cầu
+      plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount autoresize',
+      toolbar: 'undo redo | blocks | ' +
+               'bold italic forecolor | alignleft aligncenter alignright alignjustify | ' +
+               'bullist numlist outdent indent | link image | table | ' +
+               'searchreplace | code | fullscreen | preview | help',
+      // Ngôn ngữ tiếng Việt
+      language: 'vi',
+      setup: function(ed) {
+        editor = ed;
+      }
+    });
+
+    // Hàm hiển thị thông báo
+    function showMessage(text, iconClass) {
+      const msgBox = document.getElementById('message-box');
+      const msgText = document.getElementById('message-text');
+      msgText.innerHTML = `<i class="${iconClass} mr-2"></i>${text}`;
+      msgBox.classList.remove('hidden', 'translate-y-20', 'opacity-0');
+      msgBox.classList.add('flex', 'translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        msgBox.classList.remove('translate-y-0', 'opacity-100');
+        msgBox.classList.add('translate-y-20', 'opacity-0');
+        setTimeout(() => msgBox.classList.add('hidden'), 300);
+      }, 3000);
+    }
+
+    // Gán sự kiện cho các nút
+    document.getElementById('new-doc-btn').addEventListener('click', () => {
+      if (editor) {
+        editor.setContent('');
+        showMessage('Đã tạo tài liệu mới!', 'fas fa-file-alt text-blue-400');
+      }
+    });
+
+    document.getElementById('save-btn').addEventListener('click', () => {
+      if (editor) {
+        const content = editor.getContent();
+        const blob = new Blob([content], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'document.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showMessage('Đã lưu tài liệu!', 'fas fa-save text-green-400');
+      }
+    });
+
+    document.getElementById('save-as-btn').addEventListener('click', () => {
+      if (editor) {
+        const fileName = prompt('Nhập tên file:');
+        if (fileName) {
+          const content = editor.getContent();
+          const blob = new Blob([content], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName.endsWith('.html') ? fileName : `${fileName}.html`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showMessage(`Đã lưu tài liệu thành: ${fileName}`, 'fas fa-file-export text-yellow-400');
         }
-        .toolbar-btn[disabled] {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .toolbar-btn:active, .toolbar-btn.active {
-            background-color: #2563eb !important;
-        }
-        .toolbar-btn:focus {
-            outline: 2px solid #60a5fa;
-        }
-        .toolbar-color {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border: none;
-            background: none;
-            cursor: pointer;
-            margin-left: 2px;
-        }
-        .toolbar-btn i {
-            font-size: 1.15em;
-        }
-        .toolbar-btn, .toolbar-color {
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-        }
-    </style>
-    <script>
-        // Khởi tạo Quill
-        const quill = new Quill('#quill-editor', {
-            theme: 'snow',
-            placeholder: 'Bắt đầu viết lách ở đây nhé!'
-        });
-        // Auto-save vào localStorage
-        const STORAGE_KEY = 'quill-doc-content';
-        const saveStatus = document.getElementById('saveStatus');
-        let saveTimeout;
-        // Khôi phục nội dung nếu có
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            try {
-                quill.setContents(JSON.parse(saved));
-            } catch {}
-        }
-        function setSaveStatus(text) {
-            saveStatus.textContent = text;
-        }
-        function saveToLocal() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(quill.getContents()));
-            setSaveStatus('Đã lưu');
-        }
-        quill.on('text-change', function() {
-            setSaveStatus('Đang lưu...');
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(saveToLocal, 600);
-        });
-        // Đếm từ/ký tự
-        function updateWordCount() {
-            const text = quill.getText().trim();
-            const words = text.split(/\s+/).filter(Boolean);
-            document.getElementById('wordCount').textContent = `${words.length} từ, ${text.length} ký tự`;
-        }
-        quill.on('text-change', updateWordCount);
-        document.addEventListener('DOMContentLoaded', updateWordCount);
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark');
-            }
-        });
-    </script>
+      }
+    });
+
+    document.getElementById('open-btn').addEventListener('click', () => {
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('file-input').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (editor) {
+            editor.setContent(e.target.result);
+            showMessage('Đã mở tài liệu thành công!', 'fas fa-folder-open text-blue-400');
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+  </script>
 </body>
 </html>
