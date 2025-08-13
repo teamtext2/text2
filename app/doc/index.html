@@ -1,237 +1,681 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trình Soạn Thảo Văn Bản Hiện Đại</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Mammoth.js for docx import -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.1.0/mammoth.browser.min.js"></script>
-    <!-- html-docx-js for docx export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.min.js"></script>
-    <!-- html2pdf.js for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <!-- Thêm QuillJS CDN vào head -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <style>
-        [contenteditable]:empty:before {
-            content: attr(data-placeholder);
-            color: #a0aec0;
-            pointer-events: none;
-            display: block;
-        }
-        body, .bg-white, .text-gray-900, .bg-gray-100, .border-gray-300, .shadow-md {
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        body.dark {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        body.dark .bg-white {
-            background-color: #2d3748;
-            color: #e2e8f0;
-        }
-        body.dark .text-gray-900 {
-            color: #e2e8f0;
-        }
-        body.dark .bg-gray-100 {
-            background-color: #4a5568;
-        }
-        body.dark .border-gray-300 {
-            border-color: #4a5568;
-        }
-        body.dark .shadow-md {
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2), 0 2px 4px -1px rgba(0,0,0,0.12);
-        }
-        body.dark button {
-            background-color: #4a5568;
-            color: #e2e8f0;
-        }
-        body.dark button:hover {
-            background-color: #6a7488;
-        }
-        body.dark button.active {
-            background-color: #63b3ed;
-            color: #1a202c;
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vibe Docs — Trình soạn thảo một file (inline)</title>
+<style>
+  :root{
+    --bg:#0b0c10; /* dark canvas preview friendly */
+    --panel:#111218;
+    --muted:#1a1b22;
+    --accent:#7c5cff;
+    --text:#e8e8ef;
+    --text-dim:#b9b9c9;
+    --ok:#24c8a5; --warn:#ffc857; --danger:#ff5d7a;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#0b0c10,#0e1017);color:var(--text);font:14px/1.45 system-ui, Segoe UI, Roboto, Arial, sans-serif}
+  .app{display:grid;grid-template-rows:auto 1fr;min-height:100%}
+  /* Topbar */
+  .topbar{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;background:rgba(255,255,255,.03);backdrop-filter:saturate(160%) blur(6px);position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:700}
+  .brand .dot{width:.7rem;height:.7rem;border-radius:50%;background:conic-gradient(from 210deg,var(--accent),#1ad1a5,#59a0ff)}
+  .spacer{flex:1}
+  .btn,select,input[type="color"]{appearance:none;border:1px solid rgba(255,255,255,.08);background:var(--panel);color:var(--text);padding:.45rem .6rem;border-radius:.7rem;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;transition:.2s all}
+  .btn:hover{background:var(--muted)}
+  .btn[aria-pressed="true"]{outline:2px solid var(--accent)}
+  .group{display:flex;gap:.4rem;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.35rem;border-radius:.9rem}
+  .vsep{width:1px;height:28px;background:rgba(255,255,255,.08);margin:0 .25rem}
+  .name{min-width:12ch;border:none;padding:.45rem .6rem;border-radius:.7rem;background:rgba(255,255,255,.06);color:var(--text)}
+
+  /* Layout */
+  .main{display:grid;grid-template-columns:280px 1fr 300px;gap:.8rem;padding:.8rem}
+  .panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:1rem;overflow:hidden}
+  .panel h3{margin:0;padding:.7rem .9rem;border-bottom:1px dashed rgba(255,255,255,.06);color:var(--text-dim)}
+  .panel .body{padding:.8rem}
+
+  /* Sidebar (TOC & Comments) */
+  #toc ol{padding-left:1rem}
+  #comments{max-height:45vh;overflow:auto;display:flex;flex-direction:column;gap:.6rem}
+  .comment{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:.6rem;border-radius:.7rem}
+  .comment .meta{font-size:.8rem;color:var(--text-dim)}
+
+  /* Editor */
+  .editor-wrap{display:flex;flex-direction:column;gap:.6rem;height:calc(100vh - 140px)}
+  .ribbon{display:flex;flex-wrap:wrap;gap:.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.45rem;border-radius:1rem;position:sticky;top:.8rem;z-index:10}
+  #editor{flex:1;overflow:auto;background:#fff;color:#1a1a1a;border-radius:1rem;padding:2.2cm 2cm;box-shadow:0 10px 30px rgba(0,0,0,.35);outline:none}
+  #editor[contenteditable="true"]{caret-color:#333}
+  #editor:empty:before{content:"Bắt đầu gõ nội dung ở đây...";color:#9aa1aa}
+  .page{max-width:21cm;margin:0 auto}
+  #editor{zoom:var(--zoom,1)}
+
+  /* Formatting markers */
+  .ins{background:rgba(36,200,165,.18);}
+  .del{text-decoration:line-through;background:rgba(255,93,122,.18)}
+  .hl{background:#fff39a}
+  .cm-highlight{background:#ffef9f}
+
+  /* Print */
+  @media print{
+    body{background:white}
+    .topbar,.main .panel:first-child,.main .panel:last-child,.ribbon{display:none!important}
+    #editor{box-shadow:none;padding:2cm 2cm}
+    @page{size:auto;margin:2cm}
+    header.print-header, footer.print-footer{position:fixed;left:0;right:0;color:#555}
+    header.print-header{top:0}
+    footer.print-footer{bottom:0}
+    footer.print-footer .pageno:after{content: counter(page)}
+  }
+
+  /* Modals */
+  dialog{border:none;border-radius:1rem;background:var(--panel);color:var(--text);padding:0;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+  dialog .dlg-header{padding:.8rem .9rem;border-bottom:1px solid rgba(255,255,255,.08);font-weight:600}
+  dialog .dlg-body{padding:.9rem}
+  dialog form{display:grid;gap:.6rem}
+  dialog .actions{display:flex;justify-content:flex-end;gap:.5rem;padding:.7rem .9rem;border-top:1px solid rgba(255,255,255,.08)}
+  .input, textarea{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:.55rem .6rem;border-radius:.6rem;color:var(--text)}
+  textarea{min-height:120px}
+
+  /* Toolbar improvements */
+  .btn .label{display:inline}
+  .btn .only-icon{display:none}
+  .ribbon{overflow:auto}
+  .ribbon .group{flex-wrap:wrap}
+  .ribbon .tabbar{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.3rem}
+  .tab-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:var(--text);padding:.35rem .6rem;border-radius:.6rem;cursor:pointer}
+  .tab-btn[aria-selected="true"]{background:rgba(255,255,255,.08);outline:2px solid rgba(124,92,255,.35)}
+  .ribbon .section{display:none;gap:.4rem;flex-wrap:wrap}
+  .ribbon .section.active{display:flex}
+  .mobile-only{display:none}
+  .statusbar{display:flex;gap:.8rem;align-items:center;justify-content:space-between;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.45rem .7rem;border-radius:.7rem;margin-top:.4rem}
+  .statusbar .meter{display:flex;align-items:center;gap:.5rem}
+  .statusbar input[type="range"]{width:140px}
+  .statusbar .sep{width:1px;height:18px;background:rgba(255,255,255,.12)}
+
+  /* Compact layout for small screens */
+  @media (max-width: 900px){
+    .main{grid-template-columns:1fr}
+    .main .panel:first-child, .main .panel:last-child{display:none}
+    .mobile-only{display:flex}
+    .ribbon .tabbar{display:none}
+    .btn .label{display:none}
+    .btn .only-icon{display:inline}
+    .ribbon{position:sticky;top:3.1rem}
+  }
+
+  /* Password overlay */
+  .locked #editor{filter:blur(5px) grayscale(.3);pointer-events:none}
+  .lock-banner{display:none}
+  .locked .lock-banner{display:flex;gap:.6rem;align-items:center;justify-content:center;padding:.7rem;border:1px dashed rgba(255,255,255,.18);border-radius:.8rem}
+
+  .hint{color:var(--text-dim);font-size:.85rem}
+  .tag{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:.15rem .45rem;border-radius:999px;font-size:.78rem;color:var(--text-dim)}
+</style>
 </head>
-<body class="font-inter bg-gray-100 text-gray-900 min-h-screen flex flex-col">
-    <div class="flex-1 flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-5xl bg-white rounded-2xl shadow-2xl border border-gray-200 p-0 overflow-hidden">
-            <!-- Toolbar -->
-            <div class="flex flex-wrap items-center gap-4 px-6 py-3 bg-white/80 backdrop-blur border-b border-gray-200 shadow-md rounded-t-2xl sticky top-0 z-10">
-                <!-- Định dạng văn bản -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="In đậm (Ctrl+B)" onclick="formatDoc('bold')"><i class="fas fa-bold"></i></button>
-                    <button class="toolbar-btn" title="In nghiêng (Ctrl+I)" onclick="formatDoc('italic')"><i class="fas fa-italic"></i></button>
-                    <button class="toolbar-btn" title="Gạch chân (Ctrl+U)" onclick="formatDoc('underline')"><i class="fas fa-underline"></i></button>
-                    <button class="toolbar-btn" title="Gạch ngang (Alt+Shift+S)" onclick="formatDoc('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Căn lề -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Căn trái (Ctrl+Shift+L)" onclick="formatDoc('justifyLeft')"><i class="fas fa-align-left"></i></button>
-                    <button class="toolbar-btn" title="Căn giữa (Ctrl+Shift+E)" onclick="formatDoc('justifyCenter')"><i class="fas fa-align-center"></i></button>
-                    <button class="toolbar-btn" title="Căn phải (Ctrl+Shift+R)" onclick="formatDoc('justifyRight')"><i class="fas fa-align-right"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Danh sách -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Danh sách không thứ tự (Ctrl+Shift+U)" onclick="formatDoc('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-                    <button class="toolbar-btn" title="Danh sách có thứ tự (Ctrl+Shift+O)" onclick="formatDoc('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Chèn -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Chèn liên kết (Ctrl+K)" onclick="insertLink()"><i class="fas fa-link"></i></button>
-                    <button class="toolbar-btn" title="Chèn ảnh (Ctrl+Shift+I)" onclick="insertImage()"><i class="fas fa-image"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Undo/Redo -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Hoàn tác (Ctrl+Z)" onclick="formatDoc('undo')"><i class="fas fa-undo"></i></button>
-                    <button class="toolbar-btn" title="Làm lại (Ctrl+Y)" onclick="formatDoc('redo')"><i class="fas fa-redo"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Tiêu đề & nâng cao -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Tiêu đề 1" onclick="formatDoc('formatBlock', '<h1>')">H1</button>
-                    <button class="toolbar-btn" title="Tiêu đề 2" onclick="formatDoc('formatBlock', '<h2>')">H2</button>
-                    <button class="toolbar-btn" title="Tiêu đề 3" onclick="formatDoc('formatBlock', '<h3>')">H3</button>
-                    <button class="toolbar-btn" title="Đoạn trích (blockquote)" onclick="formatDoc('formatBlock', '<blockquote>')"><i class="fas fa-quote-left"></i></button>
-                    <button class="toolbar-btn" title="Dòng phân cách" onclick="formatDoc('insertHorizontalRule')"><i class="fas fa-minus"></i></button>
-                    <button class="toolbar-btn" title="Tăng cỡ chữ" onclick="changeFontSize(1)"><i class="fas fa-plus"></i>A</button>
-                    <button class="toolbar-btn" title="Giảm cỡ chữ" onclick="changeFontSize(-1)"><i class="fas fa-minus"></i>A</button>
-                    <button class="toolbar-btn" title="Tăng thụt lề" onclick="formatDoc('indent')"><i class="fas fa-indent"></i></button>
-                    <button class="toolbar-btn" title="Giảm thụt lề" onclick="formatDoc('outdent')"><i class="fas fa-outdent"></i></button>
-                    <input type="color" id="colorPicker" title="Chọn màu chữ" class="toolbar-color" onchange="formatDoc('foreColor', this.value)">
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Xóa định dạng & xóa nội dung -->
-                <div class="flex gap-1">
-                    <button class="toolbar-btn" title="Xóa định dạng (Ctrl+Space)" onclick="formatDoc('removeFormat')"><i class="fas fa-eraser"></i></button>
-                    <button class="toolbar-btn" title="Xóa tất cả nội dung" onclick="clearEditor()"><i class="fas fa-trash"></i></button>
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Nhập/Xuất file -->
-                <div class="flex gap-1">
-                    <input type="file" id="fileInput" accept=".txt,.md,.html" class="hidden" />
-                    <button class="toolbar-btn" title="Nhập file" onclick="document.getElementById('fileInput').click()"><i class="fas fa-file-import"></i></button>
-                    <button class="toolbar-btn" title="Nhập file Word" onclick="document.getElementById('docxInput').click()"><i class="fas fa-file-word"></i></button>
-                    <button class="toolbar-btn" title="Xuất file" onclick="exportFile()"><i class="fas fa-file-export"></i></button>
-                    <button class="toolbar-btn" title="Xuất file Word" onclick="exportDocx()"><i class="fas fa-file-word"></i></button>
-                    <button class="toolbar-btn" title="Xuất PDF" onclick="exportPDF()"><i class="fas fa-file-pdf"></i></button>
-                    <input type="file" id="docxInput" accept=".docx" class="hidden" />
-                </div>
-                <span class="mx-3 border-l h-7 border-gray-300"></span>
-                <!-- Dark mode -->
-                <button id="darkModeToggle" class="toolbar-btn px-3" title="Chế độ tối"><i class="fas fa-moon"></i></button>
-            </div>
-            <!-- Editor Area -->
-            <div class="relative">
-                <div id="quill-editor" class="min-h-[400px] w-full p-8 text-lg leading-relaxed focus:outline-none bg-transparent"></div>
-                <div class="absolute bottom-2 right-4 text-xs text-gray-400 select-none flex gap-4" id="statusBar">
-                    <span id="wordCount">0 từ, 0 ký tự</span>
-                    <span id="saveStatus" class="ml-4"></span>
-                </div>
-            </div>
-        </div>
-        <div class="mt-6 text-center text-gray-500 text-sm">
-            Được tạo bởi AI nữ xinh đẹp, thông minh và sắc sảo.<br>
-            <span class="opacity-60">Phiên bản hiện đại, đầy đủ tính năng.</span>
-        </div>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Vibe Docs</div>
+    <input class="name" id="filename" value="Untitled" />
+    <div class="group" role="group" aria-label="File">
+      <button class="btn" id="newBtn" title="Tạo tài liệu mới (Ctrl+N)">Mới</button>
+      <button class="btn" id="openBtn" title="Mở (Ctrl+O)">Mở</button>
+      <input type="file" id="fileOpen" hidden accept=".txt,.html,.htm,.json,.md,.rtf,.doc,.docx,.odt" />
+      <button class="btn" id="saveBtn" title="Lưu (Ctrl+S)">Lưu</button>
+      <button class="btn" id="saveAsBtn" title="Lưu thành...">Lưu thành...</button>
+      <div class="vsep"></div>
+      <button class="btn" id="exportPDF">Xuất PDF</button>
+      <button class="btn" id="printBtn">In / Xem trước</button>
     </div>
-    <style>
-        .toolbar-btn {
-            @apply px-2 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 shadow;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin: 0 2px;
-        }
-        .toolbar-btn[disabled] {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        .toolbar-btn:active, .toolbar-btn.active {
-            background-color: #2563eb !important;
-        }
-        .toolbar-btn:focus {
-            outline: 2px solid #60a5fa;
-        }
-        .toolbar-color {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border: none;
-            background: none;
-            cursor: pointer;
-            margin-left: 2px;
-        }
-        .toolbar-btn i {
-            font-size: 1.15em;
-        }
-        .toolbar-btn, .toolbar-color {
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-        }
-    </style>
-    <script>
-        // Khởi tạo Quill
-        const quill = new Quill('#quill-editor', {
-            theme: 'snow',
-            placeholder: 'Bắt đầu viết lách ở đây nhé!'
-        });
-        // Auto-save vào localStorage
-        const STORAGE_KEY = 'quill-doc-content';
-        const saveStatus = document.getElementById('saveStatus');
-        let saveTimeout;
-        // Khôi phục nội dung nếu có
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            try {
-                quill.setContents(JSON.parse(saved));
-            } catch {}
-        }
-        function setSaveStatus(text) {
-            saveStatus.textContent = text;
-        }
-        function saveToLocal() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(quill.getContents()));
-            setSaveStatus('Đã lưu');
-        }
-        quill.on('text-change', function() {
-            setSaveStatus('Đang lưu...');
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(saveToLocal, 600);
-        });
-        // Đếm từ/ký tự
-        function updateWordCount() {
-            const text = quill.getText().trim();
-            const words = text.split(/\s+/).filter(Boolean);
-            document.getElementById('wordCount').textContent = `${words.length} từ, ${text.length} ký tự`;
-        }
-        quill.on('text-change', updateWordCount);
-        document.addEventListener('DOMContentLoaded', updateWordCount);
-        // Dark mode toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark');
-            }
-        });
-    </script>
+    <div class="group" role="group" aria-label="Protect">
+      <button class="btn" id="lockBtn" title="Bảo vệ mật khẩu">🔒 Khoá</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="group" role="group" aria-label="Collab">
+      <span class="tag" id="liveStatus">Live: off</span>
+      <button class="btn" id="shareTab">Bật cộng tác (tab khác)</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Left panel: TOC & Find/Replace -->
+    <aside class="panel">
+      <h3>Mục lục</h3>
+      <div class="body" id="toc"></div>
+      <h3>Tìm & Thay thế</h3>
+      <div class="body">
+        <input id="findText" class="input" placeholder="Tìm... (Ctrl+F)" />
+        <input id="replaceText" class="input" placeholder="Thay bằng... (Ctrl+H)" />
+        <div style="display:flex; gap:.4rem; margin-top:.4rem">
+          <button class="btn" id="findNext">Tìm tiếp</button>
+          <button class="btn" id="replaceOne">Thay 1</button>
+          <button class="btn" id="replaceAll">Thay tất cả</button>
+        </div>
+        <div class="hint" style="margin-top:.5rem">Chế độ kiểm tra chính tả của trình duyệt đã bật.</div>
+      </div>
+    </aside>
+
+    <!-- Editor center -->
+    <section class="panel">
+      <div class="body editor-wrap">
+        <div class="lock-banner" id="lockBanner">
+          <span>🔒 Tài liệu đang được bảo vệ. Nhập mật khẩu để mở khoá.</span>
+          <button class="btn" id="unlockBtn">Nhập mật khẩu</button>
+        </div>
+        <div class="ribbon" id="ribbon">
+          <div class="tabbar" role="tablist">
+            <button class="tab-btn" role="tab" id="tab-home" aria-selected="true" aria-controls="sec-home">Trang chủ</button>
+            <button class="tab-btn" role="tab" id="tab-insert" aria-selected="false" aria-controls="sec-insert">Chèn</button>
+            <button class="tab-btn" role="tab" id="tab-review" aria-selected="false" aria-controls="sec-review">Xem lại</button>
+            <button class="tab-btn" role="tab" id="tab-view" aria-selected="false" aria-controls="sec-view">Xem</button>
+          </div>
+
+          <div class="section active" id="sec-home" role="tabpanel" aria-labelledby="tab-home">
+            <div class="group">
+              <select id="blockFormat" title="Kiểu đoạn">
+                <option value="P">Đoạn văn</option>
+                <option value="H1">Tiêu đề 1</option>
+                <option value="H2">Tiêu đề 2</option>
+                <option value="H3">Tiêu đề 3</option>
+                <option value="BLOCKQUOTE">Trích dẫn</option>
+                <option value="PRE">Mã (code)</option>
+              </select>
+              <button class="btn" id="clearFormat" title="Xoá định dạng"><span class="only-icon">⨯</span><span class="label">Xoá định dạng</span></button>
+            </div>
+            <div class="group">
+              <select id="fontName">
+                <option value="">Font</option>
+                <option>Arial</option>
+                <option>Georgia</option>
+                <option>Times New Roman</option>
+                <option>Verdana</option>
+                <option>Tahoma</option>
+                <option>Courier New</option>
+                <option>Inter</option>
+              </select>
+              <select id="fontSize">
+                <option value="">Cỡ</option>
+                <option value="1">10</option>
+                <option value="2">13</option>
+                <option value="3">16</option>
+                <option value="4">18</option>
+                <option value="5">24</option>
+                <option value="6">32</option>
+                <option value="7">48</option>
+              </select>
+              <input type="color" id="foreColor" title="Màu chữ" />
+              <input type="color" id="backColor" title="Tô nền" />
+            </div>
+            <div class="group">
+              <button class="btn" data-cmd="bold" title="Đậm (Ctrl+B)"><span class="only-icon"><b>B</b></span><span class="label">Đậm</span></button>
+              <button class="btn" data-cmd="italic" title="Nghiêng (Ctrl+I)"><span class="only-icon"><i>I</i></span><span class="label">Nghiêng</span></button>
+              <button class="btn" data-cmd="underline" title="Gạch dưới (Ctrl+U)"><span class="only-icon"><u>U</u></span><span class="label">Gạch dưới</span></button>
+              <button class="btn" data-cmd="strikeThrough" title="Gạch ngang"><span class="only-icon"><s>S</s></span><span class="label">Gạch ngang</span></button>
+            </div>
+            <div class="group">
+              <button class="btn" data-cmd="justifyLeft" title="Căn trái"><span class="only-icon">⟸</span><span class="label">Trái</span></button>
+              <button class="btn" data-cmd="justifyCenter" title="Căn giữa"><span class="only-icon">≡</span><span class="label">Giữa</span></button>
+              <button class="btn" data-cmd="justifyRight" title="Căn phải"><span class="only-icon">⟹</span><span class="label">Phải</span></button>
+              <button class="btn" data-cmd="justifyFull" title="Căn đều"><span class="only-icon">☰</span><span class="label">Đều</span></button>
+              <div class="vsep"></div>
+              <button class="btn" data-cmd="insertUnorderedList" title="Danh sách chấm"><span class="only-icon">•</span><span class="label">Danh sách</span></button>
+              <button class="btn" data-cmd="insertOrderedList" title="Danh sách số"><span class="only-icon">1.</span><span class="label">Đánh số</span></button>
+              <button class="btn" data-cmd="outdent" title="Thụt lùi"><span class="only-icon">⇤</span><span class="label">Lùi</span></button>
+              <button class="btn" data-cmd="indent" title="Thụt vào"><span class="only-icon">⇥</span><span class="label">Thụt</span></button>
+              <select id="lineHeight">
+                <option value="">Giãn dòng</option>
+                <option value="1.15">1.15</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2.0</option>
+                <option value="2.5">2.5</option>
+              </select>
+            </div>
+            <div class="group">
+              <button class="btn" id="undoBtn" title="Hoàn tác (Ctrl+Z)"><span class="only-icon">↶</span><span class="label">Hoàn tác</span></button>
+              <button class="btn" id="redoBtn" title="Làm lại (Ctrl+Y)"><span class="only-icon">↷</span><span class="label">Làm lại</span></button>
+            </div>
+          </div>
+
+          <div class="section" id="sec-insert" role="tabpanel" aria-labelledby="tab-insert">
+            <div class="group">
+              <button class="btn" id="insertLink" title="Chèn liên kết"><span class="only-icon">🔗</span><span class="label">Liên kết</span></button>
+              <button class="btn" id="insertImage" title="Chèn ảnh"><span class="only-icon">🖼️</span><span class="label">Hình ảnh</span></button>
+              <button class="btn" id="insertTable" title="Chèn bảng"><span class="only-icon">▦</span><span class="label">Bảng</span></button>
+              <button class="btn" id="insertChart" title="Chèn biểu đồ"><span class="only-icon">📊</span><span class="label">Biểu đồ</span></button>
+              <button class="btn" id="specialChar" title="Ký hiệu đặc biệt"><span class="only-icon">Ω</span><span class="label">Ký hiệu</span></button>
+            </div>
+            <div class="group">
+              <button class="btn" id="insertHeader" title="Vùng đầu trang"><span class="only-icon">⇡</span><span class="label">Header</span></button>
+              <button class="btn" id="insertFooter" title="Vùng chân trang"><span class="only-icon">⇣</span><span class="label">Footer</span></button>
+              <button class="btn" id="insertPageNo" title="Số trang"><span class="only-icon">#</span><span class="label">Số trang</span></button>
+            </div>
+          </div>
+
+          <div class="section" id="sec-review" role="tabpanel" aria-labelledby="tab-review">
+            <div class="group">
+              <button class="btn" id="toggleTrack" title="Theo dõi thay đổi"><span class="only-icon">📝</span><span class="label">Theo dõi</span></button>
+              <button class="btn" id="addComment" title="Thêm bình luận"><span class="only-icon">💬</span><span class="label">Bình luận</span></button>
+              <button class="btn" id="acceptAll" title="Chấp nhận tất cả"><span class="only-icon">✔</span><span class="label">Chấp nhận</span></button>
+              <button class="btn" id="rejectAll" title="Từ chối tất cả"><span class="only-icon">✖</span><span class="label">Từ chối</span></button>
+            </div>
+          </div>
+
+          <div class="section" id="sec-view" role="tabpanel" aria-labelledby="tab-view">
+            <div class="group">
+              <button class="btn" id="toggleSpell" title="Bật/tắt kiểm tra chính tả"><span class="only-icon">✔︎</span><span class="label">Chính tả</span></button>
+              <button class="btn" id="toggleTOC" title="Hiện/ẩn mục lục"><span class="only-icon">☰</span><span class="label">Mục lục</span></button>
+              <button class="btn" id="toggleCommentsPanel" title="Hiện/ẩn bình luận"><span class="only-icon">💬</span><span class="label">Bình luận</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="page">
+          <header class="print-header" contenteditable="true" data-placeholder="Header (in khi in)"></header>
+          <main id="editor" contenteditable spellcheck="true"></main>
+          <footer class="print-footer" contenteditable="true">
+            <span>Trang </span><span class="pageno"></span>
+          </footer>
+        </div>
+        <div class="statusbar" id="statusbar">
+          <div class="meter">
+            <span>🧮</span>
+            <span id="wc">0 từ</span>
+            <span class="sep"></span>
+            <span id="cc">0 ký tự</span>
+          </div>
+          <div class="meter">
+            <label class="hint">Thu phóng</label>
+            <input type="range" id="zoomRange" min="50" max="200" value="100" />
+            <span id="zoomPct">100%</span>
+            <span class="sep"></span>
+            <span class="tag" id="saveState">Đã lưu</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right panel: Comments -->
+    <aside class="panel">
+      <h3>Bình luận</h3>
+      <div class="body" id="comments"></div>
+      <h3>Cài đặt trang</h3>
+      <div class="body">
+        <label class="hint">Khổ giấy</label>
+        <select id="paper">
+          <option value="A4">A4</option>
+          <option value="Letter">Letter</option>
+        </select>
+        <label class="hint" style="margin-top:.4rem;display:block">Hướng</label>
+        <select id="orientation">
+          <option value="portrait">Dọc</option>
+          <option value="landscape">Ngang</option>
+        </select>
+        <label class="hint" style="margin-top:.4rem;display:block">Lề (cm)</label>
+        <input class="input" id="margins" value="2,2,2,2" />
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Dialogs -->
+<dialog id="dlgChart">
+  <div class="dlg-header">Chèn biểu đồ (SVG, không cần thư viện)</div>
+  <div class="dlg-body">
+    <form id="chartForm">
+      <label>Tiêu đề <input class="input" name="title" placeholder="Doanh thu Q1"/></label>
+      <label>Dữ liệu (mỗi dòng: nhãn,giá trị)
+        <textarea name="data" placeholder="Jan,10\nFeb,22\nMar,14"></textarea>
+      </label>
+    </form>
+  </div>
+  <div class="actions">
+    <button class="btn" id="chartCancel">Hủy</button>
+    <button class="btn" id="chartOk">Chèn</button>
+  </div>
+</dialog>
+
+<dialog id="dlgPassword">
+  <div class="dlg-header">Mật khẩu tài liệu</div>
+  <div class="dlg-body">
+    <form id="pwdForm">
+      <label>Đặt / nhập mật khẩu<input type="password" class="input" name="pwd"/></label>
+      <div class="hint">Khoá chỉ che nội dung trên thiết bị này. Nếu muốn mã hoá khi lưu, chọn “Lưu (mã hoá)”.</div>
+    </form>
+  </div>
+  <div class="actions">
+    <button class="btn" id="pwdCancel">Hủy</button>
+    <button class="btn" id="pwdOk">OK</button>
+  </div>
+</dialog>
+
+<dialog id="dlgSpecial">
+  <div class="dlg-header">Ký hiệu đặc biệt</div>
+  <div class="dlg-body" id="specialGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:.4rem"></div>
+  <div class="actions">
+    <button class="btn" id="specClose">Đóng</button>
+  </div>
+</dialog>
+
+<script>
+// --- Tiny helper ---
+const $ = s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
+const editor = $('#editor');
+const filename = $('#filename');
+let trackOn=false; let currentPassword = null; let broadcast=null; let liveOn=false;
+
+// --- File ops ---
+function download(name, type, data){
+  const blob = new Blob([data],{type});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+function getHTML(){
+  return `<!doctype html><meta charset="utf-8"><title>${filename.value}</title>` + document.getElementById('editor').innerHTML;
+}
+function getTXT(){
+  const tmp = editor.cloneNode(true); tmp.querySelectorAll('style,script').forEach(n=>n.remove());
+  return tmp.innerText;
+}
+
+$('#saveBtn').addEventListener('click',()=>{
+  const name = filename.value || 'Untitled';
+  download(name + '.html','text/html;charset=utf-8', getHTML());
+});
+$('#saveAsBtn').addEventListener('click',async()=>{
+  const name = prompt('Tên tệp và định dạng (vd: BaoCao.txt, BaiViet.html, GhiChu.json, BaoCao.md).\nLưu ý: PDF dùng nút "Xuất PDF".');
+  if(!name) return;
+  const ext = name.split('.').pop().toLowerCase();
+  if(ext==='txt') download(name,'text/plain;charset=utf-8', getTXT());
+  else if(ext==='html' || ext==='htm') download(name,'text/html;charset=utf-8', getHTML());
+  else if(ext==='json') download(name,'application/json', JSON.stringify({name:filename.value, html:getHTML()},null,2));
+  else if(ext==='md') download(name,'text/markdown;charset=utf-8', getTXT());
+  else if(ext==='doc' || ext==='rtf' || ext==='odt' || ext==='docx'){
+    alert('Xuất trực tiếp DOCX/ODT/RTF trong file đơn không thư viện là hạn chế. Dùng HTML/PDF hoặc mở bằng Word từ HTML.');
+    download(name.replace(/\.(docx|odt|rtf)$/,'')+'.doc','application/msword', getHTML());
+  } else {
+    alert('Định dạng không hỗ trợ trực tiếp. Đã lưu HTML.');
+    download(name+'.html','text/html;charset=utf-8', getHTML());
+  }
+});
+$('#openBtn').addEventListener('click',()=>$('#fileOpen').click());
+$('#fileOpen').addEventListener('change',async (e)=>{
+  const f=e.target.files[0]; if(!f) return; filename.value=f.name.replace(/\.[^.]+$/,'');
+  const text = await f.text();
+  if(/<\/?(html|body|p|div|h1|h2|h3|span)/i.test(text)) editor.innerHTML=text; else editor.innerText=text;
+  buildTOC();
+});
+$('#newBtn').addEventListener('click',()=>{ if(confirm('Xoá nội dung hiện tại?')){ editor.innerHTML=''; filename.value='Untitled'; buildTOC(); }});
+
+// PDF / Print
+$('#exportPDF').addEventListener('click',()=>{ window.print(); });
+$('#printBtn').addEventListener('click',()=>{ window.print(); });
+
+// --- Formatting commands ---
+function cmd(c,val=null){ document.execCommand(c,false,val); }
+$$('[data-cmd]').forEach(b=>b.addEventListener('click',()=>cmd(b.dataset.cmd)));
+$('#fontName').addEventListener('change',e=>cmd('fontName', e.target.value));
+$('#fontSize').addEventListener('change',e=>cmd('fontSize', e.target.value));
+$('#foreColor').addEventListener('input',e=>cmd('foreColor', e.target.value));
+$('#backColor').addEventListener('input',e=>cmd('hiliteColor', e.target.value));
+  $('#blockFormat').addEventListener('change',e=>{ const v=e.target.value; if(v){ cmd('formatBlock', v); e.target.value=''; } });
+  $('#clearFormat').addEventListener('click',()=>{ cmd('removeFormat'); });
+$('#undoBtn').addEventListener('click',()=>cmd('undo'));
+$('#redoBtn').addEventListener('click',()=>cmd('redo'));
+$('#lineHeight').addEventListener('change',e=>{
+  document.getSelection().getRangeAt(0).surroundContents(Object.assign(document.createElement('span'),{style:`line-height:${e.target.value}` }));
+});
+
+  // Tabs: Home, Insert, Review, View
+  const tabs = $$('.tab-btn');
+  const sections = $$('.ribbon .section');
+  function activateTab(id){
+    tabs.forEach(t=> t.setAttribute('aria-selected', String(t.id===id)) );
+    sections.forEach(s=> s.classList.toggle('active', 'sec-'+id.split('-')[1]===s.id));
+  }
+  tabs.forEach(t=> t.addEventListener('click',()=> activateTab(t.id)) );
+
+// Insertions
+$('#insertLink').addEventListener('click',()=>{
+  const url = prompt('URL'); if(url) cmd('createLink', url);
+});
+$('#insertImage').addEventListener('click',()=>{
+  const url = prompt('URL ảnh (hoặc để trống để chọn file)');
+  if(url){ cmd('insertImage', url); return; }
+  const input = Object.assign(document.createElement('input'),{type:'file',accept:'image/*'});
+  input.onchange = async ()=>{
+    const f=input.files[0]; if(!f) return; const data = await f.arrayBuffer();
+    const blob = new Blob([data],{type:f.type}); const url = URL.createObjectURL(blob);
+    cmd('insertImage', url); setTimeout(()=>URL.revokeObjectURL(url), 5000);
+  }; input.click();
+});
+$('#insertTable').addEventListener('click',()=>{
+  const r = parseInt(prompt('Số hàng?', '3')||'0',10);
+  const c = parseInt(prompt('Số cột?', '3')||'0',10);
+  if(r>0 && c>0){
+    let html = '<table border="1" style="border-collapse:collapse;width:100%">';
+    for(let i=0;i<r;i++){ html+='<tr>'; for(let j=0;j<c;j++){ html+='<td style="padding:.3rem"> </td>'; } html+='</tr>'; }
+    html+='</table>';
+    cmd('insertHTML', html);
+  }
+});
+
+// Chart dialog
+const dlgChart = $('#dlgChart');
+$('#insertChart').addEventListener('click',()=>dlgChart.showModal());
+$('#chartCancel').addEventListener('click',()=>dlgChart.close());
+$('#chartOk').addEventListener('click',()=>{
+  const fd = new FormData($('#chartForm'));
+  const title = fd.get('title')||'';
+  const lines = String(fd.get('data')||'').trim().split(/\n+/).map(l=>l.split(',')).filter(a=>a.length>=2);
+  if(!lines.length){ alert('Nhập dữ liệu trước'); return; }
+  const max = Math.max(...lines.map(a=>+a[1]||0));
+  const width=500, height=260, pad=30;
+  const bars = lines.map((a,i)=>{
+    const x = pad + i*((width-pad*2)/lines.length);
+    const bw = (width-pad*2)/lines.length - 8;
+    const h = ( (+a[1]||0) / (max||1) ) * (height-pad*2);
+    const y = height - pad - h;
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" />\n<text x="${x+bw/2}" y="${height-pad+14}" text-anchor="middle" font-size="12">${a[0]}</text>`
+  }).join('\n');
+  const svg = `<figure class="chart"><figcaption style="text-align:center;font-weight:700">${title}</figcaption>
+  <svg viewBox="0 0 ${width} ${height}" style="width:100%"><g fill="currentColor">${bars}</g>
+  <line x1="${pad}" y1="${height-pad}" x2="${width-pad}" y2="${height-pad}" stroke="currentColor"/></svg></figure>`;
+  cmd('insertHTML', svg); dlgChart.close();
+});
+
+// Special characters
+const specials = ['©','®','™','✓','→','←','↑','↓','—','–','·','•','§','¶','€','₫','₩','¥','£','±','∞','≤','≥','≈','≠','√','∑','π','µ','Ω','°','¼','½','¾','⁄'];
+const grid = $('#specialGrid');
+function buildSpecials(){ grid.innerHTML=''; specials.forEach(ch=>{ const b=document.createElement('button'); b.className='btn'; b.textContent=ch; b.onclick=()=>{ cmd('insertText', ch); }; grid.appendChild(b); }); }
+$('#specialChar').addEventListener('click',()=>{ buildSpecials(); $('#dlgSpecial').showModal(); });
+$('#specClose').addEventListener('click',()=>$('#dlgSpecial').close());
+
+// Header/Footer/Page number (simple placeholders)
+$('#insertHeader').addEventListener('click',()=>{ document.querySelector('header.print-header').focus(); });
+$('#insertFooter').addEventListener('click',()=>{ document.querySelector('footer.print-footer').focus(); });
+$('#insertPageNo').addEventListener('click',()=>{ cmd('insertText','[Trang #]'); });
+
+// Find & Replace
+let lastFind = '';
+function findNext(){
+  const needle = $('#findText').value; if(!needle) return;
+  const sel = window.getSelection(); const range = sel.rangeCount? sel.getRangeAt(0): document.createRange();
+  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT, null);
+  let node; let startFound=false;
+  if(range.startContainer) startFound=true; // naive
+  while(node = walker.nextNode()){
+    const idx = node.data.toLowerCase().indexOf(needle.toLowerCase());
+    if(idx>-1){ const r = document.createRange(); r.setStart(node, idx); r.setEnd(node, idx+needle.length); sel.removeAllRanges(); sel.addRange(r); editor.focus(); lastFind=needle; return true; }
+  }
+  return false;
+}
+$('#findNext').addEventListener('click',findNext);
+$('#replaceOne').addEventListener('click',()=>{
+  if(!window.getSelection().rangeCount){ findNext(); }
+  document.execCommand('insertText', false, $('#replaceText').value||'');
+});
+$('#replaceAll').addEventListener('click',()=>{
+  const n = $('#findText').value; const r=$('#replaceText').value;
+  if(!n) return;
+  editor.innerHTML = editor.innerHTML.replace(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), r);
+});
+
+// Track changes (very simplified)
+function wrapSelection(cls){
+  const sel = window.getSelection(); if(!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+  const span = document.createElement('span'); span.className=cls; span.setAttribute('data-author','Bạn');
+  range.surroundContents(span);
+}
+$('#toggleTrack').addEventListener('click', (e)=>{
+  trackOn=!trackOn; e.target.setAttribute('aria-pressed', String(trackOn));
+});
+editor.addEventListener('beforeinput', (ev)=>{
+  if(!trackOn) return;
+  if(ev.inputType.startsWith('insert')){
+    // After default insertion, we will highlight; delay slightly
+    setTimeout(()=>{ try{ wrapSelection('ins'); }catch{} }, 0);
+  }
+  if(ev.inputType.startsWith('delete')){
+    ev.preventDefault();
+    const sel = window.getSelection(); if(!sel.rangeCount) return; const r=sel.getRangeAt(0);
+    if(r.collapsed && r.startContainer.nodeType===Node.TEXT_NODE){
+      const span=document.createElement('span'); span.className='del'; span.textContent=r.startContainer.textContent.slice(r.startOffset-1,r.startOffset);
+      r.setStart(r.startContainer, r.startOffset-1); r.deleteContents(); r.insertNode(span); sel.removeAllRanges();
+    } else { const frag=r.cloneContents(); const span=document.createElement('span'); span.className='del'; span.append(frag); r.deleteContents(); r.insertNode(span); }
+  }
+});
+$('#acceptAll').addEventListener('click',()=>{
+  editor.querySelectorAll('.ins').forEach(n=>{ n.replaceWith(...n.childNodes); });
+  editor.querySelectorAll('.del').forEach(n=> n.remove());
+});
+$('#rejectAll').addEventListener('click',()=>{
+  editor.querySelectorAll('.ins').forEach(n=> n.remove());
+  editor.querySelectorAll('.del').forEach(n=>{ n.replaceWith(...n.childNodes); });
+});
+
+// Comments
+let cmId=0;
+$('#addComment').addEventListener('click',()=>{
+  const sel = window.getSelection(); if(!sel.rangeCount){ alert('Chọn đoạn để bình luận'); return; }
+  const txt = prompt('Nội dung bình luận?'); if(!txt) return;
+  const r = sel.getRangeAt(0); const mark = document.createElement('mark'); mark.className='cm-highlight'; r.surroundContents(mark);
+  const id = 'c'+(++cmId); mark.dataset.cm=id;
+  const div = document.createElement('div'); div.className='comment'; div.id=id;
+  div.innerHTML = `<div class="meta">#${cmId} — ${new Date().toLocaleString()}</div><div>${txt}</div>`;
+  $('#comments').appendChild(div);
+});
+
+// Auto TOC
+function buildTOC(){
+  const heads = Array.from(editor.querySelectorAll('h1,h2,h3'));
+  const ol = document.createElement('ol');
+  heads.forEach((h,i)=>{ const id=h.id || (h.id='h'+i); const li=document.createElement('li'); const a=document.createElement('a'); a.href='#'+id; a.textContent=h.textContent; li.appendChild(a); ol.appendChild(li); });
+  const t = $('#toc'); t.innerHTML=''; t.appendChild(ol);
+}
+const tocObs = new MutationObserver(()=>buildTOC()); tocObs.observe(editor,{subtree:true,childList:true,characterData:true});
+
+// Page settings
+function applyPage(){
+  const size = $('#paper').value==='Letter'?'8.5in 11in':'210mm 297mm';
+  const ori = $('#orientation').value; const [t,r,b,l] = $('#margins').value.split(',').map(x=>x.trim()+ (x.includes('cm')||x.includes('in')?'':'cm'));
+  const styleId='pageStyle'; let st=document.getElementById(styleId); if(!st){ st=document.createElement('style'); st.id=styleId; document.head.appendChild(st);} 
+  st.textContent = `@page{size:${ori} ${size}; margin:${t} ${r} ${b} ${l}} #editor{padding:${t} ${r} ${b} ${l}}`;
+}
+['paper','orientation','margins'].forEach(id=>$("#"+id).addEventListener('change',applyPage));
+applyPage();
+
+// Password protect (visual lock)
+function setLocked(locked){ document.body.classList.toggle('locked', locked); }
+$('#lockBtn').addEventListener('click',()=>{ $('#dlgPassword').showModal(); });
+$('#pwdCancel').addEventListener('click',()=>$('#dlgPassword').close());
+$('#pwdOk').addEventListener('click',()=>{
+  const pwd = new FormData($('#pwdForm')).get('pwd'); if(!pwd) return $('#dlgPassword').close();
+  currentPassword = pwd; setLocked(true); $('#lockBanner').style.display='flex'; $('#dlgPassword').close();
+});
+$('#unlockBtn').addEventListener('click',()=>{
+  const pwd = prompt('Nhập mật khẩu:'); if(pwd===currentPassword){ setLocked(false); $('#lockBanner').style.display='none'; } else alert('Sai mật khẩu');
+});
+
+// Collaboration: BroadcastChannel (same origin, đa tab)
+$('#shareTab').addEventListener('click',()=>{
+  if(liveOn) return; broadcast = new BroadcastChannel('vibe-doc'); liveOn=true; $('#liveStatus').textContent='Live: on';
+  broadcast.onmessage = (ev)=>{ if(ev.data.type==='content' && document.activeElement!==editor){ editor.innerHTML=ev.data.html; buildTOC(); }
+    if(ev.data.type==='name'){ filename.value=ev.data.value; }
+  };
+  editor.addEventListener('input',()=> broadcast.postMessage({type:'content', html:editor.innerHTML}) );
+  filename.addEventListener('input',()=> broadcast.postMessage({type:'name', value:filename.value}) );
+  alert('Mở tab mới cùng file để cộng tác thời gian thực (trên cùng thiết bị).');
+});
+
+  // View tab toggles
+  $('#toggleSpell').addEventListener('click', (e)=>{
+    const on = editor.getAttribute('spellcheck') !== 'false';
+    editor.setAttribute('spellcheck', String(!on));
+    e.target.setAttribute('aria-pressed', String(!on));
+  });
+  const leftPanel = document.querySelector('.main .panel:first-child');
+  const rightPanel = document.querySelector('.main .panel:last-child');
+  $('#toggleTOC').addEventListener('click',()=>{ if(leftPanel) leftPanel.style.display = (leftPanel.style.display==='none')?'': 'none'; });
+  $('#toggleCommentsPanel').addEventListener('click',()=>{ if(rightPanel) rightPanel.style.display = (rightPanel.style.display==='none')?'': 'none'; });
+
+// Basic AutoCorrect (demo)
+const autocorrect = new Map(Object.entries({ '(c)':'©', '(r)':'®', '-->':'→', '<-':'←', '...':'…' }));
+editor.addEventListener('input',()=>{
+  const last = window.getSelection(); if(!last.rangeCount) return;
+  const r = last.getRangeAt(0); const node=r.startContainer; if(node.nodeType===3){
+    const txt=node.textContent; autocorrect.forEach((rep, k)=>{ if(txt.includes(k)){ node.textContent = txt.replaceAll(k, rep); } });
+  }
+});
+
+  // Statusbar: word/char count
+  function textStats(){
+    const tmp = editor.cloneNode(true); tmp.querySelectorAll('style,script').forEach(n=>n.remove());
+    const plain = tmp.innerText.trim();
+    const words = plain ? plain.split(/\s+/).filter(Boolean).length : 0;
+    const chars = plain.length;
+    $('#wc').textContent = words + ' từ';
+    $('#cc').textContent = chars + ' ký tự';
+  }
+  const statsObs = new MutationObserver(textStats); statsObs.observe(editor,{subtree:true,childList:true,characterData:true});
+  textStats();
+
+  // Zoom control
+  const zoomRange = $('#zoomRange'); const zoomPct = $('#zoomPct');
+  function setZoom(pct){
+    document.documentElement.style.setProperty('--zoom', (pct/100).toString());
+    zoomPct.textContent = pct + '%';
+    localStorage.setItem('vibe.zoom', String(pct));
+  }
+  zoomRange.addEventListener('input', e=> setZoom(parseInt(e.target.value,10)) );
+  setZoom(parseInt(localStorage.getItem('vibe.zoom')||'100',10));
+
+  // Autosave
+  const saveTag = $('#saveState'); let saveTimer=null;
+  function scheduleSave(){
+    saveTag.textContent='Đang lưu…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(()=>{
+      localStorage.setItem('vibe.autosave.name', filename.value||'Untitled');
+      localStorage.setItem('vibe.autosave.html', editor.innerHTML);
+      saveTag.textContent='Đã lưu';
+    }, 500);
+  }
+  editor.addEventListener('input', scheduleSave);
+  filename.addEventListener('input', scheduleSave);
+  // Restore session
+  (function restore(){
+    const n = localStorage.getItem('vibe.autosave.name');
+    const h = localStorage.getItem('vibe.autosave.html');
+    if(h){ editor.innerHTML=h; buildTOC(); }
+    if(n){ filename.value=n; }
+  })();
+
+// Init demo content
+editor.innerHTML = `<h1>Vibe Docs — Demo</h1><p>Trình soạn thảo một file, đầy đủ tính năng cơ bản, chạy <em>hoàn toàn</em> trong trình duyệt. Hỗ trợ in ra PDF qua hộp thoại in của trình duyệt.</p><h2>Mục 1</h2><p>Soạn thử nội dung, dùng ribbon phía trên để định dạng. Thử thêm <strong>đậm</strong>, <em>nghiêng</em>, <u>gạch dưới</u>, <s>gạch ngang</s>.</p>`;
+buildTOC();
+</script>
 </body>
 </html>
