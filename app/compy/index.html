@@ -3,8 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text2 - Nén Ảnh Trực Tuyến</title>
+  <title>Text2 - Image Compression</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
+  crossorigin="anonymous"></script>
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script>
+  <meta name="description" content="Text2 - Image compression. Fast online compression, optimize JPEG, PNG, WebP with high quality and small file size.">
+  <meta name="keywords" content="Text2,image compression,image optimizer,compress images online,JPEG,PNG,WebP,reduce image size">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://text2.click/app/compy/">
+  <link rel="icon" type="image/x-icon" href="https://text2.click/app/compy/favicon.ico">
+  <link rel="icon" href="favicon.ico">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Text2">
+  <meta property="og:title" content="Text2 - Image Compression">
+  <meta property="og:description" content="Fast online image compression, optimize JPEG, PNG, WebP with high quality and small file size.">
+  <meta property="og:url" content="https://text2.click/app/compy/">
+  <meta property="og:image" content="https://text2.click/app/compy/favicon.ico">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Text2 - Image Compression">
+  <meta name="twitter:description" content="Fast online image compression, optimize JPEG, PNG, WebP with high quality and small file size.">
+  <meta name="theme-color" content="#0b1220">
   <style>
+    :root {
+      --bg: #0b1220;
+      --bg-2: #0f172a;
+      --panel: #121a2b;
+      --panel-2: #0f1526;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.18);
+      --primary: #3b82f6;
+      --primary-2: #8b5cf6;
+      --success: #22c55e;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -13,80 +52,88 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(59, 130, 246, 0.18), transparent 60%),
+                  radial-gradient(1000px 600px at 120% 10%, rgba(139, 92, 246, 0.15), transparent 60%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       min-height: 100vh;
       padding: 20px;
-      color: #333;
+      color: var(--text);
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1100px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 40px;
+      background: linear-gradient(180deg, rgba(18, 26, 43, 0.85), rgba(15, 21, 38, 0.9));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(8px);
+      padding: 32px;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 28px;
     }
 
     .logo {
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, #667eea, #764ba2);
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(45deg, var(--primary), var(--primary-2));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 10px;
+      text-decoration: none;
     }
 
     .subtitle {
-      color: #666;
-      font-size: 1.1rem;
-      font-weight: 300;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 400;
     }
 
     .upload-section {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
+      background: linear-gradient(180deg, rgba(31, 41, 55, 0.35), rgba(17, 24, 39, 0.35));
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 24px;
       text-align: center;
-      color: white;
+      color: var(--text);
     }
 
     .upload-area {
-      border: 3px dashed rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
-      padding: 40px 20px;
-      margin: 20px 0;
+      border: 2px dashed rgba(148, 163, 184, 0.35);
+      border-radius: 12px;
+      padding: 34px 20px;
+      margin: 14px 0;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      background: rgba(2, 6, 23, 0.15);
     }
 
     .upload-area:hover {
-      border-color: rgba(255, 255, 255, 0.8);
-      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(59, 130, 246, 0.7);
+      background: rgba(30, 41, 59, 0.35);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
     }
 
     .upload-icon {
-      font-size: 3rem;
-      margin-bottom: 15px;
+      font-size: 2.4rem;
+      margin-bottom: 10px;
       display: block;
     }
 
     .upload-text {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
     }
 
     .upload-hint {
       font-size: 0.9rem;
-      opacity: 0.8;
+      color: var(--muted);
     }
 
     #inputImages {
@@ -95,60 +142,64 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
     }
 
     .control-group {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, rgba(18, 26, 43, 0.9), rgba(15, 21, 38, 0.9));
+      border: 1px solid var(--border);
+      padding: 16px 16px 14px;
+      border-radius: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
     }
 
     .control-group label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #333;
+      color: var(--text);
     }
 
     .control-group input,
     .control-group select {
       width: 100%;
-      padding: 12px;
-      border: 2px solid #e1e5e9;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
+      padding: 12px 12px;
+      background: rgba(2, 6, 23, 0.35);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.98rem;
+      transition: all 0.2s ease;
     }
 
     .control-group input:focus,
     .control-group select:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      border-color: rgba(59, 130, 246, 0.9);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
     }
 
     .compress-btn {
-      background: linear-gradient(45deg, #667eea, #764ba2);
+      background: linear-gradient(45deg, var(--primary), var(--primary-2));
       color: white;
       border: none;
-      padding: 15px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       display: block;
       margin: 0 auto;
-      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 12px 24px rgba(59, 130, 246, 0.25);
     }
 
     .compress-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(59, 130, 246, 0.35);
     }
 
     .compress-btn:active {
@@ -156,56 +207,57 @@
     }
 
     .preview {
-      margin-top: 30px;
+      margin-top: 26px;
     }
 
     .image-container {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      margin: 15px 0;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      background: linear-gradient(180deg, rgba(18, 26, 43, 0.95), rgba(15, 21, 38, 0.95));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      transition: all 0.25s ease;
     }
 
     .image-container:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
     }
 
     .image-name {
       font-weight: 600;
-      color: #333;
+      color: var(--text);
       margin-bottom: 10px;
-      font-size: 1.1rem;
+      font-size: 1.02rem;
     }
 
     .download-link {
       display: inline-block;
-      background: linear-gradient(45deg, #4CAF50, #45a049);
+      background: linear-gradient(45deg, var(--primary), var(--primary-2));
       color: white;
       text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 22px rgba(59, 130, 246, 0.3);
     }
 
     .download-link:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+      box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
     }
 
     .loading {
       text-align: center;
       padding: 20px;
-      color: #666;
+      color: var(--muted);
     }
 
     .spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #667eea;
+      border: 3px solid rgba(148,163,184,0.15);
+      border-top: 3px solid var(--primary);
       border-radius: 50%;
       width: 30px;
       height: 30px;
@@ -218,46 +270,58 @@
       100% { transform: rotate(360deg); }
     }
 
-    @media (max-width: 768px) {
+    /* Mobile-first adjustments */
+    @media (max-width: 640px) {
       .container {
-        padding: 20px;
-        margin: 10px;
+        padding: 18px;
+        margin: 8px;
+        border-radius: 14px;
       }
-      
-      .controls {
-        grid-template-columns: 1fr;
-      }
-      
-      .logo {
-        font-size: 2rem;
-      }
+      .header { margin-bottom: 18px; }
+      .logo { font-size: 1.8rem; }
+      .subtitle { font-size: 0.95rem; }
+      .upload-icon { font-size: 2.2rem; }
+      .upload-text { font-size: 1rem; }
+      .controls { grid-template-columns: 1fr; gap: 12px; }
+      .control-group input, .control-group select { font-size: 1rem; padding: 14px; }
+      .compress-btn { width: 100%; padding: 14px; font-size: 1.02rem; }
+      .image-container { padding: 14px; }
+      .download-link { display: block; text-align: center; }
+    }
+
+    /* Desktop-specific refinements */
+    @media (min-width: 1024px) {
+      .container { padding: 36px 40px; }
+      .controls { grid-template-columns: repeat(3, 1fr); }
+      .upload-area { padding: 40px 24px; }
+      .compress-btn { font-size: 1.05rem; padding: 15px 40px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="logo">Text2</div>
-      <div class="subtitle">Nén Ảnh Trực Tuyến - Nhanh Chóng & Hiệu Quả</div>
+      <a class="logo" href="https://text2.click" aria-label="Text2 Home" rel="home">Text2</a>
+      <div class="subtitle">Online Image Compression — Fast, Compact, Optimized for all devices</div>
     </div>
     
     <div class="upload-section">
       <div class="upload-area" onclick="document.getElementById('inputImages').click()">
-        <span class="upload-icon">📁</span>
-        <div class="upload-text">Chọn ảnh để nén</div>
-        <div class="upload-hint">Kéo thả hoặc click để chọn file</div>
+        <span class="upload-icon">⬆️</span>
+        <div class="upload-text">Upload images to compress</div>
+        <div class="upload-hint">Drag and drop or click to select files</div>
       </div>
       <input type="file" id="inputImages" accept="image/*" multiple>
     </div>
 
     <div class="controls">
       <div class="control-group">
-        <label for="quality">🎯 Chất lượng nén</label>
+        <label for="quality">🎯 Compression Quality</label>
         <input type="number" id="quality" min="10" max="100" value="80">
       </div>
 
       <div class="control-group">
-        <label for="format">📄 Định dạng xuất</label>
+        <label for="format">📄 Output Format</label>
         <select id="format">
           <option value="image/jpeg">JPEG</option>
           <option value="image/png">PNG</option>
@@ -267,7 +331,7 @@
     </div>
 
     <button class="compress-btn" onclick="compressImages()">
-      🚀 Bắt đầu nén ảnh
+      🚀 Start Image Compression
     </button>
 
     <div class="preview" id="preview"></div>
@@ -304,7 +368,7 @@
       const preview = document.getElementById('preview');
       
       if (!files.length) {
-        alert("Hãy chọn ít nhất 1 ảnh để nén.");
+        alert("Please select at least 1 image to compress.");
         return;
       }
 
@@ -312,7 +376,7 @@
       preview.innerHTML = `
         <div class="loading">
           <div class="spinner"></div>
-          <div>Đang xử lý ${files.length} ảnh...</div>
+          <div>Processing ${files.length} images...</div>
         </div>
       `;
 
@@ -336,7 +400,7 @@
               downloadLink.href = url;
               downloadLink.download = `${file.name.split('.')[0]}-compressed.${format.split('/')[1]}`;
               downloadLink.className = 'download-link';
-              downloadLink.textContent = `⬇️ Tải về`;
+              downloadLink.textContent = `⬇️ Download`;
 
               const container = document.createElement('div');
               container.className = "image-container";
