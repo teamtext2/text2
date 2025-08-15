@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+<<<<<<< HEAD
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Vibe Docs — Trình soạn thảo một file (inline)</title>
@@ -677,5 +678,158 @@ editor.addEventListener('input',()=>{
 editor.innerHTML = `<h1>Vibe Docs — Demo</h1><p>Trình soạn thảo một file, đầy đủ tính năng cơ bản, chạy <em>hoàn toàn</em> trong trình duyệt. Hỗ trợ in ra PDF qua hộp thoại in của trình duyệt.</p><h2>Mục 1</h2><p>Soạn thử nội dung, dùng ribbon phía trên để định dạng. Thử thêm <strong>đậm</strong>, <em>nghiêng</em>, <u>gạch dưới</u>, <s>gạch ngang</s>.</p>`;
 buildTOC();
 </script>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trình soạn thảo của Nhật Anh</title>
+  <!-- Nhúng Tailwind CSS để giao diện trông "sịn sò" -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Nhúng Font Awesome để có các icon đẹp -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Nhúng TinyMCE từ CDN -->
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+    .editor-container { max-width: 1000px; }
+  </style>
+</head>
+<body class="p-6 md:p-10 flex justify-center items-start min-h-screen">
+
+  <div class="editor-container w-full bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200">
+    <!-- Tiêu đề và nút chức năng -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b pb-4">
+      <h1 class="text-3xl font-extrabold text-gray-800 mb-4 md:mb-0">Trình soạn thảo của tui! ✨</h1>
+      <div class="flex space-x-2">
+        <!-- Nút Tạo tài liệu mới -->
+        <button id="new-doc-btn" class="bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-indigo-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-file-alt mr-2"></i>Mới
+        </button>
+        <!-- Nút Lưu tài liệu -->
+        <button id="save-btn" class="bg-green-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-save mr-2"></i>Lưu
+        </button>
+        <!-- Nút Lưu thành tên mới -->
+        <button id="save-as-btn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-yellow-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-file-export mr-2"></i>Lưu thành
+        </button>
+        <!-- Nút Mở tài liệu -->
+        <button id="open-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-blue-600 transition-colors duration-200 shadow-md">
+          <i class="fas fa-folder-open mr-2"></i>Mở
+        </button>
+      </div>
+    </div>
+    
+    <!-- Đây là nơi TinyMCE sẽ hiển thị -->
+    <textarea id="editor"></textarea>
+
+    <!-- Modal thông báo -->
+    <div id="message-box" class="hidden fixed bottom-6 right-6 bg-gray-800 text-white p-4 rounded-xl shadow-lg transition-transform duration-300 ease-out transform translate-y-20 opacity-0">
+      <p id="message-text" class="flex items-center">
+        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+        Đã lưu tài liệu thành công!
+      </p>
+    </div>
+
+    <!-- Input ẩn để mở file -->
+    <input type="file" id="file-input" class="hidden" accept=".html,.txt">
+  </div>
+
+  <script>
+    // Khởi tạo TinyMCE
+    let editor;
+
+    tinymce.init({
+      selector: '#editor',
+      height: 600,
+      menubar: false,
+      skin: 'oxide',
+      content_css: 'default',
+      // Thêm các plugins để có đầy đủ tính năng như bạn yêu cầu
+      plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount autoresize',
+      toolbar: 'undo redo | blocks | ' +
+               'bold italic forecolor | alignleft aligncenter alignright alignjustify | ' +
+               'bullist numlist outdent indent | link image | table | ' +
+               'searchreplace | code | fullscreen | preview | help',
+      // Ngôn ngữ tiếng Việt
+      language: 'vi',
+      setup: function(ed) {
+        editor = ed;
+      }
+    });
+
+    // Hàm hiển thị thông báo
+    function showMessage(text, iconClass) {
+      const msgBox = document.getElementById('message-box');
+      const msgText = document.getElementById('message-text');
+      msgText.innerHTML = `<i class="${iconClass} mr-2"></i>${text}`;
+      msgBox.classList.remove('hidden', 'translate-y-20', 'opacity-0');
+      msgBox.classList.add('flex', 'translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        msgBox.classList.remove('translate-y-0', 'opacity-100');
+        msgBox.classList.add('translate-y-20', 'opacity-0');
+        setTimeout(() => msgBox.classList.add('hidden'), 300);
+      }, 3000);
+    }
+
+    // Gán sự kiện cho các nút
+    document.getElementById('new-doc-btn').addEventListener('click', () => {
+      if (editor) {
+        editor.setContent('');
+        showMessage('Đã tạo tài liệu mới!', 'fas fa-file-alt text-blue-400');
+      }
+    });
+
+    document.getElementById('save-btn').addEventListener('click', () => {
+      if (editor) {
+        const content = editor.getContent();
+        const blob = new Blob([content], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'document.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showMessage('Đã lưu tài liệu!', 'fas fa-save text-green-400');
+      }
+    });
+
+    document.getElementById('save-as-btn').addEventListener('click', () => {
+      if (editor) {
+        const fileName = prompt('Nhập tên file:');
+        if (fileName) {
+          const content = editor.getContent();
+          const blob = new Blob([content], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName.endsWith('.html') ? fileName : `${fileName}.html`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showMessage(`Đã lưu tài liệu thành: ${fileName}`, 'fas fa-file-export text-yellow-400');
+        }
+      }
+    });
+
+    document.getElementById('open-btn').addEventListener('click', () => {
+      document.getElementById('file-input').click();
+    });
+
+    document.getElementById('file-input').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (editor) {
+            editor.setContent(e.target.result);
+            showMessage('Đã mở tài liệu thành công!', 'fas fa-folder-open text-blue-400');
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+  </script>
+>>>>>>> bf428d442dd67912cfb14ed5fed61086bf5a1325
 </body>
 </html>
