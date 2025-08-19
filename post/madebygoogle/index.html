@@ -17,7 +17,7 @@
       text-align: center;
       font-size: 2rem;
       font-weight: 600;
-      margin: 40px 0 20px;
+      margin: 40px 20px 20px;
       letter-spacing: 2px;
       color: #fff;
     }
@@ -41,34 +41,63 @@
       inset: 0;
       border-radius: 20px;
       border: 2px solid rgba(255, 255, 255, 0.08);
-      pointer-events: none; /* Quan trọng: không che iframe */
+      pointer-events: none;
     }
 
-    iframe {
+    /* Giữ tỷ lệ 16:9 cho iframe */
+    .iframe-wrapper {
+      position: relative;
       width: 100%;
-      height: 574px;
+      padding-top: 56.25%; /* 16:9 */
+    }
+
+    .iframe-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
       border-radius: 12px;
       box-shadow: 0 0 25px rgba(255,255,255,0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
       z-index: 1;
     }
 
-    iframe:hover {
+    .iframe-wrapper iframe:hover {
       transform: scale(1.02);
       box-shadow: 0 0 40px rgba(255,255,255,0.3);
+    }
+
+    /* Responsive: Mobile */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5rem;
+        margin: 20px 10px;
+      }
+
+      .stream-container {
+        margin: 0 10px 40px;
+        padding: 12px;
+        border-radius: 15px;
+      }
+
+      .iframe-wrapper iframe {
+        border-radius: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Made by Google ‘25 – Livestream</h1>
   <div class="stream-container">
-    <iframe src="https://www.youtube.com/embed/JXCXTQIIvM0" 
-      title="Made by Google ‘25"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen>
-    </iframe>
+    <div class="iframe-wrapper">
+      <iframe src="https://www.youtube.com/embed/JXCXTQIIvM0" 
+        title="Made by Google ‘25"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
 </body>
 </html>
