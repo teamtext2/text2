@@ -1682,6 +1682,15 @@
         </svg>
         Clear Cache
       </button>
+      <button id="settingsHardRefresh" style="background: #e53935; color: white; border: none; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+          <path d="M21 3v5h-5"></path>
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+          <path d="M3 21v-5h5"></path>
+        </svg>
+       UPDATE NOW
+      </button>
     </div>
     <button class="mini-popup-close">Close</button>
   </div>
@@ -1855,6 +1864,7 @@
     settingsInstallPWA: document.getElementById('settingsInstallPWA'),
     settingsNotificationPermission: document.getElementById('settingsNotificationPermission'),
     settingsClearCache: document.getElementById('settingsClearCache'),
+    settingsHardRefresh: document.getElementById('settingsHardRefresh'),
     sidebar: document.getElementById('sidebar'),
     sidebarToggle: document.getElementById('sidebarToggle'),
     sidebarClose: document.getElementById('sidebarClose')
@@ -2136,6 +2146,47 @@
           `;
           elements.settingsClearCache.style.background = '#ff9800';
         }, 2000);
+      }
+    });
+
+    // Hard refresh: full cache clear + reload
+    elements.settingsHardRefresh.addEventListener('click', async () => {
+      const btn = elements.settingsHardRefresh;
+      btn.disabled = true;
+      const original = btn.innerHTML;
+      btn.style.background = '#b71c1c';
+      btn.innerHTML = 'Đang xóa cache...';
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const reg of regs) {
+            try { await reg.unregister(); } catch (_) {}
+          }
+        }
+        if (window.caches && caches.keys) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        }
+        try {
+          if (indexedDB && typeof indexedDB.databases === 'function') {
+            const dbs = await indexedDB.databases();
+            await Promise.all((dbs || []).map(db => db && db.name ? new Promise((resolve) => {
+              const req = indexedDB.deleteDatabase(db.name);
+              req.onsuccess = req.onerror = req.onblocked = () => resolve();
+            }) : Promise.resolve()));
+          }
+        } catch (_) {}
+        try { localStorage.clear(); } catch (_) {}
+        try { sessionStorage.clear(); } catch (_) {}
+      } catch (e) {
+        console.error('Hard refresh error:', e);
+      } finally {
+        btn.innerHTML = 'Đang tải lại...';
+        setTimeout(() => {
+          const bust = Date.now();
+          const path = window.location.pathname || '/';
+          window.location.replace(`${path}?refresh=${bust}`);
+        }, 300);
       }
     });
   };
