@@ -1,835 +1,252 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<<<<<<< HEAD
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Vibe Docs — Trình soạn thảo một file (inline)</title>
-<style>
-  :root{
-    --bg:#0b0c10; /* dark canvas preview friendly */
-    --panel:#111218;
-    --muted:#1a1b22;
-    --accent:#7c5cff;
-    --text:#e8e8ef;
-    --text-dim:#b9b9c9;
-    --ok:#24c8a5; --warn:#ffc857; --danger:#ff5d7a;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:linear-gradient(180deg,#0b0c10,#0e1017);color:var(--text);font:14px/1.45 system-ui, Segoe UI, Roboto, Arial, sans-serif}
-  .app{display:grid;grid-template-rows:auto 1fr;min-height:100%}
-  /* Topbar */
-  .topbar{display:flex;align-items:center;gap:.5rem;padding:.6rem .8rem;background:rgba(255,255,255,.03);backdrop-filter:saturate(160%) blur(6px);position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
-  .brand{display:flex;align-items:center;gap:.5rem;font-weight:700}
-  .brand .dot{width:.7rem;height:.7rem;border-radius:50%;background:conic-gradient(from 210deg,var(--accent),#1ad1a5,#59a0ff)}
-  .spacer{flex:1}
-  .btn,select,input[type="color"]{appearance:none;border:1px solid rgba(255,255,255,.08);background:var(--panel);color:var(--text);padding:.45rem .6rem;border-radius:.7rem;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;transition:.2s all}
-  .btn:hover{background:var(--muted)}
-  .btn[aria-pressed="true"]{outline:2px solid var(--accent)}
-  .group{display:flex;gap:.4rem;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.35rem;border-radius:.9rem}
-  .vsep{width:1px;height:28px;background:rgba(255,255,255,.08);margin:0 .25rem}
-  .name{min-width:12ch;border:none;padding:.45rem .6rem;border-radius:.7rem;background:rgba(255,255,255,.06);color:var(--text)}
-
-  /* Layout */
-  .main{display:grid;grid-template-columns:280px 1fr 300px;gap:.8rem;padding:.8rem}
-  .panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:1rem;overflow:hidden}
-  .panel h3{margin:0;padding:.7rem .9rem;border-bottom:1px dashed rgba(255,255,255,.06);color:var(--text-dim)}
-  .panel .body{padding:.8rem}
-
-  /* Sidebar (TOC & Comments) */
-  #toc ol{padding-left:1rem}
-  #comments{max-height:45vh;overflow:auto;display:flex;flex-direction:column;gap:.6rem}
-  .comment{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:.6rem;border-radius:.7rem}
-  .comment .meta{font-size:.8rem;color:var(--text-dim)}
-
-  /* Editor */
-  .editor-wrap{display:flex;flex-direction:column;gap:.6rem;height:calc(100vh - 140px)}
-  .ribbon{display:flex;flex-wrap:wrap;gap:.4rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.45rem;border-radius:1rem;position:sticky;top:.8rem;z-index:10}
-  #editor{flex:1;overflow:auto;background:#fff;color:#1a1a1a;border-radius:1rem;padding:2.2cm 2cm;box-shadow:0 10px 30px rgba(0,0,0,.35);outline:none}
-  #editor[contenteditable="true"]{caret-color:#333}
-  #editor:empty:before{content:"Bắt đầu gõ nội dung ở đây...";color:#9aa1aa}
-  .page{max-width:21cm;margin:0 auto}
-  #editor{zoom:var(--zoom,1)}
-
-  /* Formatting markers */
-  .ins{background:rgba(36,200,165,.18);}
-  .del{text-decoration:line-through;background:rgba(255,93,122,.18)}
-  .hl{background:#fff39a}
-  .cm-highlight{background:#ffef9f}
-
-  /* Print */
-  @media print{
-    body{background:white}
-    .topbar,.main .panel:first-child,.main .panel:last-child,.ribbon{display:none!important}
-    #editor{box-shadow:none;padding:2cm 2cm}
-    @page{size:auto;margin:2cm}
-    header.print-header, footer.print-footer{position:fixed;left:0;right:0;color:#555}
-    header.print-header{top:0}
-    footer.print-footer{bottom:0}
-    footer.print-footer .pageno:after{content: counter(page)}
-  }
-
-  /* Modals */
-  dialog{border:none;border-radius:1rem;background:var(--panel);color:var(--text);padding:0;box-shadow:0 12px 40px rgba(0,0,0,.45)}
-  dialog .dlg-header{padding:.8rem .9rem;border-bottom:1px solid rgba(255,255,255,.08);font-weight:600}
-  dialog .dlg-body{padding:.9rem}
-  dialog form{display:grid;gap:.6rem}
-  dialog .actions{display:flex;justify-content:flex-end;gap:.5rem;padding:.7rem .9rem;border-top:1px solid rgba(255,255,255,.08)}
-  .input, textarea{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:.55rem .6rem;border-radius:.6rem;color:var(--text)}
-  textarea{min-height:120px}
-
-  /* Toolbar improvements */
-  .btn .label{display:inline}
-  .btn .only-icon{display:none}
-  .ribbon{overflow:auto}
-  .ribbon .group{flex-wrap:wrap}
-  .ribbon .tabbar{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.3rem}
-  .tab-btn{appearance:none;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:var(--text);padding:.35rem .6rem;border-radius:.6rem;cursor:pointer}
-  .tab-btn[aria-selected="true"]{background:rgba(255,255,255,.08);outline:2px solid rgba(124,92,255,.35)}
-  .ribbon .section{display:none;gap:.4rem;flex-wrap:wrap}
-  .ribbon .section.active{display:flex}
-  .mobile-only{display:none}
-  .statusbar{display:flex;gap:.8rem;align-items:center;justify-content:space-between;color:var(--text-dim);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:.45rem .7rem;border-radius:.7rem;margin-top:.4rem}
-  .statusbar .meter{display:flex;align-items:center;gap:.5rem}
-  .statusbar input[type="range"]{width:140px}
-  .statusbar .sep{width:1px;height:18px;background:rgba(255,255,255,.12)}
-
-  /* Compact layout for small screens */
-  @media (max-width: 900px){
-    .main{grid-template-columns:1fr}
-    .main .panel:first-child, .main .panel:last-child{display:none}
-    .mobile-only{display:flex}
-    .ribbon .tabbar{display:none}
-    .btn .label{display:none}
-    .btn .only-icon{display:inline}
-    .ribbon{position:sticky;top:3.1rem}
-  }
-
-  /* Password overlay */
-  .locked #editor{filter:blur(5px) grayscale(.3);pointer-events:none}
-  .lock-banner{display:none}
-  .locked .lock-banner{display:flex;gap:.6rem;align-items:center;justify-content:center;padding:.7rem;border:1px dashed rgba(255,255,255,.18);border-radius:.8rem}
-
-  .hint{color:var(--text-dim);font-size:.85rem}
-  .tag{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);padding:.15rem .45rem;border-radius:999px;font-size:.78rem;color:var(--text-dim)}
-</style>
-</head>
-<body>
-<div class="app">
-  <div class="topbar">
-    <div class="brand"><span class="dot"></span> Vibe Docs</div>
-    <input class="name" id="filename" value="Untitled" />
-    <div class="group" role="group" aria-label="File">
-      <button class="btn" id="newBtn" title="Tạo tài liệu mới (Ctrl+N)">Mới</button>
-      <button class="btn" id="openBtn" title="Mở (Ctrl+O)">Mở</button>
-      <input type="file" id="fileOpen" hidden accept=".txt,.html,.htm,.json,.md,.rtf,.doc,.docx,.odt" />
-      <button class="btn" id="saveBtn" title="Lưu (Ctrl+S)">Lưu</button>
-      <button class="btn" id="saveAsBtn" title="Lưu thành...">Lưu thành...</button>
-      <div class="vsep"></div>
-      <button class="btn" id="exportPDF">Xuất PDF</button>
-      <button class="btn" id="printBtn">In / Xem trước</button>
-    </div>
-    <div class="group" role="group" aria-label="Protect">
-      <button class="btn" id="lockBtn" title="Bảo vệ mật khẩu">🔒 Khoá</button>
-    </div>
-    <div class="spacer"></div>
-    <div class="group" role="group" aria-label="Collab">
-      <span class="tag" id="liveStatus">Live: off</span>
-      <button class="btn" id="shareTab">Bật cộng tác (tab khác)</button>
-    </div>
-  </div>
-
-  <div class="main">
-    <!-- Left panel: TOC & Find/Replace -->
-    <aside class="panel">
-      <h3>Mục lục</h3>
-      <div class="body" id="toc"></div>
-      <h3>Tìm & Thay thế</h3>
-      <div class="body">
-        <input id="findText" class="input" placeholder="Tìm... (Ctrl+F)" />
-        <input id="replaceText" class="input" placeholder="Thay bằng... (Ctrl+H)" />
-        <div style="display:flex; gap:.4rem; margin-top:.4rem">
-          <button class="btn" id="findNext">Tìm tiếp</button>
-          <button class="btn" id="replaceOne">Thay 1</button>
-          <button class="btn" id="replaceAll">Thay tất cả</button>
-        </div>
-        <div class="hint" style="margin-top:.5rem">Chế độ kiểm tra chính tả của trình duyệt đã bật.</div>
-      </div>
-    </aside>
-
-    <!-- Editor center -->
-    <section class="panel">
-      <div class="body editor-wrap">
-        <div class="lock-banner" id="lockBanner">
-          <span>🔒 Tài liệu đang được bảo vệ. Nhập mật khẩu để mở khoá.</span>
-          <button class="btn" id="unlockBtn">Nhập mật khẩu</button>
-        </div>
-        <div class="ribbon" id="ribbon">
-          <div class="tabbar" role="tablist">
-            <button class="tab-btn" role="tab" id="tab-home" aria-selected="true" aria-controls="sec-home">Trang chủ</button>
-            <button class="tab-btn" role="tab" id="tab-insert" aria-selected="false" aria-controls="sec-insert">Chèn</button>
-            <button class="tab-btn" role="tab" id="tab-review" aria-selected="false" aria-controls="sec-review">Xem lại</button>
-            <button class="tab-btn" role="tab" id="tab-view" aria-selected="false" aria-controls="sec-view">Xem</button>
-          </div>
-
-          <div class="section active" id="sec-home" role="tabpanel" aria-labelledby="tab-home">
-            <div class="group">
-              <select id="blockFormat" title="Kiểu đoạn">
-                <option value="P">Đoạn văn</option>
-                <option value="H1">Tiêu đề 1</option>
-                <option value="H2">Tiêu đề 2</option>
-                <option value="H3">Tiêu đề 3</option>
-                <option value="BLOCKQUOTE">Trích dẫn</option>
-                <option value="PRE">Mã (code)</option>
-              </select>
-              <button class="btn" id="clearFormat" title="Xoá định dạng"><span class="only-icon">⨯</span><span class="label">Xoá định dạng</span></button>
-            </div>
-            <div class="group">
-              <select id="fontName">
-                <option value="">Font</option>
-                <option>Arial</option>
-                <option>Georgia</option>
-                <option>Times New Roman</option>
-                <option>Verdana</option>
-                <option>Tahoma</option>
-                <option>Courier New</option>
-                <option>Inter</option>
-              </select>
-              <select id="fontSize">
-                <option value="">Cỡ</option>
-                <option value="1">10</option>
-                <option value="2">13</option>
-                <option value="3">16</option>
-                <option value="4">18</option>
-                <option value="5">24</option>
-                <option value="6">32</option>
-                <option value="7">48</option>
-              </select>
-              <input type="color" id="foreColor" title="Màu chữ" />
-              <input type="color" id="backColor" title="Tô nền" />
-            </div>
-            <div class="group">
-              <button class="btn" data-cmd="bold" title="Đậm (Ctrl+B)"><span class="only-icon"><b>B</b></span><span class="label">Đậm</span></button>
-              <button class="btn" data-cmd="italic" title="Nghiêng (Ctrl+I)"><span class="only-icon"><i>I</i></span><span class="label">Nghiêng</span></button>
-              <button class="btn" data-cmd="underline" title="Gạch dưới (Ctrl+U)"><span class="only-icon"><u>U</u></span><span class="label">Gạch dưới</span></button>
-              <button class="btn" data-cmd="strikeThrough" title="Gạch ngang"><span class="only-icon"><s>S</s></span><span class="label">Gạch ngang</span></button>
-            </div>
-            <div class="group">
-              <button class="btn" data-cmd="justifyLeft" title="Căn trái"><span class="only-icon">⟸</span><span class="label">Trái</span></button>
-              <button class="btn" data-cmd="justifyCenter" title="Căn giữa"><span class="only-icon">≡</span><span class="label">Giữa</span></button>
-              <button class="btn" data-cmd="justifyRight" title="Căn phải"><span class="only-icon">⟹</span><span class="label">Phải</span></button>
-              <button class="btn" data-cmd="justifyFull" title="Căn đều"><span class="only-icon">☰</span><span class="label">Đều</span></button>
-              <div class="vsep"></div>
-              <button class="btn" data-cmd="insertUnorderedList" title="Danh sách chấm"><span class="only-icon">•</span><span class="label">Danh sách</span></button>
-              <button class="btn" data-cmd="insertOrderedList" title="Danh sách số"><span class="only-icon">1.</span><span class="label">Đánh số</span></button>
-              <button class="btn" data-cmd="outdent" title="Thụt lùi"><span class="only-icon">⇤</span><span class="label">Lùi</span></button>
-              <button class="btn" data-cmd="indent" title="Thụt vào"><span class="only-icon">⇥</span><span class="label">Thụt</span></button>
-              <select id="lineHeight">
-                <option value="">Giãn dòng</option>
-                <option value="1.15">1.15</option>
-                <option value="1.5">1.5</option>
-                <option value="2">2.0</option>
-                <option value="2.5">2.5</option>
-              </select>
-            </div>
-            <div class="group">
-              <button class="btn" id="undoBtn" title="Hoàn tác (Ctrl+Z)"><span class="only-icon">↶</span><span class="label">Hoàn tác</span></button>
-              <button class="btn" id="redoBtn" title="Làm lại (Ctrl+Y)"><span class="only-icon">↷</span><span class="label">Làm lại</span></button>
-            </div>
-          </div>
-
-          <div class="section" id="sec-insert" role="tabpanel" aria-labelledby="tab-insert">
-            <div class="group">
-              <button class="btn" id="insertLink" title="Chèn liên kết"><span class="only-icon">🔗</span><span class="label">Liên kết</span></button>
-              <button class="btn" id="insertImage" title="Chèn ảnh"><span class="only-icon">🖼️</span><span class="label">Hình ảnh</span></button>
-              <button class="btn" id="insertTable" title="Chèn bảng"><span class="only-icon">▦</span><span class="label">Bảng</span></button>
-              <button class="btn" id="insertChart" title="Chèn biểu đồ"><span class="only-icon">📊</span><span class="label">Biểu đồ</span></button>
-              <button class="btn" id="specialChar" title="Ký hiệu đặc biệt"><span class="only-icon">Ω</span><span class="label">Ký hiệu</span></button>
-            </div>
-            <div class="group">
-              <button class="btn" id="insertHeader" title="Vùng đầu trang"><span class="only-icon">⇡</span><span class="label">Header</span></button>
-              <button class="btn" id="insertFooter" title="Vùng chân trang"><span class="only-icon">⇣</span><span class="label">Footer</span></button>
-              <button class="btn" id="insertPageNo" title="Số trang"><span class="only-icon">#</span><span class="label">Số trang</span></button>
-            </div>
-          </div>
-
-          <div class="section" id="sec-review" role="tabpanel" aria-labelledby="tab-review">
-            <div class="group">
-              <button class="btn" id="toggleTrack" title="Theo dõi thay đổi"><span class="only-icon">📝</span><span class="label">Theo dõi</span></button>
-              <button class="btn" id="addComment" title="Thêm bình luận"><span class="only-icon">💬</span><span class="label">Bình luận</span></button>
-              <button class="btn" id="acceptAll" title="Chấp nhận tất cả"><span class="only-icon">✔</span><span class="label">Chấp nhận</span></button>
-              <button class="btn" id="rejectAll" title="Từ chối tất cả"><span class="only-icon">✖</span><span class="label">Từ chối</span></button>
-            </div>
-          </div>
-
-          <div class="section" id="sec-view" role="tabpanel" aria-labelledby="tab-view">
-            <div class="group">
-              <button class="btn" id="toggleSpell" title="Bật/tắt kiểm tra chính tả"><span class="only-icon">✔︎</span><span class="label">Chính tả</span></button>
-              <button class="btn" id="toggleTOC" title="Hiện/ẩn mục lục"><span class="only-icon">☰</span><span class="label">Mục lục</span></button>
-              <button class="btn" id="toggleCommentsPanel" title="Hiện/ẩn bình luận"><span class="only-icon">💬</span><span class="label">Bình luận</span></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="page">
-          <header class="print-header" contenteditable="true" data-placeholder="Header (in khi in)"></header>
-          <main id="editor" contenteditable spellcheck="true"></main>
-          <footer class="print-footer" contenteditable="true">
-            <span>Trang </span><span class="pageno"></span>
-          </footer>
-        </div>
-        <div class="statusbar" id="statusbar">
-          <div class="meter">
-            <span>🧮</span>
-            <span id="wc">0 từ</span>
-            <span class="sep"></span>
-            <span id="cc">0 ký tự</span>
-          </div>
-          <div class="meter">
-            <label class="hint">Thu phóng</label>
-            <input type="range" id="zoomRange" min="50" max="200" value="100" />
-            <span id="zoomPct">100%</span>
-            <span class="sep"></span>
-            <span class="tag" id="saveState">Đã lưu</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right panel: Comments -->
-    <aside class="panel">
-      <h3>Bình luận</h3>
-      <div class="body" id="comments"></div>
-      <h3>Cài đặt trang</h3>
-      <div class="body">
-        <label class="hint">Khổ giấy</label>
-        <select id="paper">
-          <option value="A4">A4</option>
-          <option value="Letter">Letter</option>
-        </select>
-        <label class="hint" style="margin-top:.4rem;display:block">Hướng</label>
-        <select id="orientation">
-          <option value="portrait">Dọc</option>
-          <option value="landscape">Ngang</option>
-        </select>
-        <label class="hint" style="margin-top:.4rem;display:block">Lề (cm)</label>
-        <input class="input" id="margins" value="2,2,2,2" />
-      </div>
-    </aside>
-  </div>
-</div>
-
-<!-- Dialogs -->
-<dialog id="dlgChart">
-  <div class="dlg-header">Chèn biểu đồ (SVG, không cần thư viện)</div>
-  <div class="dlg-body">
-    <form id="chartForm">
-      <label>Tiêu đề <input class="input" name="title" placeholder="Doanh thu Q1"/></label>
-      <label>Dữ liệu (mỗi dòng: nhãn,giá trị)
-        <textarea name="data" placeholder="Jan,10\nFeb,22\nMar,14"></textarea>
-      </label>
-    </form>
-  </div>
-  <div class="actions">
-    <button class="btn" id="chartCancel">Hủy</button>
-    <button class="btn" id="chartOk">Chèn</button>
-  </div>
-</dialog>
-
-<dialog id="dlgPassword">
-  <div class="dlg-header">Mật khẩu tài liệu</div>
-  <div class="dlg-body">
-    <form id="pwdForm">
-      <label>Đặt / nhập mật khẩu<input type="password" class="input" name="pwd"/></label>
-      <div class="hint">Khoá chỉ che nội dung trên thiết bị này. Nếu muốn mã hoá khi lưu, chọn “Lưu (mã hoá)”.</div>
-    </form>
-  </div>
-  <div class="actions">
-    <button class="btn" id="pwdCancel">Hủy</button>
-    <button class="btn" id="pwdOk">OK</button>
-  </div>
-</dialog>
-
-<dialog id="dlgSpecial">
-  <div class="dlg-header">Ký hiệu đặc biệt</div>
-  <div class="dlg-body" id="specialGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:.4rem"></div>
-  <div class="actions">
-    <button class="btn" id="specClose">Đóng</button>
-  </div>
-</dialog>
-
-<script>
-// --- Tiny helper ---
-const $ = s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
-const editor = $('#editor');
-const filename = $('#filename');
-let trackOn=false; let currentPassword = null; let broadcast=null; let liveOn=false;
-
-// --- File ops ---
-function download(name, type, data){
-  const blob = new Blob([data],{type});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href);
-}
-function getHTML(){
-  return `<!doctype html><meta charset="utf-8"><title>${filename.value}</title>` + document.getElementById('editor').innerHTML;
-}
-function getTXT(){
-  const tmp = editor.cloneNode(true); tmp.querySelectorAll('style,script').forEach(n=>n.remove());
-  return tmp.innerText;
-}
-
-$('#saveBtn').addEventListener('click',()=>{
-  const name = filename.value || 'Untitled';
-  download(name + '.html','text/html;charset=utf-8', getHTML());
-});
-$('#saveAsBtn').addEventListener('click',async()=>{
-  const name = prompt('Tên tệp và định dạng (vd: BaoCao.txt, BaiViet.html, GhiChu.json, BaoCao.md).\nLưu ý: PDF dùng nút "Xuất PDF".');
-  if(!name) return;
-  const ext = name.split('.').pop().toLowerCase();
-  if(ext==='txt') download(name,'text/plain;charset=utf-8', getTXT());
-  else if(ext==='html' || ext==='htm') download(name,'text/html;charset=utf-8', getHTML());
-  else if(ext==='json') download(name,'application/json', JSON.stringify({name:filename.value, html:getHTML()},null,2));
-  else if(ext==='md') download(name,'text/markdown;charset=utf-8', getTXT());
-  else if(ext==='doc' || ext==='rtf' || ext==='odt' || ext==='docx'){
-    alert('Xuất trực tiếp DOCX/ODT/RTF trong file đơn không thư viện là hạn chế. Dùng HTML/PDF hoặc mở bằng Word từ HTML.');
-    download(name.replace(/\.(docx|odt|rtf)$/,'')+'.doc','application/msword', getHTML());
-  } else {
-    alert('Định dạng không hỗ trợ trực tiếp. Đã lưu HTML.');
-    download(name+'.html','text/html;charset=utf-8', getHTML());
-  }
-});
-$('#openBtn').addEventListener('click',()=>$('#fileOpen').click());
-$('#fileOpen').addEventListener('change',async (e)=>{
-  const f=e.target.files[0]; if(!f) return; filename.value=f.name.replace(/\.[^.]+$/,'');
-  const text = await f.text();
-  if(/<\/?(html|body|p|div|h1|h2|h3|span)/i.test(text)) editor.innerHTML=text; else editor.innerText=text;
-  buildTOC();
-});
-$('#newBtn').addEventListener('click',()=>{ if(confirm('Xoá nội dung hiện tại?')){ editor.innerHTML=''; filename.value='Untitled'; buildTOC(); }});
-
-// PDF / Print
-$('#exportPDF').addEventListener('click',()=>{ window.print(); });
-$('#printBtn').addEventListener('click',()=>{ window.print(); });
-
-// --- Formatting commands ---
-function cmd(c,val=null){ document.execCommand(c,false,val); }
-$$('[data-cmd]').forEach(b=>b.addEventListener('click',()=>cmd(b.dataset.cmd)));
-$('#fontName').addEventListener('change',e=>cmd('fontName', e.target.value));
-$('#fontSize').addEventListener('change',e=>cmd('fontSize', e.target.value));
-$('#foreColor').addEventListener('input',e=>cmd('foreColor', e.target.value));
-$('#backColor').addEventListener('input',e=>cmd('hiliteColor', e.target.value));
-  $('#blockFormat').addEventListener('change',e=>{ const v=e.target.value; if(v){ cmd('formatBlock', v); e.target.value=''; } });
-  $('#clearFormat').addEventListener('click',()=>{ cmd('removeFormat'); });
-$('#undoBtn').addEventListener('click',()=>cmd('undo'));
-$('#redoBtn').addEventListener('click',()=>cmd('redo'));
-$('#lineHeight').addEventListener('change',e=>{
-  document.getSelection().getRangeAt(0).surroundContents(Object.assign(document.createElement('span'),{style:`line-height:${e.target.value}` }));
-});
-
-  // Tabs: Home, Insert, Review, View
-  const tabs = $$('.tab-btn');
-  const sections = $$('.ribbon .section');
-  function activateTab(id){
-    tabs.forEach(t=> t.setAttribute('aria-selected', String(t.id===id)) );
-    sections.forEach(s=> s.classList.toggle('active', 'sec-'+id.split('-')[1]===s.id));
-  }
-  tabs.forEach(t=> t.addEventListener('click',()=> activateTab(t.id)) );
-
-// Insertions
-$('#insertLink').addEventListener('click',()=>{
-  const url = prompt('URL'); if(url) cmd('createLink', url);
-});
-$('#insertImage').addEventListener('click',()=>{
-  const url = prompt('URL ảnh (hoặc để trống để chọn file)');
-  if(url){ cmd('insertImage', url); return; }
-  const input = Object.assign(document.createElement('input'),{type:'file',accept:'image/*'});
-  input.onchange = async ()=>{
-    const f=input.files[0]; if(!f) return; const data = await f.arrayBuffer();
-    const blob = new Blob([data],{type:f.type}); const url = URL.createObjectURL(blob);
-    cmd('insertImage', url); setTimeout(()=>URL.revokeObjectURL(url), 5000);
-  }; input.click();
-});
-$('#insertTable').addEventListener('click',()=>{
-  const r = parseInt(prompt('Số hàng?', '3')||'0',10);
-  const c = parseInt(prompt('Số cột?', '3')||'0',10);
-  if(r>0 && c>0){
-    let html = '<table border="1" style="border-collapse:collapse;width:100%">';
-    for(let i=0;i<r;i++){ html+='<tr>'; for(let j=0;j<c;j++){ html+='<td style="padding:.3rem"> </td>'; } html+='</tr>'; }
-    html+='</table>';
-    cmd('insertHTML', html);
-  }
-});
-
-// Chart dialog
-const dlgChart = $('#dlgChart');
-$('#insertChart').addEventListener('click',()=>dlgChart.showModal());
-$('#chartCancel').addEventListener('click',()=>dlgChart.close());
-$('#chartOk').addEventListener('click',()=>{
-  const fd = new FormData($('#chartForm'));
-  const title = fd.get('title')||'';
-  const lines = String(fd.get('data')||'').trim().split(/\n+/).map(l=>l.split(',')).filter(a=>a.length>=2);
-  if(!lines.length){ alert('Nhập dữ liệu trước'); return; }
-  const max = Math.max(...lines.map(a=>+a[1]||0));
-  const width=500, height=260, pad=30;
-  const bars = lines.map((a,i)=>{
-    const x = pad + i*((width-pad*2)/lines.length);
-    const bw = (width-pad*2)/lines.length - 8;
-    const h = ( (+a[1]||0) / (max||1) ) * (height-pad*2);
-    const y = height - pad - h;
-    return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" />\n<text x="${x+bw/2}" y="${height-pad+14}" text-anchor="middle" font-size="12">${a[0]}</text>`
-  }).join('\n');
-  const svg = `<figure class="chart"><figcaption style="text-align:center;font-weight:700">${title}</figcaption>
-  <svg viewBox="0 0 ${width} ${height}" style="width:100%"><g fill="currentColor">${bars}</g>
-  <line x1="${pad}" y1="${height-pad}" x2="${width-pad}" y2="${height-pad}" stroke="currentColor"/></svg></figure>`;
-  cmd('insertHTML', svg); dlgChart.close();
-});
-
-// Special characters
-const specials = ['©','®','™','✓','→','←','↑','↓','—','–','·','•','§','¶','€','₫','₩','¥','£','±','∞','≤','≥','≈','≠','√','∑','π','µ','Ω','°','¼','½','¾','⁄'];
-const grid = $('#specialGrid');
-function buildSpecials(){ grid.innerHTML=''; specials.forEach(ch=>{ const b=document.createElement('button'); b.className='btn'; b.textContent=ch; b.onclick=()=>{ cmd('insertText', ch); }; grid.appendChild(b); }); }
-$('#specialChar').addEventListener('click',()=>{ buildSpecials(); $('#dlgSpecial').showModal(); });
-$('#specClose').addEventListener('click',()=>$('#dlgSpecial').close());
-
-// Header/Footer/Page number (simple placeholders)
-$('#insertHeader').addEventListener('click',()=>{ document.querySelector('header.print-header').focus(); });
-$('#insertFooter').addEventListener('click',()=>{ document.querySelector('footer.print-footer').focus(); });
-$('#insertPageNo').addEventListener('click',()=>{ cmd('insertText','[Trang #]'); });
-
-// Find & Replace
-let lastFind = '';
-function findNext(){
-  const needle = $('#findText').value; if(!needle) return;
-  const sel = window.getSelection(); const range = sel.rangeCount? sel.getRangeAt(0): document.createRange();
-  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT, null);
-  let node; let startFound=false;
-  if(range.startContainer) startFound=true; // naive
-  while(node = walker.nextNode()){
-    const idx = node.data.toLowerCase().indexOf(needle.toLowerCase());
-    if(idx>-1){ const r = document.createRange(); r.setStart(node, idx); r.setEnd(node, idx+needle.length); sel.removeAllRanges(); sel.addRange(r); editor.focus(); lastFind=needle; return true; }
-  }
-  return false;
-}
-$('#findNext').addEventListener('click',findNext);
-$('#replaceOne').addEventListener('click',()=>{
-  if(!window.getSelection().rangeCount){ findNext(); }
-  document.execCommand('insertText', false, $('#replaceText').value||'');
-});
-$('#replaceAll').addEventListener('click',()=>{
-  const n = $('#findText').value; const r=$('#replaceText').value;
-  if(!n) return;
-  editor.innerHTML = editor.innerHTML.replace(new RegExp(n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), r);
-});
-
-// Track changes (very simplified)
-function wrapSelection(cls){
-  const sel = window.getSelection(); if(!sel.rangeCount) return;
-  const range = sel.getRangeAt(0);
-  const span = document.createElement('span'); span.className=cls; span.setAttribute('data-author','Bạn');
-  range.surroundContents(span);
-}
-$('#toggleTrack').addEventListener('click', (e)=>{
-  trackOn=!trackOn; e.target.setAttribute('aria-pressed', String(trackOn));
-});
-editor.addEventListener('beforeinput', (ev)=>{
-  if(!trackOn) return;
-  if(ev.inputType.startsWith('insert')){
-    // After default insertion, we will highlight; delay slightly
-    setTimeout(()=>{ try{ wrapSelection('ins'); }catch{} }, 0);
-  }
-  if(ev.inputType.startsWith('delete')){
-    ev.preventDefault();
-    const sel = window.getSelection(); if(!sel.rangeCount) return; const r=sel.getRangeAt(0);
-    if(r.collapsed && r.startContainer.nodeType===Node.TEXT_NODE){
-      const span=document.createElement('span'); span.className='del'; span.textContent=r.startContainer.textContent.slice(r.startOffset-1,r.startOffset);
-      r.setStart(r.startContainer, r.startOffset-1); r.deleteContents(); r.insertNode(span); sel.removeAllRanges();
-    } else { const frag=r.cloneContents(); const span=document.createElement('span'); span.className='del'; span.append(frag); r.deleteContents(); r.insertNode(span); }
-  }
-});
-$('#acceptAll').addEventListener('click',()=>{
-  editor.querySelectorAll('.ins').forEach(n=>{ n.replaceWith(...n.childNodes); });
-  editor.querySelectorAll('.del').forEach(n=> n.remove());
-});
-$('#rejectAll').addEventListener('click',()=>{
-  editor.querySelectorAll('.ins').forEach(n=> n.remove());
-  editor.querySelectorAll('.del').forEach(n=>{ n.replaceWith(...n.childNodes); });
-});
-
-// Comments
-let cmId=0;
-$('#addComment').addEventListener('click',()=>{
-  const sel = window.getSelection(); if(!sel.rangeCount){ alert('Chọn đoạn để bình luận'); return; }
-  const txt = prompt('Nội dung bình luận?'); if(!txt) return;
-  const r = sel.getRangeAt(0); const mark = document.createElement('mark'); mark.className='cm-highlight'; r.surroundContents(mark);
-  const id = 'c'+(++cmId); mark.dataset.cm=id;
-  const div = document.createElement('div'); div.className='comment'; div.id=id;
-  div.innerHTML = `<div class="meta">#${cmId} — ${new Date().toLocaleString()}</div><div>${txt}</div>`;
-  $('#comments').appendChild(div);
-});
-
-// Auto TOC
-function buildTOC(){
-  const heads = Array.from(editor.querySelectorAll('h1,h2,h3'));
-  const ol = document.createElement('ol');
-  heads.forEach((h,i)=>{ const id=h.id || (h.id='h'+i); const li=document.createElement('li'); const a=document.createElement('a'); a.href='#'+id; a.textContent=h.textContent; li.appendChild(a); ol.appendChild(li); });
-  const t = $('#toc'); t.innerHTML=''; t.appendChild(ol);
-}
-const tocObs = new MutationObserver(()=>buildTOC()); tocObs.observe(editor,{subtree:true,childList:true,characterData:true});
-
-// Page settings
-function applyPage(){
-  const size = $('#paper').value==='Letter'?'8.5in 11in':'210mm 297mm';
-  const ori = $('#orientation').value; const [t,r,b,l] = $('#margins').value.split(',').map(x=>x.trim()+ (x.includes('cm')||x.includes('in')?'':'cm'));
-  const styleId='pageStyle'; let st=document.getElementById(styleId); if(!st){ st=document.createElement('style'); st.id=styleId; document.head.appendChild(st);} 
-  st.textContent = `@page{size:${ori} ${size}; margin:${t} ${r} ${b} ${l}} #editor{padding:${t} ${r} ${b} ${l}}`;
-}
-['paper','orientation','margins'].forEach(id=>$("#"+id).addEventListener('change',applyPage));
-applyPage();
-
-// Password protect (visual lock)
-function setLocked(locked){ document.body.classList.toggle('locked', locked); }
-$('#lockBtn').addEventListener('click',()=>{ $('#dlgPassword').showModal(); });
-$('#pwdCancel').addEventListener('click',()=>$('#dlgPassword').close());
-$('#pwdOk').addEventListener('click',()=>{
-  const pwd = new FormData($('#pwdForm')).get('pwd'); if(!pwd) return $('#dlgPassword').close();
-  currentPassword = pwd; setLocked(true); $('#lockBanner').style.display='flex'; $('#dlgPassword').close();
-});
-$('#unlockBtn').addEventListener('click',()=>{
-  const pwd = prompt('Nhập mật khẩu:'); if(pwd===currentPassword){ setLocked(false); $('#lockBanner').style.display='none'; } else alert('Sai mật khẩu');
-});
-
-// Collaboration: BroadcastChannel (same origin, đa tab)
-$('#shareTab').addEventListener('click',()=>{
-  if(liveOn) return; broadcast = new BroadcastChannel('vibe-doc'); liveOn=true; $('#liveStatus').textContent='Live: on';
-  broadcast.onmessage = (ev)=>{ if(ev.data.type==='content' && document.activeElement!==editor){ editor.innerHTML=ev.data.html; buildTOC(); }
-    if(ev.data.type==='name'){ filename.value=ev.data.value; }
-  };
-  editor.addEventListener('input',()=> broadcast.postMessage({type:'content', html:editor.innerHTML}) );
-  filename.addEventListener('input',()=> broadcast.postMessage({type:'name', value:filename.value}) );
-  alert('Mở tab mới cùng file để cộng tác thời gian thực (trên cùng thiết bị).');
-});
-
-  // View tab toggles
-  $('#toggleSpell').addEventListener('click', (e)=>{
-    const on = editor.getAttribute('spellcheck') !== 'false';
-    editor.setAttribute('spellcheck', String(!on));
-    e.target.setAttribute('aria-pressed', String(!on));
-  });
-  const leftPanel = document.querySelector('.main .panel:first-child');
-  const rightPanel = document.querySelector('.main .panel:last-child');
-  $('#toggleTOC').addEventListener('click',()=>{ if(leftPanel) leftPanel.style.display = (leftPanel.style.display==='none')?'': 'none'; });
-  $('#toggleCommentsPanel').addEventListener('click',()=>{ if(rightPanel) rightPanel.style.display = (rightPanel.style.display==='none')?'': 'none'; });
-
-// Basic AutoCorrect (demo)
-const autocorrect = new Map(Object.entries({ '(c)':'©', '(r)':'®', '-->':'→', '<-':'←', '...':'…' }));
-editor.addEventListener('input',()=>{
-  const last = window.getSelection(); if(!last.rangeCount) return;
-  const r = last.getRangeAt(0); const node=r.startContainer; if(node.nodeType===3){
-    const txt=node.textContent; autocorrect.forEach((rep, k)=>{ if(txt.includes(k)){ node.textContent = txt.replaceAll(k, rep); } });
-  }
-});
-
-  // Statusbar: word/char count
-  function textStats(){
-    const tmp = editor.cloneNode(true); tmp.querySelectorAll('style,script').forEach(n=>n.remove());
-    const plain = tmp.innerText.trim();
-    const words = plain ? plain.split(/\s+/).filter(Boolean).length : 0;
-    const chars = plain.length;
-    $('#wc').textContent = words + ' từ';
-    $('#cc').textContent = chars + ' ký tự';
-  }
-  const statsObs = new MutationObserver(textStats); statsObs.observe(editor,{subtree:true,childList:true,characterData:true});
-  textStats();
-
-  // Zoom control
-  const zoomRange = $('#zoomRange'); const zoomPct = $('#zoomPct');
-  function setZoom(pct){
-    document.documentElement.style.setProperty('--zoom', (pct/100).toString());
-    zoomPct.textContent = pct + '%';
-    localStorage.setItem('vibe.zoom', String(pct));
-  }
-  zoomRange.addEventListener('input', e=> setZoom(parseInt(e.target.value,10)) );
-  setZoom(parseInt(localStorage.getItem('vibe.zoom')||'100',10));
-
-  // Autosave
-  const saveTag = $('#saveState'); let saveTimer=null;
-  function scheduleSave(){
-    saveTag.textContent='Đang lưu…';
-    clearTimeout(saveTimer);
-    saveTimer = setTimeout(()=>{
-      localStorage.setItem('vibe.autosave.name', filename.value||'Untitled');
-      localStorage.setItem('vibe.autosave.html', editor.innerHTML);
-      saveTag.textContent='Đã lưu';
-    }, 500);
-  }
-  editor.addEventListener('input', scheduleSave);
-  filename.addEventListener('input', scheduleSave);
-  // Restore session
-  (function restore(){
-    const n = localStorage.getItem('vibe.autosave.name');
-    const h = localStorage.getItem('vibe.autosave.html');
-    if(h){ editor.innerHTML=h; buildTOC(); }
-    if(n){ filename.value=n; }
-  })();
-
-// Init demo content
-editor.innerHTML = `<h1>Vibe Docs — Demo</h1><p>Trình soạn thảo một file, đầy đủ tính năng cơ bản, chạy <em>hoàn toàn</em> trong trình duyệt. Hỗ trợ in ra PDF qua hộp thoại in của trình duyệt.</p><h2>Mục 1</h2><p>Soạn thử nội dung, dùng ribbon phía trên để định dạng. Thử thêm <strong>đậm</strong>, <em>nghiêng</em>, <u>gạch dưới</u>, <s>gạch ngang</s>.</p>`;
-buildTOC();
-</script>
-=======
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trình soạn thảo của Nhật Anh</title>
-  <!-- Nhúng Tailwind CSS để giao diện trông "sịn sò" -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Nhúng Font Awesome để có các icon đẹp -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Nhúng TinyMCE từ CDN -->
-  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minimal Doc</title>
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
-    .editor-container { max-width: 1000px; }
+    :root{
+      --bg:#f7f7f8; --panel:#ffffff; --text:#0a0a0a; --muted:#6b7280; --primary:#111827; --ring:#e5e7eb;
+      --toolbar:#fafafa; --btn:#f3f4f6; --btn-hover:#e5e7eb;
+    }
+    :root.dark{
+      --bg:#0b0c0f; --panel:#111217; --text:#f5f7fb; --muted:#9aa3b2; --primary:#d8dbe3; --ring:#1f2430;
+      --toolbar:#0f1115; --btn:#141821; --btn-hover:#1a2130;
+    }
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"}
+
+    .app{max-width:1100px;margin:32px auto;padding:0 20px}
+    .titlebar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(145deg,#111827, #374151); box-shadow:0 6px 20px rgba(0,0,0,.18)}
+    .name{font-weight:700;letter-spacing:.2px}
+    .grow{flex:1}
+
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px;border:1px solid var(--ring);border-bottom:0;border-top-left-radius:16px;border-top-right-radius:16px;background:var(--toolbar)}
+    .btn{appearance:none;border:1px solid var(--ring);background:var(--btn);padding:8px 10px;border-radius:12px;cursor:pointer;transition:all .15s ease;font-weight:600;min-width:36px}
+    .btn:hover{background:var(--btn-hover);transform:translateY(-1px)}
+    .btn[aria-pressed="true"]{outline:2px solid #9ca3af}
+    .divider{width:1px;height:28px;background:var(--ring);margin:0 2px}
+    .input{border:1px solid var(--ring);background:var(--panel);color:var(--text);padding:8px 10px;border-radius:12px;min-width:220px}
+
+    .editor-wrap{border:1px solid var(--ring);background:var(--panel);border-bottom-left-radius:16px;border-bottom-right-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.06)}
+    .title{width:100%;border:0;outline:0;background:transparent;font-size:28px;font-weight:800;padding:18px 22px;border-bottom:1px solid var(--ring); color:var(--text)}
+
+    .editor{min-height:60vh;padding:24px 22px;font-size:18px;outline:none}
+    .editor:empty:before{content:attr(data-placeholder); color:var(--muted)}
+
+    .statusbar{display:flex;gap:12px;align-items:center;justify-content:space-between;color:var(--muted);padding:12px 16px;border-top:1px dashed var(--ring);font-size:13px}
+
+    /* Content styling for a refined reading look */
+    .editor h1{font-size:2rem;line-height:1.25;margin:1.1em 0 .6em;font-weight:800}
+    .editor h2{font-size:1.5rem;line-height:1.25;margin:1em 0 .5em;font-weight:700}
+    .editor p{margin:.7em 0}
+    .editor ul,.editor ol{margin:.6em 0 .6em 1.2em}
+    .editor blockquote{border-left:3px solid var(--ring);margin:.8em 0;padding:.2em 1em;color:var(--muted)}
+    .editor a{color:inherit;text-decoration:underline dotted}
+
+    /* Print clean */
+    @media print{
+      .toolbar,.statusbar,.titlebar{display:none!important}
+      body{background:#fff;color:#000}
+      .editor-wrap{border:0;box-shadow:none}
+      .editor{min-height:auto}
+    }
   </style>
 </head>
-<body class="p-6 md:p-10 flex justify-center items-start min-h-screen">
+<body>
+  <div class="app">
+    <div class="titlebar">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="name">Minimal Doc</div>
+      <div class="grow"></div>
+      <button id="darkBtn" class="btn" title="Chế độ tối">🌙</button>
+    </div>
 
-  <div class="editor-container w-full bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200">
-    <!-- Tiêu đề và nút chức năng -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b pb-4">
-      <h1 class="text-3xl font-extrabold text-gray-800 mb-4 md:mb-0">Trình soạn thảo của tui! ✨</h1>
-      <div class="flex space-x-2">
-        <!-- Nút Tạo tài liệu mới -->
-        <button id="new-doc-btn" class="bg-indigo-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-indigo-600 transition-colors duration-200 shadow-md">
-          <i class="fas fa-file-alt mr-2"></i>Mới
-        </button>
-        <!-- Nút Lưu tài liệu -->
-        <button id="save-btn" class="bg-green-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-600 transition-colors duration-200 shadow-md">
-          <i class="fas fa-save mr-2"></i>Lưu
-        </button>
-        <!-- Nút Lưu thành tên mới -->
-        <button id="save-as-btn" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-yellow-600 transition-colors duration-200 shadow-md">
-          <i class="fas fa-file-export mr-2"></i>Lưu thành
-        </button>
-        <!-- Nút Mở tài liệu -->
-        <button id="open-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-blue-600 transition-colors duration-200 shadow-md">
-          <i class="fas fa-folder-open mr-2"></i>Mở
-        </button>
+    <div class="toolbar" role="toolbar" aria-label="Thanh công cụ">
+      <button class="btn" id="newBtn" title="Tạo tài liệu mới (Ctrl+N)">Mới</button>
+      <input id="fileOpen" type="file" accept=".txt,.md,.html,.htm" hidden />
+      <button class="btn" id="openBtn" title="Mở file (.txt/.md/.html)">Mở</button>
+      <button class="btn" id="saveHtmlBtn" title="Lưu dạng HTML (Ctrl+S)">Lưu HTML</button>
+      <button class="btn" id="saveTxtBtn" title="Xuất TXT">Xuất TXT</button>
+      <button class="btn" id="printBtn" title="In (Ctrl+P)">In</button>
+      <div class="divider"></div>
+
+      <button class="btn" data-cmd="bold" title="Đậm (Ctrl+B)"><b>B</b></button>
+      <button class="btn" data-cmd="italic" title="Nghiêng (Ctrl+I)"><i>I</i></button>
+      <button class="btn" data-cmd="underline" title="Gạch dưới (Ctrl+U)"><u>U</u></button>
+      <button class="btn" id="clearBtn" title="Xóa định dạng">Clear</button>
+      <div class="divider"></div>
+
+      <button class="btn" data-block="h1" title="Tiêu đề lớn">H1</button>
+      <button class="btn" data-block="h2" title="Tiêu đề vừa">H2</button>
+      <button class="btn" data-block="p" title="Đoạn văn">P</button>
+      <div class="divider"></div>
+
+      <button class="btn" data-cmd="insertUnorderedList" title="Danh sách chấm">• List</button>
+      <button class="btn" data-cmd="insertOrderedList" title="Danh sách số">1. List</button>
+      <div class="divider"></div>
+
+      <button class="btn" data-cmd="justifyLeft" title="Căn trái">⟸</button>
+      <button class="btn" data-cmd="justifyCenter" title="Căn giữa">≡</button>
+      <button class="btn" data-cmd="justifyRight" title="Căn phải">⟹</button>
+      <div class="divider"></div>
+
+      <button class="btn" id="undoBtn" title="Hoàn tác (Ctrl+Z)">↺</button>
+      <button class="btn" id="redoBtn" title="Làm lại (Ctrl+Y)">↻</button>
+      <div class="divider"></div>
+
+      <input id="linkInput" class="input" type="url" placeholder="Dán link và Enter để chèn"/>
+    </div>
+
+    <div class="editor-wrap">
+      <input id="docTitle" class="title" placeholder="Tiêu đề tài liệu" spellcheck="false" />
+      <div id="editor" class="editor" contenteditable="true" spellcheck="true" data-placeholder="Gõ nội dung ở đây…"></div>
+      <div class="statusbar">
+        <div id="statusLeft">Đã lưu tự động</div>
+        <div id="statusRight">0 từ • 0 ký tự</div>
       </div>
     </div>
-    
-    <!-- Đây là nơi TinyMCE sẽ hiển thị -->
-    <textarea id="editor"></textarea>
-
-    <!-- Modal thông báo -->
-    <div id="message-box" class="hidden fixed bottom-6 right-6 bg-gray-800 text-white p-4 rounded-xl shadow-lg transition-transform duration-300 ease-out transform translate-y-20 opacity-0">
-      <p id="message-text" class="flex items-center">
-        <i class="fas fa-check-circle text-green-400 mr-2"></i>
-        Đã lưu tài liệu thành công!
-      </p>
-    </div>
-
-    <!-- Input ẩn để mở file -->
-    <input type="file" id="file-input" class="hidden" accept=".html,.txt">
   </div>
 
   <script>
-    // Khởi tạo TinyMCE
-    let editor;
+    const $ = (sel)=>document.querySelector(sel);
+    const editor = $('#editor');
+    const titleInput = $('#docTitle');
+    const statusLeft = $('#statusLeft');
+    const statusRight = $('#statusRight');
 
-    tinymce.init({
-      selector: '#editor',
-      height: 600,
-      menubar: false,
-      skin: 'oxide',
-      content_css: 'default',
-      // Thêm các plugins để có đầy đủ tính năng như bạn yêu cầu
-      plugins: 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount autoresize',
-      toolbar: 'undo redo | blocks | ' +
-               'bold italic forecolor | alignleft aligncenter alignright alignjustify | ' +
-               'bullist numlist outdent indent | link image | table | ' +
-               'searchreplace | code | fullscreen | preview | help',
-      // Ngôn ngữ tiếng Việt
-      language: 'vi',
-      setup: function(ed) {
-        editor = ed;
+    // ---- Commands ----
+    document.querySelectorAll('[data-cmd]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.execCommand(btn.dataset.cmd,false,null);
+        editor.focus();
+        saveToLocal();
+        updateCount();
+      });
+    });
+
+    document.querySelectorAll('[data-block]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const tag = btn.dataset.block.toUpperCase();
+        document.execCommand('formatBlock', false, tag);
+        editor.focus();
+        saveToLocal();
+      })
+    });
+
+    // Clear formatting
+    $('#clearBtn').addEventListener('click',()=>{
+      document.execCommand('removeFormat');
+      editor.querySelectorAll('h1,h2').forEach(n=>{const p=document.createElement('p'); p.innerHTML=n.innerHTML; n.replaceWith(p)});
+      saveToLocal();
+      editor.focus();
+    });
+
+    // Undo/Redo
+    $('#undoBtn').addEventListener('click',()=>document.execCommand('undo'));
+    $('#redoBtn').addEventListener('click',()=>document.execCommand('redo'));
+
+    // Link insert from input
+    const linkInput = $('#linkInput');
+    linkInput.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        const url = linkInput.value.trim();
+        if(url){ document.execCommand('createLink', false, url); linkInput.value=''; editor.focus(); saveToLocal(); }
       }
     });
 
-    // Hàm hiển thị thông báo
-    function showMessage(text, iconClass) {
-      const msgBox = document.getElementById('message-box');
-      const msgText = document.getElementById('message-text');
-      msgText.innerHTML = `<i class="${iconClass} mr-2"></i>${text}`;
-      msgBox.classList.remove('hidden', 'translate-y-20', 'opacity-0');
-      msgBox.classList.add('flex', 'translate-y-0', 'opacity-100');
-      setTimeout(() => {
-        msgBox.classList.remove('translate-y-0', 'opacity-100');
-        msgBox.classList.add('translate-y-20', 'opacity-0');
-        setTimeout(() => msgBox.classList.add('hidden'), 300);
-      }, 3000);
+    // ---- File Ops ----
+    $('#newBtn').addEventListener('click',()=>{
+      if(editor.innerText.trim() && !confirm('Xóa nội dung hiện tại và tạo tài liệu mới?')) return;
+      titleInput.value=''; editor.innerHTML=''; saveToLocal(); updateCount();
+    });
+
+    $('#openBtn').addEventListener('click',()=>$('#fileOpen').click());
+
+    $('#fileOpen').addEventListener('change', async (e)=>{
+      const file = e.target.files[0]; if(!file) return;
+      const text = await file.text();
+      const ext = (file.name.split('.').pop()||'').toLowerCase();
+      titleInput.value = file.name.replace(/\.(txt|md|html?|)$/i,'');
+      if(ext==='html' || ext==='htm'){ editor.innerHTML = text; }
+      else { editor.innerText = text; }
+      saveToLocal(); updateCount();
+      e.target.value='';
+    });
+
+    $('#saveHtmlBtn').addEventListener('click',()=>{
+      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${escapeHtml(titleInput.value||'Untitled')}</title></head><body>${editor.innerHTML}</body></html>`;
+      download(`${safeName(titleInput.value||'Untitled')}.html`, html);
+    });
+
+    $('#saveTxtBtn').addEventListener('click',()=>{
+      const txt = editor.innerText.replace(/\n{3,}/g,'\n\n');
+      download(`${safeName(titleInput.value||'Untitled')}.txt`, txt);
+    });
+
+    $('#printBtn').addEventListener('click',()=>window.print());
+
+    function download(name, content){
+      const blob = new Blob([content], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = name; a.click();
+      URL.revokeObjectURL(a.href);
     }
 
-    // Gán sự kiện cho các nút
-    document.getElementById('new-doc-btn').addEventListener('click', () => {
-      if (editor) {
-        editor.setContent('');
-        showMessage('Đã tạo tài liệu mới!', 'fas fa-file-alt text-blue-400');
-      }
-    });
+    function safeName(s){ return s.trim().replace(/[^\p{L}\p{N}\- _]+/gu,'_').slice(0,60)||'Untitled'; }
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
 
-    document.getElementById('save-btn').addEventListener('click', () => {
-      if (editor) {
-        const content = editor.getContent();
-        const blob = new Blob([content], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'document.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        showMessage('Đã lưu tài liệu!', 'fas fa-save text-green-400');
-      }
-    });
-
-    document.getElementById('save-as-btn').addEventListener('click', () => {
-      if (editor) {
-        const fileName = prompt('Nhập tên file:');
-        if (fileName) {
-          const content = editor.getContent();
-          const blob = new Blob([content], { type: 'text/html' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = fileName.endsWith('.html') ? fileName : `${fileName}.html`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          showMessage(`Đã lưu tài liệu thành: ${fileName}`, 'fas fa-file-export text-yellow-400');
+    // ---- Autosave ----
+    const key = 'minimal-doc-v1';
+    function saveToLocal(){
+      const data = {title:titleInput.value, html: editor.innerHTML, updated: Date.now(), dark: document.documentElement.classList.contains('dark')};
+      localStorage.setItem(key, JSON.stringify(data));
+      statusLeft.textContent = 'Đã lưu';
+      setTimeout(()=> statusLeft.textContent = 'Tự động lưu', 1200);
+    }
+    function restore(){
+      try{
+        const data = JSON.parse(localStorage.getItem(key)||'null');
+        if(data){
+          titleInput.value = data.title || '';
+          editor.innerHTML = data.html || '';
+          if(data.dark) document.documentElement.classList.add('dark');
         }
-      }
+      }catch{ /* ignore */ }
+      updateCount();
+    }
+    restore();
+
+    // Save when typing (throttled)
+    let t;
+    editor.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(()=>{saveToLocal(); updateCount();}, 250); });
+    titleInput.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(saveToLocal, 250); });
+
+    // ---- Word/Char count ----
+    function updateCount(){
+      const text = editor.innerText.trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      const chars = text.length;
+      statusRight.textContent = `${words} từ • ${chars} ký tự`;
+    }
+
+    // ---- Dark mode ----
+    $('#darkBtn').addEventListener('click',()=>{
+      document.documentElement.classList.toggle('dark');
+      saveToLocal();
     });
 
-    document.getElementById('open-btn').addEventListener('click', () => {
-      document.getElementById('file-input').click();
+    // ---- Shortcuts ----
+    window.addEventListener('keydown',(e)=>{
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='s'){ e.preventDefault(); $('#saveHtmlBtn').click(); }
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='n'){ e.preventDefault(); $('#newBtn').click(); }
+      // Let browser handle Ctrl+P, Ctrl+B/I/U, Ctrl+Z/Y
     });
 
-    document.getElementById('file-input').addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          if (editor) {
-            editor.setContent(e.target.result);
-            showMessage('Đã mở tài liệu thành công!', 'fas fa-folder-open text-blue-400');
-          }
-        };
-        reader.readAsText(file);
-      }
-    });
+    // Focus editor on load if empty
+    window.addEventListener('load', ()=>{ if(!editor.textContent.trim()) editor.focus(); });
   </script>
->>>>>>> bf428d442dd67912cfb14ed5fed61086bf5a1325
 </body>
 </html>
