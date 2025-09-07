@@ -18,6 +18,15 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>Text2</title>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "47c57739-ac6f-4025-a2ae-eb01edab8bc9",
+    });
+  });
+</script>
   <meta name="description" content="Text2 - We are making a difference" />
   <meta name="keywords" content="Text2, text2 team" />
   <meta name="robots" content="index, follow" />
