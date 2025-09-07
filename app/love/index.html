@@ -409,10 +409,38 @@
         const resultDiv = document.getElementById('result');
         const errorDiv = document.getElementById('error');
 
+        function normalizeName(name) {
+            return name
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function isSpecialPair(a, b) {
+            const n1 = normalizeName(a);
+            const n2 = normalizeName(b);
+            const pairs = [
+                ['nhat anh', 'ngoc han'],
+                ['hoa nhat anh', 'thi ngoc han'],
+                ['anh', 'han']
+            ];
+            return pairs.some(([x, y]) => (n1 === x && n2 === y) || (n1 === y && n2 === x));
+        }
+
         function calculateCompatibility(name1, name2) {
             let str1 = name1.trim().toLowerCase();
             let str2 = name2.trim().toLowerCase();
             
+            // Special cases: predefined perfect matches
+            if (isSpecialPair(name1, name2)) {
+                const lovePercentage = 100;
+                const message = 'Tình yêu tuyệt vời!';
+                return `<span class="heart-icon">❤️</span> Compatibility Score: <strong>${lovePercentage}%</strong><br>${message}`;
+            }
+
             // Enhanced compatibility calculation
             let compatibility = {
                 basic: calculateBasicCompatibility(str1, str2),
