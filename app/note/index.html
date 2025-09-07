@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quick Notes — Simple</title>
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --muted:#6b7280; --accent:#6c5ce7;
+      --radius:14px; --shadow:0 6px 18px rgba(28,30,40,0.08);
+      --gap:14px; --maxwidth:880px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(180deg,var(--bg),#ffffff); color:#111827; display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .app{
+      width:100%; max-width:var(--maxwidth); background:transparent;
+      display:grid; grid-template-columns:1fr; gap:var(--gap);
+    }
+    .shell{background:var(--card); border-radius:18px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column; min-height:560px}
+
+    /* toolbar: top on desktop, bottom on mobile */
+    .toolbar{display:flex; gap:8px; padding:12px; align-items:center; justify-content:center; background:transparent}
+    .toolbar button{background:transparent;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .toolbar button.active{background:linear-gradient(90deg,var(--accent),#a29bfe); color:white; box-shadow:0 6px 18px rgba(108,92,231,0.18)}
+
+    .content{display:grid; grid-template-columns:1fr; gap:16px; padding:18px}
+
+    .editor{display:flex; flex-direction:column; gap:10px}
+    .field{display:flex; flex-direction:column; gap:6px}
+    input.title{padding:12px 14px; border-radius:12px; border:1px solid #e6e9f2; font-size:16px}
+    textarea.body{min-height:260px; resize:vertical; padding:14px; border-radius:12px; border:1px solid #e6e9f2; font-size:15px; line-height:1.5}
+    .row{display:flex; gap:8px; align-items:center}
+    .btn{padding:10px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .btn.save{background:var(--accent); color:white}
+    .btn.clear{background:#f3f4f6; color:var(--muted)}
+
+    .notes-list{display:flex; flex-direction:column; gap:10px}
+    .note-card{background:linear-gradient(180deg,#fff,#fbfbff); border-radius:12px; padding:12px; border:1px solid #f0f2fb; cursor:pointer; display:flex; justify-content:space-between; align-items:center}
+    .note-meta{display:flex; flex-direction:column}
+    .note-title{font-weight:700}
+    .note-time{color:var(--muted); font-size:13px}
+    .note-actions{display:flex; gap:8px; align-items:center}
+    .icon-btn{background:transparent;border:none; padding:6px;border-radius:8px; cursor:pointer}
+
+    .empty{padding:24px; text-align:center; color:var(--muted)}
+
+    /* responsive toolbar placement */
+    .shell{position:relative}
+    .toolbar-wrapper{position:relative}
+    @media (min-width:768px){
+      .shell{min-height:520px}
+      .toolbar-wrapper{position:sticky; top:0; background:transparent; z-index:2}
+      .toolbar{justify-content:flex-start;padding:18px 18px}
+    }
+    @media (max-width:767px){
+      .toolbar-wrapper{position:sticky; bottom:0; background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95)); padding:10px}
+      .toolbar{justify-content:center}
+      body{padding:12px}
+    }
+
+    /* small screens tweak */
+    @media (max-width:420px){
+      input.title{font-size:15px}
+      .btn{padding:8px 10px}
+    }
+
+    footer.hint{padding:12px 18px; font-size:13px; color:var(--muted); display:flex; justify-content:space-between; align-items:center}
+    .search{padding:10px 12px; border-radius:12px; border:1px solid #eef0fb}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="shell" id="appShell">
+      <div class="toolbar-wrapper">
+        <div class="toolbar" role="toolbar">
+          <button id="tab-edit" class="active" aria-pressed="true">✍️ Quick Note</button>
+          <button id="tab-list" aria-pressed="false">📁 Saved Notes</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Editor view -->
+        <div id="view-editor" class="editor" aria-hidden="false">
+          <div class="field">
+            <input id="note-title" class="title" placeholder="Title (e.g., Idea)" />
+          </div>
+          <div class="field">
+            <textarea id="note-body" class="body" placeholder="Write here... (Ctrl/Cmd+S to save quickly)"></textarea>
+          </div>
+          <div class="row">
+            <button id="saveBtn" class="btn save">SAVE</button>
+            <button id="clearBtn" class="btn clear">Clear</button>
+            <div style="flex:1"></div>
+            <div class="note-count" id="noteCount"></div>
+          </div>
+        </div>
+
+        <!-- List view -->
+        <div id="view-list" class="notes-list" style="display:none;" aria-hidden="true">
+          <div style="display:flex; gap:8px; align-items:center">
+            <input id="searchInput" class="search" placeholder="Search title or content" />
+            <button id="clearAll" class="btn clear">Clear All</button>
+          </div>
+          <div id="notesContainer"></div>
+          <div id="emptyMsg" class="empty" style="display:none">No notes yet. Write one and save it 💡</div>
+        </div>
+      </div>
+
+      <footer class="hint">
+        <div>✔ Data saved in browser (localStorage)</div>
+        <div style="font-style:italic">Lightweight — Simple — Elegant</div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Simple localStorage-backed notes app
+    const KEY = 'simple_notes_v1';
+    let notes = [];
+    let editingId = null;
+
+    // DOM
+    const tabEdit = document.getElementById('tab-edit');
+    const tabList = document.getElementById('tab-list');
+    const viewEditor = document.getElementById('view-editor');
+    const viewList = document.getElementById('view-list');
+    const titleInput = document.getElementById('note-title');
+    const bodyInput = document.getElementById('note-body');
+    const saveBtn = document.getElementById('saveBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const notesContainer = document.getElementById('notesContainer');
+    const emptyMsg = document.getElementById('emptyMsg');
+    const noteCount = document.getElementById('noteCount');
+    const searchInput = document.getElementById('searchInput');
+    const clearAll = document.getElementById('clearAll');
+
+    // init
+    function load(){
+      try{ notes = JSON.parse(localStorage.getItem(KEY) || '[]'); }
+      catch(e){ notes = []; }
+      renderNotesList();
+      updateCount();
+    }
+
+    function saveToStorage(){ localStorage.setItem(KEY, JSON.stringify(notes)); }
+
+    function makeId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+    function saveNote(){
+      const title = titleInput.value.trim();
+      const body = bodyInput.value.trim();
+      if(!title && !body){ alert('Write something before saving 🙂'); return }
+      if(editingId){
+        const i = notes.findIndex(n => n.id === editingId);
+        if(i>-1){ notes[i].title = title; notes[i].body = body; notes[i].updated = Date.now(); }
+      } else {
+        notes.unshift({ id: makeId(), title, body, created: Date.now(), updated: Date.now() });
+      }
+      saveToStorage();
+      renderNotesList();
+      updateCount();
+      // reset editor
+      titleInput.value = '';
+      bodyInput.value = '';
+      editingId = null;
+      tabList.click(); // show saved notes after save
+    }
+
+    function renderNotesList(filter=''){
+      notesContainer.innerHTML = '';
+      const f = filter.toLowerCase().trim();
+      const list = notes.filter(n => {
+        if(!f) return true;
+        return (n.title||'').toLowerCase().includes(f) || (n.body||'').toLowerCase().includes(f);
+      });
+      if(list.length===0){ emptyMsg.style.display='block'; } else { emptyMsg.style.display='none'; }
+      list.forEach(n => {
+        const card = document.createElement('div'); card.className='note-card';
+        const meta = document.createElement('div'); meta.className='note-meta';
+        const t = document.createElement('div'); t.className='note-title'; t.textContent = n.title || '(Untitled)';
+        const s = document.createElement('div'); s.className='note-time'; s.textContent = new Date(n.updated || n.created).toLocaleString();
+        meta.appendChild(t); meta.appendChild(s);
+        const actions = document.createElement('div'); actions.className='note-actions';
+        const openBtn = document.createElement('button'); openBtn.className='icon-btn'; openBtn.title='Open to edit'; openBtn.innerHTML='✏️';
+        openBtn.onclick = (e)=>{ e.stopPropagation(); openNote(n.id); }
+        const delBtn = document.createElement('button'); delBtn.className='icon-btn'; delBtn.title='Delete'; delBtn.innerHTML='🗑️';
+        delBtn.onclick = (e)=>{ e.stopPropagation(); if(confirm('Delete this note?')){ deleteNote(n.id); } }
+        actions.appendChild(openBtn); actions.appendChild(delBtn);
+        card.appendChild(meta); card.appendChild(actions);
+        card.onclick = ()=>{ openNote(n.id); }
+        notesContainer.appendChild(card);
+      });
+    }
+
+    function openNote(id){
+      const n = notes.find(x=>x.id===id); if(!n) return;
+      editingId = id;
+      titleInput.value = n.title; bodyInput.value = n.body;
+      showEditor();
+    }
+
+    function deleteNote(id){ notes = notes.filter(n=>n.id!==id); saveToStorage(); renderNotesList(); updateCount(); }
+
+    function clearEditor(){ editingId=null; titleInput.value=''; bodyInput.value=''; }
+
+    function updateCount(){ noteCount.textContent = notes.length ? `${notes.length} notes` : 'No notes yet' }
+
+    // tabs
+    tabEdit.addEventListener('click', ()=>{ tabEdit.classList.add('active'); tabEdit.setAttribute('aria-pressed','true'); tabList.classList.remove('active'); tabList.setAttribute('aria-pressed','false'); showEditor(); });
+    tabList.addEventListener('click', ()=>{ tabList.classList.add('active'); tabList.setAttribute('aria-pressed','true'); tabEdit.classList.remove('active'); tabEdit.setAttribute('aria-pressed','false'); showList(); });
+
+    function showEditor(){ viewEditor.style.display='flex'; viewEditor.setAttribute('aria-hidden','false'); viewList.style.display='none'; viewList.setAttribute('aria-hidden','true'); titleInput.focus(); }
+    function showList(){ viewEditor.style.display='none'; viewEditor.setAttribute('aria-hidden','true'); viewList.style.display='flex'; viewList.setAttribute('aria-hidden','false'); searchInput.focus(); }
+
+    // events
+    saveBtn.addEventListener('click', saveNote);
+    clearBtn.addEventListener('click', ()=>{ if(confirm('Clearing will discard current content?')) clearEditor(); });
+    searchInput.addEventListener('input', ()=>{ renderNotesList(searchInput.value); });
+    clearAll.addEventListener('click', ()=>{ if(confirm('Clear all notes?')){ notes=[]; saveToStorage(); renderNotesList(); updateCount(); } });
+
+    // keyboard shortcut save
+    document.addEventListener('keydown', (e)=>{
+      if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='s'){
+        e.preventDefault(); saveNote();
+      }
+    });
+
+    // initialize
+    load();
+
+    // Accessibility: if empty and on mobile, focus editor by default
+    window.matchMedia('(max-width:767px)').matches ? showEditor() : showEditor();
+  </script>
+</body>
+</html>
