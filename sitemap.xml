@@ -39,4 +39,20 @@
   <url>
     <loc>https://text2.click/app/text-corr/</loc>
   </url>
-</urlset> 
+  <!-- New apps added -->
+  <url>
+    <loc>https://text2.click/app/add-luts/</loc>
+  </url>
+  <url>
+    <loc>https://text2.click/app/chat-ai/</loc>
+  </url>
+  <url>
+    <loc>https://text2.click/app/note/</loc>
+  </url>
+  <url>
+    <loc>https://text2.click/app/podcast/</loc>
+  </url>
+  <url>
+    <loc>https://text2.click/app/read-html/</loc>
+  </url>
+</urlset>
