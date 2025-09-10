@@ -65,6 +65,29 @@
       color: #4fc3f7;
       transform: scale(1.1);
     }
+
+    /* Style the search bar to match the current design */
+    #searchBar {
+      margin-left: auto;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #4fc3f7;
+      background: rgba(33, 37, 41, 0.95);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    #searchBar:focus {
+      box-shadow: 0 0 8px rgba(79, 195, 247, 0.8);
+      border-color: #4fc3f7;
+    }
+
+    #searchBar::placeholder {
+      color: #b0b0b0;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -74,6 +97,8 @@
       <span>Text2</span>
     </div>
     <span style="font-weight:600; font-size:15px;">App Center</span>
+    <!-- Add Search Bar -->
+    <input type="text" id="searchBar" placeholder="Search apps..." oninput="filterApps()">
   </header>
   <div class="app-title">The Latest Applications from Text2</div>
   <div class="icon-container" id="mainApps">
@@ -191,5 +216,21 @@
       © 2024 <span style="color:#4fc3f7; font-weight:600;">Text2</span> &nbsp;|&nbsp; All rights reserved.
     </div>
   </footer>
+
+  <script>
+    function filterApps() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const apps = document.querySelectorAll('.icon');
+
+      apps.forEach(app => {
+        const appName = app.querySelector('p').textContent.toLowerCase();
+        if (appName.includes(query)) {
+          app.style.display = '';
+        } else {
+          app.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
