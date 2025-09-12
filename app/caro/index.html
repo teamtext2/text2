@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Caro X O — Text2 Edition</title>
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --bg-light: #ffffff;
+      --card-dark: #161b22;
+      --card-light: #f0f0f0;
+      --accent: #58a6ff;
+      --muted-dark: #8b949e;
+      --muted-light: #6e6e6e;
+      --glass-dark: rgba(255, 255, 255, 0.04);
+      --glass-light: rgba(0, 0, 0, 0.04);
+      --tile-size: 46px;
+      --board-gap: 4px;
+      --shadow-dark: 0 8px 24px rgba(2, 6, 23, 0.6);
+      --shadow-light: 0 8px 24px rgba(200, 200, 200, 0.6);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg-dark);
+      color: #e6eef8;
+    }
+
+    .wrap {
+      min-height: 100%;
+      display: flex;
+      gap: 28px;
+      padding: 32px;
+      box-sizing: border-box;
+    }
+
+    /* sidebar */
+    .panel {
+      width: 360px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: linear-gradient(135deg,#0ea5a0,#7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      box-shadow: 0 6px 18px rgba(124,58,237,0.18);
+    }
+
+    h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    p.small {
+      color: var(--muted);
+      margin: 8px 0 18px;
+      font-size: 13px;
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input[type=text], input[type=number], select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: transparent;
+      color: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      background: linear-gradient(180deg,#0ea5a0,#34d399);
+      color: #02111a;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.04);
+      color: var(--muted);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* board area */
+    .game {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .player {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .turn {
+      font-size: 15px;
+    }
+
+    /* infinite board wrapper */
+    .board-wrap {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      padding: 14px;
+      border-radius: 12px;
+      overflow: auto;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(var(--cols), var(--tile-size));
+      gap: var(--board-gap);
+      padding: 12px;
+    }
+
+    .cell {
+      width: var(--tile-size);
+      height: var(--tile-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card-dark);
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      box-shadow: inset 0 -6px 18px rgba(0, 0, 0, 0.2);
+      font-size: 18px;
+    }
+
+    .cell:hover {
+      transform: translateY(-4px);
+      transition: transform 0.12s;
+    }
+
+    .cell .token {
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .cell img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 6px;
+    }
+
+    .cell.win {
+      outline: 3px solid rgba(110, 231, 183, 0.18);
+      box-shadow: 0 8px 30px rgba(110, 231, 183, 0.06);
+    }
+
+    /* Remove cell numbering */
+    .coords {
+      display: none;
+    }
+
+    /* responsive */
+    @media (max-width:900px) {
+      .wrap {
+        flex-direction: column;
+        padding: 18px;
+      }
+
+      .panel {
+        width: 100%;
+      }
+    }
+
+    /* Responsive styles for mobile */
+    @media (max-width: 600px) {
+      .wrap {
+        flex-direction: column;
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .panel {
+        width: 100%;
+        padding: 16px;
+        box-shadow: var(--shadow-dark);
+      }
+
+      .game {
+        gap: 12px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .status {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .board-wrap {
+        padding: 8px;
+      }
+
+      .cell {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .footer-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="panel card">
+      <div class="brand">
+        <div class="logo">T2</div>
+        <div>
+          <h1>Caro — X vs O</h1>
+          <p class="small">Giao diện blocky siêu xịn, hỗ trợ "ô vô hạn" (board mở rộng), token là chữ, emoji hoặc URL ảnh.</p>
+        </div>
+      </div>
+
+      <div class="control">
+        <div>
+          <label>Player A token (mặc định X)</label>
+          <input id="pA" type="text" value="X" placeholder="Nhập chữ, emoji hoặc URL ảnh (http...)" />
+        </div>
+        <div>
+          <label>Player B token (mặc định O)</label>
+          <input id="pB" type="text" value="O" placeholder="Nhập chữ, emoji hoặc URL ảnh (http...)" />
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label>Số ô mặc định (NxN)</label>
+            <input id="size" type="number" value="20" min="8" max="100" />
+          </div>
+          <div style="width:120px">
+            <label>Đường thắng</label>
+            <input id="winLen" type="number" value="5" min="3" max="10" />
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="newBtn">Bắt đầu lại</button>
+          <button class="btn ghost" id="swapBtn">Đổi người</button>
+        </div>
+
+        <div>
+          <label>Chế độ vô hạn</label>
+          <div class="toggle"><input id="infinite" type="checkbox" checked /> <span class="muted">Tự động mở rộng khi đánh gần mép</span></div>
+        </div>
+
+        <div>
+          <label>Hướng dẫn</label>
+          <p class="muted">Nhấp ô để đặt quân. Mục tiêu: nối <strong id="winText">5</strong> ô liên tiếp. Bạn có thể dùng chữ, emoji, hoặc dán URL ảnh để làm sticker.</p>
+        </div>
+
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ghost" id="undoBtn">Undo</button>
+          <button class="btn ghost" id="redoBtn">Redo</button>
+          <button class="btn ghost" id="zoomIn">+ Zoom</button>
+          <button class="btn ghost" id="zoomOut">- Zoom</button>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="game">
+      <div class="topbar">
+        <div class="card status">
+          <div class="player">
+            <div class="avatar" id="avatarA">X</div>
+            <div>
+              <div class="turn" id="labelA">Player A</div>
+              <div class="muted">Token: <span id="tokenA">X</span></div>
+            </div>
+          </div>
+
+          <div style="width:24px"></div>
+
+          <div class="player">
+            <div class="avatar" id="avatarB">O</div>
+            <div>
+              <div class="turn" id="labelB">Player B</div>
+              <div class="muted">Token: <span id="tokenB">O</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card" style="display:flex;align-items:center;gap:12px">
+          <div class="muted">Trạng thái:</div>
+          <div id="statusText">Luật chơi: Nối 5 để thắng — Bắt đầu!</div>
+        </div>
+      </div>
+
+      <div class="card board-wrap">
+        <div id="board" class="board" style="--cols:20"></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="muted">Tip: đánh gần mép để mở rộng bảng nếu bật chế độ vô hạn.</div>
+        <div class="footer-actions">
+          <button class="btn ghost" id="exportBtn">Xuất ảnh (PNG)</button>
+          <button class="btn" id="hintBtn">Gợi ý</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // --- state ---
+    let cols = 20;
+    let rows = 20;
+    let cells = []; // 2D array
+    let moves = [];
+    let undone = [];
+    let current = 0; // 0 -> A, 1 -> B
+    let playerTokens = [document.getElementById('pA').value, document.getElementById('pB').value];
+    let winLen = parseInt(document.getElementById('winLen').value,10);
+    let infinite = document.getElementById('infinite').checked;
+    const boardEl = document.getElementById('board');
+
+    // utilities
+    const isImageUrl = (s)=>/^https?:\/\/.+\.(png|jpg|jpeg|gif|webp)(\?.*)?$/i.test(s);
+
+    function makeEmpty(r,c){
+      const a = new Array(r);
+      for(let i=0;i<r;i++){ a[i]=new Array(c).fill(null); }
+      return a;
+    }
+
+    function initGrid(n){
+      cols = n; rows = n; cells = makeEmpty(rows,cols); moves = []; undone = []; renderGrid(); updateUI();
+    }
+
+    function renderGrid(){
+      boardEl.style.setProperty('--cols', cols);
+      boardEl.innerHTML = '';
+      for(let y=0;y<rows;y++){
+        for(let x=0;x<cols;x++){
+          const idx = document.createElement('div'); idx.className='cell'; idx.dataset.x=x; idx.dataset.y=y;
+          const val = cells[y][x];
+          if(val!=null){
+            const token = document.createElement('div'); token.className='token';
+            if(isImageUrl(val)){
+              const img = document.createElement('img'); img.src = val; img.alt = '';
+              token.appendChild(img);
+            } else {
+              token.textContent = val;
+            }
+            idx.appendChild(token);
+          }
+          idx.addEventListener('click', onCellClick);
+          boardEl.appendChild(idx);
+        }
+      }
+    }
+
+    function onCellClick(e){
+      const x = parseInt(this.dataset.x,10);
+      const y = parseInt(this.dataset.y,10);
+      if(cells[y][x]!=null) return; // already
+      const token = playerTokens[current] || (current===0?'X':'O');
+      cells[y][x] = token;
+      moves.push({x,y,player:current,token}); undone = [];
+      checkWin(x,y,current);
+      if(infinite) maybeExpand(x,y);
+      current = 1-current;
+      renderGrid(); updateUI();
+    }
+
+    function updateUI(){
+      document.getElementById('tokenA').textContent = playerTokens[0];
+      document.getElementById('tokenB').textContent = playerTokens[1];
+      document.getElementById('avatarA').innerHTML = renderSmall(playerTokens[0]);
+      document.getElementById('avatarB').innerHTML = renderSmall(playerTokens[1]);
+      document.getElementById('winText').textContent = winLen;
+      document.getElementById('statusText').textContent = `Lượt: ${current===0? 'Player A': 'Player B'}`;
+    }
+
+    function renderSmall(t){ if(isImageUrl(t)) return `<img src="${t}" style="max-width:100%;max-height:100%;border-radius:6px"/>`; return `<div style="font-weight:900">${t}</div>` }
+
+    // --- win check (fast) ---
+    function checkWin(x,y,player){
+      const token = cells[y][x];
+      const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+      for(const [dx,dy] of dirs){
+        let line = [{x,y}];
+        for(let s=1;s<winLen;s++){
+          const nx=x+dx*s, ny=y+dy*s; if(!inBounds(nx,ny) || cells[ny][nx]!==token) break; line.push({x:nx,y:ny});
+        }
+        for(let s=1;s<winLen;s++){
+          const nx=x-dx*s, ny=y-dy*s; if(!inBounds(nx,ny) || cells[ny][nx]!==token) break; line.unshift({x:nx,y:ny});
+        }
+        if(line.length>=winLen){
+          // highlight winning line (first found)
+          highlightWin(line.slice(0,winLen));
+          document.getElementById('statusText').textContent = `${player===0? 'Player A':'Player B'} thắng!`;
+          // block further moves
+          boardEl.querySelectorAll('.cell').forEach(c=>c.removeEventListener('click', onCellClick));
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function highlightWin(arr){
+      for(const p of arr){
+        const q = boardEl.querySelector(`.cell[data-x='${p.x}'][data-y='${p.y}']`);
+        if(q) q.classList.add('win');
+      }
+    }
+
+    function inBounds(x,y){return x>=0 && y>=0 && x<cols && y<rows}
+
+    // --- expand board if needed ---
+    function maybeExpand(x,y){
+      const margin=2; let expanded=false;
+      if(x<margin){ // add columns left
+        const add = Math.max(6, margin+1 - x);
+        for(let r=0;r<rows;r++) for(let k=0;k<add;k++) cells[r].unshift(null);
+        cols += add; // shift x coordinates of moves & DOM re-render
+        // adjust moves coords
+        moves.forEach(m=>m.x+=add);
+        expanded=true;
+      }
+      if(x>cols-1-margin){
+        const add = Math.max(6, x - (cols-1-margin) + 1);
+        for(let r=0;r<rows;r++) for(let k=0;k<add;k++) cells[r].push(null);
+        cols += add; expanded=true;
+      }
+      if(y<margin){
+        const add = Math.max(6, margin+1 - y);
+        for(let k=0;k<add;k++) cells.unshift(new Array(cols).fill(null));
+        rows += add; moves.forEach(m=>m.y+=add); expanded=true;
+      }
+      if(y>rows-1-margin){
+        const add = Math.max(6, y - (rows-1-margin) + 1);
+        for(let k=0;k<add;k++) cells.push(new Array(cols).fill(null));
+        rows += add; expanded=true;
+      }
+      if(expanded) renderGrid();
+    }
+
+    // undo/redo
+    document.getElementById('undoBtn').addEventListener('click',()=>{
+      if(moves.length===0) return;
+      const m = moves.pop(); undone.push(m); cells[m.y][m.x]=null; current = m.player; renderGrid(); updateUI();
+    });
+    document.getElementById('redoBtn').addEventListener('click',()=>{
+      if(undone.length===0) return; const m = undone.pop(); cells[m.y][m.x]=m.token; moves.push(m); current = 1-m.player; renderGrid(); updateUI();
+    });
+
+    // new/game controls
+    document.getElementById('newBtn').addEventListener('click',()=>{
+      const n = parseInt(document.getElementById('size').value,10) || 20;
+      winLen = parseInt(document.getElementById('winLen').value,10) || 5;
+      playerTokens[0] = document.getElementById('pA').value || 'X';
+      playerTokens[1] = document.getElementById('pB').value || 'O';
+      infinite = document.getElementById('infinite').checked;
+      initGrid(Math.max(8,Math.min(80,n)));
+    });
+
+    document.getElementById('swapBtn').addEventListener('click',()=>{ current = 1-current; updateUI(); });
+    document.getElementById('hintBtn').addEventListener('click',()=>{ showHint(); });
+
+    // zoom
+    document.getElementById('zoomIn').addEventListener('click',()=>{ changeTileSize(-4); });
+    document.getElementById('zoomOut').addEventListener('click',()=>{ changeTileSize(+4); });
+    function changeTileSize(delta){
+      const s = getComputedStyle(document.documentElement).getPropertyValue('--tile-size').trim();
+      const val = parseInt(s.replace('px',''),10)+delta; document.documentElement.style.setProperty('--tile-size', Math.max(30,Math.min(80,val))+'px');
+    }
+
+    // listen to token inputs live
+    document.getElementById('pA').addEventListener('input',()=>{ playerTokens[0]=document.getElementById('pA').value || 'X'; updateUI(); });
+    document.getElementById('pB').addEventListener('input',()=>{ playerTokens[1]=document.getElementById('pB').value || 'O'; updateUI(); });
+    document.getElementById('winLen').addEventListener('change',()=>{ winLen = parseInt(document.getElementById('winLen').value,10); document.getElementById('winText').textContent = winLen; });
+
+    // basic hint: find a cell next to existing own token to extend
+    function showHint(){
+      // try to find cell that will make current have 4 in a row
+      const token = playerTokens[current];
+      for(let y=0;y<rows;y++) for(let x=0;x<cols;x++){
+        if(cells[y][x]!=null) continue;
+        // temporarily place and check
+        cells[y][x]=token; const willWin = willWinAt(x,y,token); cells[y][x]=null;
+        if(willWin){
+          flashCell(x,y); return;
+        }
+      }
+      // Otherwise find first empty near any token
+      for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) if(cells[r][c]!=null){
+        const dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+        for(const [dx,dy] of dirs){ const nx=c+dx, ny=r+dy; if(inBounds(nx,ny) && !cells[ny][nx]){ flashCell(nx,ny); return;} }
+      }
+      alert('Không tìm được gợi ý rõ rệt.');
+    }
+
+    function willWinAt(x,y,token){
+      const dirs=[[1,0],[0,1],[1,1],[1,-1]];
+      for(const [dx,dy] of dirs){
+        let cnt=1;
+        for(let s=1;s<winLen;s++){ const nx=x+dx*s, ny=y+dy*s; if(!inBounds(nx,ny) || cells[ny][nx]!==token) break; cnt++; }
+        for(let s=1;s<winLen;s++){ const nx=x-dx*s, ny=y-dy*s; if(!inBounds(nx,ny) || cells[ny][nx]!==token) break; cnt++; }
+        if(cnt>=winLen) return true;
+      }
+      return false;
+    }
+
+    function flashCell(x,y){
+      const el = boardEl.querySelector(`.cell[data-x='${x}'][data-y='${y}']`);
+      if(!el) return; el.classList.add('win'); setTimeout(()=>el.classList.remove('win'),900);
+    }
+
+    // export as PNG using html2canvas-lite approach (simple)
+    document.getElementById('exportBtn').addEventListener('click',()=>{
+      // simple SVG snapshot
+      const svg = [`<svg xmlns='http://www.w3.org/2000/svg' width='${cols*60}' height='${rows*60}' style='background:#071022'>`];
+      for(let y=0;y<rows;y++){
+        for(let x=0;x<cols;x++){
+          const val = cells[y][x];
+          const px = x*60+6, py=y*60+6;
+          svg.push(`<rect x='${px}' y='${py}' width='48' height='48' rx='8' fill='rgba(255,255,255,0.02)' />`);
+          if(val){
+            if(isImageUrl(val)){
+              svg.push(`<image href='${val}' x='${px+4}' y='${py+4}' width='40' height='40' />`);
+            } else {
+              svg.push(`<text x='${px+24}' y='${py+30}' font-family='Arial' font-size='22' text-anchor='middle' fill='#e6eef8'>${escapeXml(val)}</text>`);
+            }
+          }
+        }
+      }
+      svg.push('</svg>');
+      const data = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.join(''));
+      const a = document.createElement('a'); a.href=data; a.download='caro.png'; document.body.appendChild(a); a.click(); a.remove();
+    });
+
+    function escapeXml(s){ return String(s).replace(/[&<>\"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]; }); }
+
+    // init
+    initGrid(cols);
+
+  </script>
+</body>
+</html>
