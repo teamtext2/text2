@@ -1355,6 +1355,7 @@
     </button>
   </nav>
 
+  <section id="search">
   <div class="search-container">
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Search your app..." />
@@ -1367,7 +1368,9 @@
     </div>
     <div id="searchResults" class="search-results"></div>
   </div>
+  </section>
 
+  <section id="apps">
   <div class="icon-container" id="mainApps">
     <a href="https://note.text2.click" class="icon main-app">
       <img src="https://note.text2.click/favicon.ico" alt="note" />
@@ -1433,6 +1436,7 @@
   <div style="text-align:center; margin: 10px 0;">
     <button id="showMoreMainApps" style="display:none; padding:8px 18px; border-radius:8px; background:#23272a; color:#fff; border:none; cursor:pointer;">View more app</button>
   </div>
+  </section>
   
   <!-- Section Mạng xã hội -->
   <section id="social-media" style="margin-top:40px;">
@@ -1829,13 +1833,12 @@
   </div>
 </div>
 
+<section id="hero" style="text-align:center; margin: 20px 0;">
 <h1>We provide the best software</h1>
+</section>
 
 <script>
   // Global variables
-  const keywordResponses = {
-    "ai là bạn": "I'm Text2's super cool AI assistant! Always here to help you!",
-  };
 
   // DOM elements
   const elements = {
@@ -2187,7 +2190,7 @@
   const initAppVisibility = () => {
     const apps = Array.from(document.querySelectorAll('#mainApps .main-app'));
     const showMoreBtn = document.getElementById('showMoreMainApps');
-    const initialCount = 10;
+    const initialCount = 14;
 
     apps.forEach((el, idx) => {
       el.style.display = idx < initialCount ? '' : 'none';
