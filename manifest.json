@@ -36,34 +36,34 @@
       "name": "Chat AI",
       "short_name": "Chat",
       "description": "Open Chat AI",
-      "url": "/app/chat-ai",
+      "url": "chat.text2.click",
       "icons": [
         {
-          "src": "/app/chat-ai/favicon.ico",
+          "src": "chat.text2.click/favicon.ico",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Document",
+      "name": "note",
       "short_name": "Doc",
-      "description": "Open Document",
-      "url": "/app/doc",
+      "description": "Open note",
+      "url": "/app/note",
       "icons": [
         {
-          "src": "/app/doc/favicon.ico",
+          "src": "note.text2.click/favicon.ico",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Image Design",
-      "short_name": "Design",
-      "description": "Open Image Design",
-      "url": "/app/img-design",
+      "name": "Translate",
+      "short_name": "Translate",
+      "description": "Open Translate",
+      "url": "https://translate.text2.click",
       "icons": [
         {
-          "src": "/app/img-design/favicon.ico",
+          "src": "translate.text2.click/favicon.ico",
           "sizes": "96x96"
         }
       ]
