@@ -218,6 +218,6 @@ const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/m
 
 ---
 
-**Text2** - We are making a difference with AI tools, chat, and digital services.
+**Text2** - We made a difference with AI tools, chat, and digital services.
 
 *Built with ❤️ by the Text2 Team* 
