@@ -140,8 +140,9 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="/assets/css/main.css">
   <style>
-  /* Base styles */
+  /* Inline fallback (kept minimal intentionally) */
   html, body {
     margin: 0;
     padding: 0;
@@ -1268,19 +1269,8 @@
       padding: 18px 10px 10px 10px !important;
       font-size: 14px !important;
     }
-    footer svg {
-      width: 22px !important;
-      height: 22px !important;
-    }
-    footer > div:first-child {
-      gap: 16px !important;
-    }
-    footer > div:last-child {
-      font-size: 12px !important;
-    }
   }
-
-</style>
+  </style>
 </head>
 <body>
 <div class="popup">
@@ -1803,10 +1793,8 @@
 <h1>We made a difference</h1>
 </section>
 
+<!-- app logic moved to /assets/js/main.js -->
 <script>
-  // Global variables
-
-  // DOM elements
   const elements = {
     searchInput: document.getElementById('searchInput'),
     searchButton: document.getElementById('searchButton'),
@@ -2144,13 +2132,8 @@
       }
     });
   };
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEventListeners);
-  } else {
-    initEventListeners();
-  }
 </script>
+<script src="/assets/js/main.js" defer></script>
 <script>
   // App visibility management
   const initAppVisibility = () => {
