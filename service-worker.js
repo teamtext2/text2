@@ -11,7 +11,7 @@ const STATIC_FILES = [
   '/favicon.ico',
   '/manifest.json',
   '/browserconfig.xml',
-  '/logoc.jpg',
+  '/logoc.png',
   'https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap',
   'https://fonts.gstatic.com/s/quicksand/v30/6xK-dSZaM9iE8KbpRA_LJ3z8mH9BOJvgkP8o58a-xw.woff2',
   'https://fonts.gstatic.com/s/quicksand/v30/6xK-dSZaM9iE8KbpRA_LJ3z8mH9BOJvgkM0o58a-xw.woff2'
@@ -330,8 +330,8 @@ self.addEventListener('push', event => {
   
   const options = {
     body: event.data ? event.data.text() : 'Text2 has a new update!',
-    icon: '/logoc.jpg',
-    badge: '/logoc.jpg',
+    icon: '/logoc.png',
+    badge: '/logoc.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -341,12 +341,12 @@ self.addEventListener('push', event => {
       {
         action: 'explore',
         title: 'Open Text2',
-        icon: '/logoc.jpg'
+        icon: '/logoc.png'
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/logoc.jpg'
+        icon: '/logoc.png'
       }
     ]
   };
