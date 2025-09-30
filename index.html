@@ -1280,6 +1280,124 @@
     }
   }
 
+  /* Glassmorphism theme (overrides) */
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.10);
+    --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --glass-blur: 14px;
+    --glass-radius: 16px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -20vmax;
+    background: radial-gradient(40vmax 40vmax at 10% 10%, rgba(79,195,247,0.12), transparent 60%),
+                radial-gradient(35vmax 35vmax at 90% 20%, rgba(156, 39, 176, 0.10), transparent 60%),
+                radial-gradient(45vmax 45vmax at 30% 90%, rgba(0, 255, 170, 0.08), transparent 65%);
+    filter: blur(40px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .popup {  
+    background: linear-gradient(135deg, rgba(15,15,15,0.75), rgba(26,26,26,0.75));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+  }
+
+  header {
+    background: rgba(20, 22, 26, 0.30);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    border-bottom: var(--glass-border);
+  }
+
+  nav {
+    background: rgba(20, 22, 26, 0.25);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
+    backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
+    border-bottom: var(--glass-border);
+  }
+
+  nav a, .nav-install-btn {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .search-container input[type="text"] {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+  }
+
+  .search-results {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .icon, .social-media-group {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .icon:hover, .social-media-group:hover {
+    background: var(--glass-bg-strong);
+  }
+
+  .icon img { border-color: rgba(255,255,255,0.18); }
+
+  .popup-title {
+    background: rgba(34, 38, 42, 0.45);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+  }
+
+  .mini-popup {
+    background: rgba(0,0,0,0.25);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .mini-popup-content {
+    background: rgba(26, 28, 32, 0.40);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--glass-radius);
+  }
+
+  .sidebar {
+    background: rgba(20, 22, 26, 0.30);
+    border-right: var(--glass-border);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  footer {
+    background: rgba(26, 28, 32, 0.4) !important;
+    border-top: var(--glass-border) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.35) !important;
+  }
+
+  .taskbar-icon:hover, .start-button:hover { background: rgba(255,255,255,0.10); }
+
+  @media (max-width: 768px) { :root { --glass-blur: 10px; } }
 </style>
 </head>
 <body>
