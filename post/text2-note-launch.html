@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text2 Note, Secure, take notes, edit text, process as quickly as possible</title>
+  <meta name="description" content="Text2 Note is a modern PWA note app that lets you take notes, edit DOCX files, and export to PDF safely across all devices. 100% private and offline ready.">
+  <meta name="keywords" content="text2, text2 note, text2 doc, text2 app, text2 editor, PWA note app, secure notes, offline notes, cross-platform notes, text2 click">
+  <meta name="author" content="Text2 Team">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Text2 Note – Smart, Secure, and Cross-Platform PWA App">
+  <meta property="og:description" content="A modern, privacy-first note app that runs smoothly on PC and mobile. Offline-ready, DOCX & PDF supported.">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://note.text2.click">
+
+  <link rel="icon" href="your-logo-url.png" type="image/png">
+
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-color: #1E1E1E;
+      --text-color: #FFFFFF;
+      --text-muted: #B0B0B0;
+      --accent: #1E90FF;
+      --max-width: 900px;
+      --radius: 16px;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      width: 100%;
+      background: #1A1A1A;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    header h1 {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      max-width: var(--max-width);
+      padding: 2rem;
+      animation: fadeUp 1s ease-in-out;
+    }
+
+    article {
+      background: var(--card-color);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 0 25px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+
+    article:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 0;
+    }
+
+    p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 8px;
+    }
+
+    .cta {
+      display: inline-block;
+      margin-top: 2rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .cta:hover {
+      background: #0077e6;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        margin-top: 0.5rem;
+      }
+
+      article {
+        padding: 1.5rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Text2 Note</h1>
+    <nav>
+      <a href="https://text2.click">Home</a>
+      <a href="https://note.text2.click">note</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h2>Text2 Note – Smart, Secure, and Cross-Platform Note App</h2>
+      <p>Meet <strong>Text2 Note</strong> — a next-generation note-taking app built as a <strong>Progressive Web App (PWA)</strong>, designed to work seamlessly on any device — from your PC to your smartphone. 📝</p>
+
+      <ul>
+        <li><strong>Cross-device support</strong> – Works perfectly on desktop and mobile browsers, with PWA install support for quick access.</li>
+        <li><strong>Offline mode</strong> – Once opened or added to your home screen, Text2 Note runs smoothly even without the Internet.</li>
+        <li><strong>Powerful editing tools</strong> – Create, edit, and export your notes in formats like <strong>DOCX</strong> and <strong>PDF</strong>.</li>
+        <li><strong>Lightweight interface</strong> – Clean, fast, and distraction-free design for maximum focus.</li>
+        <li><strong>Privacy first</strong> – Your data stays on your device. Text2 Note never sends your personal info elsewhere.</li>
+        <li><strong>Auto-save & data protection</strong> – Even after updates, your content stays safe and local.</li>
+      </ul>
+
+      <p>With <strong>Text2 Note</strong>, you’re always ready to write — securely, effortlessly, and everywhere. Try it now and experience the future of note-taking. 🚀</p>
+
+      <a class="cta" href="https://note.text2.click" target="_blank" rel="noopener">🚀 Try Text2 Note Now</a>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2025 Text2. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
