@@ -329,15 +329,7 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
-  .clock {
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    font-family: 'Consolas', monospace;
-    min-width: 80px;
-    text-align: center;
-  }
+  
 
   /* Navigation */
   nav {
@@ -1419,7 +1411,6 @@
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
       </div>
-      <div class="clock" id="clock">00:00</div>
       <div class="taskbar-icon" title="Refresh" id="refreshButton">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
@@ -1815,7 +1806,7 @@
     <div class="social-dropdown">
       <div class="social-header" onclick="toggleSocialDropdown('facebook')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 0 1 1-1h3z"></path>
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
         Facebook
         <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1930,7 +1921,6 @@
     searchInput: document.getElementById('searchInput'),
     searchButton: document.getElementById('searchButton'),
     searchResults: document.getElementById('searchResults'),
-    clock: document.getElementById('clock'),
     notificationBtn: document.querySelector('.taskbar-icon[title="Notifications"]'),
     settingsBtn: document.querySelector('.taskbar-icon[title="Settings"]'),
     refreshBtn: document.getElementById('refreshButton'),
@@ -1963,10 +1953,9 @@
       const query = elements.searchInput.value.trim().toLowerCase();
       const apps = document.querySelectorAll('#mainApps .icon');
 
-      if (query.length < 2) {
-        elements.searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
-        elements.searchResults.classList.add('active');
+      if (query.length < 1) {
         apps.forEach(app => app.style.display = ''); // Show all apps
+        elements.searchResults.classList.remove('active');
         return;
       }
 
@@ -1989,14 +1978,7 @@
       }
     },
 
-    // Clock update
-    updateClock: () => {
-      const now = new Date();
-      const time = [now.getHours(), now.getMinutes(), now.getSeconds()]
-        .map(n => String(n).padStart(2, '0'))
-        .join(':');
-      elements.clock.textContent = time;
-    },
+    
 
     // Popup management
     openMiniPopup: (popup) => {
@@ -2042,10 +2024,9 @@
       const query = elements.searchInput.value.trim().toLowerCase();
       const apps = document.querySelectorAll('#mainApps .icon');
 
-      if (query.length < 2) {
-        elements.searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
-        elements.searchResults.classList.add('active');
+      if (query.length < 1) {
         apps.forEach(app => app.style.display = ''); // Show all apps
+        elements.searchResults.classList.remove('active');
         return;
       }
 
@@ -2080,9 +2061,7 @@
       }
     });
 
-    // Clock
-    handlers.updateClock();
-    setInterval(handlers.updateClock, 1000);
+    
 
     // Popups
     elements.notificationBtn.addEventListener('click', (e) => {
