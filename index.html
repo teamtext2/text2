@@ -1280,6 +1280,13 @@
     }
   }
 
+  /* Ensure Google ads are not overlapped by fixed/sticky UI */
+  ins.adsbygoogle, ins.adsbygoogle iframe {
+    position: relative !important;
+    z-index: 20000 !important;
+    display: block;
+  }
+
 </style>
 </head>
 <body>
