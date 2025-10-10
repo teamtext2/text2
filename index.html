@@ -67,8 +67,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Text2" />
-  <link rel="apple-touch-icon" href="/logoc.jpg" />
-  <link rel="apple-touch-startup-image" href="/logoc.jpg" />
+  <link rel="apple-touch-icon" href="/logoc.png" />
+  <link rel="apple-touch-startup-image" href="/logoc.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -76,7 +76,7 @@
 
   <!-- Microsoft Tiles -->
   <meta name="msapplication-TileColor" content="#23272a" />
-  <meta name="msapplication-TileImage" content="/logoc.jpg" />
+  <meta name="msapplication-TileImage" content="/logoc.png" />
   <meta name="msapplication-config" content="/browserconfig.xml" />
 
   <!-- Structured Data (JSON-LD, for advanced SEO) -->
@@ -100,7 +100,7 @@
     "@type": "Organization",
     "name": "Text2",
     "url": "https://text2.click/",
-    "logo": "https://text2.click/logoc.jpg",
+    "logo": "https://text2.click/logoc.png",
     "sameAs": [
       "https://www.facebook.com/text2.click",
       "https://www.youtube.com/@text2_team",
@@ -329,15 +329,7 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
-  .clock {
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    font-family: 'Consolas', monospace;
-    min-width: 80px;
-    text-align: center;
-  }
+  
 
   /* Navigation */
   nav {
@@ -1280,13 +1272,124 @@
     }
   }
 
-  /* Ensure Google ads are not overlapped by fixed/sticky UI */
-  ins.adsbygoogle, ins.adsbygoogle iframe {
-    position: relative !important;
-    z-index: 20000 !important;
-    display: block;
+  /* Glassmorphism theme (overrides) */
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg-strong: rgba(255, 255, 255, 0.08);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.10);
+    --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --glass-blur: 14px;
+    --glass-radius: 16px;
   }
 
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -20vmax;
+    background: radial-gradient(40vmax 40vmax at 10% 10%, rgba(79,195,247,0.12), transparent 60%),
+                radial-gradient(35vmax 35vmax at 90% 20%, rgba(156, 39, 176, 0.10), transparent 60%),
+                radial-gradient(45vmax 45vmax at 30% 90%, rgba(0, 255, 170, 0.08), transparent 65%);
+    filter: blur(40px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .popup {  
+    background: linear-gradient(135deg, rgba(15,15,15,0.75), rgba(26,26,26,0.75));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+  }
+
+  header {
+    background: rgba(20, 22, 26, 0.30);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    border-bottom: var(--glass-border);
+  }
+
+  nav {
+    background: rgba(20, 22, 26, 0.25);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
+    backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
+    border-bottom: var(--glass-border);
+  }
+
+  nav a, .nav-install-btn {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .search-container input[type="text"] {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+  }
+
+  .search-results {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .icon, .social-media-group {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .icon:hover, .social-media-group:hover {
+    background: var(--glass-bg-strong);
+  }
+
+  .icon img { border-color: rgba(255,255,255,0.18); }
+
+  .popup-title {
+    background: rgba(34, 38, 42, 0.45);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+  }
+
+  .mini-popup {
+    background: rgba(0,0,0,0.25);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .mini-popup-content {
+    background: rgba(26, 28, 32, 0.40);
+    border: var(--glass-border);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--glass-radius);
+  }
+
+  .sidebar {
+    background: rgba(20, 22, 26, 0.30);
+    border-right: var(--glass-border);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  footer {
+    background: rgba(26, 28, 32, 0.4) !important;
+    border-top: var(--glass-border) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.35) !important;
+  }
+
+  .taskbar-icon:hover, .start-button:hover { background: rgba(255,255,255,0.10); }
+
+  @media (max-width: 768px) { :root { --glass-blur: 10px; } }
 </style>
 </head>
 <body>
@@ -1308,7 +1411,6 @@
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
       </div>
-      <div class="clock" id="clock">00:00</div>
       <div class="taskbar-icon" title="Refresh" id="refreshButton">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
@@ -1439,7 +1541,7 @@
   </section>
   <!-- Section Mạng xã hội -->
   <section id="social-media" style="margin-top:40px;">
-    <div class="popup-title">Our Channels</div>
+    <div class="popup-title">Media</div>
     <div class="icon-container" id="socialMediaApps">
       <!-- Facebook -->
       <div class="social-media-group" data-platform="facebook">
@@ -1563,10 +1665,10 @@
       <!-- Thông tin Text2 -->
       <div style="flex: 1 1 220px; min-width: 200px; text-align: left;">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-          <img src="/logoc.jpg" alt="Text2 Logo" style="width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); background: #23272a;" />
+          <img src="/logoc.png" alt="Text2 Logo" style="width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); background: #23272a;" />
           <span style="font-weight: 700; font-size: 18px; letter-spacing: 0.5px; color: #4fc3f7;">Text2</span>
         </div>
-        <div style="font-size: 14px; color: #b0b0b0; margin-bottom: 8px;">We made a difference with AI tools, chat, and digital services.</div>
+        <div style="font-size: 14px; color: #b0b0b0; margin-bottom: 8px;">We made a difference.</div>
         <div style="font-size: 13px; color: #b0b0b0;">CEO: <b style='color:#fff;'>Hoa Nhat Anh</b></div>
         <div style="font-size: 13px; color: #b0b0b0; margin-top: 2px;">📧 <a href="mailto:team@text2.click" style="color:#4fc3f7; text-decoration:underline;">team@text2.click</a></div>
       </div>
@@ -1629,16 +1731,15 @@
     <div style="display: flex; flex-direction: column; gap: 10px; margin: 15px 0;">
       <button id="settingsInstallPWA" style="background: linear-gradient(145deg, #4fc3f7, #29b6f6); color: white; border: none; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7,10 12,15 17,10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
         </svg>
         Install App
       </button>
       <button id="settingsNotificationPermission" style="background: #666; color: white; border: none; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+          <circle cx="18" cy="8" r="3" fill="currentColor"></circle>
         </svg>
         Enable Notifications
       </button>
@@ -1647,6 +1748,7 @@
           <path d="M3 6h18"></path>
           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
           <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          <circle cx="18" cy="8" r="2" fill="currentColor"></circle>
         </svg>
         Clear Cache
       </button>
@@ -1656,6 +1758,7 @@
           <path d="M21 3v5h-5"></path>
           <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
           <path d="M3 21v-5h5"></path>
+          <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
         </svg>
        UPDATE NOW
       </button>
@@ -1703,7 +1806,7 @@
     <div class="social-dropdown">
       <div class="social-header" onclick="toggleSocialDropdown('facebook')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 0 1 1-1h3z"></path>
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
         Facebook
         <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1818,7 +1921,6 @@
     searchInput: document.getElementById('searchInput'),
     searchButton: document.getElementById('searchButton'),
     searchResults: document.getElementById('searchResults'),
-    clock: document.getElementById('clock'),
     notificationBtn: document.querySelector('.taskbar-icon[title="Notifications"]'),
     settingsBtn: document.querySelector('.taskbar-icon[title="Settings"]'),
     refreshBtn: document.getElementById('refreshButton'),
@@ -1851,10 +1953,9 @@
       const query = elements.searchInput.value.trim().toLowerCase();
       const apps = document.querySelectorAll('#mainApps .icon');
 
-      if (query.length < 2) {
-        elements.searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
-        elements.searchResults.classList.add('active');
+      if (query.length < 1) {
         apps.forEach(app => app.style.display = ''); // Show all apps
+        elements.searchResults.classList.remove('active');
         return;
       }
 
@@ -1877,14 +1978,7 @@
       }
     },
 
-    // Clock update
-    updateClock: () => {
-      const now = new Date();
-      const time = [now.getHours(), now.getMinutes(), now.getSeconds()]
-        .map(n => String(n).padStart(2, '0'))
-        .join(':');
-      elements.clock.textContent = time;
-    },
+    
 
     // Popup management
     openMiniPopup: (popup) => {
@@ -1930,10 +2024,9 @@
       const query = elements.searchInput.value.trim().toLowerCase();
       const apps = document.querySelectorAll('#mainApps .icon');
 
-      if (query.length < 2) {
-        elements.searchResults.innerHTML = '<p>Please enter at least 2 characters to search</p>';
-        elements.searchResults.classList.add('active');
+      if (query.length < 1) {
         apps.forEach(app => app.style.display = ''); // Show all apps
+        elements.searchResults.classList.remove('active');
         return;
       }
 
@@ -1968,9 +2061,7 @@
       }
     });
 
-    // Clock
-    handlers.updateClock();
-    setInterval(handlers.updateClock, 1000);
+    
 
     // Popups
     elements.notificationBtn.addEventListener('click', (e) => {
@@ -2450,8 +2541,8 @@
       navigator.serviceWorker.ready.then(registration => {
         registration.showNotification('Text2', {
           body: 'Welcome to Text2! Your AI assistant is ready.',
-          icon: '/logoc.jpg',
-          badge: '/logoc.jpg',
+          icon: '/logoc.png',
+          badge: '/logoc.png',
           vibrate: [100, 50, 100],
           data: { url: '/' }
         });
