@@ -1390,6 +1390,18 @@
   .taskbar-icon:hover, .start-button:hover { background: rgba(255,255,255,0.10); }
 
   @media (max-width: 768px) { :root { --glass-blur: 10px; } }
+
+  /* Google Ads visibility fixes: keep ads above header/nav, below overlays/sidebar */
+  ins.adsbygoogle { display: block !important; }
+  #google_anchor_fm_anchor,
+  .google-auto-placed,
+  [id^="google_ads_iframe"],
+  [id^="aswift_"],
+  [id*="__container__"] {
+    position: relative !important;
+    z-index: 1001 !important; /* header:1000, nav:999, sidebar:10000, mini-popup:10001 */
+    pointer-events: auto !important;
+  }
 </style>
 </head>
 <body>
