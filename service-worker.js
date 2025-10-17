@@ -1,13 +1,15 @@
-const CACHE_NAME = 'text2-cache-v4';
-const STATIC_CACHE = 'text2-static-v4';
-const DYNAMIC_CACHE = 'text2-dynamic-v4';
-const VERSION = '4.0.0';
+const CACHE_NAME = 'text2-cache-v5';
+const STATIC_CACHE = 'text2-static-v5';
+const DYNAMIC_CACHE = 'text2-dynamic-v5';
+const VERSION = '5.0.0';
 
 // Files to cache immediately
 const STATIC_FILES = [
   '/',
   '/index.html',
   '/offline.html',
+  '/css/styles.css',
+  '/js/main.js',
   '/favicon.ico',
   '/manifest.json',
   '/browserconfig.xml',
