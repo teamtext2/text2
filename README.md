@@ -1,8 +1,4 @@
-# Text2 - AI-Powered Digital Platform
 
-![Text2 Logo](https://lh3.googleusercontent.com/p/AF1QipMAH2F9BWWLSU14YABENNfSIUDTinGdHOO3wC-S=s1360-w1360-h1020-rw)
-
-## 🌟 Overview
 
 Text2 is a comprehensive AI-powered digital platform that combines chat, design, translation, and various digital tools in a modern, Windows-inspired interface. Built with a focus on user experience and beautiful design, Text2 serves as a central hub for AI-powered applications and social media integration.
 
@@ -210,14 +206,4 @@ const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/m
 - **CEO**: Hoa Nhat Anh
 - **Email**: team@text2.click
 - **Website**: https://text2.click
-- **Company**: 504 Media
-
-## 📄 License
-
-© 2024 Text2 - All rights reserved
-
----
-
-**Text2** - We made a difference with AI tools, chat, and digital services.
-
-*Built with ❤️ by the Text2 Team* 
+- **Company**: Text2 company 
