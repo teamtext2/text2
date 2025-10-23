@@ -1195,24 +1195,20 @@ html, body {
   }
   
   .icon, .social-media-group {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
-    box-shadow: var(--glass-shadow);
+    background: linear-gradient(145deg, #292929, #1f1f1f);
+    border: 1px solid #444;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
   }
   
   .icon:hover, .social-media-group:hover {
-    background: var(--glass-bg-strong);
+    background: linear-gradient(145deg, #343a40, #23272a);
   }
   
   .icon img { border-color: rgba(255,255,255,0.18); }
   
   .popup-title {
-    background: rgba(34, 38, 42, 0.45);
-    border: var(--glass-border);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
+    background: rgba(33, 37, 41, 0.8);
+    border: 1px solid #444;
   }
   
   .mini-popup {
