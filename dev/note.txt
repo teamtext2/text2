@@ -1,6 +1,8 @@
+Đường dẫn thư mục cấu trúc bắt buột cho css js 
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
 
+Đo lường bắt buộc 
   <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
 <script>
@@ -11,9 +13,22 @@
   gtag('config', 'G-6J85STMJ14');
 </script>
 
-  <!-- ADS-->
+Nếu hỗ trợ pwa cần chặng dịch tránh lỗi cấu trúctrúc
   <meta name="google" content="notranslate"> 
 
-  <!-- ADS-->
+Yêu cầu thương mai add Scrip ads 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
      crossorigin="anonymous"></script>
+
+logo và ảnh bìa tiêu chuẩn trang text2 
+https://text2.click/logoc.png
+https://text2.click/thumnel.png
+
+giao diện đồng bộ vui lòng - truy cập
+https://text2.click/dev/ui.txt 
+
+Mẫu gọi api llm của text2 
+https://text2.click/dev/api-llm.txt
+
+
+

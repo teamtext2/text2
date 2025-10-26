@@ -1,0 +1,84 @@
+<style>
+    /* Palette:
+       Background: #121212 (charcoal)
+       Menu / icon frames: #1E1E1E - #242424 (not shown, but available)
+       Text: #FFFFFF or #B0B0B0
+       Accent: #1E90FF
+    */
+    :root{
+      --bg: #121212;
+      --panel-start: #1E1E1E;
+      --panel-end: #242424;
+      --text: #FFFFFF;
+      --muted: #B0B0B0;
+      --accent: #1E90FF;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+
+    body{
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:grid;
+      place-items:center; /* centers horizontally & vertically */
+      text-align:center;
+    }
+
+    .hello{
+      font-size: clamp(24px, 4vw, 48px);
+      font-weight:700;
+      letter-spacing:0.02em;
+      line-height:1;
+      position:relative;
+      padding:0.25em 0.6em;
+      background: linear-gradient(90deg, rgba(30,30,30,0.18), rgba(36,36,36,0.06));
+      border-radius:18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    }
+
+    /* subtle accent underline */
+    .hello::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:-18px;
+      width:60%;
+      height:6px;
+      border-radius:6px;
+      background: linear-gradient(90deg, rgba(30,144,255,0.18), var(--accent));
+      filter:blur(3px);
+      opacity:0.95;
+    }
+
+    /* small icon-like accent top-left, purely decorative */
+    .accent-dot{
+      position:absolute;
+      top:-18px;
+      left:-18px;
+      width:28px;
+      height:28px;
+      border-radius:8px;
+      background: linear-gradient(180deg, var(--accent), #0076e6);
+      box-shadow: 0 6px 18px rgba(30,144,255,0.12);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* accessible smaller description if needed (commented out) */
+    /* .desc{color:var(--muted);margin-top:12px;font-size:14px} */
+
+  </style>
+</head>
+<body>
+  <div class="hello" aria-hidden="false">
+    <span class="accent-dot" aria-hidden="true"></span>
+    Hay bro, welcome to Dev Text2 Team 
+    try https://text2.click/dev/note.txt now 
+  </div>
+</body>
+</html>

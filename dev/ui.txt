@@ -1,0 +1,6 @@
+Giao diện 
+Nền: Gần với mã màu #121212 hoặc #1A1A1A (đen than, charcoal black).
+Thanh menu và khung icon: Xám đậm #1E1E1E – #242424.
+Chữ trắng/xám: Trắng tinh #FFFFFF hoặc xám nhạt #B0B0B0 để giảm độ chói.
+Điểm nhấn (accent): Xanh dương tươi #1E90FF hoặc tương tự, dùng trong logo và các biểu tượng.
+Nếu muốn mình có thể trích luôn mã màu chính xác từ ảnh này để bạn dùng thiết kế đồng bộ.
