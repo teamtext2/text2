@@ -664,6 +664,49 @@
 <section id="hero" style="text-align:center; margin: 20px 0;">
 <h1>We made a difference</h1>
 </section>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKpLKsutFknVxJcGiGam5EfsyzdBO7YKI",
+    authDomain: "noti-fcd25.firebaseapp.com",
+    projectId: "noti-fcd25",
+    storageBucket: "noti-fcd25.firebasestorage.app",
+    messagingSenderId: "667248877821",
+    appId: "1:667248877821:web:33379feaf8e1db83e71e94",
+    measurementId: "G-Z4E9X1SDG5"
+  };
+
+  // Khởi tạo Firebase
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // Yêu cầu người dùng cho phép nhận thông báo
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Đã cấp quyền nhận thông báo ✅');
+      getToken(messaging, { vapidKey: "iTGJ0hrHxp5BVVk5q67LRgMzBP05fUyZKY5UayWnoR8" })
+        .then((currentToken) => {
+          if (currentToken) {
+            console.log("Token người dùng:", currentToken);
+            // 👉 Nhật Anh có thể lưu token này về server để gửi thông báo sau
+          } else {
+            console.log("Chưa có token 😢");
+          }
+        })
+        .catch((err) => console.log("Lỗi lấy token:", err));
+    } else {
+      console.log("Người dùng từ chối thông báo 😭");
+    }
+  });
+
+  // Nhận thông báo khi web đang mở
+  onMessage(messaging, (payload) => {
+    console.log("Thông báo nhận được:", payload);
+    alert(payload.notification.title + ": " + payload.notification.body);
+  });
+</script>
 </body>
 </html>
 
