@@ -66,6 +66,21 @@
     openWebPopup: (title, url) => {
       if (!elements.webPopup || !elements.webPopupFrame) return;
       elements.webPopupTitle.textContent = title || 'Web View';
+      // Cleanup any previous listeners
+      try { elements.webPopupFrame.onload = null; } catch (_) {}
+      // Start a fallback timer: if iframe can't load due to X-Frame-Options/CSP, open in same tab
+      const fallbackMs = 2500;
+      let fallbackTimer = setTimeout(() => {
+        // Close popup and open in same tab
+        handlers.closeWebPopup();
+        navigateWithFade(url, true);
+      }, fallbackMs);
+
+      elements.webPopupFrame.onload = () => {
+        // Loaded successfully; cancel fallback
+        clearTimeout(fallbackTimer);
+      };
+
       elements.webPopupFrame.src = url || '';
       handlers.openMiniPopup(elements.webPopup);
     },
