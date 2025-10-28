@@ -494,6 +494,8 @@
     initAppVisibility();
   }
   // PWA Management
+  // Disable client-side caching/service worker completely
+  const DISABLE_SERVICE_WORKER = true;
   class PWAInstaller {
     constructor() {
       this.deferredPrompt = null;
@@ -591,30 +593,8 @@
     }
 
     async registerServiceWorker() {
-      if ('serviceWorker' in navigator) {
-        try {
-          const registration = await navigator.serviceWorker.register('/service-worker.js');
-          console.log('ServiceWorker registration successful with scope:', registration.scope);
-          
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                this.showUpdateNotification();
-              }
-            });
-          });
-          
-          navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data?.type === 'background-sync-complete') {
-              console.log('Background sync completed');
-            }
-          });
-          
-        } catch (error) {
-          console.error('ServiceWorker registration failed:', error);
-        }
-      }
+      // Intentionally disabled
+      return;
     }
 
     showUpdateNotification() {
@@ -676,21 +656,8 @@
     }
 
     setupAutoUpdate() {
-      this.updateCheckInterval = setInterval(() => {
-        this.checkForUpdates();
-      }, 5 * 60 * 1000);
-
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', (event) => {
-          this.handleServiceWorkerMessage(event.data);
-        });
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-          this.checkForUpdates();
-        }
-      });
+      // Intentionally disabled when no service worker is used
+      return;
     }
 
     handleServiceWorkerMessage(data) {
@@ -730,10 +697,28 @@
 
   // Initialize PWA
   const initPWA = () => {
+    if (DISABLE_SERVICE_WORKER) {
+      // Unregister any existing service workers and clear caches once per visit
+      (async () => {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            for (const reg of regs) {
+              try { await reg.unregister(); } catch (_) {}
+            }
+          }
+          if (window.caches && caches.keys) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+          }
+        } catch (_) {}
+      })();
+      // Do not create PWAInstaller; keep window.pwaInstaller undefined
+      return;
+    }
+
     const pwaInstaller = new PWAInstaller();
     window.pwaInstaller = pwaInstaller;
-    
-    
   };
 
   // Notification functions
