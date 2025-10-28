@@ -82,12 +82,13 @@
       } catch (_) {}
       // Cleanup any previous listeners
       try { elements.webPopupFrame.onload = null; } catch (_) {}
-      // Start a fallback timer: if iframe can't load due to X-Frame-Options/CSP, open in same tab
+      // Start a fallback timer: if iframe can't load due to X-Frame-Options/CSP, DO NOT auto-navigate.
+      // Instead, keep the popup open and prompt the user to click "Open".
       const fallbackMs = 2500;
       let fallbackTimer = setTimeout(() => {
-        // Close popup and open in same tab
-        handlers.closeWebPopup();
-        navigateWithFade(url, true);
+        try {
+          if (elements.webPopupTitle) elements.webPopupTitle.textContent = 'Preview blocked. Click Open to view';
+        } catch (_) {}
       }, fallbackMs);
 
       elements.webPopupFrame.onload = () => {
