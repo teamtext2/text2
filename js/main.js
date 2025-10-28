@@ -77,7 +77,9 @@
 
     openWebPopup: (title, url) => {
       if (!elements.webPopup || !elements.webPopupFrame) return;
-      elements.webPopupTitle.textContent = title || 'Web View';
+      try {
+        if (elements.webPopupTitle) elements.webPopupTitle.textContent = title || 'Web View';
+      } catch (_) {}
       // Cleanup any previous listeners
       try { elements.webPopupFrame.onload = null; } catch (_) {}
       // Start a fallback timer: if iframe can't load due to X-Frame-Options/CSP, open in same tab
@@ -163,6 +165,18 @@
 
   // Initialize event listeners
   const initEventListeners = () => {
+    // Delegated handler: ensure all popup-links work reliably (Chrome/some nested SVG clicks)
+    document.addEventListener('click', (e) => {
+      const anchor = e.target.closest('a[data-open="popup"]');
+      if (!anchor) return;
+      // Only handle left-click without modifier keys
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const url = anchor.getAttribute('data-url');
+      const title = anchor.getAttribute('data-title') || 'Web View';
+      handlers.openWebPopup(title, url);
+    });
+
     // Navigation and icons: open popup via data-open="popup"
     document.querySelectorAll('nav a').forEach(el => {
       el.addEventListener('click', (e) => {
