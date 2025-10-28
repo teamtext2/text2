@@ -16,41 +16,8 @@
     settingsHardRefresh: document.getElementById('settingsHardRefresh'),
     sidebar: document.getElementById('sidebar'),
     sidebarToggle: document.getElementById('sidebarToggle'),
-    sidebarClose: document.getElementById('sidebarClose'),
-    webPopup: document.getElementById('webPopup'),
-    webPopupTitle: document.getElementById('webPopupTitle'),
-    webPopupFrame: document.getElementById('webPopupFrame')
+    sidebarClose: document.getElementById('sidebarClose')
   };
-
-  // Navigation helpers
-  const navigateWithFade = (url, useReplace = true) => {
-    if (!url) return;
-    // Avoid double triggers
-    if (document.body.dataset.navigating === '1') return;
-    document.body.dataset.navigating = '1';
-    document.documentElement.classList.add('page-fade-out');
-    // Match CSS transition duration
-    setTimeout(() => {
-      try {
-        if (useReplace) window.location.replace(url);
-        else window.location.assign(url);
-      } catch (_) {
-        window.location.href = url;
-      }
-    }, 180);
-  };
-
-  // Expose helper for the "Open" button in the Web Popup header
-  function openCurrentPopupInNewTab() {
-    try {
-      const url = elements.webPopupFrame && elements.webPopupFrame.src ? elements.webPopupFrame.src : '';
-      if (url) {
-        window.open(url, '_blank', 'noopener');
-      }
-    } catch (_) {}
-  }
-  // Make available to inline onclick in HTML
-  window.openCurrentPopupInNewTab = openCurrentPopupInNewTab;
 
   // Event handlers
   const handlers = {
@@ -58,52 +25,11 @@
     handleNavClick: (e) => {
       const anchor = e.currentTarget;
       const targetUrl = anchor.getAttribute('href');
-      if (!targetUrl) return;
-      // If design uses hash+data-link pattern, route to data-link in same tab with fade
-      if (targetUrl.startsWith('#')) {
-        const dataLink = anchor.getAttribute('data-link');
-        if (dataLink) {
-          e.preventDefault();
-          navigateWithFade(dataLink, true);
-        }
-        return;
-      }
-      // For regular links in nav, fade then navigate in same tab
-      if (anchor.origin !== window.location.origin || targetUrl) {
+      if (targetUrl && targetUrl.startsWith('#')) {
         e.preventDefault();
-        navigateWithFade(targetUrl, true);
+        const dataLink = anchor.getAttribute('data-link');
+        if (dataLink) window.open(dataLink, '_blank');
       }
-    },
-
-    openWebPopup: (title, url) => {
-      if (!elements.webPopup || !elements.webPopupFrame) return;
-      try {
-        if (elements.webPopupTitle) elements.webPopupTitle.textContent = title || 'Web View';
-      } catch (_) {}
-      // Cleanup any previous listeners
-      try { elements.webPopupFrame.onload = null; } catch (_) {}
-      // Start a fallback timer: if iframe can't load due to X-Frame-Options/CSP, DO NOT auto-navigate.
-      // Instead, keep the popup open and prompt the user to click "Open".
-      const fallbackMs = 2500;
-      let fallbackTimer = setTimeout(() => {
-        try {
-          if (elements.webPopupTitle) elements.webPopupTitle.textContent = 'Preview blocked. Click Open to view';
-        } catch (_) {}
-      }, fallbackMs);
-
-      elements.webPopupFrame.onload = () => {
-        // Loaded successfully; cancel fallback
-        clearTimeout(fallbackTimer);
-      };
-
-      elements.webPopupFrame.src = url || '';
-      handlers.openMiniPopup(elements.webPopup);
-    },
-
-    closeWebPopup: () => {
-      if (!elements.webPopup || !elements.webPopupFrame) return;
-      elements.webPopupFrame.src = '';
-      handlers.closeMiniPopup(elements.webPopup);
     },
 
     // Search functionality
@@ -166,57 +92,9 @@
 
   // Initialize event listeners
   const initEventListeners = () => {
-    // Delegated handler: ensure all popup-links work reliably (Chrome/some nested SVG clicks)
-    document.addEventListener('click', (e) => {
-      const anchor = e.target.closest('a[data-open="popup"]');
-      if (!anchor) return;
-      // Only handle left-click without modifier keys
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      const url = anchor.getAttribute('data-url');
-      const title = anchor.getAttribute('data-title') || 'Web View';
-      handlers.openWebPopup(title, url);
-    });
-
-    // Navigation and icons: open popup via data-open="popup"
+    // Navigation and icons
     document.querySelectorAll('nav a').forEach(el => {
-      el.addEventListener('click', (e) => {
-        const isPopup = el.getAttribute('data-open') === 'popup';
-        if (isPopup) {
-          e.preventDefault();
-          const url = el.getAttribute('data-url');
-          const title = el.getAttribute('data-title') || 'Web View';
-          handlers.openWebPopup(title, url);
-          return;
-        }
-        handlers.handleNavClick(e);
-      });
-    });
-
-    // Sidebar links: open popup via data-open="popup"
-    document.querySelectorAll('.sidebar a').forEach(el => {
-      el.addEventListener('click', (e) => {
-        const isPopup = el.getAttribute('data-open') === 'popup';
-        if (isPopup) {
-          e.preventDefault();
-          const url = el.getAttribute('data-url');
-          const title = el.getAttribute('data-title') || 'Web View';
-          handlers.openWebPopup(title, url);
-          handlers.closeSidebar();
-        }
-      });
-    });
-
-    // Global link override: prevent opening new tabs, use same-tab fade navigation
-    document.addEventListener('click', (event) => {
-      // Only handle left-click without modifier keys
-      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      const anchor = event.target.closest('a');
-      if (!anchor || anchor.target !== '_blank') return;
-      const href = anchor.getAttribute('href');
-      if (!href || href.startsWith('javascript:')) return;
-      event.preventDefault();
-      navigateWithFade(href, true);
+      el.addEventListener('click', handlers.handleNavClick);
     });
 
     // Search
@@ -291,28 +169,20 @@
       btn.addEventListener('click', () => handlers.closeMiniPopup(btn.closest('.mini-popup')));
     });
 
-    // Close web popup should also clear iframe
-    if (elements.webPopup) {
-      const closeBtn = elements.webPopup.querySelector('.mini-popup-close');
-      if (closeBtn) closeBtn.addEventListener('click', handlers.closeWebPopup);
-    }
-
     // Close popups on outside click and ESC
     document.addEventListener('mousedown', (e) => {
-      [elements.notificationPopup, elements.settingsPopup, elements.webPopup].forEach(popup => {
+      [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
         if (!popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
           handlers.closeMiniPopup(popup);
-          if (popup === elements.webPopup) handlers.closeWebPopup();
         }
       });
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        [elements.notificationPopup, elements.settingsPopup, elements.webPopup].forEach(popup => {
+        [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
           if (!popup.classList.contains('hidden')) handlers.closeMiniPopup(popup);
         });
-        handlers.closeWebPopup();
       }
     });
 
@@ -462,8 +332,6 @@
   } else {
     initEventListeners();
   }
-
-  // Removed tab navigation
   // App visibility management
   const initAppVisibility = () => {
     const apps = Array.from(document.querySelectorAll('#mainApps .main-app'));
@@ -494,8 +362,6 @@
     initAppVisibility();
   }
   // PWA Management
-  // Disable client-side caching/service worker completely
-  const DISABLE_SERVICE_WORKER = true;
   class PWAInstaller {
     constructor() {
       this.deferredPrompt = null;
@@ -593,8 +459,30 @@
     }
 
     async registerServiceWorker() {
-      // Intentionally disabled
-      return;
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.register('/service-worker.js');
+          console.log('ServiceWorker registration successful with scope:', registration.scope);
+          
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                this.showUpdateNotification();
+              }
+            });
+          });
+          
+          navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data?.type === 'background-sync-complete') {
+              console.log('Background sync completed');
+            }
+          });
+          
+        } catch (error) {
+          console.error('ServiceWorker registration failed:', error);
+        }
+      }
     }
 
     showUpdateNotification() {
@@ -656,8 +544,21 @@
     }
 
     setupAutoUpdate() {
-      // Intentionally disabled when no service worker is used
-      return;
+      this.updateCheckInterval = setInterval(() => {
+        this.checkForUpdates();
+      }, 5 * 60 * 1000);
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          this.handleServiceWorkerMessage(event.data);
+        });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          this.checkForUpdates();
+        }
+      });
     }
 
     handleServiceWorkerMessage(data) {
@@ -697,28 +598,10 @@
 
   // Initialize PWA
   const initPWA = () => {
-    if (DISABLE_SERVICE_WORKER) {
-      // Unregister any existing service workers and clear caches once per visit
-      (async () => {
-        try {
-          if ('serviceWorker' in navigator) {
-            const regs = await navigator.serviceWorker.getRegistrations();
-            for (const reg of regs) {
-              try { await reg.unregister(); } catch (_) {}
-            }
-          }
-          if (window.caches && caches.keys) {
-            const keys = await caches.keys();
-            await Promise.all(keys.map(k => caches.delete(k)));
-          }
-        } catch (_) {}
-      })();
-      // Do not create PWAInstaller; keep window.pwaInstaller undefined
-      return;
-    }
-
     const pwaInstaller = new PWAInstaller();
     window.pwaInstaller = pwaInstaller;
+    
+    
   };
 
   // Notification functions
@@ -753,37 +636,6 @@
   } else {
     initPWA();
   }
-  
-  // iOS-like press feedback: add/remove .tap-active on interactive elements
-  (function initIosPressFeedback(){
-    const isInteractive = (el) => !!el && (
-      el.closest('button, a, .icon, .taskbar-icon, .nav-install-btn, .social-link, .sidebar a, .sidebar-toggle, .sidebar-close, .mini-popup-close')
-    );
-
-    let activeEl = null;
-
-    const addActive = (target) => {
-      const el = target.closest('button, a, .icon, .taskbar-icon, .nav-install-btn, .social-link, .sidebar a, .sidebar-toggle, .sidebar-close, .mini-popup-close');
-      if (el) {
-        activeEl = el;
-        el.classList.add('tap-active');
-      }
-    };
-
-    const removeActive = () => {
-      if (activeEl) {
-        activeEl.classList.remove('tap-active');
-        activeEl = null;
-      }
-    };
-
-    // Mouse and touch support
-    document.addEventListener('pointerdown', (e) => { if (isInteractive(e.target)) addActive(e.target); }, { passive: true });
-    document.addEventListener('pointerup', removeActive, { passive: true });
-    document.addEventListener('pointercancel', removeActive, { passive: true });
-    document.addEventListener('dragstart', removeActive);
-    document.addEventListener('scroll', removeActive, true);
-  })();
   // Social Media Dropdown Functionality
   function toggleSocialDropdown(platform) {
     const options = document.getElementById(`${platform}-options`);

@@ -173,14 +173,14 @@
   </header>
 
   <nav>
-    <a href="#" data-open="popup" data-url="https://text2.click/app/" data-title="Text2 App">
+    <a href="https://text2.click/app" data-link="APP">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
         <polyline points="9 22 9 12 15 12 15 22"></polyline>
       </svg>
       APP
     </a>
-    <a href="#" data-open="popup" data-url="https://team.text2.click" data-title="Text2 Team">
+    <a href="#tools" data-link="https://team.text2.click">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
         <circle cx="9" cy="7" r="4"></circle>
@@ -189,20 +189,21 @@
       </svg>
       TEAM
     </a>
-    <a href="#" data-open="popup" data-url="https://camera.text2.click" data-title="Text2 Camera">
+    <a href="https://camera.text2.click" data-link="https://camera.text2.click">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
         <circle cx="12" cy="13" r="4"></circle>
       </svg>
       Camera
     </a>
-    <a href="#" data-open="popup" data-url="https://text2.click/video/" data-title="Text2 video">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="5" width="15" height="14" rx="2" ry="2"></rect>
-        <polygon points="16 12 11 15 11 9 16 12"></polygon>
+    <button id="installPWA" class="nav-install-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7,10 12,15 17,10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
       </svg>
-      Video
-    </a>
+      Install
+    </button>
   </nav>
 
   <section id="search">
@@ -276,7 +277,6 @@
     <button id="showMoreMainApps" style="display:none; padding:8px 18px; border-radius:8px; background:#23272a; color:#fff; border:none; cursor:pointer;">View more app</button>
   </div>
   </section>
-  <!-- Team/Camera are now shown in popup; inline panels removed -->
   <!-- Section Mạng xã hội -->
   <section id="social-media" style="margin-top:40px;">
     <div class="popup-title">Media</div>
@@ -314,6 +314,7 @@
           <a href="https://www.youtube.com/@text2_team" target="_blank" class="social-link">Text2 Team</a>
           <a href="https://www.youtube.com/@Text2_Vietnam" target="_blank" class="social-link">Text2 - Vietnam</a>
           <a href="https://www.youtube.com/@text2_magic" target="_blank" class="social-link">Text2 - Magic</a>
+          <a href="https://www.youtube.com/@text2_tech" target="_blank" class="social-link">Text2 - Tech</a>
         </div>
       </div>
 
@@ -414,10 +415,10 @@
       <div style="flex: 1 1 160px; min-width: 140px; text-align: left;">
         <div style="font-weight: 600; color: #4fc3f7; margin-bottom: 10px; font-size: 15px;">Quick Links</div>
         <ul style="list-style: none; padding: 0; margin: 0;">
-          <li><a href="https://text2.click" style="color: #fff; text-decoration: none; transition: color 0.2s;">Home</a></li>
-          <li><a href="https://text2.click/dev/note.txt" style="color: #fff; text-decoration: none; transition: color 0.2s;">Blog</a></li>
-          <li><a href="mailto:mail@text2.click" style="color: #fff; text-decoration: none; transition: color 0.2s;">Contact</a></li>
-          <li><a href="/dev/" style="color: #fff; text-decoration: none; transition: color 0.2s;">Privacy Policy</a></li>
+          <li><a href="#home" style="color: #fff; text-decoration: none; transition: color 0.2s;">Home</a></li>
+          <li><a href="#blog" style="color: #fff; text-decoration: none; transition: color 0.2s;">Blog</a></li>
+          <li><a href="mailto:team@text2.click" style="color: #fff; text-decoration: none; transition: color 0.2s;">Contact</a></li>
+          <li><a href="/privacy.html" style="color: #fff; text-decoration: none; transition: color 0.2s;">Privacy Policy</a></li>
         </ul>
       </div>
       <!-- Mạng xã hội -->
@@ -459,15 +460,7 @@
   <div class="mini-popup-content" style="width: 90vw; max-width: 800px; height: 80vh; max-height: 600px; padding: 0; overflow: hidden;">
     <div style="padding: 20px 20px 10px 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; background: #23272a;">
       <h3 style="margin: 0; color: #4fc3f7;">Notifications</h3>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button onclick="window.open('https://text2.click/noti/', '_blank')" style="background: #4fc3f7; border: none; color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#29b6f6'" onmouseout="this.style.background='#4fc3f7'">Open</button>
-        <button class="mini-popup-close" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
+      <button class="mini-popup-close" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">×</button>
     </div>
     <iframe 
       src="https://text2.click/noti/" 
@@ -479,32 +472,10 @@
   </div>
 </div>
 
-<!-- Popup Web Viewer -->
-<div id="webPopup" class="mini-popup hidden" tabindex="-1">
-  <div class="mini-popup-content" style="width: 90vw; max-width: 1000px; height: 80vh; max-height: 720px; padding: 0; overflow: hidden;">
-    <div style="padding: 16px 16px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; background: #23272a;">
-      <h3 id="webPopupTitle" style="margin: 0; color: #4fc3f7;">Loading...</h3>
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button id="webPopupOpenNewTab" onclick="openCurrentPopupInNewTab()" style="background: #4fc3f7; border: none; color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#29b6f6'" onmouseout="this.style.background='#4fc3f7'">Open</button>
-        <button class="mini-popup-close" style="background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <iframe id="webPopupFrame" src="" style="width: 100%; height: calc(100% - 54px); border: none; background: #000;" frameborder="0" loading="lazy" title="Web View"></iframe>
-  </div>
-</div>
-
 <!-- Popup Settings -->
 <div id="settingsPopup" class="mini-popup hidden" tabindex="-1">
   <div class="mini-popup-content">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h3 style="margin: 0;">Settings</h3>
-      <button onclick="window.open(window.location.href, '_blank')" style="background: #4fc3f7; border: none; color: white; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: background 0.2s;" onmouseover="this.style.background='#29b6f6'" onmouseout="this.style.background='#4fc3f7'">Open</button>
-    </div>
+    <h3>Settings</h3>
     <p>This feature is under development.<br>Please give feedback to Text2!</p>
     <div style="display: flex; flex-direction: column; gap: 10px; margin: 15px 0;">
       <button id="settingsInstallPWA" style="background: linear-gradient(145deg, #4fc3f7, #29b6f6); color: white; border: none; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -555,7 +526,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
   </div>
-  <a href="#" data-open="popup" data-url="https://team.text2.click" data-title="Text2 Team" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="#home" onclick="window.open('https://team.text2.click')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
       <circle cx="9" cy="7" r="4"></circle>
@@ -564,7 +535,7 @@
     </svg>
     Text2 - Team
   </a>
-  <a href="#" data-open="popup" data-url="https://text2.click/app/" data-title="Text2 App" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="#tools" onclick="window.open('https://text2.click/app')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
       <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -572,13 +543,13 @@
     App
   </a>
 
-  <a href="#" data-open="popup" data-url="https://camera.text2.click" data-title="Text2 Camera" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="#contact" onclick="window.open('https://camera.text2.click/')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:#23272a;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
       <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
       <circle cx="12" cy="13.5" r="3.5"></circle>
       <path d="M8.5 7V5a2.5 2.5 0 0 1 5 0v2"></path>
     </svg>
-    Camera 
+    Camera
   </a>
   <hr style="border: 0; border-top: 1.5px solid #333; margin: 16px 0;">
   <div style="margin-bottom: 10px;">
