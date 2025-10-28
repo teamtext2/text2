@@ -16,7 +16,10 @@
     settingsHardRefresh: document.getElementById('settingsHardRefresh'),
     sidebar: document.getElementById('sidebar'),
     sidebarToggle: document.getElementById('sidebarToggle'),
-    sidebarClose: document.getElementById('sidebarClose')
+    sidebarClose: document.getElementById('sidebarClose'),
+    webPopup: document.getElementById('webPopup'),
+    webPopupTitle: document.getElementById('webPopupTitle'),
+    webPopupFrame: document.getElementById('webPopupFrame')
   };
 
   // Navigation helpers
@@ -58,6 +61,19 @@
         e.preventDefault();
         navigateWithFade(targetUrl, true);
       }
+    },
+
+    openWebPopup: (title, url) => {
+      if (!elements.webPopup || !elements.webPopupFrame) return;
+      elements.webPopupTitle.textContent = title || 'Web View';
+      elements.webPopupFrame.src = url || '';
+      handlers.openMiniPopup(elements.webPopup);
+    },
+
+    closeWebPopup: () => {
+      if (!elements.webPopup || !elements.webPopupFrame) return;
+      elements.webPopupFrame.src = '';
+      handlers.closeMiniPopup(elements.webPopup);
     },
 
     // Search functionality
@@ -122,7 +138,55 @@
   const initEventListeners = () => {
     // Navigation and icons
     document.querySelectorAll('nav a').forEach(el => {
-      el.addEventListener('click', handlers.handleNavClick);
+      el.addEventListener('click', (e) => {
+        const tab = el.getAttribute('data-tab');
+        if (tab === 'team') {
+          e.preventDefault();
+          handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
+          return;
+        }
+        if (tab === 'camera') {
+          e.preventDefault();
+          handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
+          return;
+        }
+        if (tab === 'video') {
+          e.preventDefault();
+          handlers.openWebPopup('video', 'https://text2.click/video/');
+          return;
+        }
+        if (tab === 'app') {
+          e.preventDefault();
+          handlers.openWebPopup('Text2 App', 'https://text2.click/app/');
+          return;
+        }
+        handlers.handleNavClick(e);
+      });
+    });
+
+    // Sidebar tab links
+    document.querySelectorAll('.sidebar a[data-tab]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        const tab = el.getAttribute('data-tab');
+        if (tab === 'team') {
+          e.preventDefault();
+          handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
+          handlers.closeSidebar();
+          return;
+        }
+        if (tab === 'camera') {
+          e.preventDefault();
+          handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
+          handlers.closeSidebar();
+          return;
+        }
+        if (tab === 'app') {
+          e.preventDefault();
+          switchTab('app');
+          handlers.closeSidebar();
+          return;
+        }
+      });
     });
 
     // Global link override: prevent opening new tabs, use same-tab fade navigation
@@ -209,20 +273,28 @@
       btn.addEventListener('click', () => handlers.closeMiniPopup(btn.closest('.mini-popup')));
     });
 
+    // Close web popup should also clear iframe
+    if (elements.webPopup) {
+      const closeBtn = elements.webPopup.querySelector('.mini-popup-close');
+      if (closeBtn) closeBtn.addEventListener('click', handlers.closeWebPopup);
+    }
+
     // Close popups on outside click and ESC
     document.addEventListener('mousedown', (e) => {
-      [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
+      [elements.notificationPopup, elements.settingsPopup, elements.webPopup].forEach(popup => {
         if (!popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
           handlers.closeMiniPopup(popup);
+          if (popup === elements.webPopup) handlers.closeWebPopup();
         }
       });
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
+        [elements.notificationPopup, elements.settingsPopup, elements.webPopup].forEach(popup => {
           if (!popup.classList.contains('hidden')) handlers.closeMiniPopup(popup);
         });
+        handlers.closeWebPopup();
       }
     });
 
@@ -371,6 +443,52 @@
     document.addEventListener('DOMContentLoaded', initEventListeners);
   } else {
     initEventListeners();
+  }
+
+  // Tab Navigation
+  function switchTab(tabName) {
+    const panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(p => {
+      const isActive = p.getAttribute('data-panel') === tabName;
+      p.style.display = isActive ? '' : 'none';
+    });
+
+    // Active state on nav
+    document.querySelectorAll('nav a[data-tab]').forEach(a => {
+      if (a.getAttribute('data-tab') === tabName) a.classList.add('active');
+      else a.classList.remove('active');
+    });
+
+    // Update hash without scrolling
+    if (tabName === 'app') {
+      if (history.replaceState) {
+        history.replaceState(null, '', `#${tabName}`);
+      } else {
+        window.location.hash = `#${tabName}`;
+      }
+    }
+  }
+
+  // Initialize tab by hash or default to app
+  function initTabs() {
+    const raw = (window.location.hash || '#app').replace('#', '');
+    if (raw === 'team') {
+      handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
+      switchTab('app');
+      return;
+    }
+    if (raw === 'camera') {
+      handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
+      switchTab('app');
+      return;
+    }
+    switchTab(raw || 'app');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs);
+  } else {
+    initTabs();
   }
   // App visibility management
   const initAppVisibility = () => {
