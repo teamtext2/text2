@@ -19,16 +19,44 @@
     sidebarClose: document.getElementById('sidebarClose')
   };
 
+  // Navigation helpers
+  const navigateWithFade = (url, useReplace = true) => {
+    if (!url) return;
+    // Avoid double triggers
+    if (document.body.dataset.navigating === '1') return;
+    document.body.dataset.navigating = '1';
+    document.documentElement.classList.add('page-fade-out');
+    // Match CSS transition duration
+    setTimeout(() => {
+      try {
+        if (useReplace) window.location.replace(url);
+        else window.location.assign(url);
+      } catch (_) {
+        window.location.href = url;
+      }
+    }, 180);
+  };
+
   // Event handlers
   const handlers = {
     // Navigation and icon clicks
     handleNavClick: (e) => {
       const anchor = e.currentTarget;
       const targetUrl = anchor.getAttribute('href');
-      if (targetUrl && targetUrl.startsWith('#')) {
-        e.preventDefault();
+      if (!targetUrl) return;
+      // If design uses hash+data-link pattern, route to data-link in same tab with fade
+      if (targetUrl.startsWith('#')) {
         const dataLink = anchor.getAttribute('data-link');
-        if (dataLink) window.open(dataLink, '_blank');
+        if (dataLink) {
+          e.preventDefault();
+          navigateWithFade(dataLink, true);
+        }
+        return;
+      }
+      // For regular links in nav, fade then navigate in same tab
+      if (anchor.origin !== window.location.origin || targetUrl) {
+        e.preventDefault();
+        navigateWithFade(targetUrl, true);
       }
     },
 
@@ -95,6 +123,18 @@
     // Navigation and icons
     document.querySelectorAll('nav a').forEach(el => {
       el.addEventListener('click', handlers.handleNavClick);
+    });
+
+    // Global link override: prevent opening new tabs, use same-tab fade navigation
+    document.addEventListener('click', (event) => {
+      // Only handle left-click without modifier keys
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = event.target.closest('a');
+      if (!anchor || anchor.target !== '_blank') return;
+      const href = anchor.getAttribute('href');
+      if (!href || href.startsWith('javascript:')) return;
+      event.preventDefault();
+      navigateWithFade(href, true);
     });
 
     // Search
