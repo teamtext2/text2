@@ -151,55 +151,31 @@
 
   // Initialize event listeners
   const initEventListeners = () => {
-    // Navigation and icons
+    // Navigation and icons: open popup via data-open="popup"
     document.querySelectorAll('nav a').forEach(el => {
       el.addEventListener('click', (e) => {
-        const tab = el.getAttribute('data-tab');
-        if (tab === 'team') {
+        const isPopup = el.getAttribute('data-open') === 'popup';
+        if (isPopup) {
           e.preventDefault();
-          handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
-          return;
-        }
-        if (tab === 'camera') {
-          e.preventDefault();
-          handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
-          return;
-        }
-        if (tab === 'video') {
-          e.preventDefault();
-          handlers.openWebPopup('video', 'https://text2.click/video/');
-          return;
-        }
-        if (tab === 'app') {
-          e.preventDefault();
-          handlers.openWebPopup('Text2 App', 'https://text2.click/app/');
+          const url = el.getAttribute('data-url');
+          const title = el.getAttribute('data-title') || 'Web View';
+          handlers.openWebPopup(title, url);
           return;
         }
         handlers.handleNavClick(e);
       });
     });
 
-    // Sidebar tab links
-    document.querySelectorAll('.sidebar a[data-tab]').forEach(el => {
+    // Sidebar links: open popup via data-open="popup"
+    document.querySelectorAll('.sidebar a').forEach(el => {
       el.addEventListener('click', (e) => {
-        const tab = el.getAttribute('data-tab');
-        if (tab === 'team') {
+        const isPopup = el.getAttribute('data-open') === 'popup';
+        if (isPopup) {
           e.preventDefault();
-          handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
+          const url = el.getAttribute('data-url');
+          const title = el.getAttribute('data-title') || 'Web View';
+          handlers.openWebPopup(title, url);
           handlers.closeSidebar();
-          return;
-        }
-        if (tab === 'camera') {
-          e.preventDefault();
-          handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
-          handlers.closeSidebar();
-          return;
-        }
-        if (tab === 'app') {
-          e.preventDefault();
-          switchTab('app');
-          handlers.closeSidebar();
-          return;
         }
       });
     });
@@ -460,51 +436,7 @@
     initEventListeners();
   }
 
-  // Tab Navigation
-  function switchTab(tabName) {
-    const panels = document.querySelectorAll('.tab-panel');
-    panels.forEach(p => {
-      const isActive = p.getAttribute('data-panel') === tabName;
-      p.style.display = isActive ? '' : 'none';
-    });
-
-    // Active state on nav
-    document.querySelectorAll('nav a[data-tab]').forEach(a => {
-      if (a.getAttribute('data-tab') === tabName) a.classList.add('active');
-      else a.classList.remove('active');
-    });
-
-    // Update hash without scrolling
-    if (tabName === 'app') {
-      if (history.replaceState) {
-        history.replaceState(null, '', `#${tabName}`);
-      } else {
-        window.location.hash = `#${tabName}`;
-      }
-    }
-  }
-
-  // Initialize tab by hash or default to app
-  function initTabs() {
-    const raw = (window.location.hash || '#app').replace('#', '');
-    if (raw === 'team') {
-      handlers.openWebPopup('Text2 Team', 'https://team.text2.click');
-      switchTab('app');
-      return;
-    }
-    if (raw === 'camera') {
-      handlers.openWebPopup('Text2 Camera', 'https://camera.text2.click');
-      switchTab('app');
-      return;
-    }
-    switchTab(raw || 'app');
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTabs);
-  } else {
-    initTabs();
-  }
+  // Removed tab navigation
   // App visibility management
   const initAppVisibility = () => {
     const apps = Array.from(document.querySelectorAll('#mainApps .main-app'));
