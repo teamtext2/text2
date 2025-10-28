@@ -1262,3 +1262,67 @@ html, body {
     z-index: 1001 !important; /* header:1000, nav:999, sidebar:10000, mini-popup:10001 */
     pointer-events: auto !important;
   }
+
+  /* --- iOS-like polish: smooth, tactile, and accessible interactions --- */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --ios-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ios-fast: 160ms;
+    --ios-med: 260ms;
+  }
+
+  /* Momentum scrolling for scrollable areas */
+  .popup {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Default transition for interactive elements */
+  a, button, .icon, .taskbar-icon, .nav-install-btn, .social-link, .sidebar a, .sidebar-toggle, .sidebar-close, input, .mini-popup-content {
+    transition: transform var(--ios-fast) var(--ios-ease),
+                box-shadow var(--ios-med) var(--ios-ease),
+                background-color var(--ios-fast) var(--ios-ease),
+                opacity var(--ios-fast) var(--ios-ease),
+                filter var(--ios-fast) var(--ios-ease);
+    will-change: transform, box-shadow, opacity, filter;
+  }
+
+  /* Press feedback (tactile) applied from JS via .tap-active */
+  .tap-active {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(1.05);
+  }
+
+  /* Subtle pop for appearing elements */
+  @keyframes ios-pop {
+    0% { transform: scale(0.985); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .mini-popup-content { animation: ios-pop var(--ios-med) var(--ios-ease); }
+  .sidebar.active { transition: transform var(--ios-med) var(--ios-ease); }
+
+  /* Focus styles (keyboard accessibility, iOS-like ring) */
+  :focus-visible {
+    outline: 2px solid rgba(79,195,247,0.9);
+    outline-offset: 2px;
+    border-radius: 10px;
+  }
+
+  /* Inputs focus glow */
+  input:focus {
+    box-shadow: 0 0 0 6px rgba(79,195,247,0.12);
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }

@@ -676,6 +676,37 @@
   } else {
     initPWA();
   }
+  
+  // iOS-like press feedback: add/remove .tap-active on interactive elements
+  (function initIosPressFeedback(){
+    const isInteractive = (el) => !!el && (
+      el.closest('button, a, .icon, .taskbar-icon, .nav-install-btn, .social-link, .sidebar a, .sidebar-toggle, .sidebar-close, .mini-popup-close')
+    );
+
+    let activeEl = null;
+
+    const addActive = (target) => {
+      const el = target.closest('button, a, .icon, .taskbar-icon, .nav-install-btn, .social-link, .sidebar a, .sidebar-toggle, .sidebar-close, .mini-popup-close');
+      if (el) {
+        activeEl = el;
+        el.classList.add('tap-active');
+      }
+    };
+
+    const removeActive = () => {
+      if (activeEl) {
+        activeEl.classList.remove('tap-active');
+        activeEl = null;
+      }
+    };
+
+    // Mouse and touch support
+    document.addEventListener('pointerdown', (e) => { if (isInteractive(e.target)) addActive(e.target); }, { passive: true });
+    document.addEventListener('pointerup', removeActive, { passive: true });
+    document.addEventListener('pointercancel', removeActive, { passive: true });
+    document.addEventListener('dragstart', removeActive);
+    document.addEventListener('scroll', removeActive, true);
+  })();
   // Social Media Dropdown Functionality
   function toggleSocialDropdown(platform) {
     const options = document.getElementById(`${platform}-options`);
