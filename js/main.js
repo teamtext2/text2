@@ -40,6 +40,18 @@
     }, 180);
   };
 
+  // Expose helper for the "Open" button in the Web Popup header
+  function openCurrentPopupInNewTab() {
+    try {
+      const url = elements.webPopupFrame && elements.webPopupFrame.src ? elements.webPopupFrame.src : '';
+      if (url) {
+        window.open(url, '_blank', 'noopener');
+      }
+    } catch (_) {}
+  }
+  // Make available to inline onclick in HTML
+  window.openCurrentPopupInNewTab = openCurrentPopupInNewTab;
+
   // Event handlers
   const handlers = {
     // Navigation and icon clicks
