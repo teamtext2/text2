@@ -293,12 +293,8 @@
       btn.style.background = '#b71c1c';
       btn.innerHTML = 'Đang xóa cache...';
       try {
-        if ('serviceWorker' in navigator) {
-          const regs = await navigator.serviceWorker.getRegistrations();
-          for (const reg of regs) {
-            try { await reg.unregister(); } catch (_) {}
-          }
-        }
+        // Service worker unregistration removed since the service worker is being removed.
+        // Proceed to clear caches and storage directly.
         if (window.caches && caches.keys) {
           const keys = await caches.keys();
           await Promise.all(keys.map(k => caches.delete(k)));
@@ -374,7 +370,6 @@
     init() {
       this.checkInstallation();
       this.setupEventListeners();
-      this.registerServiceWorker();
       this.setupAutoUpdate();
     }
 
@@ -459,30 +454,7 @@
     }
 
     async registerServiceWorker() {
-      if ('serviceWorker' in navigator) {
-        try {
-          const registration = await navigator.serviceWorker.register('/service-worker.js');
-          console.log('ServiceWorker registration successful with scope:', registration.scope);
-          
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                this.showUpdateNotification();
-              }
-            });
-          });
-          
-          navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data?.type === 'background-sync-complete') {
-              console.log('Background sync completed');
-            }
-          });
-          
-        } catch (error) {
-          console.error('ServiceWorker registration failed:', error);
-        }
-      }
+      // Service worker removed: registration intentionally omitted.
     }
 
     showUpdateNotification() {
@@ -518,29 +490,12 @@
     }
 
     async syncData() {
-      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        try {
-          await navigator.serviceWorker.ready;
-          const registration = await navigator.serviceWorker.getRegistration();
-          
-          if ('sync' in registration) {
-            await registration.sync.register('background-sync');
-            console.log('Background sync registered');
-          }
-        } catch (error) {
-          console.error('Background sync registration failed:', error);
-        }
-      }
+      // Background sync via service worker removed; nothing to register here.
+      return;
     }
 
     checkForUpdates() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistration().then(registration => {
-          if (registration) {
-            registration.update();
-          }
-        });
-      }
+      // No service worker available — skip update checks.
     }
 
     setupAutoUpdate() {
@@ -548,11 +503,7 @@
         this.checkForUpdates();
       }, 5 * 60 * 1000);
 
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', (event) => {
-          this.handleServiceWorkerMessage(event.data);
-        });
-      }
+      // No service worker message listeners needed.
 
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
@@ -586,12 +537,9 @@
     }
 
     clearCache() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistration().then(registration => {
-          if (registration?.active) {
-            registration.active.postMessage({ type: 'CLEAR_CACHE' });
-          }
-        });
+      // Clear caches directly
+      if (window.caches && caches.keys) {
+        caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).catch(()=>{});
       }
     }
   }
@@ -617,16 +565,18 @@
   }
 
   function sendTestNotification() {
-    if ('serviceWorker' in navigator && 'Notification' in window) {
-      navigator.serviceWorker.ready.then(registration => {
-        registration.showNotification('Text2', {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        new Notification('Text2', {
           body: 'Welcome to Text2! Your AI assistant is ready.',
           icon: '/logoc.png',
           badge: '/logoc.png',
           vibrate: [100, 50, 100],
           data: { url: '/' }
         });
-      });
+      } catch (e) {
+        // Fallback: do nothing
+      }
     }
   }
 
