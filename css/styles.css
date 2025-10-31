@@ -1238,46 +1238,34 @@ html, body {
   }
   
   .popup {  
-    background: linear-gradient(135deg, rgba(15,15,15,0.75), rgba(26,26,26,0.75));
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(120%);
-    backdrop-filter: blur(var(--glass-blur)) saturate(120%);
+    background: #000000;
   }
   
   header {
-    background: rgba(20, 22, 26, 0.30);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-    border-bottom: var(--glass-border);
+    background: #212529;
+    border-bottom: 1px solid #444;
   }
   
   nav {
-    background: rgba(20, 22, 26, 0.25);
-    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
-    backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(140%);
-    border-bottom: var(--glass-border);
+    background: #000000;
+    border-bottom: 1px solid #333;
   }
   
   nav a, .nav-install-btn {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
-    box-shadow: var(--glass-shadow);
+    background: #111111;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
   
   .search-container input[type="text"] {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
+    background: #111111;
+    border: 1px solid #222;
   }
   
   .search-results {
-    background: var(--glass-bg);
-    border: var(--glass-border);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
-    box-shadow: var(--glass-shadow);
+    background: #111111;
+    border: 1px solid #333;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
   }
   
   .icon, .social-media-group {
@@ -1310,17 +1298,13 @@ html, body {
   }
   
   .sidebar {
-    background: rgba(20, 22, 26, 0.30);
-    border-right: var(--glass-border);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    backdrop-filter: blur(16px) saturate(140%);
+    background: #0b0b0b;
+    border-right: 1px solid #333;
   }
   
   footer {
-    background: rgba(26, 28, 32, 0.4) !important;
-    border-top: var(--glass-border) !important;
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    backdrop-filter: blur(10px) saturate(140%);
+    background: #23272a !important;
+    border-top: 1px solid #444 !important;
     box-shadow: 0 -8px 24px rgba(0,0,0,0.35) !important;
   }
   
