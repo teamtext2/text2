@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
   <title>Text2 App Center</title>
+  <meta name="google" content="notranslate"> 
   <meta name="description" content="Discover the latest applications from Text2" />
   <meta name="robots" content="index, follow" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -67,20 +69,27 @@
     }
 
     /* Style the search bar to match the current design */
+    .search-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    }
+    
     #searchBar {
-      margin-left: auto;
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: 1px solid #4fc3f7;
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      border: 2px solid #4fc3f7;
       background: rgba(33, 37, 41, 0.95);
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       outline: none;
-      transition: box-shadow 0.3s, border-color 0.3s;
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
     }
 
     #searchBar:focus {
-      box-shadow: 0 0 8px rgba(79, 195, 247, 0.8);
       border-color: #4fc3f7;
     }
 
@@ -122,9 +131,14 @@
       <span>Text2</span>
     </div>
     <span style="font-weight:600; font-size:15px;">App Center</span>
-    <!-- Add Search Bar -->
-    <input type="text" id="searchBar" placeholder="Search apps..." oninput="filterApps()">
+    <!-- Remove Search Bar from header -->
   </header>
+  
+  <!-- Add Search Bar below header -->
+  <div class="search-container">
+    <input type="text" id="searchBar" placeholder="Search apps..." oninput="filterApps()">
+  </div>
+  
   <div class="app-title">Text2 Ecosystem</div>
   <div class="icon-container" id="mainApps">
     <a href="https://note.text2.click" target="_blank" rel="noopener" class="icon main-app">
