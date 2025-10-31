@@ -137,6 +137,82 @@
   </script>
 </head>
 <body>
+    <!-- Page transition overlay -->
+    <style>
+      /* Rich Page transition overlay with Text2 logo */
+      #page-transition-overlay{
+        position:fixed;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:linear-gradient(180deg, rgba(8,12,16,0.92), rgba(24,28,32,0.94));
+        z-index:99999;
+        pointer-events:none;
+        opacity:0;
+        transition:opacity 360ms cubic-bezier(.2,.9,.2,1), visibility 360ms;
+        visibility:hidden;
+        backdrop-filter: blur(4px) saturate(1.1);
+      }
+      #page-transition-overlay.show{
+        pointer-events:auto;
+        opacity:1;
+        visibility:visible;
+      }
+
+      /* inner content */
+      #page-transition-overlay .pt-inner{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:10px;
+        transform: translateY(8px) scale(0.98);
+        transition: transform 420ms cubic-bezier(.2,.9,.2,1), opacity 320ms;
+        opacity:0;
+      }
+      #page-transition-overlay.show .pt-inner{
+        transform: translateY(0) scale(1);
+        opacity:1;
+      }
+
+      /* logo: show only the favicon image (no colored rounded background) */
+      .pt-logo{
+        width:auto;
+        height:auto;
+        border-radius:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:transparent;
+        box-shadow: none;
+        transform-origin:center;
+        /* keep a gentle scale animation on the inner image via .pt-logo img */
+      }
+      /* larger favicon-only image */
+      .pt-logo img{ width:120px; height:120px; display:block; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45)); border-radius:0; }
+
+      @keyframes pt-logo-pulse-img{
+        0%{ transform: scale(1); }
+        50%{ transform: scale(1.04); }
+        100%{ transform: scale(1); }
+      }
+      /* apply subtle pulse to the image itself */
+      .pt-logo img{ animation: pt-logo-pulse-img 1400ms ease-in-out infinite; }
+
+      .pt-title{
+        font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial;
+        font-weight:800;
+        color:#e6fbff;
+        font-size:20px;
+        letter-spacing:1.2px;
+        text-shadow:0 6px 18px rgba(2,6,23,0.45);
+      }
+      .pt-sub{
+        font-size:12px;
+        color:rgba(190,235,255,0.9);
+        opacity:0.95;
+      }
+    </style>
 <div class="popup">
   <header>
     <div class="taskbar-left">
@@ -488,7 +564,7 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
   </div>
-  <a href="#home" onclick="window.open('https://team.text2.click')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="https://team.text2.click" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
       <circle cx="9" cy="7" r="4"></circle>
@@ -497,7 +573,7 @@
     </svg>
     Text2 - Team
   </a>
-  <a href="#tools" onclick="window.open('https://text2.click/app')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="https://text2.click/app" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
       <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -505,7 +581,7 @@
     App
   </a>
 
-  <a href="#contact" onclick="window.open('https://camera.text2.click/')" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+  <a href="https://camera.text2.click/" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:#23272a;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
       <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
       <circle cx="12" cy="13.5" r="3.5"></circle>
@@ -627,6 +703,69 @@
 <section id="hero" style="text-align:center; margin: 20px 0;">
 <h1>We made a difference</h1>
 </section>
+
+<!-- Page transition overlay element -->
+<div id="page-transition-overlay" aria-hidden="true" role="status">
+  <div class="pt-inner" aria-hidden="true">
+    <div class="pt-logo">
+      <!-- default to favicon for transition image -->
+      <img src="https://text2.click/media/loading.png" alt="Text2" />
+    </div>
+    <div class="pt-title">Text2 - Open app</div>
+    <div class="pt-sub">We made a difference</div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const overlay = document.getElementById('page-transition-overlay');
+    const domainSuffix = 'text2.click';
+
+    function isIgnorableHref(href){
+      if(!href) return true;
+      return href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:');
+    }
+
+    function shouldHandle(anchor){
+      if(!anchor) return false;
+      const href = anchor.getAttribute('href');
+      if(!href || isIgnorableHref(href)) return false;
+      try{
+        const url = new URL(href, location.href);
+        // handle same domain/subdomain or elements explicitly marked
+        if(anchor.dataset && anchor.dataset.sameTab==='true') return true;
+        if(anchor.classList && anchor.classList.contains('main-app')) return true;
+        if(url.hostname && url.hostname.endsWith(domainSuffix)) return true;
+      }catch(e){
+        return false;
+      }
+      return false;
+    }
+
+    document.addEventListener('click', function(e){
+      const anchor = e.target.closest && e.target.closest('a');
+      if(!anchor) return;
+      // respect modifier keys to allow open-in-new-tab when user holds ctrl/cmd/shift/middle click
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+
+      if(shouldHandle(anchor)){
+        e.preventDefault();
+        // show overlay for smooth exit
+        overlay.classList.add('show');
+        // allow animation to play then navigate
+        setTimeout(function(){
+          try{ location.href = new URL(anchor.href, location.href).href; }
+          catch(err){ location.href = anchor.getAttribute('href'); }
+        }, 420);
+      }
+    }, true);
+
+    // ensure overlay removed on navigate back/forward
+    window.addEventListener('pageshow', function(){ overlay.classList.remove('show'); });
+    document.addEventListener('DOMContentLoaded', function(){ overlay.classList.remove('show'); });
+  })();
+</script>
+
 </body>
 </html>
 
