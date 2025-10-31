@@ -278,14 +278,15 @@
       });
     }
   </script>
-  <!-- Page transition overlay element -->
-  <div id="page-transition-overlay" aria-hidden="true" role="status">
-    <div class="pt-inner" aria-hidden="true">
-      <div class="pt-logo"><img src="https://text2.click/favicon.ico" alt="Text2" /></div>
-      <div class="pt-title">Text2</div>
-      <div class="pt-sub">We made a difference</div>
+<!-- Page transition overlay element -->
+<div id="page-transition-overlay" aria-hidden="true" role="status">
+  <div class="pt-inner" aria-hidden="true">
+    <div class="pt-logo">
+      <!-- default to favicon for transition image -->
+      <img src="https://text2.click/media/loading.png" alt="Text2 loading" />
     </div>
   </div>
+</div>
   <script>
     (function(){
       const overlay = document.getElementById('page-transition-overlay');
