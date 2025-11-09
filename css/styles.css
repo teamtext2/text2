@@ -494,8 +494,8 @@ html, body {
   }
   
   .icon img {
-    width: 112px;
-    height: 112px;
+    width: 67px;
+    height: 67px;
     border-radius: 15px;
     object-fit: cover;
     margin-bottom: 8px;
@@ -1323,3 +1323,5 @@ html, body {
     z-index: 1001 !important; /* header:1000, nav:999, sidebar:10000, mini-popup:10001 */
     pointer-events: auto !important;
   }
+
+  
