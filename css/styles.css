@@ -451,14 +451,9 @@ html, body {
   .icon {
     text-align: center;
     text-decoration: none;
-    background: linear-gradient(145deg, #292929, #1f1f1f);
     padding: 15px 10px;
     border-radius: 15px;
-    transition: all 0.3s ease;
     color: #ffffff;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
-    position: relative;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -466,15 +461,7 @@ html, body {
   }
   
   .icon::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-    transform: rotate(25deg);
-    pointer-events: none;
+    display: none;
   }
   
   .icon p {
@@ -488,14 +475,12 @@ html, body {
   }
   
   .icon:hover {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
-    background: linear-gradient(145deg, #343a40, #23272a);
+    /* Remove all decorative hover effects */
   }
   
   .icon img {
-    width: 67px;
-    height: 67px;
+    width: 122px;
+    height: 122px;
     border-radius: 15px;
     object-fit: cover;
     margin-bottom: 8px;
@@ -1269,13 +1254,13 @@ html, body {
   }
   
   .icon, .social-media-group {
-    background: linear-gradient(145deg, #292929, #1f1f1f);
-    border: 1px solid #444;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    /* Remove decorative background and effects */
+    border: none;
+    box-shadow: none;
   }
   
   .icon:hover, .social-media-group:hover {
-    background: linear-gradient(145deg, #343a40, #23272a);
+    /* Remove decorative hover background */
   }
   
   .icon img { border-color: rgba(255,255,255,0.18); }
@@ -1323,5 +1308,3 @@ html, body {
     z-index: 1001 !important; /* header:1000, nav:999, sidebar:10000, mini-popup:10001 */
     pointer-events: auto !important;
   }
-
-  
