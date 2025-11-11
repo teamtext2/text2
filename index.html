@@ -300,62 +300,7 @@
 
   <section id="apps">
   <div class="icon-container" id="mainApps">
-    <a href="https://note.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://note.text2.click/apple-touch-icon.png" alt="note" />
-      <p>Note</p>
-    </a>
-    <a href="https://translate.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://translate.text2.click/apple-touch-icon.png" alt="translate" />
-      <p>Translate</p>
-    </a>
-    <a href="https://qr.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://qr.text2.click/apple-touch-icon.png" alt="Create QR Code" />
-      <p>Create QR Code</p>
-    </a>
-    <a href="https://grammar.text2.click/" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://grammar.text2.click/apple-touch-icon.png" alt="text2 - Grammar Check" />
-      <p>Grammar Check</p>
-    </a>
-    <a href="https://chat.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://chat.text2.click/apple-touch-icon.png" alt="Chat Ai " />
-      <p>Chat AI</p>
-    </a>
-    <a href="https://camera.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://camera.text2.click/apple-touch-icon.png" alt="camera" />
-      <p>Camera</p>
-    </a>
-    <a href="https://html.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://html.text2.click/apple-touch-icon.png" alt="Read HTML" />
-      <p>HTML View</p>
-    </a>
-    <a href="https://calendar.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://calendar.text2.click/apple-touch-icon.png" alt="Calendar" />
-      <p>Calendar</p>
-    </a>
-    <a href="https://img.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://img.text2.click/apple-touch-icon.png" alt="img design" />
-      <p>Img Design</p>
-    </a>
-    <a href="https://love.text2.click/" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://love.text2.click/apple-touch-icon.png" alt="Love fortune telling" />
-      <p>Love Match</p>
-    </a>
-    <a href="https://qr.text2.click/scan/" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://qr.text2.click/scan/apple-touch-icon.png" alt="Scan" />
-      <p>Scan QR</p>
-    </a>
-    <a href="https://luts.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://luts.text2.click/apple-touch-icon.png" alt="lust " />
-      <p>Add Luts</p>
-    </a>
-    <a href="https://file.text2.click" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://file.text2.click/apple-touch-icon.png" alt="file" />
-      <p>File <br>(in development)</p>
-    </a>
-    <a href="https://text2.click/app/create-img/" target="_blank" rel="noopener" class="icon main-app">
-      <img src="https://text2.click/app/create-img/apple-touch-icon.png" alt="file" />
-      <p>Create Img<br>(in development)</p>
-    </a>
+    <!-- Apps will be dynamically generated here -->
   </div>
   <div style="text-align:center; margin: 10px 0;">
     <button id="showMoreMainApps" style="display:none; padding:8px 18px; border-radius:8px; background:#23272a; color:#fff; border:none; cursor:pointer;">View more app</button>
@@ -725,6 +670,53 @@
   (function(){
     const overlay = document.getElementById('page-transition-overlay');
     const domainSuffix = 'text2.click';
+    
+    // App data array
+    const appData = [
+      { id: 1, name: "Note", description: "Take notes quickly and efficiently.", icon: "https://note.text2.click/apple-touch-icon.png", url: "https://note.text2.click" },
+      { id: 2, name: "Translate", description: "Translate text between languages.", icon: "https://translate.text2.click/apple-touch-icon.png", url: "https://translate.text2.click" },
+      { id: 3, name: "Create QR Code", description: "Generate QR codes for any text or URL.", icon: "https://qr.text2.click/apple-touch-icon.png", url: "https://qr.text2.click" },
+      { id: 4, name: "Grammar Check", description: "Check and improve your grammar.", icon: "https://grammar.text2.click/apple-touch-icon.png", url: "https://grammar.text2.click/" },
+      { id: 5, name: "Chat AI", description: "Chat with AI assistant.", icon: "https://chat.text2.click/apple-touch-icon.png", url: "https://chat.text2.click" },
+      { id: 6, name: "Camera", description: "Camera tools and utilities.", icon: "https://camera.text2.click/apple-touch-icon.png", url: "https://camera.text2.click" },
+      { id: 7, name: "HTML View", description: "Read and view HTML files.", icon: "https://html.text2.click/apple-touch-icon.png", url: "https://html.text2.click" },
+      { id: 8, name: "Calendar", description: "View calendar and manage dates.", icon: "https://calendar.text2.click/apple-touch-icon.png", url: "https://calendar.text2.click" },
+      { id: 9, name: "Img Design", description: "Design and edit images.", icon: "https://img.text2.click/apple-touch-icon.png", url: "https://img.text2.click" },
+      { id: 10, name: "Love Match", description: "Love fortune telling and compatibility.", icon: "https://love.text2.click/apple-touch-icon.png", url: "https://love.text2.click/" },
+      { id: 11, name: "Scan QR", description: "Scan QR codes with your camera.", icon: "https://qr.text2.click/scan/apple-touch-icon.png", url: "https://qr.text2.click/scan/" },
+      { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.click/apple-touch-icon.png", url: "https://luts.text2.click" },
+      { id: 13, name: "File", description: "File management (in development).", icon: "https://file.text2.click/apple-touch-icon.png", url: "https://file.text2.click" },
+      { id: 14, name: "Create Img", description: "Create images (in development).", icon: "https://text2.click/app/create-img/apple-touch-icon.png", url: "https://text2.click/app/create-img/" },
+    ];
+
+    // Function to generate app HTML
+    function generateAppHTML(app) {
+      const isDevelopment = app.description.includes('in development');
+      const displayName = isDevelopment ? app.name + '<br>(in development)' : app.name;
+      
+      return `
+        <a href="${app.url}" target="_blank" rel="noopener" class="icon main-app" title="${app.description}">
+          <img src="${app.icon}" alt="${app.name}" />
+          <p>${displayName}</p>
+        </a>
+      `;
+    }
+
+    // Function to render apps
+    function renderApps() {
+      const mainAppsContainer = document.getElementById('mainApps');
+      if (mainAppsContainer) {
+        const appsHTML = appData.map(app => generateAppHTML(app)).join('');
+        mainAppsContainer.innerHTML = appsHTML;
+      }
+    }
+
+    // Initialize apps when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      renderApps();
+      overlay.classList.remove('show');
+    });
+    
     function isIgnorableHref(href){
       if(!href) return true;
       return href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:');
@@ -763,7 +755,6 @@
     }, true);
     // ensure overlay removed on navigate back/forward
     window.addEventListener('pageshow', function(){ overlay.classList.remove('show'); });
-    document.addEventListener('DOMContentLoaded', function(){ overlay.classList.remove('show'); });
   })();
 </script>
 </body>
