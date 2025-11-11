@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="js/data.js"></script>
   <script src="js/main.js" defer></script>
 <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
@@ -248,30 +249,8 @@
     </div>
   </header>
 
-  <nav>
-    <a href="https://text2.click/app" data-link="APP">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-      APP
-    </a>
-    <a href="#tools" data-link="https://team.text2.click">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-        <circle cx="9" cy="7" r="4"></circle>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-      </svg>
-      TEAM
-    </a>
-    <a href="https://camera.text2.click" data-link="https://camera.text2.click">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-        <circle cx="12" cy="13" r="4"></circle>
-      </svg>
-      Camera
-    </a>
+  <nav id="navigation">
+    <!-- Navigation will be dynamically generated from data.js -->
     <button id="installPWA" class="nav-install-btn">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -310,121 +289,14 @@
   <section id="social-media" style="margin-top:40px;">
     <div class="popup-title">Media</div>
     <div class="icon-container" id="socialMediaApps">
-      <!-- Facebook -->
-      <div class="social-media-group" data-platform="facebook">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-          </svg>
-          <span class="social-title">Facebook</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://www.facebook.com/text2.click" target="_blank" class="social-link">Text2 Vietnam</a>
-          <a href="https://www.facebook.com/text2team" target="_blank" class="social-link">Text2 Team</a>
-        </div>
-      </div>
-
-      <!-- YouTube -->
-      <div class="social-media-group" data-platform="youtube">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-            <polygon points="9.75,15.02 15.5,11.75 9.75,8.48 9.75,15.02"></polygon>
-          </svg>
-          <span class="social-title">YouTube</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://www.youtube.com/@text2_team" target="_blank" class="social-link">Text2 Team</a>
-          <a href="https://www.youtube.com/@Text2_Vietnam" target="_blank" class="social-link">Text2 - Vietnam</a>
-          <a href="https://www.youtube.com/@text2_magic" target="_blank" class="social-link">Text2 - Magic</a>
-          <a href="https://www.youtube.com/@text2_tech" target="_blank" class="social-link">Text2 - Tech</a>
-        </div>
-      </div>
-
-      <!-- TikTok -->
-      <div class="social-media-group" data-platform="tiktok">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-          </svg>
-          <span class="social-title">TikTok</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://www.tiktok.com/@text2_" target="_blank" class="social-link">Text2 Vietnam</a>
-          <a href="https://www.tiktok.com/@text2magic" target="_blank" class="social-link">Text2 Magic</a>
-        </div>
-      </div>
-
-      <!-- Instagram -->
-      <div class="social-media-group" data-platform="instagram">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-          <span class="social-title">Instagram</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://www.instagram.com/text2_magic" target="_blank" class="social-link">Text2 Magic</a>
-        </div>
-      </div>
-
-      <!-- Twitter -->
-      <div class="social-media-group" data-platform="twitter">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-          </svg>
-          <span class="social-title">Twitter (X)</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://x.com/Text2click" target="_blank" class="social-link">Text2</a>
-          <a href="https://x.com/hoanhatanh123" target="_blank" class="social-link">HOA NHAT ANH</a>
-        </div>
-      </div>
-
-      <!-- Pinterest -->
-      <div class="social-media-group" data-platform="pinterest">
-        <div class="social-media-header">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1a11 11 0 0 0-11 11 11 11 0 0 0 7.5 10.5c-.1-.9-.2-2.2 0-3.2.2-.9 1.3-5.4 1.3-5.4s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.6 2.2-4.6 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3-.1.3-.3 1.2-.3 1.4-.1.2-.2.2-.4.1-1.4-.7-2.3-2.7-2.3-4.4 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.2-5.2 6.2-1 0-2-.5-2.3-1.2 0 0-.5 2-.6 2.5-.2.9-.8 2.1-1.2 2.8A11 11 0 0 0 12 23a11 11 0 0 0 11-11A11 11 0 0 0 12 1z"></path>
-          </svg>
-          <span class="social-title">Pinterest</span>
-          <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6,9 12,15 18,9"></polyline>
-          </svg>
-        </div>
-        <div class="social-media-links">
-          <a href="https://www.pinterest.com/text2img/" target="_blank" class="social-link">Text2</a>
-        </div>
-      </div>
+      <!-- Social media will be dynamically generated from data.js -->
     </div>
   </section>
   <!-- Section Đối tác (Partners) -->
   <section id="partners" style="margin-top:40px;">
     <div class="popup-title">Partners</div>
-    <div class="icon-container">
-      <a href="https://05.text2.click" target="_blank" rel="noopener" class="icon" title="05 Production">
-        <img src="https://05.text2.click/favicon.ico" alt="05 Production" />
-        <p>05 Production</p>
-      </a>
+    <div class="icon-container" id="partnersContainer">
+      <!-- Partners will be dynamically generated from data.js -->
     </div>
   </section>
 
@@ -517,139 +389,14 @@
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
   </div>
-  <a href="https://team.text2.click" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-      <circle cx="9" cy="7" r="4"></circle>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-    </svg>
-    Text2 - Team
-  </a>
-  <a href="https://text2.click/app" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-    </svg>
-    App
-  </a>
-
-  <a href="https://camera.text2.click/" data-same-tab="true" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:#23272a;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
-      <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
-      <circle cx="12" cy="13.5" r="3.5"></circle>
-      <path d="M8.5 7V5a2.5 2.5 0 0 1 5 0v2"></path>
-    </svg>
-    Camera
-  </a>
+  <div id="sidebarMainLinks">
+    <!-- Main links will be dynamically generated from data.js -->
+  </div>
   <hr style="border: 0; border-top: 1.5px solid #333; margin: 16px 0;">
   <div style="margin-bottom: 10px;">
     <div style="font-size: 14px; color: #888; margin-bottom: 8px; padding-left: 10px;">Social Media</div>
-    
-    <!-- Facebook -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('facebook')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-        </svg>
-        Facebook
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="facebook-options">
-        <a href="https://www.facebook.com/text2.click" target="_blank">Text2 vietnam</a>
-        <a href="https://www.facebook.com/text2team" target="_blank">Text2 Team</a>
-      </div>
-    </div>
-
-    <!-- YouTube -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('youtube')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-          <polygon points="9.75,15.02 15.5,11.75 9.75,8.48 9.75,15.02"></polygon>
-        </svg>
-        YouTube
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="youtube-options">
-        <a href="https://www.youtube.com/@text2_team" target="_blank">Text2 Team</a>
-        <a href="https://www.youtube.com/@text2_click" target="_blank" class="social-link">Text2</a>
-        <a href="https://www.youtube.com/@Text2_Vietnam" target="_blank" class="social-link">Text2 - Vietnam</a>
-        <a href="https://www.youtube.com/@text2_magic" target="_blank" class="social-link">Text2 - Magic</a>
-        <a href="https://www.youtube.com/@text2_tech" target="_blank" class="social-link">Text2 - Tech</a>
-      </div>
-    </div>
-
-    <!-- TikTok -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('tiktok')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-        </svg>
-        TikTok
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="tiktok-options">
-        <a href="https://www.tiktok.com/@text2_" target="_blank" class="social-link">Text2 Vietnam</a>
-      </div>
-    </div>
-
-    <!-- Instagram -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('instagram')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-        </svg>
-        Instagram
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="instagram-options">
-        <a href="https://www.instagram.com/text2_magic" target="_blank" class="social-link">Text2 Magic</a>
-      </div>
-    </div>
-
-    <!-- Twitter -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('twitter')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-        </svg>
-        Twitter (X)
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="twitter-options">
-        <a href="https://x.com/Text2click" target="_blank" class="social-link">Text2</a>
-        <a href="https://x.com/hoanhatanh123" target="_blank" class="social-link">HOA NHAT ANH</a>
-      </div>
-    </div>
-
-    <!-- Pinterest -->
-    <div class="social-dropdown">
-      <div class="social-header" onclick="toggleSocialDropdown('pinterest')">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M12 1a11 11 0 0 0-11 11 11 11 0 0 0 7.5 10.5c-.1-.9-.2-2.2 0-3.2.2-.9 1.3-5.4 1.3-5.4s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.6 2.2-4.6 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3-.1.3-.3 1.2-.3 1.4-.1.2-.2.2-.4.1-1.4-.7-2.3-2.7-2.3-4.4 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.2-5.2 6.2-1 0-2-.5-2.3-1.2 0 0-.5 2-.6 2.5-.2.9-.8 2.1-1.2 2.8A11 11 0 0 0 12 23a11 11 0 0 0 11-11A11 11 0 0 0 12 1z"></path>
-        </svg>
-        Pinterest
-        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6,9 12,15 18,9"></polyline>
-        </svg>
-      </div>
-      <div class="social-options" id="pinterest-options">
-        <a href="https://www.pinterest.com/text2img/" target="_blank" class="social-link">Text2</a>
-      </div>
+    <div id="sidebarSocialMedia">
+      <!-- Social media dropdowns will be dynamically generated from data.js -->
     </div>
   </div>
 </div>
@@ -671,24 +418,6 @@
     const overlay = document.getElementById('page-transition-overlay');
     const domainSuffix = 'text2.click';
     
-    // App data array
-    const appData = [
-      { id: 1, name: "Note", description: "Take notes quickly and efficiently.", icon: "https://note.text2.click/apple-touch-icon.png", url: "https://note.text2.click" },
-      { id: 2, name: "Translate", description: "Translate text between languages.", icon: "https://translate.text2.click/apple-touch-icon.png", url: "https://translate.text2.click" },
-      { id: 3, name: "Create QR Code", description: "Generate QR codes for any text or URL.", icon: "https://qr.text2.click/apple-touch-icon.png", url: "https://qr.text2.click" },
-      { id: 4, name: "Grammar Check", description: "Check and improve your grammar.", icon: "https://grammar.text2.click/apple-touch-icon.png", url: "https://grammar.text2.click/" },
-      { id: 5, name: "Chat AI", description: "Chat with AI assistant.", icon: "https://chat.text2.click/apple-touch-icon.png", url: "https://chat.text2.click" },
-      { id: 6, name: "Camera", description: "Camera tools and utilities.", icon: "https://camera.text2.click/apple-touch-icon.png", url: "https://camera.text2.click" },
-      { id: 7, name: "HTML View", description: "Read and view HTML files.", icon: "https://html.text2.click/apple-touch-icon.png", url: "https://html.text2.click" },
-      { id: 8, name: "Calendar", description: "View calendar and manage dates.", icon: "https://calendar.text2.click/apple-touch-icon.png", url: "https://calendar.text2.click" },
-      { id: 9, name: "Img Design", description: "Design and edit images.", icon: "https://img.text2.click/apple-touch-icon.png", url: "https://img.text2.click" },
-      { id: 10, name: "Love Match", description: "Love fortune telling and compatibility.", icon: "https://love.text2.click/apple-touch-icon.png", url: "https://love.text2.click/" },
-      { id: 11, name: "Scan QR", description: "Scan QR codes with your camera.", icon: "https://qr.text2.click/scan/apple-touch-icon.png", url: "https://qr.text2.click/scan/" },
-      { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.click/apple-touch-icon.png", url: "https://luts.text2.click" },
-      { id: 13, name: "File", description: "File management (in development).", icon: "https://file.text2.click/apple-touch-icon.png", url: "https://file.text2.click" },
-      { id: 14, name: "Create Img", description: "Create images (in development).", icon: "https://text2.click/app/create-img/apple-touch-icon.png", url: "https://text2.click/app/create-img/" },
-    ];
-
     // Function to generate app HTML
     function generateAppHTML(app) {
       const isDevelopment = app.description.includes('in development');
@@ -705,15 +434,118 @@
     // Function to render apps
     function renderApps() {
       const mainAppsContainer = document.getElementById('mainApps');
-      if (mainAppsContainer) {
+      if (mainAppsContainer && typeof appData !== 'undefined') {
         const appsHTML = appData.map(app => generateAppHTML(app)).join('');
         mainAppsContainer.innerHTML = appsHTML;
       }
     }
 
-    // Initialize apps when DOM is loaded
+    // Function to render navigation
+    function renderNavigation() {
+      const navContainer = document.getElementById('navigation');
+      if (navContainer && typeof navigationData !== 'undefined') {
+        const navHTML = navigationData.map(nav => `
+          <a href="${nav.url}" data-link="${nav.dataLink}">
+            ${nav.icon}
+            ${nav.name}
+          </a>
+        `).join('');
+        navContainer.insertAdjacentHTML('afterbegin', navHTML);
+      }
+    }
+
+    // Function to render social media
+    function renderSocialMedia() {
+      const socialContainer = document.getElementById('socialMediaApps');
+      if (socialContainer && typeof socialMediaData !== 'undefined') {
+        const socialHTML = socialMediaData.map(social => {
+          const linksHTML = social.links.map(link => 
+            `<a href="${link.url}" target="_blank" class="social-link">${link.name}</a>`
+          ).join('');
+          
+          return `
+            <div class="social-media-group" data-platform="${social.platform}">
+              <div class="social-media-header">
+                ${social.icon}
+                <span class="social-title">${social.name}</span>
+                <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+              <div class="social-media-links">
+                ${linksHTML}
+              </div>
+            </div>
+          `;
+        }).join('');
+        socialContainer.innerHTML = socialHTML;
+      }
+    }
+
+    // Function to render partners
+    function renderPartners() {
+      const partnersContainer = document.getElementById('partnersContainer');
+      if (partnersContainer && typeof partnersData !== 'undefined') {
+        const partnersHTML = partnersData.map(partner => `
+          <a href="${partner.url}" target="_blank" rel="noopener" class="icon" title="${partner.description}">
+            <img src="${partner.icon}" alt="${partner.name}" />
+            <p>${partner.name}</p>
+          </a>
+        `).join('');
+        partnersContainer.innerHTML = partnersHTML;
+      }
+    }
+
+    // Function to render sidebar
+    function renderSidebar() {
+      if (typeof sidebarData === 'undefined') return;
+      
+      // Render main links
+      const sidebarMainLinks = document.getElementById('sidebarMainLinks');
+      if (sidebarMainLinks && sidebarData.mainLinks) {
+        const mainLinksHTML = sidebarData.mainLinks.map(link => `
+          <a href="${link.url}" data-same-tab="${link.dataSameTab}" style="display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;">
+            ${link.icon}
+            ${link.name}
+          </a>
+        `).join('');
+        sidebarMainLinks.innerHTML = mainLinksHTML;
+      }
+
+      // Render social media dropdowns
+      const sidebarSocialMedia = document.getElementById('sidebarSocialMedia');
+      if (sidebarSocialMedia && sidebarData.socialMedia) {
+        const socialHTML = sidebarData.socialMedia.map(social => {
+          const linksHTML = social.links.map(link => 
+            `<a href="${link.url}" target="_blank" class="social-link">${link.name}</a>`
+          ).join('');
+          
+          return `
+            <div class="social-dropdown">
+              <div class="social-header" onclick="toggleSocialDropdown('${social.platform}')">
+                ${social.icon}
+                ${social.name}
+                <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6,9 12,15 18,9"></polyline>
+                </svg>
+              </div>
+              <div class="social-options" id="${social.platform}-options">
+                ${linksHTML}
+              </div>
+            </div>
+          `;
+        }).join('');
+        sidebarSocialMedia.innerHTML = socialHTML;
+      }
+    }
+
+    // Initialize all renders when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+      renderNavigation();
       renderApps();
+      renderSocialMedia();
+      renderPartners();
+      renderSidebar();
       overlay.classList.remove('show');
     });
     
