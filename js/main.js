@@ -55,7 +55,7 @@
       });
 
       if (!matchFound) {
-        elements.searchResults.innerHTML = '<p>No apps found matching your search.</p>';
+        elements.searchResults.innerHTML = '<p class="loading">Đang tìm... ⏳</p>';
         elements.searchResults.classList.add('active');
       } else {
         elements.searchResults.classList.remove('active');
@@ -126,7 +126,7 @@
       });
 
       if (!matchFound) {
-        elements.searchResults.innerHTML = '<p>No apps found matching your search.</p>';
+        elements.searchResults.innerHTML = '<p class="loading">Đang tìm... ⏳</p>';
         elements.searchResults.classList.add('active');
       } else {
         elements.searchResults.classList.remove('active');
