@@ -1,83 +1,156 @@
 <style>
-    /* Palette:
-       Background: #121212 (charcoal)
-       Menu / icon frames: #1E1E1E - #242424 (not shown, but available)
-       Text: #FFFFFF or #B0B0B0
-       Accent: #1E90FF
-    */
-    :root{
-      --bg: #121212;
-      --panel-start: #1E1E1E;
-      --panel-end: #242424;
-      --text: #FFFFFF;
-      --muted: #B0B0B0;
-      --accent: #1E90FF;
-    }
+:root {
+  --bg: #121212;
+  --panel-start: #1E1E1E;
+  --panel-end: #242424;
+  --text: #ffffff;
+  --muted: #c0c0c0;
+}
 
-    /* Reset */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, sans-serif;
+  padding: 40px;
+}
 
-    body{
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:grid;
-      place-items:center; /* centers horizontally & vertically */
-      text-align:center;
-    }
+/* LIST WRAPPER */
+#notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin: auto;
+}
 
-    .hello{
-      font-size: clamp(40px, 8vw, 96px);
-      font-weight:700;
-      letter-spacing:0.02em;
-      line-height:1;
-      position:relative;
-      padding:0.25em 0.6em;
-      background: linear-gradient(90deg, rgba(30,30,30,0.18), rgba(36,36,36,0.06));
-      border-radius:18px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
-    }
+/* LIST ITEM */
+.notif-item {
+  padding: 14px 20px;
+  background: linear-gradient(145deg, var(--panel-start), var(--panel-end));
+  border-radius: 12px;
+  cursor: pointer;
+  transition: .2s;
+  border: 1px solid rgba(255,255,255,0.05);
+}
 
-    /* subtle accent underline */
-    .hello::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:-18px;
-      width:60%;
-      height:6px;
-      border-radius:6px;
-      background: linear-gradient(90deg, rgba(30,144,255,0.18), var(--accent));
-      filter:blur(3px);
-      opacity:0.95;
-    }
+.notif-item:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
 
-    /* small icon-like accent top-left, purely decorative */
-    .accent-dot{
-      position:absolute;
-      top:-18px;
-      left:-18px;
-      width:28px;
-      height:28px;
-      border-radius:8px;
-      background: linear-gradient(180deg, var(--accent), #0076e6);
-      box-shadow: 0 6px 18px rgba(30,144,255,0.12);
-      border: 1px solid rgba(255,255,255,0.04);
-    }
+/* POPUP OVERLAY */
+#popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: none;
+  place-items: center;
+  opacity: 0;
+  transition: opacity .3s ease;
+  z-index: 1000;
+}
 
-    /* accessible smaller description if needed (commented out) */
-    /* .desc{color:var(--muted);margin-top:12px;font-size:14px} */
+#popup-overlay.visible {
+  display: grid;
+  opacity: 1;
+}
 
-  </style>
+.popup-modal {
+  background: linear-gradient(145deg, var(--panel-start), var(--panel-end));
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transform: scale(.9);
+  opacity: 0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+#popup-overlay.visible .popup-modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+#close-popup {
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+}
+#close-popup:hover {
+  color: var(--text);
+}
+
+.popup-content {
+  font-size: 16px;
+  line-height: 1.6;
+}
+</style>
 </head>
+
 <body>
-  <div class="hello" aria-hidden="false">
-    <span class="accent-dot" aria-hidden="true"></span>
-    hello world
+
+<h1 style="text-align:center; margin-bottom:25px;">Danh sách thông báo</h1>
+
+<div id="notif-list"></div>
+
+<!-- POPUP -->
+<div id="popup-overlay">
+  <div class="popup-modal">
+    <div class="popup-header">
+      <h2 id="popup-title"></h2>
+      <button id="close-popup">&times;</button>
+    </div>
+    <div class="popup-content">
+      <p id="popup-message"></p>
+    </div>
   </div>
+</div>
+
+<!-- Load data -->
+<script src="data.js"></script>
+
+<script>
+const notifList = document.getElementById("notif-list");
+const popupOverlay = document.getElementById("popup-overlay");
+const popupTitle = document.getElementById("popup-title");
+const popupMsg = document.getElementById("popup-message");
+const closeBtn = document.getElementById("close-popup");
+
+// Tạo danh sách thông báo từ data.js
+function renderNotifications() {
+    NOTIFICATIONS.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "notif-item";
+        div.textContent = item.title;
+        div.onclick = () => openPopup(index);
+        notifList.appendChild(div);
+    });
+}
+
+function openPopup(index) {
+    popupTitle.textContent = NOTIFICATIONS[index].title;
+    popupMsg.textContent = NOTIFICATIONS[index].message;
+    popupOverlay.classList.add("visible");
+}
+
+closeBtn.onclick = () => popupOverlay.classList.remove("visible");
+
+popupOverlay.onclick = (e) => {
+    if (e.target === popupOverlay) popupOverlay.classList.remove("visible");
+};
+
+renderNotifications();
+</script>
+
 </body>
 </html>
