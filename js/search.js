@@ -6,6 +6,14 @@
 	const sendBtn = document.getElementById("searchButton");
 	const resultEl = document.getElementById("searchResults");
 
+	// Shortcuts map — add more entries here as needed
+	const SHORTCUTS = {
+		'1412': 'kaito kid',
+		'nhật anh đẹp trai': 'link nè mấy xếp: à quên từ từ chờ xíu quên cập nhật ròi',
+		'ceo text2': 'Hóa Nhật Anh đó chứ ai',
+		'kỳ duyên': 'bạn của nhật anh'
+	};
+
 	if (!promptEl || !sendBtn || !resultEl) return;
 
 	let isRequesting = false;
@@ -18,15 +26,40 @@
 			return;
 		}
 
+		// Shortcut handling:
+		// - Define a new shortcut using the format: "code:response" (e.g. "9999:hello world").
+		//   This will save the mapping in `SHORTCUTS` for the current session.
+		// - Trigger a saved shortcut by sending exactly the code (e.g. "1412").
+		const colonIndex = prompt.indexOf(':');
+		if (colonIndex > 0) {
+			const key = prompt.slice(0, colonIndex).trim();
+			const val = prompt.slice(colonIndex + 1).trim();
+			if (key && val) {
+				SHORTCUTS[key] = val;
+				resultEl.textContent = `Shortcut saved: ${key} → ${val}`;
+				return;
+			}
+		}
+		if (Object.prototype.hasOwnProperty.call(SHORTCUTS, prompt)) {
+			// Use the existing typing effect for shortcuts too
+			typeOut(resultEl, SHORTCUTS[prompt]);
+			return;
+		}
+
 		isRequesting = true;
 		sendBtn.disabled = true;
 		resultEl.innerHTML = '<span class="typing">⏳ Text2 AI is thinking...</span>';
+
+		// Instruction to append to the user's original prompt. Keeps original question unchanged.
+		const appendedInstruction = "reply in the user's national language and reply briefly and Respond as you are Text2 — someone is asking you.";
+		const fullPrompt = prompt + '\n\n' + appendedInstruction;
 
 		try {
 			const res = await fetch(WORKER_URL, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ prompt })
+				// send the original question + the appended instruction
+				body: JSON.stringify({ prompt: fullPrompt })
 			});
 
 			if (!res.ok) {
