@@ -1,6 +1,6 @@
 (function(){
 	// AI chat -> send query to Cloudflare Worker and show response
-	const WORKER_URL = "https://backup-llm.giacmobongdatv.workers.dev"; // 🔥 Đổi thành URL Worker thật của bạn
+	const WORKER_URL = "https://backup-llm.giacmobongdatv.workers.dev"; // 🔥 Change to your actual Worker URL
 
 	const promptEl = document.getElementById("searchInput");
 	const sendBtn = document.getElementById("searchButton");
@@ -14,13 +14,13 @@
 		if (isRequesting) return;
 		const prompt = (promptEl.value || "").trim();
 		if (!prompt) {
-			resultEl.textContent = "⚠️ Nhập câu hỏi trước đã nha!";
+			resultEl.textContent = "⚠️ Please enter a question first!";
 			return;
 		}
 
 		isRequesting = true;
 		sendBtn.disabled = true;
-		resultEl.innerHTML = '<span class="typing">⏳ Text2 AI đang suy nghĩ...</span>';
+		resultEl.innerHTML = '<span class="typing">⏳ Text2 AI is thinking...</span>';
 
 		try {
 			const res = await fetch(WORKER_URL, {
@@ -31,19 +31,19 @@
 
 			if (!res.ok) {
 				const errText = await res.text();
-				throw new Error(`Server lỗi (${res.status}): ${errText}`);
+				throw new Error(`Server error (${res.status}): ${errText}`);
 			}
 
 			const data = await res.json();
 
-			// 👉 Worker trả về dạng { reply: { response: "..." } }
-			const text = (data && data.reply && data.reply.response) ? data.reply.response : (data && data.reply) ? data.reply : "Không có phản hồi từ AI 😢";
+			// 👉 Worker returns format { reply: { response: "..." } }
+			const text = (data && data.reply && data.reply.response) ? data.reply.response : (data && data.reply) ? data.reply : "No response from AI 😢";
 
-			// Hiệu ứng gõ từng chữ
+			// Typing effect character by character
 			typeOut(resultEl, String(text));
 
 		} catch (err) {
-			resultEl.textContent = "🚨 Lỗi: " + (err && err.message ? err.message : String(err));
+			resultEl.textContent = "🚨 Error: " + (err && err.message ? err.message : String(err));
 		} finally {
 			isRequesting = false;
 			sendBtn.disabled = false;
@@ -63,9 +63,9 @@
 		step();
 	}
 
-	// Gắn sự kiện
+	// Attach events
 	sendBtn.addEventListener("click", sendPrompt);
-	// Hỗ trợ nhấn Enter trên input
+	// Support pressing Enter on input
 	promptEl.addEventListener("keydown", (e) => {
 		if (e.key === "Enter") {
 			e.preventDefault();
