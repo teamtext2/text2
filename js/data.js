@@ -17,7 +17,7 @@ const appData = [
   { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.click/apple-touch-icon.png", url: "https://luts.text2.click" },
   { id: 13, name: "File", description: "File management (in development).", icon: "https://file.text2.click/apple-touch-icon.png", url: "https://file.text2.click" },
   { id: 14, name: "Create Img", description: "Create images (in development).", icon: "https://team.text2.click/app/create-img/apple-touch-icon.png", url: "https://team.text2.click/app/create-img/" },
-  { id: 15, name: "Weather", description: "Check the weather forecast.", icon: "https://team.text2.click/app/weather/apple-touch-icon.png", url: "https://team.text2.click/app/weather" },
+  { id: 15, name: "Weather", description: "Check the weather forecast.", icon: "https://team.text2.click/app/weather/apple-touch-icon.png", url: "https://team.text2.click/app/weather" }
 ];
 
 // Social Media Data
