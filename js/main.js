@@ -332,21 +332,12 @@
   const initAppVisibility = () => {
     const apps = Array.from(document.querySelectorAll('#mainApps .main-app'));
     const showMoreBtn = document.getElementById('showMoreMainApps');
-    const initialCount = 14;
 
-    apps.forEach((el, idx) => {
-      el.style.display = idx < initialCount ? '' : 'none';
+    apps.forEach((el) => {
+      el.style.display = '';
     });
 
-    if (apps.length > initialCount && showMoreBtn) {
-      showMoreBtn.style.display = 'inline-flex';
-      showMoreBtn.addEventListener('click', () => {
-        apps.forEach(el => {
-          el.style.display = '';
-        });
-        showMoreBtn.style.display = 'none';
-      }, { once: true });
-    } else if (showMoreBtn) {
+    if (showMoreBtn) {
       showMoreBtn.style.display = 'none';
     }
   };
