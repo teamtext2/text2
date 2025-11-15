@@ -90,6 +90,31 @@
     }
   };
 
+  // Render apps from data.js if available
+  const renderAppsFromData = () => {
+    const container = document.getElementById('mainApps');
+    if (!container) return;
+    if (typeof appData === 'undefined' || !Array.isArray(appData)) return;
+
+    container.innerHTML = appData.map(app => {
+      const name = app.name || '';
+      const icon = app.icon || '';
+      const url = app.url || '#';
+      const alt = (app.name || 'app').toString().replace(/"/g, '');
+      return `
+      <a href="${url}" target="_blank" rel="noopener" class="icon main-app">
+        <img src="${icon}" alt="${alt}" />
+        <p>${name}</p>
+      </a>`;
+    }).join('');
+  };
+
+  // Ensure apps are rendered from data when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAppsFromData);
+  } else {
+    renderAppsFromData();
+  }
   // Initialize event listeners
   const initEventListeners = () => {
     // Navigation and icons
