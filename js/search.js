@@ -10,7 +10,7 @@
 	const SHORTCUTS = {
 		'1412': 'kaito kid',
 		'nhật anh đẹp trai': 'link nè mấy xếp: à quên từ từ chờ xíu quên cập nhật ròi',
-		'ceo text2': 'Hóa Nhật Anh đó chứ ai',
+		'hoanhatanhdeptrai': 'https://drive.google.com/drive/folders/1D5n2WuXsUbzwF7QLaOH-vKy6gBdAr6yC?usp=drive_link',
 		'kỳ duyên': 'bạn của nhật anh'
 	};
 
