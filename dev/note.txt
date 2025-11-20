@@ -21,14 +21,14 @@ Yêu cầu thương mai add Scrip ads
      crossorigin="anonymous"></script>
 
 logo và ảnh bìa tiêu chuẩn trang text2 
-https://text2.click/logoc.png
-https://text2.click/thumnel.png
+https://text2.pro/logoc.png
+https://text2.pro/thumnel.png
 
 giao diện đồng bộ vui lòng - truy cập
-https://text2.click/dev/ui.txt 
+https://text2.pro/dev/ui.txt 
 
 Mẫu gọi api llm của text2 
-https://text2.click/dev/api-llm.txt
+https://text2.pro/dev/api-llm.txt
 
 
 
