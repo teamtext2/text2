@@ -1,7 +1,7 @@
 {
   "name": "Text2",
   "short_name": "Text2",
-  "description": "Text2 - Hi Guys",
+  "description": "Text2 - Hi download me now ",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -36,10 +36,10 @@
       "name": "Chat AI",
       "short_name": "Chat",
       "description": "Open Chat AI",
-      "url": "chat.text2.click",
+      "url": "chat.text2.pro",
       "icons": [
         {
-          "src": "chat.text2.click/favicon.ico",
+          "src": "chat.text2.pro/favicon.ico",
           "sizes": "96x96"
         }
       ]
@@ -51,7 +51,7 @@
       "url": "/app/note",
       "icons": [
         {
-          "src": "note.text2.click/favicon.ico",
+          "src": "note.text2.pro/favicon.ico",
           "sizes": "96x96"
         }
       ]
@@ -60,10 +60,10 @@
       "name": "Translate",
       "short_name": "Translate",
       "description": "Open Translate",
-      "url": "https://translate.text2.click",
+      "url": "https://translate.text2.pro",
       "icons": [
         {
-          "src": "translate.text2.click/favicon.ico",
+          "src": "translate.text2.pro/favicon.ico",
           "sizes": "96x96"
         }
       ]
@@ -84,3 +84,4 @@
     "preferred_width": 400
   }
 } 
+
