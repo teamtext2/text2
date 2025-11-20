@@ -90,6 +90,7 @@
     }
   };
 
+  const toArray = (value) => Array.isArray(value) ? value : [];
   // Render apps from data.js if available
   const renderAppsFromData = () => {
     const container = document.getElementById('mainApps');
@@ -109,11 +110,200 @@
     }).join('');
   };
 
-  // Ensure apps are rendered from data when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderAppsFromData);
-  } else {
+  const renderNavigationFromData = () => {
+    const nav = document.getElementById('primaryNav') || document.querySelector('nav');
+    if (!nav) return;
+    const items = toArray(typeof navigationData !== 'undefined' ? navigationData : []);
+    if (!items.length) return;
+
+    const installButton = document.getElementById('installPWA');
+    nav.querySelectorAll('a').forEach(link => link.remove());
+
+    const template = document.createElement('template');
+    template.innerHTML = items.map(item => {
+      const href = item?.url || '#';
+      const dataLinkAttr = item?.dataLink ? ` data-link="${item.dataLink}"` : '';
+      const icon = item?.icon || '';
+      const name = item?.name || '';
+      return `
+        <a href="${href}"${dataLinkAttr}>
+          ${icon}
+          ${name}
+        </a>
+      `;
+    }).join('');
+
+    if (installButton && nav.contains(installButton)) {
+      nav.insertBefore(template.content, installButton);
+    } else {
+      nav.appendChild(template.content);
+    }
+  };
+
+  const mobileExpandIcon = `
+    <svg class="mobile-expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6,9 12,15 18,9"></polyline>
+    </svg>
+  `;
+
+  const renderSocialMediaFromData = () => {
+    const container = document.getElementById('socialMediaApps');
+    if (!container) return;
+    const data = toArray(typeof socialMediaData !== 'undefined' ? socialMediaData : []);
+    if (!data.length) {
+      container.innerHTML = '<p class="loading">Updating social channels...</p>';
+      return;
+    }
+    container.innerHTML = data.map(item => {
+      const links = toArray(item?.links).map(link => `
+        <a href="${link?.url || '#'}" target="_blank" rel="noopener" class="social-link">${link?.name || ''}</a>
+      `).join('');
+      return `
+        <div class="social-media-group" data-platform="${item?.platform || ''}">
+          <div class="social-media-header">
+            ${item?.icon || ''}
+            <span class="social-title">${item?.name || ''}</span>
+            ${mobileExpandIcon}
+          </div>
+          <div class="social-media-links">
+            ${links}
+          </div>
+        </div>
+      `;
+    }).join('');
+  };
+
+  const renderPartnersFromData = () => {
+    const container = document.getElementById('partnersContainer');
+    if (!container) return;
+    const partners = toArray(typeof partnersData !== 'undefined' ? partnersData : []);
+    if (!partners.length) {
+      container.innerHTML = '<p class="loading">Partners list is being updated...</p>';
+      return;
+    }
+    container.innerHTML = partners.map(partner => `
+      <a href="${partner?.url || '#'}" target="_blank" rel="noopener" class="icon" title="${partner?.description || partner?.name || ''}">
+        <img src="${partner?.icon || ''}" alt="${partner?.name || ''}" />
+        <p>${partner?.name || ''}</p>
+      </a>
+    `).join('');
+  };
+
+  const renderSidebarFromData = () => {
+    const mainLinksContainer = document.getElementById('sidebarMainLinks');
+    const socialContainer = document.getElementById('sidebarSocialMedia');
+    if (!mainLinksContainer || !socialContainer) return;
+
+    const sidebarConfig = typeof sidebarData !== 'undefined' ? sidebarData : {};
+    const mainLinks = toArray(sidebarConfig.mainLinks);
+    const socialItems = toArray(sidebarConfig.socialMedia);
+
+    const baseLinkStyle = 'display:flex;align-items:center;gap:10px;padding:10px 0 10px 10px;font-size:16px;border-radius:8px;transition:background 0.2s;';
+    mainLinksContainer.innerHTML = mainLinks.map(link => `
+      <a href="${link?.url || '#'}" data-same-tab="${link?.dataSameTab ? 'true' : 'false'}" style="${baseLinkStyle}">
+        ${link?.icon || ''}
+        ${link?.name || ''}
+      </a>
+    `).join('');
+
+    const dropdownArrow = `
+      <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6,9 12,15 18,9"></polyline>
+      </svg>
+    `;
+
+    socialContainer.innerHTML = `
+      <div style="margin-bottom: 10px;">
+        <div style="font-size: 14px; color: #888; margin-bottom: 8px; padding-left: 10px;">Social Media</div>
+        ${socialItems.map(item => `
+          <div class="social-dropdown" data-platform="${item?.platform || ''}">
+            <div class="social-header" data-platform="${item?.platform || ''}">
+              ${item?.icon || ''}
+              ${item?.name || ''}
+              ${dropdownArrow}
+            </div>
+            <div class="social-options" id="${item?.platform || 'social'}-options">
+              ${toArray(item?.links).map(link => `
+                <a href="${link?.url || '#'}" target="_blank">${link?.name || ''}</a>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  };
+
+  const initMobileSocialToggle = (() => {
+    let resizeListenerAttached = false;
+    return () => {
+      const socialMediaGroups = document.querySelectorAll('.social-media-group');
+      if (!socialMediaGroups.length) return;
+
+      socialMediaGroups.forEach(group => {
+        if (group.dataset.mobileBound === 'true') return;
+        const header = group.querySelector('.social-media-header');
+        if (!header) return;
+
+        header.addEventListener('click', (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            document.querySelectorAll('.social-media-group').forEach(otherGroup => {
+              if (otherGroup !== group) {
+                otherGroup.classList.remove('expanded');
+              }
+            });
+
+            group.classList.toggle('expanded');
+          }
+        });
+
+        group.dataset.mobileBound = 'true';
+      });
+
+      if (!resizeListenerAttached) {
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            document.querySelectorAll('.social-media-group').forEach(group => {
+              group.classList.remove('expanded');
+            });
+          }
+        });
+        resizeListenerAttached = true;
+      }
+    };
+  })();
+
+  const initSidebarDropdowns = () => {
+    const headers = document.querySelectorAll('#sidebarSocialMedia .social-header');
+    headers.forEach(header => {
+      if (header.dataset.dropdownBound === 'true') return;
+      header.addEventListener('click', () => {
+        const platform = header.dataset.platform;
+        if (platform) {
+          toggleSocialDropdown(platform);
+        }
+      });
+      header.dataset.dropdownBound = 'true';
+    });
+  };
+
+  const renderDataCollections = () => {
     renderAppsFromData();
+    renderNavigationFromData();
+    renderSocialMediaFromData();
+    renderPartnersFromData();
+    renderSidebarFromData();
+    initSidebarDropdowns();
+    initMobileSocialToggle();
+  };
+
+  // Ensure sections are rendered from data when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderDataCollections);
+  } else {
+    renderDataCollections();
   }
   // Initialize event listeners
   const initEventListeners = () => {
@@ -605,24 +795,26 @@
   // Social Media Dropdown Functionality
   function toggleSocialDropdown(platform) {
     const options = document.getElementById(`${platform}-options`);
+    if (!options) return;
     const header = options.previousElementSibling;
-    
-    // Close all other dropdowns
+
     const allOptions = document.querySelectorAll('.social-options');
     const allHeaders = document.querySelectorAll('.social-header');
-    
+
     allOptions.forEach((opt, index) => {
       if (opt !== options) {
         opt.classList.remove('show');
-        allHeaders[index].classList.remove('active');
+        if (allHeaders[index]) {
+          allHeaders[index].classList.remove('active');
+        }
       }
     });
-    
-    // Toggle current dropdown
+
     options.classList.toggle('show');
-    header.classList.toggle('active');
-    
-    // Close dropdown when clicking outside
+    if (header) {
+      header.classList.toggle('active');
+    }
+
     if (options.classList.contains('show')) {
       setTimeout(() => {
         document.addEventListener('click', closeDropdownOnOutsideClick);
@@ -631,7 +823,7 @@
       document.removeEventListener('click', closeDropdownOnOutsideClick);
     }
   }
-  
+
   function closeDropdownOnOutsideClick(event) {
     const dropdowns = document.querySelectorAll('.social-dropdown');
     let clickedInside = false;
@@ -670,41 +862,4 @@
     }
   });
 
-  // Mobile Social Media Expand/Collapse Functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const socialMediaGroups = document.querySelectorAll('.social-media-group');
-    
-    socialMediaGroups.forEach(group => {
-      const header = group.querySelector('.social-media-header');
-      
-      header.addEventListener('click', function(e) {
-        // Only handle on mobile devices
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          // Close other expanded groups
-          socialMediaGroups.forEach(otherGroup => {
-            if (otherGroup !== group) {
-              otherGroup.classList.remove('expanded');
-            }
-          });
-          
-          // Toggle current group
-          group.classList.toggle('expanded');
-        }
-      });
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-      if (window.innerWidth > 768) {
-        // Reset all groups on desktop
-        socialMediaGroups.forEach(group => {
-          group.classList.remove('expanded');
-        });
-      }
-    });
-  });
-
-  
+ 
