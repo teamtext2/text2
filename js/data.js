@@ -3,21 +3,21 @@
 
 // App Data - Text2 Ecosystem Apps
 const appData = [
-  { id: 1, name: "Note", description: "Take notes quickly and efficiently.", icon: "https://note.text2.click/apple-touch-icon.png", url: "https://note.text2.click" },
-  { id: 2, name: "Translate", description: "Translate text between languages.", icon: "https://translate.text2.click/apple-touch-icon.png", url: "https://translate.text2.click" },
-  { id: 3, name: "Create QR Code", description: "Generate QR codes for any text or URL.", icon: "https://qr.text2.click/apple-touch-icon.png", url: "https://qr.text2.click" },
-  { id: 4, name: "Grammar Check", description: "Check and improve your grammar.", icon: "https://grammar.text2.click/apple-touch-icon.png", url: "https://grammar.text2.click/" },
-  { id: 5, name: "Chat AI", description: "Chat with AI assistant.", icon: "https://chat.text2.click/apple-touch-icon.png", url: "https://chat.text2.click" },
-  { id: 6, name: "Camera", description: "Camera tools and utilities.", icon: "https://camera.text2.click/apple-touch-icon.png", url: "https://camera.text2.click" },
-  { id: 7, name: "HTML View", description: "Read and view HTML files.", icon: "https://html.text2.click/apple-touch-icon.png", url: "https://html.text2.click" },
-  { id: 8, name: "Calendar", description: "View calendar and manage dates.", icon: "https://calendar.text2.click/apple-touch-icon.png", url: "https://calendar.text2.click" },
-  { id: 9, name: "Img Design", description: "Design and edit images.", icon: "https://img.text2.click/apple-touch-icon.png", url: "https://img.text2.click" },
-  { id: 10, name: "Love Match", description: "Love fortune telling and compatibility.", icon: "https://love.text2.click/apple-touch-icon.png", url: "https://love.text2.click/" },
-  { id: 11, name: "Scan QR", description: "Scan QR codes with your camera.", icon: "https://qr.text2.click/scan/apple-touch-icon.png", url: "https://qr.text2.click/scan/" },
-  { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.click/apple-touch-icon.png", url: "https://luts.text2.click" },
-  { id: 13, name: "File<br>(in development)</br>", description: "File management (in development).", icon: "https://file.text2.click/apple-touch-icon.png", url: "https://file.text2.click" },
-  { id: 14, name: "Create Img<br>(in development)</br>", description: "Create images (in development).", icon: "https://team.text2.click/app/create-img/apple-touch-icon.png", url: "https://team.text2.click/app/create-img/" },
-  { id: 15, name: "Weather", description: "Check the weather forecast.", icon: "https://team.text2.click/app/weather/apple-touch-icon.png", url: "https://team.text2.click/app/weather" }
+  { id: 1, name: "Note", description: "Take notes quickly and efficiently.", icon: "https://note.text2.pro/apple-touch-icon.png", url: "https://note.text2.pro" },
+  { id: 2, name: "Translate", description: "Translate text between languages.", icon: "https://translate.text2.pro/apple-touch-icon.png", url: "https://translate.text2.pro" },
+  { id: 3, name: "Create QR Code", description: "Generate QR codes for any text or URL.", icon: "https://qr.text2.pro/apple-touch-icon.png", url: "https://qr.text2.pro" },
+  { id: 4, name: "Grammar Check", description: "Check and improve your grammar.", icon: "https://grammar.text2.pro/apple-touch-icon.png", url: "https://grammar.text2.pro/" },
+  { id: 5, name: "Chat AI", description: "Chat with AI assistant.", icon: "https://chat.text2.pro/apple-touch-icon.png", url: "https://chat.text2.pro" },
+  { id: 6, name: "Camera", description: "Camera tools and utilities.", icon: "https://camera.text2.pro/apple-touch-icon.png", url: "https://camera.text2.pro" },
+  { id: 7, name: "HTML View", description: "Read and view HTML files.", icon: "https://html.text2.pro/apple-touch-icon.png", url: "https://html.text2.pro" },
+  { id: 8, name: "Calendar", description: "View calendar and manage dates.", icon: "https://calendar.text2.pro/apple-touch-icon.png", url: "https://calendar.text2.pro" },
+  { id: 9, name: "Img Design", description: "Design and edit images.", icon: "https://img.text2.pro/apple-touch-icon.png", url: "https://img.text2.pro" },
+  { id: 10, name: "Love Match", description: "Love fortune telling and compatibility.", icon: "https://love.text2.pro/apple-touch-icon.png", url: "https://love.text2.pro/" },
+  { id: 11, name: "Scan QR", description: "Scan QR codes with your camera.", icon: "https://qr.text2.pro/scan/apple-touch-icon.png", url: "https://qr.text2.pro/scan/" },
+  { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.pro/apple-touch-icon.png", url: "https://luts.text2.pro" },
+  { id: 13, name: "File<br>(in development)</br>", description: "File management (in development).", icon: "https://file.text2.pro/apple-touch-icon.png", url: "https://file.text2.pro" },
+  { id: 14, name: "Create Img<br>(in development)</br>", description: "Create images (in development).", icon: "https://team.text2.pro/app/create-img/apple-touch-icon.png", url: "https://team.text2.pro/app/create-img/" },
+  { id: 15, name: "Weather", description: "Check the weather forecast.", icon: "https://team.text2.pro/app/weather/apple-touch-icon.png", url: "https://team.text2.pro/app/weather" }
 ];
 
 // Social Media Data
@@ -100,8 +100,8 @@ const partnersData = [
   {
     id: 1,
     name: "05 Production",
-    url: "https://05.text2.click",
-    icon: "https://05.text2.click/favicon.ico",
+    url: "https://05.text2.pro",
+    icon: "https://05.text2.pro/favicon.ico",
     description: "05 Production"
   }
 ];
@@ -110,7 +110,7 @@ const partnersData = [
 const navigationData = [
   {
     name: "APP",
-    url: "https://team.text2.click/",
+    url: "https://team.text2.pro/",
     dataLink: "GAME",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -119,8 +119,8 @@ const navigationData = [
   },
   {
     name: "GAME",
-    url: "https://game.text2.click",
-    dataLink: "https://game.text2.click",
+    url: "https://game.text2.pro",
+    dataLink: "https://game.text2.pro",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="6" width="20" height="12" rx="4" ry="4"></rect>
       <circle cx="8" cy="12" r="1.5"></circle>
@@ -131,8 +131,8 @@ const navigationData = [
   },
   {
     name: "Camera",
-    url: "https://camera.text2.click",
-    dataLink: "https://camera.text2.click",
+    url: "https://camera.text2.pro",
+    dataLink: "https://camera.text2.pro",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
       <circle cx="12" cy="13" r="4"></circle>
@@ -145,7 +145,7 @@ const sidebarData = {
   mainLinks: [
     {
       name: "Text2 - Team",
-      url: "https://team.text2.click",
+      url: "https://team.text2.pro",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -156,7 +156,7 @@ const sidebarData = {
     },
     {
       name: "Gamme",
-      url: "https://game.text2.click/",
+      url: "https://game.text2.pro/",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -165,7 +165,7 @@ const sidebarData = {
     },
     {
       name: "Camera",
-      url: "https://camera.text2.click/",
+      url: "https://camera.text2.pro/",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:#23272a;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
         <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
