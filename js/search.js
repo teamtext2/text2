@@ -11,6 +11,7 @@
 		'1412': 'kaito kid',
 		'nhật anh đẹp trai': 'link nè mấy xếp: à quên từ từ chờ xíu quên cập nhật ròi',
 		'adobe': 'https://text2.pro/redirect/adobe-free.html',
+		'Adobe': 'https://text2.pro/redirect/adobe-free.html',
 		'kỳ duyên': 'bạn của nhật anh'
 	};
 
