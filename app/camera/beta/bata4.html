@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Text2Cam Web App</title>
+    <!-- Đảm bảo giao diện tối ưu trên di động -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Đảm bảo chạy như một web-app (ẩn thanh địa chỉ) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        /* CSS Reset và Cài đặt chung */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent; /* Tắt highlight khi chạm */
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%; /* Sử dụng 100% thay vì 100vh để ổn định hơn */
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Container ứng dụng chính */
+        #app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+        }
+
+        /* Thanh trên cùng (Cài đặt, Thư viện) */
+        #top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            z-index: 10;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0));
+        }
+
+        /* Khu vực xem camera */
+        #camera-view {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #111;
+        }
+
+        #video-preview {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Đảm bảo video lấp đầy khung nhìn */
+        }
+
+        /* Lưới (Grid Overlay) */
+        #grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none; /* Bật/tắt bằng JS */
+            box-shadow: 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            background:
+                linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px) 0 0 / 33.333%,
+                linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px) 0 0 / 100% 33.333%;
+        }
+        
+        #grid-overlay.active {
+            display: block;
+        }
+
+        /* Canvas ẩn để chụp ảnh */
+        #capture-canvas {
+            display: none;
+        }
+
+        /* Thanh dưới cùng (Nút điều khiển) */
+        #bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 10;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
+        }
+
+        /* Nút Chụp/Quay */
+        #shutter-button {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 4px solid #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        /* Hiệu ứng khi chụp */
+        #shutter-button:active {
+            transform: scale(0.95);
+            background-color: #ccc;
+        }
+
+        /* Nút khi ở chế độ quay video */
+        #shutter-button.video-mode {
+            border-color: #f00;
+        }
+        
+        #shutter-button.recording {
+            background-color: #f00;
+            border-radius: 10px; /* Vuông */
+            width: 40px;
+            height: 40px;
+            margin: 15px; /* Căn giữa lại */
+            animation: pulse-record 1.5s infinite;
+        }
+        
+        @keyframes pulse-record {
+            0% { box-shadow: 0 0 0 0 rgba(255,0,0, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255,0,0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,0,0, 0); }
+        }
+
+        /* Nút icon chung */
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .icon-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+        
+        /* Nút chuyển chế độ */
+        #mode-toggle {
+            font-size: 14px;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Modal (Popup) chung */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none; /* Bật/tắt bằng JS */
+            flex-direction: column;
+            justify-content: flex-end; /* Hiển thị từ dưới lên */
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal.center {
+             justify-content: center;
+             align-items: center;
+        }
+
+        /* Nội dung modal */
+        .modal-content {
+            background: #1c1c1e; /* Màu xám tối iOS */
+            width: 100%;
+            max-height: 90%;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            flex-direction: column;
+            animation: slide-up 0.3s ease-out;
+        }
+        
+        .modal.center .modal-content {
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            animation: fade-in 0.3s ease-out;
+        }
+
+        @keyframes slide-up {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Header của Modal */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .modal-header .icon-button {
+             background: rgba(0,0,0,0.3);
+        }
+
+        /* Body của Modal */
+        .modal-body {
+            padding: 15px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* --- Thư viện --- */
+        #gallery-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        #gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 5px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-item .video-icon {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 1;
+        }
+        .gallery-item .video-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.7));
+        }
+
+        .gallery-item-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 0;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .gallery-item:hover .gallery-item-actions {
+            opacity: 1;
+        }
+
+        .gallery-item-actions .icon-button {
+            padding: 5px;
+            background: none;
+        }
+        .gallery-item-actions .icon-button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* --- Cài đặt --- */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-item .label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-item .label svg {
+            width: 20px;
+            height: 20px;
+            fill: #aaa;
+        }
+        
+        .setting-item .label span {
+            font-size: 16px;
+        }
+
+        /* Nút bấm trong Cài đặt (giống iOS) */
+        .setting-button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .setting-button svg {
+            width: 12px;
+            height: 12px;
+            fill: #aaa;
+        }
+
+        /* Toggle Switch (CSS thuần) */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 51px;
+            height: 31px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 27px;
+            width: 27px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #34c759; /* Màu xanh lá iOS */
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* Sub-popup cho lựa chọn */
+        #sub-setting-modal .modal-body {
+            padding: 0;
+        }
+        
+        .sub-setting-option {
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sub-setting-option:last-child {
+            border-bottom: none;
+        }
+        
+        .sub-setting-option:active {
+            background-color: #444;
+        }
+        
+        .sub-setting-option .check-icon {
+            display: none;
+        }
+        
+        .sub-setting-option.selected .check-icon {
+            display: block;
+        }
+        .sub-setting-option .check-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #34c759;
+        }
+
+        /* Thông báo tùy chỉnh */
+        #toast-message {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            z-index: 200;
+            transition: bottom 0.3s ease-out;
+            font-size: 14px;
+        }
+        
+        #toast-message.show {
+            bottom: 120px; /* Phía trên thanh bottom-bar */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Giao diện App chính -->
+    <div id="app-container">
+        
+        <!-- Thanh trên -->
+        <div id="top-bar">
+            <button id="settings-btn" class="icon-button">
+                <!-- Icon Cài đặt -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 l-3.84,0c-0.24,0-0.44,0.17-0.48,0.41L9.2,5.77C8.61,6.01,8.08,6.33,7.58,6.71L5.19,5.75C4.97,5.68,4.72,5.75,4.6,5.97L2.68,9.29 c-0.11,0.2-0.06,0.47,0.12,0.61l2.03,1.58C4.78,11.76,4.76,12.08,4.76,12.4c0,0.32,0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.96 c0.04,0.24,0.24,0.41,0.48,0.41l3.84,0c0.24,0,0.44-0.17,0.48-0.41l0.36-2.96c0.59-0.24,1.12-0.56,1.62-0.94l2.39,0.96 c0.22,0.07,0.47,0,0.59-0.22l1.92-3.32c0.11-0.2,0.06-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+            </button>
+            <button id="gallery-btn" class="icon-button">
+                <!-- Icon Thư viện -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,19V5c0-1.1-0.9-2-2-2H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14C20.1,21,21,20.1,21,19z M8.5,13.5l2.5,3.01L14.5,12 l4.5,6H5L8.5,13.5z"/></svg>
+            </button>
+        </div>
+
+        <!-- Khung nhìn Camera -->
+        <div id="camera-view">
+            <video id="video-preview" autoplay playsinline muted></video>
+            <div id="grid-overlay"></div>
+            <!-- Canvas để chụp (ẩn) -->
+            <canvas id="capture-canvas"></canvas>
+        </div>
+
+        <!-- Thanh dưới -->
+        <div id="bottom-bar">
+            <button id="mode-toggle">ẢNH</button>
+            <button id="shutter-button"></button>
+            <!-- Nút đổi camera (trước/sau) -->
+            <button id="flip-camera-btn" class="icon-button">
+                <!-- Icon đổi camera -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.83,8H11v2H9.83c-0.41,0-0.8-0.17-1.1-0.45L7.9,8.71C7.62,8.42,7.62,7.58,7.9,7.29l0.83-0.83 C9.03,6.17,9.42,6,9.83,6H11V4H9.83C8.67,4,7.67,4.42,6.92,5.17l-0.83,0.83c-1.17,1.17-1.17,3.07,0,4.24l0.83,0.83 C7.67,11.58,8.67,12,9.83,12H11v-2H9.83c-0.41,0-0.8-0.17-1.1-0.45L7.9,8.71C7.62,8.42,7.62,7.58,7.9,7.29L8.73,6.45 C9.03,6.17,9.42,6,9.83,6V8z M14.17,16H13v-2h1.17c0.41,0,0.8-0.17,1.1-0.45l0.83-0.83c0.29-0.29,0.29-0.77,0-1.06l-0.83-0.83 c-0.3-0.28-0.69-0.45-1.1-0.45H13V8h1.17c1.16,0,2.16,0.42,2.91,1.17l0.83,0.83c1.17,1.17,1.17,3.07,0,4.24l-0.83,0.83 C16.33,15.58,15.33,16,14.17,16z M17,20v-3h-2v3H7v-3H5v3c0,1.1,0.9,2,2,2h10C18.1,22,19,21.1,19,20z M17,4V1h-2v3H7V1H5v3C5,2.9,4.1,2,3,2v0 C3,2,3,2,3,2C3,2,3,2,3,2C3,2,3,2,3,2v0C3,2,3,2,3,2c0,0,0,0,0,0v0c0,0,0,0,0,0H3v0c0,0,0,0,0,0v0H3c0,0,0,0,0,0H3v0c0,0,0,0,0,0 c0,0,0,0,0,0c0,0,0,0,0,0h0v0c0,0,0,0,0,0H3v0h0C3,2,3,2,3,2v0h0v0H3v0h0v0c0,0,0,0,0,0V2h0c0,0,0,0,0,0h0v0h0v0H3c0,0,0,0,0,0 h0v0h0V2h0c0,0,0,0,0,0h0V2h0v0h0V2h0c0,0,0,0,0,0h0v0h0v0h0v0h0c0,0,0,0,0,0h0v0h0v0h0v0h0v0h0v0h0v0h0v0h0v0h0V2h0V2h0 V2h0V2h0v0h0v0h0v0h0v0h0v0H5V2h12V4z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. Modal Thư viện -->
+    <div id="gallery-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thư viện</h2>
+                <div id="gallery-actions">
+                    <!-- Icon Tải xuống tất cả -->
+                    <button id="download-all-btn" class="icon-button" title="Tải xuống tất cả">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.35,10.04C18.67,6.59,15.64,4,12,4C9.11,4,6.6,5.64,5.35,8.04C2.34,8.36,0,10.91,0,14c0,3.31,2.69,6,6,6h13 c2.76,0,5-2.24,5-5C24,12.36,21.95,10.22,19.35,10.04z M17,13l-5,5l-5-5h3V9h4v4H17z"/></svg>
+                    </button>
+                    <!-- Icon Xóa tất cả -->
+                    <button id="delete-all-btn" class="icon-button" title="Xóa tất cả">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15,2H9C8.45,2,8,2.45,8,3v1H4v2h1v11c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6h1V4h-4V3C16,2.45,15.55,2,15,2z M13,2h-2v1h2V2z M15,17H9V6h6V17z M14,8h-2v7h2V8z M11,8H9v7h2V8z"/></svg>
+                    </button>
+                </div>
+                <button id="close-gallery-btn" class="icon-button">
+                    <!-- Icon Đóng (X) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41z"/></svg>
+                </button>
+            </div>
+            <div id="gallery-body" class="modal-body">
+                <div id="gallery-grid">
+                    <!-- Ảnh/video sẽ được thêm vào đây bằng JS -->
+                </div>
+                <p id="gallery-empty-msg" style="text-align: center; color: #888; display: none;">Thư viện trống.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Modal Cài đặt -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cài đặt</h2>
+                <button id="close-settings-btn" class="icon-button">
+                    <!-- Icon Đóng (X) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41z"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Tự động tải về -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Tải xuống -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/></svg>
+                        <span>Tự động tải về sau khi chụp</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-download-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <!-- Lưới -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Lưới -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,3v18h18V3H3z M9,21H5v-4h4V21z M9,15H5v-4h4V15z M9,9H5V5h4V9z M15,21h-4v-4h4V21z M15,15h-4v-4h4V15z M15,9h-4V5h4V9z M19,21h-4v-4h4V21z M19,15h-4v-4h4V15z M19,9h-4V5h4V9z"/></svg>
+                        <span>Hiển thị lưới</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="grid-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <!-- Dấu chìm (Watermark) -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Dấu chìm -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.41,11.58l-9-9C12.05,2.22,11.55,2,11,2H4C2.9,2,2,2.9,2,4v7c0,0.55,0.22,1.05,0.59,1.42l9,9 c0.36,0.36,0.86,0.58,1.41,0.58s1.05-0.22,1.41-0.59l7-7C22.17,13.68,22.17,12.32,21.41,11.58z M13,20.01L4,11V4h7l9,9 L13,20.01z M6.5,6.5C5.67,6.5,5,5.83,5,5s0.67-1.5,1.5-1.5S8,4.17,8,5S7.33,6.5,6.5,6.5z"/></svg>
+                        <span>Dấu chìm "text2"</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="watermark-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <!-- Tỷ lệ khung hình -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Tỷ lệ -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,15V5H5v10H19z M21,3H3C1.9,3,1,3.9,1,5v14c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V5C23,3.9,22.1,3,21,3z M21,19H3V5h18V19z"/></svg>
+                        <span>Tỷ lệ khung hình</span>
+                    </div>
+                    <button id="aspect-ratio-btn" class="setting-button">
+                        <span id="current-aspect-ratio">16:9</span>
+                        <!-- Icon > -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.59L13.17,12L8.59,7.41L10,6l6,6l-6,6L8.59,16.59z"/></svg>
+                    </button>
+                </div>
+                
+                <!-- Độ phân giải -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Độ phân giải -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,12c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S13.1,12,12,12z M21,3H3C1.9,3,1,3.9,1,5v14c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V5 C23,3.9,22.1,3,21,3z M17,19H7v-2h10V19z M21,15H3V5h18V15z"/></svg>
+                        <span>Độ phân giải</span>
+                    </div>
+                    <button id="resolution-btn" class="setting-button">
+                        <span id="current-resolution">Mặc định</span>
+                        <!-- Icon > -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.59L13.17,12L8.59,7.41L10,6l6,6l-6,6L8.59,16.59z"/></svg>
+                    </button>
+                </div>
+                
+                <!-- Loại ảnh -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Loại tệp -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,2H6C4.9,2,4.01,2.9,4.01,4L4,20c0,1.1,0.89,2,1.99,2H18c1.1,0,2-0.9,2-2V8L14,2z M16,16h-4v1h4v1h-4v1h4v1h-4v-1 c0-0.55,0.45-1,1-1h2v-1h-2c-0.55,0-1,0.45-1,1v1h-1v-2h1v-1h-1v-1c0-0.55,0.45-1,1-1h2v-1h-2c-0.55,0-1,0.45-1,1v1h-1v-2h4V16z M13,9V3.5L18.5,9H13z"/></svg>
+                        <span>Loại ảnh</span>
+                    </div>
+                    <button id="image-type-btn" class="setting-button">
+                        <span id="current-image-type">PNG</span>
+                        <!-- Icon > -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.59L13.17,12L8.59,7.41L10,6l6,6l-6,6L8.59,16.59z"/></svg>
+                    </button>
+                </div>
+                
+                <!-- Cập nhật (Xóa Cache) -->
+                <div class="setting-item">
+                    <div class="label">
+                        <!-- Icon Cập nhật -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9,14.21,4,12,4c-4.42,0-7.99,3.58-7.99,8s3.57,8,7.99,8c3.73,0,6.84-2.55,7.73-6h-2.08 c-0.82,2.33-3.04,4-5.65,4c-3.31,0-6-2.69-6-6s2.69-6,6-6c1.66,0,3.14,0.69,4.22,1.78L13,11h7V4L17.65,6.35z"/></svg>
+                        <span>Xóa cache & Tải lại</span>
+                    </div>
+                    <button id="update-btn" class="setting-button" style="background-color: #f00; color: #fff;">Cập nhật</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Modal con cho Cài đặt (Độ phân giải, Tỷ lệ, ...) -->
+    <div id="sub-setting-modal" class="modal center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="sub-setting-title">Lựa chọn</h2>
+                <button id="close-sub-setting-btn" class="icon-button">
+                    <!-- Icon Đóng (X) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41z"/></svg>
+                </button>
+            </div>
+            <div id="sub-setting-body" class="modal-body">
+                <!-- Các tùy chọn sẽ được thêm vào đây bằng JS -->
+                <!-- 
+                Template:
+                <div class="sub-setting-option" data-value="value">
+                    <span>Tên lựa chọn</span>
+                    <div class="check-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,16.17L4.83,12l-1.42,1.41L9,19L21,7l-1.41-1.41L9,16.17z"/></svg>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Thông báo Toast -->
+    <div id="toast-message"></div>
+
+    <!-- JAVASCRIPT INLINE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- 1. DOM Elements ---
+            const video = document.getElementById("video-preview");
+            const canvas = document.getElementById("capture-canvas");
+            const ctx = canvas.getContext("2d");
+            const gridOverlay = document.getElementById("grid-overlay");
+            
+            // Nút
+            const settingsBtn = document.getElementById("settings-btn");
+            const galleryBtn = document.getElementById("gallery-btn");
+            const shutterBtn = document.getElementById("shutter-button");
+            const modeToggle = document.getElementById("mode-toggle");
+            const flipCameraBtn = document.getElementById("flip-camera-btn");
+
+            // Modal
+            const galleryModal = document.getElementById("gallery-modal");
+            const settingsModal = document.getElementById("settings-modal");
+            const subSettingModal = document.getElementById("sub-setting-modal");
+            const closeGalleryBtn = document.getElementById("close-gallery-btn");
+            const closeSettingsBtn = document.getElementById("close-settings-btn");
+            const closeSubSettingBtn = document.getElementById("close-sub-setting-btn");
+
+            // Thư viện
+            const galleryGrid = document.getElementById("gallery-grid");
+            const galleryEmptyMsg = document.getElementById("gallery-empty-msg");
+            const downloadAllBtn = document.getElementById("download-all-btn");
+            const deleteAllBtn = document.getElementById("delete-all-btn");
+            
+            // Cài đặt
+            const autoDownloadToggle = document.getElementById("auto-download-toggle");
+            const gridToggle = document.getElementById("grid-toggle");
+            const watermarkToggle = document.getElementById("watermark-toggle");
+            const updateBtn = document.getElementById("update-btn");
+            const aspectRatioBtn = document.getElementById("aspect-ratio-btn");
+            const resolutionBtn = document.getElementById("resolution-btn");
+            const imageTypeBtn = document.getElementById("image-type-btn");
+            
+            // UI Cài đặt
+            const currentAspectRatio = document.getElementById("current-aspect-ratio");
+            const currentResolution = document.getElementById("current-resolution");
+            const currentImageType = document.getElementById("current-image-type");
+            const subSettingTitle = document.getElementById("sub-setting-title");
+            const subSettingBody = document.getElementById("sub-setting-body");
+            
+            // Toast
+            const toastMessage = document.getElementById("toast-message");
+
+            // --- 2. State & Cài đặt ---
+            let currentStream;
+            let currentFacingMode = "environment"; // 'user' (trước) or 'environment' (sau)
+            let currentMode = "photo"; // 'photo' or 'video'
+            let isRecording = false;
+            let mediaRecorder;
+            let recordedChunks = [];
+            let db;
+            
+            let settings = {
+                autoDownload: false,
+                grid: false,
+                watermark: false,
+                aspectRatio: 16/9, // Lưu trữ dưới dạng số
+                aspectRatioLabel: "16:9",
+                resolution: "default",
+                resolutionLabel: "Mặc định",
+                imageType: "image/png",
+                imageTypeLabel: "PNG"
+            };
+
+            // --- 3. IndexedDB (Lưu trữ Thư viện) ---
+            function initDB() {
+                const request = indexedDB.open("text2camDB", 1);
+
+                request.onupgradeneeded = (e) => {
+                    db = e.target.result;
+                    if (!db.objectStoreNames.contains("gallery")) {
+                        db.createObjectStore("gallery", { keyPath: "id", autoIncrement: true });
+                    }
+                };
+
+                request.onsuccess = (e) => {
+                    db = e.target.result;
+                    console.log("Database initialized");
+                };
+
+                request.onerror = (e) => {
+                    console.error("Database error: ", e.target.error);
+                    showToast("Không thể khởi tạo bộ nhớ thư viện!");
+                };
+            }
+
+            function saveMediaToDB(blob, type) {
+                if (!db) return;
+                const transaction = db.transaction(["gallery"], "readwrite");
+                const store = transaction.objectStore("gallery");
+                const mediaFile = {
+                    blob: blob,
+                    type: type, // 'photo' or 'video'
+                    timestamp: new Date()
+                };
+                const request = store.add(mediaFile);
+                
+                request.onsuccess = () => {
+                    showToast(type === 'photo' ? "Đã lưu ảnh!" : "Đã lưu video!");
+                };
+                request.onerror = (e) => {
+                    console.error("Error saving media: ", e.target.error);
+                    showToast("Lỗi khi lưu vào thư viện!");
+                };
+            }
+
+            function loadGallery() {
+                if (!db) return;
+                galleryGrid.innerHTML = "";
+                
+                const transaction = db.transaction(["gallery"], "readonly");
+                const store = transaction.objectStore("gallery");
+                const request = store.getAll();
+
+                request.onsuccess = (e) => {
+                    const mediaFiles = e.target.result.reverse(); // Mới nhất lên trước
+                    if (mediaFiles.length === 0) {
+                        galleryEmptyMsg.style.display = "block";
+                    } else {
+                        galleryEmptyMsg.style.display = "none";
+                        mediaFiles.forEach(createGalleryItem);
+                    }
+                };
+            }
+
+            function createGalleryItem(item) {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "gallery-item";
+                
+                const url = URL.createObjectURL(item.blob);
+                let mediaElement;
+
+                if (item.type === 'photo') {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = url;
+                } else {
+                    mediaElement = document.createElement("video");
+                    mediaElement.src = url;
+                    mediaElement.controls = false; // Tắt controls mặc định
+                    mediaElement.muted = true;
+                    mediaElement.loop = true;
+                    mediaElement.onclick = () => { // Play/pause khi click
+                        if (mediaElement.paused) mediaElement.play();
+                        else mediaElement.pause();
+                    };
+                    
+                    // Thêm icon video
+                    const videoIcon = document.createElement('div');
+                    videoIcon.className = 'video-icon';
+                    videoIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,10.5V7c0-0.55-0.45-1-1-1H4C3.45,6,3,6.45,3,7v10c0,0.55,0.45,1,1,1h12c0.55,0,1-0.45,1-1v-3.5l4,4v-11L17,10.5z"/></svg>`;
+                    itemDiv.appendChild(videoIcon);
+                }
+
+                const actionsDiv = document.createElement("div");
+                actionsDiv.className = "gallery-item-actions";
+                
+                // Nút tải xuống
+                const downloadBtn = document.createElement("button");
+                downloadBtn.className = "icon-button";
+                downloadBtn.title = "Tải xuống";
+                downloadBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/></svg>`;
+                downloadBtn.onclick = (e) => {
+                    e.stopPropagation(); // Ngăn video play/pause
+                    downloadBlob(item.blob, item.type, item.timestamp);
+                };
+
+                // Nút xóa
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "icon-button";
+                deleteBtn.title = "Xóa";
+                deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6,19c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V7H6V19z M19,4h-3.5l-1-1h-5l-1,1H5v2h14V4z"/></svg>`;
+                deleteBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteMedia(item.id, itemDiv, url);
+                };
+
+                actionsDiv.appendChild(downloadBtn);
+                actionsDiv.appendChild(deleteBtn);
+                
+                itemDiv.appendChild(mediaElement);
+                itemDiv.appendChild(actionsDiv);
+                galleryGrid.appendChild(itemDiv);
+            }
+
+            function deleteMedia(id, element, url) {
+                if (!db) return;
+                if (!confirm("Bạn có chắc muốn xóa mục này?")) return;
+
+                const transaction = db.transaction(["gallery"], "readwrite");
+                const store = transaction.objectStore("gallery");
+                const request = store.delete(id);
+
+                request.onsuccess = () => {
+                    galleryGrid.removeChild(element);
+                    URL.revokeObjectURL(url); // Giải phóng bộ nhớ
+                    showToast("Đã xóa!");
+                    if (galleryGrid.children.length === 0) {
+                        galleryEmptyMsg.style.display = "block";
+                    }
+                };
+                request.onerror = (e) => {
+                    console.error("Error deleting media: ", e.target.error);
+                };
+            }
+
+            function deleteAllMedia() {
+                if (!db) return;
+                if (!confirm("Bạn có chắc muốn XÓA TẤT CẢ ảnh và video trong thư viện?\nThao tác này không thể hoàn tác.")) return;
+
+                const transaction = db.transaction(["gallery"], "readwrite");
+                const store = transaction.objectStore("gallery");
+                const request = store.clear();
+
+                request.onsuccess = () => {
+                    // Xóa URL object
+                    document.querySelectorAll(".gallery-item").forEach(item => {
+                        const media = item.querySelector("img") || item.querySelector("video");
+                        if (media && media.src) URL.revokeObjectURL(media.src);
+                    });
+                    galleryGrid.innerHTML = "";
+                    galleryEmptyMsg.style.display = "block";
+                    showToast("Đã xóa tất cả thư viện!");
+                };
+                request.onerror = (e) => {
+                    console.error("Error clearing gallery: ", e.target.error);
+                };
+            }
+
+            function downloadAllMedia() {
+                if (!db) return;
+                showToast("Đang chuẩn bị tải xuống...");
+                
+                const transaction = db.transaction(["gallery"], "readonly");
+                const store = transaction.objectStore("gallery");
+                const request = store.getAll();
+
+                request.onsuccess = (e) => {
+                    const mediaFiles = e.target.result;
+                    if (mediaFiles.length === 0) {
+                        showToast("Thư viện trống.");
+                        return;
+                    }
+                    
+                    // Tải xuống lần lượt
+                    mediaFiles.forEach((item, index) => {
+                        setTimeout(() => {
+                            downloadBlob(item.blob, item.type, item.timestamp);
+                        }, index * 500); // Cách 0.5s tải 1 tệp
+                    });
+                    showToast(`Đang tải ${mediaFiles.length} tệp...`);
+                };
+            }
+
+            // --- 4. Camera Logic ---
+            async function startCamera(constraints = {}) {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                }
+
+                const videoConstraints = {
+                    facingMode: currentFacingMode,
+                    width: { ideal: 4096 }, // Yêu cầu chất lượng cao nhất có thể
+                    height: { ideal: 2160 },
+                    aspectRatio: settings.aspectRatio
+                };
+
+                // Áp dụng độ phân giải nếu được chọn
+                if (settings.resolution !== 'default') {
+                    videoConstraints.width.ideal = settings.resolution.width;
+                    videoConstraints.height.ideal = settings.resolution.height;
+                }
+
+                try {
+                    currentStream = await navigator.mediaDevices.getUserMedia({
+                        video: videoConstraints,
+                        audio: true // Luôn yêu cầu audio để quay video
+                    });
+                    video.srcObject = currentStream;
+                    video.style.aspectRatio = settings.aspectRatio; // Cập nhật CSS
+                } catch (err) {
+                    console.error("Lỗi khi mở camera: ", err);
+                    let msg = "Không thể truy cập camera.";
+                    if (err.name === "NotAllowedError") {
+                        msg = "Bạn đã từ chối quyền truy cập camera.";
+                    } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+                        msg = "Không tìm thấy camera nào.";
+                    } else if (err.name === "OverconstrainedError") {
+                         msg = `Không hỗ trợ độ phân giải/tỷ lệ này. Thử lại với cài đặt khác. (${err.constraint})`;
+                         // Quay về mặc định nếu lỗi
+                         settings.resolution = "default";
+                         settings.resolutionLabel = "Mặc định";
+                         settings.aspectRatio = 16/9;
+                         settings.aspectRatioLabel = "16:9";
+                         saveSettings();
+                         updateSettingsUI();
+                         // Thử lại với cài đặt mặc định
+                         await startCamera();
+                    }
+                    showToast(msg);
+                }
+            }
+
+            function flipCamera() {
+                currentFacingMode = (currentFacingMode === "environment") ? "user" : "environment";
+                startCamera();
+            }
+
+            // --- 5. Chụp/Quay Logic ---
+            function takePhoto() {
+                // Hiệu ứng màn trập
+                document.body.style.opacity = 0;
+                setTimeout(() => document.body.style.opacity = 1, 100);
+
+                const videoSettings = currentStream.getVideoTracks()[0].getSettings();
+                canvas.width = videoSettings.width;
+                canvas.height = videoSettings.height;
+                
+                // Lật ảnh nếu là camera trước
+                if (currentFacingMode === 'user') {
+                    ctx.save();
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                } else {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                }
+
+                // Thêm watermark
+                if (settings.watermark) {
+                    ctx.font = `${canvas.width / 30}px Arial`; // Kích thước tương đối
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+                    ctx.textAlign = "right";
+                    ctx.textBaseline = "bottom";
+                    ctx.fillText("text2", canvas.width - 20, canvas.height - 20);
+                }
+
+                canvas.toBlob((blob) => {
+                    saveMediaToDB(blob, 'photo');
+                    if (settings.autoDownload) {
+                        downloadBlob(blob, 'photo', new Date());
+                    }
+                }, settings.imageType, 0.95); // 0.95 là chất lượng cho JPEG
+            }
+
+            function toggleRecording() {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    startRecording();
+                }
+            }
+            
+            function startRecording() {
+                if (!currentStream) {
+                    showToast("Camera chưa sẵn sàng!");
+                    return;
+                }
+                
+                recordedChunks = [];
+                // Thử các mimeType phổ biến
+                const options = [
+                    'video/webm;codecs=vp9,opus',
+                    'video/webm;codecs=vp8,opus',
+                    'video/webm',
+                    'video/mp4' // Một số trình duyệt hỗ trợ
+                ].find(MediaRecorder.isTypeSupported);
+
+                if (!options) {
+                    showToast("Không hỗ trợ quay video trên trình duyệt này.");
+                    return;
+                }
+
+                try {
+                    mediaRecorder = new MediaRecorder(currentStream, { mimeType: options });
+                    
+                    mediaRecorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) {
+                            recordedChunks.push(e.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: recordedChunks[0].type || 'video/webm' });
+                        saveMediaToDB(blob, 'video');
+                        if (settings.autoDownload) {
+                            downloadBlob(blob, 'video', new Date());
+                        }
+                        recordedChunks = [];
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    shutterBtn.classList.add("recording");
+                    showToast("Bắt đầu quay...");
+                
+                } catch (e) {
+                    console.error("Lỗi MediaRecorder: ", e);
+                    showToast("Lỗi khi bắt đầu quay.");
+                }
+            }
+            
+            function stopRecording() {
+                if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                    mediaRecorder.stop();
+                    isRecording = false;
+                    shutterBtn.classList.remove("recording");
+                    showToast("Ngừng quay, đang xử lý video...");
+                }
+            }
+            
+            function handleShutterClick() {
+                if (currentMode === 'photo') {
+                    takePhoto();
+                } else {
+                    toggleRecording();
+                }
+            }
+            
+            function toggleMode() {
+                if (isRecording) {
+                    showToast("Đang quay, không thể đổi chế độ!");
+                    return;
+                }
+                
+                if (currentMode === 'photo') {
+                    currentMode = 'video';
+                    modeToggle.textContent = 'VIDEO';
+                    shutterBtn.classList.add('video-mode');
+                } else {
+                    currentMode = 'photo';
+                    modeToggle.textContent = 'ẢNH';
+                    shutterBtn.classList.remove('video-mode');
+                }
+            }
+
+            // --- 6. Cài đặt Logic ---
+            function loadSettings() {
+                const savedSettings = localStorage.getItem("text2camSettings");
+                if (savedSettings) {
+                    try {
+                        settings = JSON.parse(savedSettings);
+                    } catch (e) {
+                         console.error("Lỗi parse cài đặt, dùng mặc định.");
+                         localStorage.removeItem("text2camSettings");
+                    }
+                }
+                updateSettingsUI();
+                applySettings(); // Áp dụng cài đặt (grid) khi tải
+            }
+
+            function saveSettings() {
+                localStorage.setItem("text2camSettings", JSON.stringify(settings));
+            }
+
+            function updateSettingsUI() {
+                autoDownloadToggle.checked = settings.autoDownload;
+                gridToggle.checked = settings.grid;
+                watermarkToggle.checked = settings.watermark;
+                currentAspectRatio.textContent = settings.aspectRatioLabel;
+                currentResolution.textContent = settings.resolutionLabel;
+                currentImageType.textContent = settings.imageTypeLabel;
+            }
+            
+            function applySettings() {
+                // Áp dụng Grid
+                if (settings.grid) {
+                    gridOverlay.classList.add("active");
+                } else {
+                    gridOverlay.classList.remove("active");
+                }
+                
+                // Áp dụng tỷ lệ
+                video.style.aspectRatio = settings.aspectRatio;
+                
+                // Các cài đặt khác (như độ phân giải, tỷ lệ) được áp dụng khi startCamera()
+            }
+
+            // Mở modal con để lựa chọn
+            function openSubModal(type) {
+                subSettingBody.innerHTML = ""; // Xóa các lựa chọn cũ
+                let options = [];
+                let currentSelection = "";
+                let title = "";
+                
+                // SVG icon check
+                const checkIcon = `<div class="check-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,16.17L4.83,12l-1.42,1.41L9,19L21,7l-1.41-1.41L9,16.17z"/></svg></div>`;
+
+                switch(type) {
+                    case 'aspect':
+                        title = "Tỷ lệ khung hình";
+                        options = [
+                            { label: "16:9", value: 16/9 },
+                            { label: "4:3", value: 4/3 },
+                            { label: "1:1", value: 1/1 },
+                            { label: "9:16 (Dọc)", value: 9/16 }
+                        ];
+                        currentSelection = settings.aspectRatio;
+                        break;
+                    case 'resolution':
+                        title = "Độ phân giải (Lý tưởng)";
+                        options = [
+                            { label: "Mặc định", value: "default" },
+                            { label: "4K (3840x2160)", value: { width: 3840, height: 2160 } },
+                            { label: "Full HD (1920x1080)", value: { width: 1920, height: 1080 } },
+                            { label: "HD (1280x720)", value: { width: 1280, height: 720 } }
+                        ];
+                        currentSelection = settings.resolution;
+                        break;
+                    case 'imageType':
+                        title = "Loại ảnh";
+                        options = [
+                            { label: "PNG", value: "image/png" },
+                            { label: "JPEG (Chất lượng cao)", value: "image/jpeg" },
+                            { label: "WEBP (Chất lượng cao)", value: "image/webp" }
+                        ];
+                        currentSelection = settings.imageType;
+                        break;
+                }
+                
+                subSettingTitle.textContent = title;
+                
+                options.forEach(opt => {
+                    const optDiv = document.createElement("div");
+                    optDiv.className = "sub-setting-option";
+                    // So sánh object (cho resolution) cần stringify
+                    const isSelected = JSON.stringify(opt.value) === JSON.stringify(currentSelection);
+                    
+                    optDiv.innerHTML = `<span>${opt.label}</span> ${isSelected ? checkIcon : ''}`;
+                    if (isSelected) optDiv.classList.add("selected");
+                    
+                    optDiv.onclick = () => {
+                        handleSubSettingSelect(type, opt.value, opt.label);
+                    };
+                    subSettingBody.appendChild(optDiv);
+                });
+                
+                subSettingModal.classList.add("active");
+            }
+            
+            function handleSubSettingSelect(type, value, label) {
+                switch(type) {
+                    case 'aspect':
+                        settings.aspectRatio = value;
+                        settings.aspectRatioLabel = label;
+                        startCamera(); // Khởi động lại camera với tỷ lệ mới
+                        break;
+                    case 'resolution':
+                        settings.resolution = value;
+                        settings.resolutionLabel = label;
+                        startCamera(); // Khởi động lại camera với độ phân giải mới
+                        break;
+                    case 'imageType':
+                        settings.imageType = value;
+                        settings.imageTypeLabel = label;
+                        break;
+                }
+                saveSettings();
+                updateSettingsUI();
+                subSettingModal.classList.remove("active");
+            }
+
+            // --- 7. Utility Functions ---
+            function downloadBlob(blob, type, timestamp) {
+                const ext = (type === 'photo') 
+                    ? settings.imageType.split('/')[1].replace('jpeg', 'jpg')
+                    : 'webm'; // Hoặc mp4 nếu mimeType hỗ trợ
+                
+                const filename = `text2cam_${timestamp.toISOString().replace(/[:.]/g, '-')}.${ext}`;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast(`Đã tải về: ${filename}`);
+            }
+
+            let toastTimer;
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toastMessage.classList.add("show");
+                
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toastMessage.classList.remove("show");
+                }, 3000);
+            }
+
+            function handleUpdate() {
+                if (confirm("Xóa cache và tải lại trang?\n(Thư viện ảnh sẽ được giữ lại)")) {
+                    // Xóa cache (trừ IndexedDB) và tải lại
+                    caches.keys().then(keys => {
+                        keys.forEach(key => caches.delete(key));
+                    }).finally(() => {
+                         location.reload(true); // true = tải lại từ server
+                    });
+                }
+            }
+
+            // --- 8. Event Listeners ---
+            
+            // Nút chính
+            settingsBtn.onclick = () => settingsModal.classList.add("active");
+            galleryBtn.onclick = () => {
+                loadGallery(); // Tải lại thư viện mỗi khi mở
+                galleryModal.classList.add("active");
+            };
+            shutterBtn.onclick = handleShutterClick;
+            modeToggle.onclick = toggleMode;
+            flipCameraBtn.onclick = flipCamera;
+
+            // Nút Modal
+            closeGalleryBtn.onclick = () => galleryModal.classList.remove("active");
+            closeSettingsBtn.onclick = () => settingsModal.classList.remove("active");
+            closeSubSettingBtn.onclick = () => subSettingModal.classList.remove("active");
+            
+            // Thư viện
+            deleteAllBtn.onclick = deleteAllMedia;
+            downloadAllBtn.onclick = downloadAllMedia;
+
+            // Cài đặt Toggles
+            autoDownloadToggle.onchange = () => {
+                settings.autoDownload = autoDownloadToggle.checked;
+                saveSettings();
+            };
+            gridToggle.onchange = () => {
+                settings.grid = gridToggle.checked;
+                saveSettings();
+                applySettings(); // Áp dụng ngay
+            };
+            watermarkToggle.onchange = () => {
+                settings.watermark = watermarkToggle.checked;
+                saveSettings();
+            };
+            
+            // Cài đặt Nút
+            updateBtn.onclick = handleUpdate;
+            aspectRatioBtn.onclick = () => openSubModal('aspect');
+            resolutionBtn.onclick = () => openSubModal('resolution');
+            imageTypeBtn.onclick = () => openSubModal('imageType');
+
+            // --- 9. Khởi chạy ---
+            initDB();
+            loadSettings();
+            startCamera();
+        });
+    </script>
+</body>
+</html>

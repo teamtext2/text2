@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Text2 Cam</title>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Đảm bảo toàn màn hình và không thể cuộn */
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Tùy chỉnh thanh cuộn cho thư viện */
+        .modal-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background-color: #4a5568;
+            border-radius: 20px;
+        }
+
+        /* Hiệu ứng flash khi chụp */
+        .flash-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 99;
+        }
+        .flash-effect.flash {
+            visibility: visible;
+            opacity: 0.8;
+        }
+
+        /* Lưới camera */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            pointer-events: none;
+            z-index: 5;
+        }
+        .grid-overlay > div {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Nút chụp ảnh */
+        .capture-btn {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 50%;
+            border: 4px solid black;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
+            transition: all 0.2s ease;
+        }
+        .capture-btn:active {
+            transform: scale(0.9);
+        }
+        /* Nút khi quay video */
+        .capture-btn.recording {
+            background-color: red;
+            box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.5);
+            animation: pulse 1.5s infinite;
+        }
+        .capture-btn.recording::before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 4px;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.5); }
+        }
+
+        /* Nút toggle */
+        .toggle-bg {
+            background-color: #4a5568;
+            transition: background-color 0.2s ease;
+        }
+        .toggle-bg.toggled {
+            background-color: #48bb78;
+        }
+        .toggle-dot {
+            transform: translateX(0);
+            transition: transform 0.2s ease;
+        }
+        .toggle-dot.toggled {
+            transform: translateX(1.25rem);
+        }
+    </style>
+</head>
+<body class="bg-black text-white h-full w-full relative">
+
+    <!-- Camera View -->
+    <video id="cameraView" class="w-full h-full object-cover" playsinline autoplay muted></video>
+
+    <!-- Canvas (ẩn) để chụp ảnh -->
+    <canvas id="canvas" class="hidden"></canvas>
+
+    <!-- Hiệu ứng flash -->
+    <div id="flashEffect" class="flash-effect"></div>
+
+    <!-- Lưới Camera (ẩn mặt định) -->
+    <div id="gridOverlay" class="grid-overlay hidden">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+    </div>
+
+    <!-- Giao diện trên (Top UI) -->
+    <div class="absolute top-0 left-0 right-0 p-5 flex justify-between items-center z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0));">
+        <button id="openSettingsBtn" class="p-2 rounded-full hover:bg-white/20 transition-colors">
+            <!-- Icon Cài đặt (SVG) -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-.1.09.542-.56 1.007-1.11.1zM14.406 3.94c-.09-.542-.56-1.007-1.11-.1.09.542.56 1.007 1.11.1zM11.994 12c.09-.542.56-1.007 1.11-.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM14.406 20.06c-.09.542-.56 1.007-1.11.1.09.542.56 1.007 1.11.1zM9.594 20.06c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c.09-.542.56-1.007 1.11-.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1zM11.994 12c.09.542.56 1.007 1.11.1.09.542-.56 1.007-1.11.1zM11.994 12c-.09-.542-.56-1.007-1.11-.1-.09.542.56 1.007 1.11.1z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.994 12a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.95 12c0-4.404-3.546-7.95-7.95-7.95S4.05 7.596 4.05 12s3.546 7.95 7.95 7.95 7.95-3.546 7.95-7.95z" />
+            </svg>
+        </button>
+        <!-- Thêm các nút khác ở đây nếu cần (vd: flash) -->
+    </div>
+
+    <!-- Giao diện dưới (Bottom UI) -->
+    <div class="absolute bottom-0 left-0 right-0 p-5 z-10" style="background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));">
+        <!-- Chuyển đổi chế độ -->
+        <div class="flex justify-center items-center gap-4 mb-4">
+            <button id="modePhoto" class="text-lg font-bold text-white transition-all">ẢNH</button>
+            <button id="modeVideo" class="text-lg font-medium text-gray-400 transition-all">VIDEO</button>
+        </div>
+        
+        <!-- Hàng nút chính -->
+        <div class="flex justify-between items-center">
+            <!-- Thư viện -->
+            <button id="openGalleryBtn" class="w-14 h-14 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                <!-- Icon Thư viện (SVG) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+            </button>
+
+            <!-- Nút Chụp/Quay -->
+            <button id="captureBtn" class="capture-btn flex items-center justify-center"></button>
+
+            <!-- Lật Camera -->
+            <button id="flipCameraBtn" class="w-14 h-14 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+                <!-- Icon Lật Camera (SVG) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- =================================== -->
+    <!-- MODALS (POPUP) -->
+    <!-- =================================== -->
+
+    <!-- Modal Chung (Overlay) -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden" data-target=""></div>
+
+    <!-- Modal: Cài đặt -->
+    <div id="settingsModal" class="fixed bottom-0 left-0 right-0 bg-gray-900 rounded-t-2xl p-5 shadow-lg z-50 transform translate-y-full transition-transform duration-300">
+        <h3 class="text-xl font-bold text-center mb-4">Cài đặt</h3>
+        
+        <div class="space-y-4">
+            <!-- Tự động tải về -->
+            <div class="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                <span class="text-gray-200">Tự động tải về sau khi chụp</span>
+                <button id="toggleAutoDownload" class="toggle-bg w-11 h-6 rounded-full flex items-center p-1">
+                    <span class="toggle-dot w-4 h-4 bg-white rounded-full"></span>
+                </button>
+            </div>
+            
+            <!-- Lưới -->
+            <div class="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                <span class="text-gray-200">Hiển thị lưới</span>
+                <button id="toggleGrid" class="toggle-bg w-11 h-6 rounded-full flex items-center p-1">
+                    <span class="toggle-dot w-4 h-4 bg-white rounded-full"></span>
+                </button>
+            </div>
+
+            <!-- Dấu chìm (Watermark) -->
+            <div class="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+                <span class="text-gray-200">Dấu chìm (text2)</span>
+                <button id="toggleWatermark" class="toggle-bg w-11 h-6 rounded-full flex items-center p-1">
+                    <span class="toggle-dot w-4 h-4 bg-white rounded-full"></span>
+                </button>
+            </div>
+
+            <!-- Nút chọn Độ phân giải -->
+            <button id="openResolutionBtn" class="w-full text-left p-3 bg-gray-800 rounded-lg flex justify-between items-center hover:bg-gray-700">
+                <span>Độ phân giải</span>
+                <span id="currentResolution" class="text-gray-400">Mặc định</span>
+            </button>
+
+            <!-- Nút chọn Tỷ lệ -->
+            <button id="openAspectRatioBtn" class="w-full text-left p-3 bg-gray-800 rounded-lg flex justify-between items-center hover:bg-gray-700">
+                <span>Tỷ lệ khung hình</span>
+                <span id="currentAspectRatio" class="text-gray-400">16:9</span>
+            </button>
+
+            <!-- Nút chọn Loại ảnh -->
+            <button id="openImageTypeBtn" class="w-full text-left p-3 bg-gray-800 rounded-lg flex justify-between items-center hover:bg-gray-700">
+                <span>Loại ảnh</span>
+                <span id="currentImageType" class="text-gray-400">PNG</span>
+            </button>
+            
+            <!-- Cập nhật (Xóa Cache) -->
+            <button id="updateAppBtn" class="w-full p-3 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                Cập nhật (Xóa Cache & Tải lại)
+            </button>
+        </div>
+        
+        <button id="closeSettingsBtn" class="absolute top-3 right-3 p-2 text-gray-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Modal: Thư viện -->
+    <div id="galleryModal" class="fixed inset-0 bg-gray-900 z-50 transform translate-y-full transition-transform duration-300 flex flex-col">
+        <!-- Header Thư viện -->
+        <div class="flex-shrink-0 flex justify-between items-center p-4 border-b border-gray-700">
+            <button id="closeGalleryBtn" class="p-2 text-gray-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-xl font-bold">Thư viện</h3>
+            <div class="flex gap-2">
+                <!-- Tải tất cả -->
+                <button id="downloadAllBtn" class="p-2 text-gray-400 hover:text-white" title="Tải tất cả">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                </button>
+                <!-- Xóa tất cả -->
+                <button id="deleteAllBtn" class="p-2 text-red-500 hover:text-red-400" title="Xóa tất cả">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12.502 0c-.34.053-.68.107-1.022.166m11.022 0L12 5.25v0l-.384.455M18.16 5.79l-1.17-1.403a.375.375 0 00-.488-.141l-3.027.954a.375.375 0 01-.432-.495V3m0 0l-3.027-.954a.375.375 0 00-.488.141L6.84 5.79m0 0L12 5.25v0l.384.455m0 0v.008c.004.002.007.004.01.006.002.002.005.004.007.006" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Nội dung Thư viện -->
+        <div id="galleryContainer" class="modal-body flex-1 p-2 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1 overflow-y-auto">
+            <!-- Ảnh/Video sẽ được thêm vào đây bằng JS -->
+            <p id="galleryPlaceholder" class="col-span-full text-center text-gray-500 mt-10">Thư viện trống.</p>
+        </div>
+    </div>
+
+    <!-- Modal: Lựa chọn con (dùng chung) -->
+    <div id="selectionModal" class="fixed bottom-0 left-0 right-0 bg-gray-800 rounded-t-2xl p-5 shadow-lg z-50 transform translate-y-full transition-transform duration-300">
+        <h3 id="selectionTitle" class="text-lg font-bold text-center mb-4">Lựa chọn</h3>
+        <div id="selectionOptions" class="space-y-2">
+            <!-- Các lựa chọn sẽ được thêm vào đây bằng JS -->
+        </div>
+        <button id="closeSelectionModal" class="mt-4 w-full p-3 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600">
+            Hủy
+        </button>
+    </div>
+
+    <!-- Modal: Xem ảnh/video -->
+    <div id="viewerModal" class="fixed inset-0 bg-black z-50 hidden flex flex-col">
+        <div class="flex-shrink-0 flex justify-between items-center p-4">
+            <button id="closeViewerBtn" class="p-2 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <div class="flex gap-4">
+                <button id="downloadViewBtn" class="p-2 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                </button>
+                <button id="deleteViewBtn" class="p-2 text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12.502 0c-.34.053-.68.107-1.022.166m11.022 0L12 5.25v0l-.384.455M18.16 5.79l-1.17-1.403a.375.375 0 00-.488-.141l-3.027.954a.375.375 0 01-.432-.495V3m0 0l-3.027-.954a.375.375 0 00-.488.141L6.84 5.79m0 0L12 5.25v0l.384.455m0 0v.008c.004.002.007.004.01.006.002.002.005.004.007.006" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="flex-1 flex items-center justify-center p-4">
+            <img id="viewerImage" src="" class="max-w-full max-h-full hidden object-contain" alt="Xem ảnh">
+            <video id="viewerVideo" src="" class="max-w-full max-h-full hidden" controls></video>
+        </div>
+    </div>
+
+
+    <!-- JavaScript Inline -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // === 1. DOM Elements ===
+            const video = document.getElementById('cameraView');
+            const canvas = document.getElementById('canvas');
+            const captureBtn = document.getElementById('captureBtn');
+            const flipCameraBtn = document.getElementById('flipCameraBtn');
+            const gridOverlay = document.getElementById('gridOverlay');
+            const flashEffect = document.getElementById('flashEffect');
+            
+            const modePhotoBtn = document.getElementById('modePhoto');
+            const modeVideoBtn = document.getElementById('modeVideo');
+
+            const modalOverlay = document.getElementById('modalOverlay');
+            
+            // Settings Modal
+            const settingsModal = document.getElementById('settingsModal');
+            const openSettingsBtn = document.getElementById('openSettingsBtn');
+            const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+            const toggleAutoDownload = document.getElementById('toggleAutoDownload');
+            const toggleGrid = document.getElementById('toggleGrid');
+            const toggleWatermark = document.getElementById('toggleWatermark');
+            const updateAppBtn = document.getElementById('updateAppBtn');
+            
+            // Gallery Modal
+            const galleryModal = document.getElementById('galleryModal');
+            const openGalleryBtn = document.getElementById('openGalleryBtn');
+            const closeGalleryBtn = document.getElementById('closeGalleryBtn');
+            const galleryContainer = document.getElementById('galleryContainer');
+            const galleryPlaceholder = document.getElementById('galleryPlaceholder');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const deleteAllBtn = document.getElementById('deleteAllBtn');
+            
+            // Selection Modals
+            const selectionModal = document.getElementById('selectionModal');
+            const selectionTitle = document.getElementById('selectionTitle');
+            const selectionOptions = document.getElementById('selectionOptions');
+            const closeSelectionModal = document.getElementById('closeSelectionModal');
+            const openResolutionBtn = document.getElementById('openResolutionBtn');
+            const openAspectRatioBtn = document.getElementById('openAspectRatioBtn');
+            const openImageTypeBtn = document.getElementById('openImageTypeBtn');
+            const currentResolution = document.getElementById('currentResolution');
+            const currentAspectRatio = document.getElementById('currentAspectRatio');
+            const currentImageType = document.getElementById('currentImageType');
+            
+            // Viewer Modal
+            const viewerModal = document.getElementById('viewerModal');
+            const closeViewerBtn = document.getElementById('closeViewerBtn');
+            const viewerImage = document.getElementById('viewerImage');
+            const viewerVideo = document.getElementById('viewerVideo');
+            const downloadViewBtn = document.getElementById('downloadViewBtn');
+            const deleteViewBtn = document.getElementById('deleteViewBtn');
+
+            // === 2. State Management ===
+            let currentStream = null;
+            let currentFacingMode = 'environment'; // 'user' (trước) or 'environment' (sau)
+            let currentMode = 'photo'; // 'photo' or 'video'
+            let isRecording = false;
+            let mediaRecorder = null;
+            let recordedChunks = [];
+            let viewerCurrentId = null;
+
+            let db = null;
+            const DB_NAME = 'Text2CamDB';
+            const DB_VERSION = 1;
+            const STORE_NAME = 'gallery';
+            
+            let settings = {
+                autoDownload: false,
+                grid: false,
+                watermark: false,
+                imageType: 'image/png',
+                imageExtension: 'png',
+                resolution: { label: 'Mặc định', value: null },
+                aspectRatio: { label: '16:9', value: 16/9 },
+            };
+
+            const resolutions = [
+                { label: 'Mặc định', value: null },
+                { label: '4K (3840x2160)', value: { width: 3840, height: 2160 } },
+                { label: 'Full HD (1920x1080)', value: { width: 1920, height: 1080 } },
+                { label: 'HD (1280x720)', value: { width: 1280, height: 720 } },
+                { label: 'SD (640x480)', value: { width: 640, height: 480 } },
+            ];
+            const aspectRatios = [
+                { label: '16:9', value: 16/9 },
+                { label: '4:3', value: 4/3 },
+                { label: '1:1', value: 1 },
+                { label: '9:16 (Dọc)', value: 9/16 },
+            ];
+            const imageTypes = [
+                { label: 'PNG', value: 'image/png', ext: 'png' },
+                { label: 'JPEG', value: 'image/jpeg', ext: 'jpg' },
+                { label: 'WebP', value: 'image/webp', ext: 'webp' },
+            ];
+
+            // === 3. IndexedDB Functions ===
+            function initDB() {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                request.onupgradeneeded = (event) => {
+                    db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    console.log('Database initialized');
+                };
+
+                request.onerror = (event) => {
+                    console.error('Database error:', event.target.errorCode);
+                };
+            }
+
+            function saveMedia(blob, type) {
+                if (!db) return;
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const mediaFile = {
+                    blob: blob,
+                    type: type, // 'photo' or 'video'
+                    timestamp: new Date()
+                };
+                store.add(mediaFile);
+
+                transaction.oncomplete = () => {
+                    console.log('Media saved to DB');
+                    // Tự động tải nếu bật
+                    if (settings.autoDownload && type === 'photo') {
+                        downloadMedia(blob, `text2cam.${settings.imageExtension}`);
+                    }
+                    if (settings.autoDownload && type === 'video') {
+                        downloadMedia(blob, `text2cam.webm`);
+                    }
+                };
+                transaction.onerror = (event) => {
+                    console.error('Error saving media:', event.target.error);
+                };
+            }
+
+            function getGallery(callback) {
+                if (!db) return;
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.getAll();
+                request.onsuccess = (event) => {
+                    callback(event.target.result.reverse()); // Mới nhất lên trước
+                };
+            }
+
+            function deleteMedia(id) {
+                if (!db) return;
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                store.delete(id);
+                transaction.oncomplete = () => {
+                    console.log(`Media ${id} deleted`);
+                    renderGallery(); // Cập nhật lại thư viện
+                    if (viewerCurrentId === id) {
+                        closeViewer();
+                    }
+                };
+            }
+
+            function clearGallery() {
+                if (!db) return;
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                store.clear();
+                transaction.oncomplete = () => {
+                    console.log('Gallery cleared');
+                    renderGallery();
+                    closeViewer();
+                };
+            }
+
+            function getMediaById(id, callback) {
+                if (!db) return;
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.get(id);
+                request.onsuccess = (event) => {
+                    callback(event.target.result);
+                };
+            }
+
+
+            // === 4. Camera Functions ===
+            async function startCamera() {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                }
+
+                let constraints = {
+                    video: {
+                        facingMode: currentFacingMode,
+                        aspectRatio: settings.aspectRatio.value ? { exact: settings.aspectRatio.value } : undefined,
+                    },
+                    audio: (currentMode === 'video') // Chỉ yêu cầu audio khi ở chế độ video
+                };
+
+                if (settings.resolution.value) {
+                    constraints.video.width = { ideal: settings.resolution.value.width };
+                    constraints.video.height = { ideal: settings.resolution.value.height };
+                }
+
+                try {
+                    currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                    video.srcObject = currentStream;
+                    video.style.transform = currentFacingMode === 'user' ? 'scaleX(-1)' : 'scaleX(1)';
+                } catch (err) {
+                    console.error("Error accessing camera:", err);
+                    alert("Không thể truy cập camera. Vui lòng cấp quyền.");
+                }
+            }
+
+            function flipCamera() {
+                currentFacingMode = (currentFacingMode === 'user') ? 'environment' : 'user';
+                startCamera();
+            }
+
+            // === 5. Capture Functions ===
+            function takePicture() {
+                // Hiệu ứng flash
+                flashEffect.classList.add('flash');
+                setTimeout(() => flashEffect.classList.remove('flash'), 300);
+
+                const context = canvas.getContext('2d');
+                const videoWidth = video.videoWidth;
+                const videoHeight = video.videoHeight;
+                canvas.width = videoWidth;
+                canvas.height = videoHeight;
+
+                // Lật ảnh nếu là camera trước
+                if (currentFacingMode === 'user') {
+                    context.translate(videoWidth, 0);
+                    context.scale(-1, 1);
+                }
+
+                context.drawImage(video, 0, 0, videoWidth, videoHeight);
+
+                // Thêm watermark nếu bật
+                if (settings.watermark) {
+                    context.restore(); // Reset transform để vẽ text
+                    context.font = `${Math.min(videoWidth, videoHeight) * 0.05}px Arial`;
+                    context.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                    context.textAlign = 'right';
+                    context.textBaseline = 'bottom';
+                    context.fillText('text2', videoWidth - 20, videoHeight - 20);
+                }
+
+                canvas.toBlob((blob) => {
+                    saveMedia(blob, 'photo');
+                }, settings.imageType, 0.95); // 0.95 quality for jpeg/webp
+            }
+
+            function startRecording() {
+                if (!currentStream || isRecording) return;
+                isRecording = true;
+                recordedChunks = [];
+                captureBtn.classList.add('recording');
+
+                // Lấy cả track video và audio
+                const tracks = [...currentStream.getVideoTracks(), ...currentStream.getAudioTracks()];
+                const combinedStream = new MediaStream(tracks);
+
+                mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    saveMedia(blob, 'video');
+                    recordedChunks = [];
+                };
+
+                mediaRecorder.start();
+            }
+
+            function stopRecording() {
+                if (!mediaRecorder || !isRecording) return;
+                isRecording = false;
+                captureBtn.classList.remove('recording');
+                mediaRecorder.stop();
+            }
+
+
+            // === 6. Modal Functions ===
+            function openModal(modalElement, isSubModal = false) {
+                if (!isSubModal) {
+                    modalOverlay.classList.remove('hidden');
+                    modalOverlay.dataset.target = modalElement.id;
+                }
+                modalElement.classList.remove('translate-y-full');
+            }
+
+            function closeModal() {
+                const targetId = modalOverlay.dataset.target;
+                if (targetId) {
+                    document.getElementById(targetId).classList.add('translate-y-full');
+                }
+                modalOverlay.classList.add('hidden');
+                modalOverlay.dataset.target = '';
+                
+                // Đóng cả modal lựa chọn con
+                selectionModal.classList.add('translate-y-full');
+            }
+            
+            closeSelectionModal.addEventListener('click', () => {
+                 selectionModal.classList.add('translate-y-full');
+            });
+
+
+            // === 7. Settings Functions ===
+            function loadSettings() {
+                const savedSettings = localStorage.getItem('text2CamSettings');
+                if (savedSettings) {
+                    settings = JSON.parse(savedSettings);
+                }
+                updateSettingsUI();
+            }
+
+            function saveSettings() {
+                localStorage.setItem('text2CamSettings', JSON.stringify(settings));
+                updateSettingsUI();
+            }
+
+            function updateSettingsUI() {
+                // Toggles
+                updateToggle(toggleAutoDownload, settings.autoDownload);
+                updateToggle(toggleGrid, settings.grid);
+                updateToggle(toggleWatermark, settings.watermark);
+                
+                // Grid
+                gridOverlay.classList.toggle('hidden', !settings.grid);
+
+                // Labels
+                currentResolution.textContent = settings.resolution.label;
+                currentAspectRatio.textContent = settings.aspectRatio.label;
+                currentImageType.textContent = settings.imageType.split('/')[1].toUpperCase();
+            }
+
+            function updateToggle(button, isActive) {
+                const bg = button;
+                const dot = button.querySelector('span');
+                if (isActive) {
+                    bg.classList.add('toggled');
+                    dot.classList.add('toggled');
+                } else {
+                    bg.classList.remove('toggled');
+                    dot.classList.remove('toggled');
+                }
+            }
+
+            // Mở modal lựa chọn chung
+            function openSelectionModal(title, options, currentSettingKey, callback) {
+                selectionTitle.textContent = title;
+                selectionOptions.innerHTML = ''; // Xóa các lựa chọn cũ
+                
+                options.forEach(option => {
+                    const isSelected = JSON.stringify(settings[currentSettingKey]) === JSON.stringify(option);
+                    
+                    const optionBtn = document.createElement('button');
+                    optionBtn.className = `w-full text-left p-3 rounded-lg flex justify-between items-center ${isSelected ? 'bg-blue-600 text-white' : 'bg-gray-700 hover:bg-gray-600'}`;
+                    optionBtn.innerHTML = `
+                        <span>${option.label}</span>
+                        ${isSelected ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>' : ''}
+                    `;
+                    
+                    optionBtn.onclick = () => {
+                        callback(option);
+                        saveSettings();
+                        selectionModal.classList.add('translate-y-full');
+                        // Khởi động lại camera nếu thay đổi độ phân giải hoặc tỷ lệ
+                        if (currentSettingKey === 'resolution' || currentSettingKey === 'aspectRatio') {
+                            startCamera();
+                        }
+                    };
+                    selectionOptions.appendChild(optionBtn);
+                });
+                
+                openModal(selectionModal, true); // true vì đây là modal con
+            }
+
+
+            // === 8. Gallery Functions ===
+            function renderGallery() {
+                getGallery((mediaItems) => {
+                    galleryContainer.innerHTML = ''; // Xóa nội dung cũ
+                    if (mediaItems.length === 0) {
+                        galleryContainer.appendChild(galleryPlaceholder);
+                        return;
+                    }
+                    
+                    mediaItems.forEach(item => {
+                        const url = URL.createObjectURL(item.blob);
+                        const itemWrapper = document.createElement('div');
+                        itemWrapper.className = 'relative aspect-square bg-gray-800 rounded-md overflow-hidden group';
+                        
+                        let mediaElement;
+                        if (item.type === 'photo') {
+                            mediaElement = document.createElement('img');
+                            mediaElement.src = url;
+                            mediaElement.className = 'w-full h-full object-cover';
+                        } else {
+                            mediaElement = document.createElement('video');
+                            mediaElement.src = url;
+                            mediaElement.className = 'w-full h-full object-cover';
+                            // Thêm icon play cho video
+                            const playIcon = document.createElement('div');
+                            playIcon.className = 'absolute inset-0 flex items-center justify-center';
+                            playIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-white/80"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>`;
+                            itemWrapper.appendChild(playIcon);
+                        }
+                        
+                        // Nút ẩn (hiện khi hover)
+                        const controls = document.createElement('div');
+                        controls.className = 'absolute bottom-0 left-0 right-0 p-1 flex justify-end gap-1 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity';
+                        
+                        // Nút tải
+                        const downloadBtn = document.createElement('button');
+                        downloadBtn.className = 'p-1 text-white hover:text-blue-400';
+                        downloadBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>`;
+                        downloadBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            const ext = item.type === 'photo' ? settings.imageExtension : 'webm';
+                            downloadMedia(item.blob, `text2cam_${item.id}.${ext}`);
+                        };
+                        
+                        // Nút xóa
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.className = 'p-1 text-white hover:text-red-500';
+                        deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12.502 0c-.34.053-.68.107-1.022.166m11.022 0L12 5.25v0l-.384.455M18.16 5.79l-1.17-1.403a.375.375 0 00-.488-.141l-3.027.954a.375.375 0 01-.432-.495V3m0 0l-3.027-.954a.375.375 0 00-.488.141L6.84 5.79m0 0L12 5.25v0l.384.455m0 0v.008c.004.002.007.004.01.006.002.002.005.004.007.006" /></svg>`;
+                        deleteBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            if (confirm('Bạn có chắc muốn xóa ảnh/video này?')) {
+                                deleteMedia(item.id);
+                            }
+                        };
+                        
+                        controls.appendChild(downloadBtn);
+                        controls.appendChild(deleteBtn);
+                        
+                        itemWrapper.appendChild(mediaElement);
+                        itemWrapper.appendChild(controls);
+                        
+                        // Click để xem
+                        itemWrapper.onclick = () => {
+                            openViewer(item.id, url, item.type);
+                        };
+                        
+                        galleryContainer.appendChild(itemWrapper);
+                    });
+                });
+            }
+
+            function downloadMedia(blob, filename) {
+                const a = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            function downloadAll() {
+                getGallery((mediaItems) => {
+                    if (mediaItems.length === 0) {
+                        alert("Thư viện trống.");
+                        return;
+                    }
+                    mediaItems.forEach((item, index) => {
+                        const ext = item.type === 'photo' ? settings.imageExtension : 'webm';
+                        // Thêm timeout nhỏ để trình duyệt xử lý nhiều lượt tải
+                        setTimeout(() => {
+                            downloadMedia(item.blob, `text2cam_${item.id}.${ext}`);
+                        }, index * 300);
+                    });
+                });
+            }
+
+
+            // === 9. Viewer Functions ===
+            function openViewer(id, url, type) {
+                viewerCurrentId = id;
+                if (type === 'photo') {
+                    viewerImage.src = url;
+                    viewerImage.classList.remove('hidden');
+                    viewerVideo.classList.add('hidden');
+                    viewerVideo.pause();
+                    viewerVideo.src = '';
+                } else {
+                    viewerVideo.src = url;
+                    viewerVideo.classList.remove('hidden');
+                    viewerImage.classList.add('hidden');
+                    viewerImage.src = '';
+                }
+                viewerModal.classList.remove('hidden');
+            }
+
+            function closeViewer() {
+                viewerModal.classList.add('hidden');
+                viewerImage.src = '';
+                viewerVideo.src = '';
+                viewerVideo.pause();
+                viewerCurrentId = null;
+            }
+
+
+            // === 10. Event Listeners ===
+            
+            // Chuyển chế độ
+            modePhotoBtn.addEventListener('click', () => {
+                if (isRecording) stopRecording();
+                currentMode = 'photo';
+                modePhotoBtn.classList.add('font-bold', 'text-white');
+                modePhotoBtn.classList.remove('font-medium', 'text-gray-400');
+                modeVideoBtn.classList.add('font-medium', 'text-gray-400');
+                modeVideoBtn.classList.remove('font-bold', 'text-white');
+                captureBtn.classList.remove('recording');
+                openImageTypeBtn.disabled = false;
+                openImageTypeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                startCamera(); // Khởi động lại camera để tắt audio
+            });
+            modeVideoBtn.addEventListener('click', () => {
+                currentMode = 'video';
+                modeVideoBtn.classList.add('font-bold', 'text-white');
+                modeVideoBtn.classList.remove('font-medium', 'text-gray-400');
+                modePhotoBtn.classList.add('font-medium', 'text-gray-400');
+                modePhotoBtn.classList.remove('font-bold', 'text-white');
+                openImageTypeBtn.disabled = true;
+                openImageTypeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                startCamera(); // Khởi động lại camera để bật audio
+            });
+            
+            // Nút chính
+            captureBtn.addEventListener('click', () => {
+                if (currentMode === 'photo') {
+                    takePicture();
+                } else {
+                    if (isRecording) {
+                        stopRecording();
+                    } else {
+                        startRecording();
+                    }
+                }
+            });
+            
+            flipCameraBtn.addEventListener('click', flipCamera);
+            modalOverlay.addEventListener('click', closeModal);
+
+            // Cài đặt
+            openSettingsBtn.addEventListener('click', () => openModal(settingsModal));
+            closeSettingsBtn.addEventListener('click', () => settingsModal.classList.add('translate-y-full'));
+
+            toggleAutoDownload.addEventListener('click', () => {
+                settings.autoDownload = !settings.autoDownload;
+                saveSettings();
+            });
+            toggleGrid.addEventListener('click', () => {
+                settings.grid = !settings.grid;
+                saveSettings();
+            });
+            toggleWatermark.addEventListener('click', () => {
+                settings.watermark = !settings.watermark;
+                saveSettings();
+            });
+            updateAppBtn.addEventListener('click', () => {
+                if (confirm('Xóa cache và tải lại trang? Thư viện ảnh sẽ được giữ lại.')) {
+                    location.reload(); // Không dùng 'true' để cố gắng giữ IndexedDB
+                }
+            });
+
+            // Mở modal lựa chọn con
+            openResolutionBtn.addEventListener('click', () => {
+                openSelectionModal('Độ phân giải', resolutions, 'resolution', (option) => {
+                    settings.resolution = option;
+                });
+            });
+            openAspectRatioBtn.addEventListener('click', () => {
+                openSelectionModal('Tỷ lệ khung hình', aspectRatios, 'aspectRatio', (option) => {
+                    settings.aspectRatio = option;
+                });
+            });
+            openImageTypeBtn.addEventListener('click', () => {
+                openSelectionModal('Loại ảnh', imageTypes, 'imageType', (option) => {
+                    settings.imageType = option.value;
+                    settings.imageExtension = option.ext;
+                });
+            });
+
+            // Thư viện
+            openGalleryBtn.addEventListener('click', () => {
+                renderGallery();
+                openModal(galleryModal);
+            });
+            closeGalleryBtn.addEventListener('click', () => galleryModal.classList.add('translate-y-full'));
+            
+            deleteAllBtn.addEventListener('click', () => {
+                if (confirm('Bạn có chắc muốn XÓA TẤT CẢ ảnh và video? Hành động này không thể hoàn tác.')) {
+                    clearGallery();
+                }
+            });
+            downloadAllBtn.addEventListener('click', downloadAll);
+
+            // Viewer
+            closeViewerBtn.addEventListener('click', closeViewer);
+            deleteViewBtn.addEventListener('click', () => {
+                if (viewerCurrentId && confirm('Bạn có chắc muốn xóa ảnh/video này?')) {
+                    deleteMedia(viewerCurrentId);
+                }
+            });
+            downloadViewBtn.addEventListener('click', () => {
+                if (!viewerCurrentId) return;
+                getMediaById(viewerCurrentId, (item) => {
+                    if (item) {
+                        const ext = item.type === 'photo' ? settings.imageExtension : 'webm';
+                        downloadMedia(item.blob, `text2cam_${item.id}.${ext}`);
+                    }
+                });
+            });
+
+            // === 11. Khởi động ===
+            initDB();
+            loadSettings();
+            startCamera();
+        });
+    </script>
+</body>
+</html>
