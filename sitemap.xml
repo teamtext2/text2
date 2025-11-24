@@ -19,40 +19,40 @@
     <loc>https://text2.pro/post/hoanhatanh/</loc>
   </url>
   <url>
-    <loc>https://note.text2.pro/</loc>
+    <loc>https://text2.pro/app/note/</loc>
   </url>
   <url>
-    <loc>https://translate.text2.pro/</loc>
+    <loc>https://text2.pro/app/translate/</loc>
   </url>
   <url>
-    <loc>https://qr.text2.pro/</loc>
+    <loc>https://text2.pro/app/qr/</loc>
   </url>
   <url>
-    <loc>https://qr.text2.pro/scan/</loc>
+    <loc>https://text2.pro/app/qr/scan/</loc>
   </url>
   <url>
-    <loc>https://grammar.text2.pro/</loc>
+    <loc>https://text2.pro/app/grammar/</loc>
   </url>
   <url>
-    <loc>https://chat.text2.pro/</loc>
+    <loc>https://text2.pro/app/chat/</loc>
   </url>
   <url>
-    <loc>https://camera.text2.pro/</loc>
+    <loc>https://text2.pro/app/camera/</loc>
   </url>
   <url>
-    <loc>https://html.text2.pro/</loc>
+    <loc>https://text2.pro/app/html/</loc>
   </url>
   <url>
-    <loc>https://calendar.text2.pro/</loc>
+    <loc>https://text2.pro/app/calendar/</loc>
   </url>
   <url>
-    <loc>https://img.text2.pro/</loc>
+    <loc>https://text2.pro/app/img/</loc>
   </url>
   <url>
-    <loc>https://love.text2.pro/</loc>
+    <loc>https://text2.pro/app/love/</loc>
   </url>
   <url>
-    <loc>https://luts.text2.pro/</loc>
+    <loc>https://text2.pro/app/luts/</loc>
   </url>
   <url>
     <loc>https://file.text2.pro/</loc>
@@ -61,10 +61,10 @@
     <loc>https://team.text2.pro/</loc>
   </url>
   <url>
-    <loc>https://team.text2.pro/app/create-img/</loc>
+    <loc>https://text2.pro/app/create-img/</loc>
   </url>
   <url>
-    <loc>https://team.text2.pro/app/weather</loc>
+    <loc>https://text2.pro/app/weather/</loc>
   </url>
   <url>
     <loc>https://game.text2.pro/</loc>
@@ -76,4 +76,6 @@
     <loc>https://text2.pro/app/caro/</loc>
   </url>
 </urlset>
+
+
 
