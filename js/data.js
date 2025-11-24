@@ -1,24 +1,23 @@
 // Text2 Website Data
 // Centralized data structure for all website content
 
-// App Data - Text2 Ecosystem Apps
+// App Data - Text2 Ecosystem Apps (Unified Domain)
 const appData = [
-  { id: 1, name: "Note", description: "Take notes quickly and efficiently.", icon: "https://note.text2.pro/apple-touch-icon.png", url: "https://note.text2.pro" },
-  { id: 2, name: "Translate", description: "Translate text between languages.", icon: "https://translate.text2.pro/apple-touch-icon.png", url: "https://translate.text2.pro" },
-  { id: 3, name: "Create QR Code", description: "Generate QR codes for any text or URL.", icon: "https://qr.text2.pro/apple-touch-icon.png", url: "https://qr.text2.pro" },
-  { id: 4, name: "Grammar Check", description: "Check and improve your grammar.", icon: "https://grammar.text2.pro/apple-touch-icon.png", url: "https://grammar.text2.pro/" },
-  { id: 5, name: "Chat AI", description: "Chat with AI assistant.", icon: "https://chat.text2.pro/apple-touch-icon.png", url: "https://chat.text2.pro" },
-  { id: 6, name: "Camera", description: "Camera tools and utilities.", icon: "https://camera.text2.pro/apple-touch-icon.png", url: "https://camera.text2.pro" },
-  { id: 7, name: "HTML View", description: "Read and view HTML files.", icon: "https://html.text2.pro/apple-touch-icon.png", url: "https://html.text2.pro" },
-  { id: 8, name: "Calendar", description: "View calendar and manage dates.", icon: "https://calendar.text2.pro/apple-touch-icon.png", url: "https://calendar.text2.pro" },
-  { id: 9, name: "Img Design", description: "Design and edit images.", icon: "https://img.text2.pro/apple-touch-icon.png", url: "https://img.text2.pro" },
-  { id: 10, name: "Love Match", description: "Love fortune telling and compatibility.", icon: "https://love.text2.pro/apple-touch-icon.png", url: "https://love.text2.pro/" },
-  { id: 11, name: "Scan QR", description: "Scan QR codes with your camera.", icon: "https://qr.text2.pro/scan/apple-touch-icon.png", url: "https://qr.text2.pro/scan/" },
-  { id: 12, name: "Add Luts", description: "Apply LUTs to your images.", icon: "https://luts.text2.pro/apple-touch-icon.png", url: "https://luts.text2.pro" },
-  { id: 13, name: "File<br>(in development)</br>", description: "File management (in development).", icon: "https://file.text2.pro/apple-touch-icon.png", url: "https://file.text2.pro" },
-  { id: 14, name: "Create Img<br>(in development)</br>", description: "Create images (in development).", icon: "https://team.text2.pro/app/create-img/apple-touch-icon.png", url: "https://team.text2.pro/app/create-img/" },
-  { id: 15, name: "Weather", description: "Check the weather forecast.", icon: "https://team.text2.pro/app/weather/apple-touch-icon.png", url: "https://team.text2.pro/app/weather" },
-  { id: 15, name: "Game Caro", description: "Game caro.", icon: "https://text2.pro/app/caro/apple-touch-icon.png", url: "https://text2.pro/app/caro/" }
+  { id: 1, name: "Note", description: "Take notes quickly.", icon: "https://text2.pro/app/note/apple-touch-icon.png", url: "https://text2.pro/app/note" },
+  { id: 2, name: "Translate", description: "Translate text.", icon: "https://text2.pro/app/translate/apple-touch-icon.png", url: "https://text2.pro/app/translate" },
+  { id: 3, name: "Create QR", description: "Generate QR codes.", icon: "https://text2.pro/app/qr/apple-touch-icon.png", url: "https://text2.pro/app/qr" },
+  { id: 4, name: "Grammar", description: "Check grammar.", icon: "https://text2.pro/app/grammar/apple-touch-icon.png", url: "https://text2.pro/app/grammar" },
+  { id: 5, name: "Chat AI", description: "Chat with AI.", icon: "https://text2.pro/app/chat/apple-touch-icon.png", url: "https://text2.pro/app/chat" },
+  { id: 6, name: "Camera", description: "Camera tools.", icon: "https://text2.pro/app/camera/apple-touch-icon.png", url: "https://text2.pro/app/camera" },
+  { id: 7, name: "HTML View", description: "View HTML files.", icon: "https://text2.pro/app/html/apple-touch-icon.png", url: "https://text2.pro/app/html" },
+  { id: 8, name: "Calendar", description: "Manage dates.", icon: "https://text2.pro/app/calendar/apple-touch-icon.png", url: "https://text2.pro/app/calendar" },
+  { id: 9, name: "Img Design", description: "Design images.", icon: "https://text2.pro/app/img/apple-touch-icon.png", url: "https://text2.pro/app/img" },
+  { id: 10, name: "Love Match", description: "Love fortune.", icon: "https://text2.pro/app/love/apple-touch-icon.png", url: "https://text2.pro/app/love" },
+  { id: 11, name: "Scan QR", description: "Scan QR codes.", icon: "https://text2.pro/app/qr/scan/apple-touch-icon.png", url: "https://text2.pro/app/qr/scan" },
+  { id: 12, name: "Add Luts", description: "Apply LUTs.", icon: "https://text2.pro/app/luts/apple-touch-icon.png", url: "https://text2.pro/app/luts" },
+  { id: 14, name: "Create Img", description: "AI Image Generator.", icon: "https://text2.pro/app/create-img/apple-touch-icon.png", url: "https://text2.pro/app/create-img" },
+  { id: 15, name: "Weather", description: "Check weather.", icon: "https://text2.pro/app/weather/apple-touch-icon.png", url: "https://text2.pro/app/weather" },
+  { id: 16, name: "Game Caro", description: "Play Caro.", icon: "https://text2.pro/app/caro/apple-touch-icon.png", url: "https://text2.pro/app/caro" }
 ];
 
 // Social Media Data
