@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Text2 - Bói Tình Yêu</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
+     crossorigin="anonymous"></script>
+        <link rel="canonical" href="https://text2.click/app/love/">
+        <link rel="home" href="https://text2.click">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6J85STMJ14');
+</script> 
+    <meta name="description" content="Text2 - Bói Tình Yêu: Kiểm tra độ tương hợp tình yêu qua tên. Nhanh chóng, thú vị và kết quả chính xác cho các cặp đôi.">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Text2">
+    <meta property="og:url" content="https://text2.click/app/love/">
+    <meta property="og:title" content="Text2 - Bói Tình Yêu">
+    <meta property="og:description" content="Kiểm tra độ tương hợp tình yêu qua tên với Text2 - Bói Tình Yêu.">
+    <meta property="og:image" content="https://text2.click/app/love/favicon.ico">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Text2 - Bói Tình Yêu">
+    <meta name="twitter:description" content="Kiểm tra độ tương hợp tình yêu qua tên với Text2 - Bói Tình Yêu.">
+    <meta name="twitter:image" content="https://text2.click/app/love/favicon.ico">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Text2 - Bói Tình Yêu",
+      "url": "https://text2.click/app/love/",
+      "applicationCategory": "UngDungGiaiTri",
+      "operatingSystem": "Web",
+      "description": "Kiểm tra độ tương hợp tình yêu qua tên với Text2 - Bói Tình Yêu.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Text2",
+        "url": "https://text2.click"
+      }
+    }
+    </script>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tải Google Fonts (Lora cho tiêu đề, Inter cho nội dung) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Áp dụng font chữ tùy chỉnh */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, .font-lora {
+            font-family: 'Lora', serif;
+        }
+        
+        /* Tùy chỉnh thanh cuộn cho đẹp hơn */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2c1a4a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ec4899; /* Màu hồng */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f472b6;
+        }
+
+        /* Định nghĩa animation cho spinner loading */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ec4899; /* Màu hồng */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Animation cho thẻ kết quả */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-950 min-h-screen text-gray-100 p-6 flex items-center justify-center">
+
+    <main class="w-full max-w-md">
+        <!-- Thẻ chính của ứng dụng -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
+            <div class="p-8 md:p-10">
+                <h1 class="font-lora text-4xl font-bold text-center text-pink-300 mb-2">
+                    Bói tình yêu theo tên 
+                </h1>
+                <!-- Vùng nhập liệu -->
+                <div id="input-section" class="space-y-6">
+                    <div>
+                        <label for="name1" class="block text-sm font-medium text-pink-200 mb-2">Tên bạn nam</label>
+                        <input type="text" id="name1" placeholder="Nhập tên bạn nam" class="w-full bg-white/10 border-2 border-transparent focus:border-pink-400 focus:ring-0 text-white placeholder-gray-400 rounded-xl py-3 px-4 transition-all duration-300 outline-none">
+                    </div>
+                    
+                    <div>
+                        <label for="name2" class="block text-sm font-medium text-pink-200 mb-2">Tên bạn nữ</label>
+                        <input type="text" id="name2" placeholder="Nhập tên bạn nữ" class="w-full bg-white/10 border-2 border-transparent focus:border-pink-400 focus:ring-0 text-white placeholder-gray-400 rounded-xl py-3 px-4 transition-all duration-300 outline-none">
+                    </div>
+
+                    <!-- Thông báo lỗi -->
+                    <div id="error-message" class="text-red-400 text-center text-sm hidden">
+                        Vui lòng nhập cả hai tên nhé!
+                    </div>
+
+                    <!-- Nút bấm -->
+                    <button id="submitButton" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 shadow-lg">
+                        Xem kết quả
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vùng kết quả (ẩn ban đầu) -->
+            <div id="results" class="hidden bg-black/20 p-8 md:p-10">
+                <!-- Trạng thái loading -->
+                <div id="loading" class="flex justify-center items-center py-10 hidden">
+                    <div class="spinner"></div>
+                    <p class="ml-4 text-purple-200">Đang phân tích định mệnh...</p>
+                </div>
+
+                <!-- Nội dung kết quả -->
+                <div id="result-content" class="hidden text-center fade-in">
+                    <h2 class="font-lora text-2xl font-bold text-pink-300 mb-4">Kết Quả Tương Hợp</h2>
+                    
+                    <!-- Điểm số -->
+                    <div class="my-6">
+                        <div id="score" class="text-7xl font-bold text-pink-400" style="text-shadow: 0 0 15px rgba(236, 72, 153, 0.7);">
+                            <!-- 88% -->
+                        </div>
+                        <p class="text-purple-200">mức độ hòa hợp</p>
+                    </div>
+
+                    <!-- Phân tích chi tiết từ AI -->
+                    <h3 class="font-lora text-xl font-semibold text-purple-200 mb-3">Lời Tiên Tri Tình Yêu</h3>
+                    <p id="analysis-text" class="text-gray-200 text-left leading-relaxed whitespace-pre-line">
+                        <!-- Nội dung do AI tạo ra sẽ ở đây -->
+                    </p>
+
+                    <!-- Nút bói lại -->
+                    <button id="reset-button" class="mt-8 bg-white/20 hover:bg-white/30 text-white font-medium py-2 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        Thử lại với tên khác
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center text-purple-400 text-xs mt-6">
+            Text2 - Yên tâm về độ chính xác
+        </footer>
+    </main>
+
+    <script>
+        // Lấy các phần tử DOM
+        const name1Input = document.getElementById('name1');
+        const name2Input = document.getElementById('name2');
+        const submitButton = document.getElementById('submitButton');
+        const errorMessage = document.getElementById('error-message');
+        
+        const inputSection = document.getElementById('input-section');
+        const resultsDiv = document.getElementById('results');
+        const loadingDiv = document.getElementById('loading');
+        const resultContentDiv = document.getElementById('result-content');
+        
+        const scoreEl = document.getElementById('score');
+        const analysisEl = document.getElementById('analysis-text');
+        const resetButton = document.getElementById('reset-button');
+
+        // Thêm sự kiện click cho nút
+        submitButton.addEventListener('click', calculateLove);
+        resetButton.addEventListener('click', resetForm);
+
+        /**
+         * Hàm chính khi bấm nút "Xem kết quả"
+         */
+        function calculateLove() {
+            const name1 = name1Input.value.trim();
+            const name2 = name2Input.value.trim();
+
+            // 1. Kiểm tra dữ liệu đầu vào
+            if (!name1 || !name2) {
+                errorMessage.classList.remove('hidden');
+                // Rung nhẹ thẻ input để báo lỗi
+                name1Input.classList.add('animate-bounce');
+                name2Input.classList.add('animate-bounce');
+                setTimeout(() => {
+                    name1Input.classList.remove('animate-bounce');
+                    name2Input.classList.remove('animate-bounce');
+                }, 500);
+                return;
+            }
+            errorMessage.classList.add('hidden');
+
+            // 2. Hiển thị trạng thái loading, ẩn form
+            inputSection.classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+            loadingDiv.classList.remove('hidden');
+            resultContentDiv.classList.add('hidden');
+
+            // --- LOGIC KIỂM TRA ĐẶC BIỆT ---
+
+            // Helper function for normalization (robust)
+            // Chuẩn hóa tên: bỏ dấu, bỏ ký tự đặc biệt/số/dấu cách, chuyển về chữ thường
+            const normalizeForSpecialCheck = (name) => {
+                return name.toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove accents
+                    .replace(/[^a-z]/g, ''); // remove spaces, hyphens, numbers, etc.
+            };
+
+            const normN1 = normalizeForSpecialCheck(name1);
+            const normN2 = normalizeForSpecialCheck(name2);
+
+            // Cặp đôi đặc biệt (đã chuẩn hóa)
+            const specialPairs = [
+                // (nhật anh, ngọc hân) và các biến thể
+                { p1: 'nhatanh', p2: 'ngochan' }, 
+                // (hóa nhật anh, thị ngọc hân) và các biến thể
+                { p1: 'hoanhatanh', p2: 'thingochan' }, 
+                { p1: 'huyhoang', p2: 'kimngan' }, 
+                // (anh, hân) và các biến thể
+                { p1: 'anh', p2: 'han' } 
+            ];
+
+            let isSpecialCase = false;
+            for (const pair of specialPairs) {
+                // Kiểm tra 2 chiều (ví dụ: name1=anh, name2=han HOẶC name1=han, name2=anh)
+                if ((normN1 === pair.p1 && normN2 === pair.p2) || (normN1 === pair.p2 && normN2 === pair.p1)) {
+                    isSpecialCase = true;
+                    break;
+                }
+            }
+
+            // 3. "Thuật toán" nội bộ để tạo điểm số
+            // Nếu là cặp đặc biệt thì 100%, nếu không thì tính toán như bình thường
+            const finalScore = isSpecialCase ? 100 : calculateLocalScore(name1, name2);
+            // --- KẾT THÚC LOGIC ĐẶC BIỆT ---
+
+
+            // 4. Gọi Gemini API để lấy phân tích chi tiết
+            fetchGeminiAnalysis(name1, name2, finalScore);
+        }
+
+        /**
+         * "Thuật toán bói tên" cục bộ
+         * Tạo ra một điểm số "hạt giống" dựa trên tên.
+         * Đây là một thuật toán giả lập cho vui.
+         */
+        function calculateLocalScore(name1, name2) {
+            const sumChars = (name) => {
+                // Chỉ lấy chữ cái tiếng Việt không dấu và chuyển sang chữ thường
+                const normalizedName = name.toLowerCase()
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-z]/g, '');
+                
+                let sum = 0;
+                for (let i = 0; i < normalizedName.length; i++) {
+                    sum += normalizedName.charCodeAt(i) - 96; // a=1, b=2, ...
+                }
+                return sum;
+            };
+
+            const num1 = sumChars(name1);
+            const num2 = sumChars(name2);
+
+            // Một công thức "huyền bí" kết hợp 2 con số
+            const baseScore = (num1 + num2 + (num1 * num2)) % 51; // 0-50
+            
+            // Đảm bảo điểm số luôn ở mức tích cực (cho vui)
+            const finalScore = baseScore + 50; // 50-100%
+            return finalScore;
+        }
+
+        /**
+         * Gọi API của Gemini để tạo phân tích chi tiết
+         */
+        async function fetchGeminiAnalysis(name1, name2, score) {
+            const apiKey = ""; // API key sẽ được tự động cung cấp trong môi trường chạy
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // Hệ thống prompt (vai trò của AI)
+            const systemPrompt = "Bạn là một nhà chiêm tinh tình yêu, chuyên bói toán về mối quan hệ qua tên. Giọng văn của bạn huyền bí, sâu sắc nhưng cũng rất lãng mạn và đáng yêu. Khi nhận được hai tên và một điểm số, hãy viết một đoạn phân tích (khoảng 3-5 câu) về mối quan hệ của họ. Giải thích tại sao họ hợp nhau (hoặc những thách thức) dựa trên 'âm hưởng' và 'năng lượng' từ tên của họ. Luôn kết thúc bằng một lời khuyên hoặc một câu thơ tình lãng mạn. KHÔNG lặp lại điểm số trong phân tích của bạn.";
+
+            // Câu hỏi của người dùng
+            const userQuery = `Tên 1: ${name1}\nTên 2: ${name2}\nĐiểm tương hợp: ${score}%\nHãy viết lời tiên tri tình yêu cho cặp đôi này.`;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: userQuery }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            // Thêm độ trễ giả để tăng kịch tính
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Gọi API thất bại với mã lỗi ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    displayResults(score, text);
+                } else {
+                    // Nếu không có kết quả từ AI, dùng text mặc định
+                    displayResults(score, "Các vì sao chưa sẵn sàng tiết lộ về mối liên kết này. Nhưng hãy nhớ rằng, tình yêu đích thực được xây dựng bằng trái tim, không phải bằng tên.");
+                }
+
+            } catch (error) {
+                console.error('Lỗi khi gọi API Gemini:', error);
+                // Xử lý lỗi, hiển thị một thông báo chung
+                displayResults(score, "Một đám mây vũ trụ đã tạm thời che khuất tầm nhìn của ta. Nhưng đừng lo, tình yêu của hai bạn vẫn tỏa sáng. Hãy thử lại sau giây lát.");
+            }
+        }
+        
+        /**
+         * Hàm hiển thị kết quả cuối cùng
+         */
+        function displayResults(score, analysis) {
+            // Ẩn loading
+            loadingDiv.classList.add('hidden');
+            
+            // Hiển thị nội dung
+            scoreEl.textContent = `${score}%`;
+            analysisEl.textContent = analysis;
+            resultContentDiv.classList.remove('hidden');
+        }
+
+        /**
+         * Hàm reset lại form để bói lại
+         */
+        function resetForm() {
+            // Ẩn kết quả, hiện lại form
+            resultsDiv.classList.add('hidden');
+            inputSection.classList.remove('hidden');
+
+            // Xóa nội dung
+            name1Input.value = '';
+            name2Input.value = '';
+            scoreEl.textContent = '';
+            analysisEl.textContent = '';
+        }
+    </script>
+</body>
+</html>
+
