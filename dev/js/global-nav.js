@@ -34,8 +34,8 @@
                     width: 320px;
                     max-height: 80vh;
                     overflow-y: auto;
-                    background: #23272a; /* Màu nền chuẩn Text2 */
-                    border: 1px solid #444;
+                    background: linear-gradient(135deg,#1e1e1e,#242424); /* Màu nền chuẩn Text2 */
+                    border: 1px solid rgba(255,255,255,0.08);
                     border-radius: 12px;
                     box-shadow: 0 10px 40px rgba(0,0,0,0.6);
                     z-index: 10002;
@@ -48,9 +48,9 @@
 
                 /* Style cho từng Icon trong Dropdown */
                 .text2-app-item {
-                    display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #fff; padding: 10px 5px; border-radius: 8px; transition: background 0.2s;
+                    display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #fff; padding: 10px 5px; border-radius: 10px; transition: background 0.2s;
                 }
-                .text2-app-item:hover { background: rgba(255,255,255,0.08); }
+                .text2-app-item:hover { background: rgba(79,195,247,0.2); }
                 .text2-app-item img { width: 48px; height: 48px; border-radius: 10px; margin-bottom: 8px; object-fit: cover; }
                 .text2-app-item span { font-size: 11px; text-align: center; color: #ccc; line-height: 1.2; }
                 .text2-app-item:hover span { color: #fff; }
