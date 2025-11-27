@@ -1,5 +1,0 @@
-{
-  "name": "Text2 Game Chess",
-  "description": "A modern, responsive Chess application featuring Player vs Player and Player vs Gemini AI modes. Built with React, TypeScript, Tailwind CSS, and the Gemini API.",
-  "requestFramePermissions": []
-}

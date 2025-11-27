@@ -17,7 +17,8 @@ const appData = [
   { id: 12, name: "Add Luts", description: "Apply LUTs.", icon: "https://text2.pro/app/luts/apple-touch-icon.png", url: "https://text2.pro/app/luts" },
   { id: 14, name: "Create Img", description: "AI Image Generator.", icon: "https://text2.pro/app/create-img/apple-touch-icon.png", url: "https://text2.pro/app/create-img" },
   { id: 15, name: "Weather", description: "Check weather.", icon: "https://text2.pro/app/weather/apple-touch-icon.png", url: "https://text2.pro/app/weather" },
-  { id: 16, name: "Game Caro", description: "Play Caro.", icon: "https://text2.pro/app/caro/apple-touch-icon.png", url: "https://text2.pro/app/caro" }
+  { id: 16, name: "Game Chess", description: "Play game chess.", icon: "https://text2.pro/app/chess/apple-touch-icon.png", url: "https://text2.pro/app/chess/" },
+  { id: 17, name: "Game Caro", description: "Play Caro.", icon: "https://text2.pro/app/caro/apple-touch-icon.png", url: "https://text2.pro/app/caro" }
 ];
 
 // Social Media Data
