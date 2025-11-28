@@ -225,7 +225,7 @@ crossorigin="anonymous"></script>
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #242424; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #211f1f; border-radius: 10px; }
 
         /* Compact layout for small screens */
         @media (max-height: 700px) {
@@ -270,6 +270,18 @@ crossorigin="anonymous"></script>
             display: flex;
             flex-direction: column;
         }
+
+        /* Dark theme custom classes */
+        .bg-dark-primary { background-color: #121212; }
+        .bg-dark-panel { background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%); }
+        .bg-dark-panel-solid { background-color: #1E1E1E; }
+        .bg-dark-secondary { background-color: #242424; }
+        .text-dark-primary { color: #ffffff; }
+        .text-dark-secondary { color: #c0c0c0; }
+        .border-dark { border-color: rgba(255, 255, 255, 0.05); }
+        .border-dark-hover { border-color: rgba(255, 255, 255, 0.08); }
+        .hover-dark:hover { background-color: rgba(79, 195, 247, 0.2); }
+        .active-dark:active { background-color: rgba(79, 195, 247, 0.3); }
     </style>
 </head>
 <body class="overflow-hidden text-slate-200">
@@ -628,12 +640,8 @@ crossorigin="anonymous"></script>
                         {/* Opponent Info - Compact */}
                         <div className={`w-full max-w-[400px] flex items-center justify-between ${playerInfoClass} px-2`}>
                             <div className="flex items-center gap-2">
-                                <div className={`${isUltraCompact ? 'w-8 h-8' : 'w-10 h-10'} rounded-xl flex items-center justify-center shadow-lg transition-all border border-slate-700
-                                    ${game.turn() === 'b' ? 'bg-slate-800 ring-2 ring-indigo-500/50 scale-105' : 'bg-slate-900 opacity-70'}`}>
-                                    <span className={isUltraCompact ? 'text-sm' : 'text-base'}>{gameMode === 'PvAI' ? 'Me' : 'YOU'}</span>
-                                </div>
                                 <div>
-                                    <div className={`${isUltraCompact ? 'text-xs' : 'text-sm'} font-bold text-slate-200`}>{gameMode === 'PvAI' ? 'AI' : 'Opponent'}</div>
+                                    <div className={`${isUltraCompact ? 'text-xs' : 'text-sm'} font-bold text-slate-200`}>{gameMode === 'PvAI' ? 'TEXT2 AI' : 'Opponent'}</div>
                                     <div className={`${isUltraCompact ? 'text-[10px]' : 'text-xs'} font-medium text-slate-500 flex items-center gap-1 h-3`}>
                                         {game.turn() === 'b' && isAiThinking ? (
                                             <span className="flex gap-0.5 items-center text-indigo-400">
@@ -647,7 +655,6 @@ crossorigin="anonymous"></script>
                                 </div>
                             </div>
                         </div>
-
                         {/* Chess Board - Responsive size */}
                         <div className={`w-full max-w-[400px] aspect-square rounded-xl overflow-hidden shadow-2xl ${isUltraCompact ? 'ring-4' : 'ring-6'} ring-slate-800 bg-slate-800`}>
                             <div className="w-full h-full grid grid-cols-8 grid-rows-8">
@@ -656,20 +663,6 @@ crossorigin="anonymous"></script>
                         </div>
 
                         {/* Player Info - Compact */}
-                        <div className={`w-full max-w-[400px] flex items-center justify-between ${playerInfoClass} px-2`}>
-                            <div className="flex items-center gap-2">
-                                <div className={`${isUltraCompact ? 'w-8 h-8' : 'w-10 h-10'} rounded-xl flex items-center justify-center shadow-lg transition-all border border-slate-700
-                                    ${game.turn() === 'w' ? 'bg-indigo-600 text-white ring-2 ring-indigo-400/50 scale-105 shadow-indigo-500/20' : 'bg-slate-900 opacity-70'}`}>
-                                    <span className={isUltraCompact ? 'text-sm' : 'text-base'}>use</span>
-                                </div>
-                                <div>
-                                    <div className={`${isUltraCompact ? 'text-xs' : 'text-sm'} font-bold text-slate-200`}>You</div>
-                                    <div className={`${isUltraCompact ? 'text-[10px]' : 'text-xs'} font-medium text-slate-500`}>
-                                        {game.turn() === 'w' ? <span className="text-indigo-400">Your turn</span> : 'Waiting...'}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Bottom Controls - Compact */}
