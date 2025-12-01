@@ -84,14 +84,13 @@ const socialMediaData = [
     ]
   },
   {
-    platform: "pinterest",
-    name: "Pinterest",
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-      <circle cx="12" cy="12" r="3"></circle>
-      <path d="M12 1a11 11 0 0 0-11 11 11 11 0 0 0 7.5 10.5c-.1-.9-.2-2.2 0-3.2.2-.9 1.3-5.4 1.3-5.4s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.9 0 1.3.6 1.3 1.4 0 .9-.6 2.2-.9 3.4-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.6 2.2-4.6 4.4 0 .9.3 1.8.8 2.3.1.1.1.2.1.3-.1.3-.3 1.2-.3 1.4-.1.2-.2.2-.4.1-1.4-.7-2.3-2.7-2.3-4.4 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.8 0 3.5-2.2 6.2-5.2 6.2-1 0-2-.5-2.3-1.2 0 0-.5 2-.6 2.5-.2.9-.8 2.1-1.2 2.8A11 11 0 0 0 12 23a11 11 0 0 0 11-11A11 11 0 0 0 12 1z"></path>
+    platform: "Telegram",
+    name: "Telegram",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:18px;height:18px;" fill="none">
+      <path d="M21.05 5.84c.13-.59-.23-.82-.77-.66l-16.07 5.22c-.58.18-.57.56-.1.71l4.11 1.28 1.57 5.08c.19.6.35.83.72.83.36 0 .52-.16.7-.54l2.01-4.09 4.24 3.88c.78.43 1.34.21 1.53-.72l2.07-9.99zm-3.85 2.05l-6.7 6.02-.24 2.49 1.78-3.62 5.16-4.89z" fill="currentColor"/>
     </svg>`,
     links: [
-      { name: "Text2", url: "https://www.pinterest.com/text2img/" }
+      { name: "HOA NHAT ANH", url: "https://t.me/hoanhatanh123/" }
     ]
   }
 ];
