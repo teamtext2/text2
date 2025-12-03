@@ -10,6 +10,7 @@
     <meta name="google" content="notranslate"> 
     <title>text2 Translate</title>
     <!-- Favicon and Icons -->
+    <link rel="manifest" href="/app/translate/manifest.json"> 
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -24,7 +25,11 @@
   
     gtag('config', 'G-6J85STMJ14');
   </script>
-  
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/app/translate/sw.js', { scope: '/app/translate/' });
+    }
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
      crossorigin="anonymous"></script>
     <meta name="description" content="text2 Translate - Free AI-powered translation tool supporting 100+ languages. Fast, accurate, and secure online translator by Text2.pro. Translate text instantly with advanced AI technology for all your multilingual needs.">
