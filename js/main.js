@@ -96,7 +96,7 @@
   
   // App usage tracking
   const APP_USAGE_KEY = 'text2_app_usage';
-  const MAX_FREQUENTLY_USED = 8; // Maximum number of apps in "Hay dùng" section
+  const MAX_FREQUENTLY_USED = 5; // Maximum number of apps in "Hay dùng" section
 
   // Get frequently used apps from localStorage
   const getFrequentlyUsedApps = () => {
@@ -149,14 +149,17 @@
     const frequentlyUsedApps = [];
     const ecosystemApps = [];
 
-    // Separate apps into frequently used and ecosystem
+    // Get frequently used apps (limit to MAX_FREQUENTLY_USED)
     appData.forEach(app => {
       const url = app.url || '#';
       if (frequentlyUsedUrls.includes(url)) {
         frequentlyUsedApps.push(app);
-      } else {
-        ecosystemApps.push(app);
       }
+    });
+
+    // Keep all apps in ecosystem (including frequently used ones)
+    appData.forEach(app => {
+      ecosystemApps.push(app);
     });
 
     // Render frequently used apps
