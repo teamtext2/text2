@@ -547,7 +547,7 @@ html, body {
     max-width: 1100px;
     margin: 0 auto 24px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 32px;
   }
   
@@ -655,6 +655,94 @@ html, body {
   .footer-made {
     color: #e5e5e5;
     font-weight: 500;
+  }
+  
+  /* Footer About Section */
+  .footer-about {
+    grid-column: span 2;
+    max-width: 100%;
+  }
+  
+  .footer-description {
+    margin: 16px 0 0;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+  
+  .footer-services {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+  }
+  
+  .footer-services-text {
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+  }
+  
+  .footer-services-text strong {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+  
+  .footer-mission,
+  .footer-vision {
+    margin: 12px 0 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  
+  /* Responsive Footer */
+  @media (max-width: 1024px) {
+    .site-footer .footer-content {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    
+    .footer-about {
+      grid-column: span 2;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .site-footer .footer-content {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    
+    .footer-about {
+      grid-column: span 1;
+    }
+    
+    .footer-description {
+      font-size: 13px;
+      max-width: 100%;
+    }
+    
+    .footer-services-text {
+      font-size: 12px;
+    }
+    
+    .footer-mission,
+    .footer-vision {
+      font-size: 11px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .footer-description {
+      font-size: 12px;
+    }
+    
+    .footer-services-text {
+      font-size: 11px;
+    }
   }
   
   /* Popups */
