@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text2 - Game Hub</title>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS cho nền tối và font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+        }
+        
+        /* Hiệu ứng nền hạt */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+        
+        /* Nội dung chính */
+        #main-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Kiểu thẻ game "kính mờ" */
+        .app-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .app-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(139, 92, 246, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Kiểu nút Play */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Kiểu logo placeholder */
+        .game-logo-placeholder {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Scrollbar kiểu app */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+    </style>
+</head>
+<body class="h-full text-gray-100">
+
+    <!-- Canvas cho hiệu ứng nền động -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Nội dung chính -->
+    <div id="main-content" class="h-screen w-full flex flex-col items-center overflow-y-auto p-4 lg:p-8">
+        
+        <!-- Tiêu đề trang -->
+        <h1 class="text-4xl lg:text-5xl font-black text-white text-center my-8 lg:my-12">
+            Text2<span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">GAME</span>
+        </h1>
+
+        <!-- Lưới chứa các game -->
+        <div class="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            
+            <!-- Game Card 1 -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Thung Lũng Phù Thủy</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+            
+            <!-- Game Card 2 -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13.5M8.25 6.253l7.5 4.33-7.5 4.33V6.253z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21.75 12a9.75 9.75 0 11-19.5 0 9.75 9.75 0 0119.5 0z"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Chiến Binh Nexus</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 3 -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-fuchsia-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 12a9 9 0 1118 0 9 9 0 01-18 0zM12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12 9.75a3 3 0 00-3 3v.001c0 .168.012.335.035.5H15a3 3 0 00-3-3.501v.001z"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Cuộc Đua Thiên Hà</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 4 -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.362 5.214A9 9 0 0119.5 12c0 1.23-.25 2.403-.7 3.486m-1.214-8.086A9 9 0 0012 4.5c-1.23 0-2.403.25-3.486.7l-.001.001m-1.214 8.086A9 9 0 014.5 12c0-1.23.25-2.403.7-3.486m1.214 8.086L9 12l2.348-3.714m1.214 8.086L15 12l-2.348-3.714m0 0L12 6.5l-2.348 3.786m4.696 0L12 17.5l-2.348-3.714"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Kẻ Săn Quỷ</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 5 -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                     <svg class="w-14 h-14 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 8.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25v2.25A2.25 2.25 0 018.25 20.25H6a2.25 2.25 0 01-2.25-2.25V15.75zM13.5 6A2.25 2.25 0 0115.75 3.75h2.25A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25A2.25 2.25 0 0113.5 8.25V6zM13.5 15.75A2.25 2.25 0 0115.75 13.5h2.25a2.25 2.25 0 012.25 2.25v2.25a2.25 2.25 0 01-2.25 2.25h-2.25a2.25 2.25 0 01-2.25-2.25V15.75z"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Xếp Hình Ma Thuật</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 6 (Thêm) -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 100-18 9 9 0 000 18z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.91 9.09l-4.5 4.5M11.41 9.09l4.5 4.5"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Cờ Tỷ Phú</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 7 (Thêm) -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                   <svg class="w-14 h-14 text-rose-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Nông Trại Vui Vẻ</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+            <!-- Game Card 8 (Thêm) -->
+            <div class="app-card rounded-2xl overflow-hidden group p-5 flex flex-col items-center text-center">
+                <!-- Logo Game -->
+                <div class="game-logo-placeholder w-28 h-28 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-14 h-14 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.01"></path></svg>
+                </div>
+                <!-- Tên Game -->
+                <h4 class="text-lg font-bold text-white mb-5 truncate w-full">Đế Chế Online</h4>
+                <!-- Nút Play -->
+                <button class="w-full btn-primary py-2.5 text-white font-semibold rounded-xl transform active:scale-95">
+                    CHƠI
+                </button>
+            </div>
+
+        </div>
+        
+        <!-- Thêm một chút đệm ở dưới cùng -->
+        <div class="h-16"></div>
+
+    </div>
+
+    <!-- JavaScript cho hiệu ứng nền động (Plexus) -->
+    <script>
+        window.onload = function() {
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) {
+                console.error("Không tìm thấy canvas");
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let particleCount = 80;
+            const maxDistance = 100;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor(x, y, vx, vy) {
+                    this.x = x || Math.random() * canvas.width;
+                    this.y = y || Math.random() * canvas.height;
+                    this.vx = vx || (Math.random() - 0.5) * 0.3;
+                    this.vy = vy || (Math.random() - 0.5) * 0.3;
+                    this.radius = 1.5; // Cho hạt to hơn 1 chút
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(139, 92, 246, 0.6)'; // Màu tím
+                    ctx.fill();
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                particleCount = window.innerWidth < 768 ? 40 : 80; // Ít hạt hơn trên di động
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < maxDistance) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            const opacity = 1 - (distance / maxDistance);
+                            ctx.strokeStyle = `rgba(139, 92, 246, ${opacity * 0.3})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                connectParticles();
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initParticles(); 
+            });
+
+            resizeCanvas();
+            initParticles();
+            animate();
+        };
+    </script>
+</body>
+</html>
