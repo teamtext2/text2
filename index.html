@@ -56,18 +56,12 @@
   <!-- Canonical (avoid URL duplication) -->
   <link rel="canonical" href="https://text2.pro" />
   <!-- International targeting and discovery -->
-  <link rel="manifest" href="/app/translate/manifest.json"> 
   <link rel="alternate" hreflang="x-default" href="https://text2.pro/" />
   <link rel="alternate" hreflang="en" href="https://text2.pro/" />
   <link rel="alternate" hreflang="vi" href="https://text2.pro/" />
   <meta name="language" content="en, vi" />
 
   <!-- Font + CSS (removed unused external font and missing stylesheet) -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/app/translate/sw.js', { scope: '/app/translate/' });
-    }
-  </script>
   
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#121212" />
