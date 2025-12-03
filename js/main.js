@@ -35,16 +35,18 @@
     // Search functionality
     performSearch: () => {
       const query = elements.searchInput.value.trim().toLowerCase();
-      const apps = document.querySelectorAll('#mainApps .icon');
+      const frequentlyUsedApps = document.querySelectorAll('#frequentlyUsedApps .icon');
+      const ecosystemApps = document.querySelectorAll('#ecosystemApps .icon');
+      const allApps = [...frequentlyUsedApps, ...ecosystemApps];
 
       if (query.length < 1) {
-        apps.forEach(app => app.style.display = ''); // Show all apps
+        allApps.forEach(app => app.style.display = ''); // Show all apps
         elements.searchResults.classList.remove('active');
         return;
       }
 
       let matchFound = false;
-      apps.forEach(app => {
+      allApps.forEach(app => {
         const appName = app.querySelector('p').textContent.toLowerCase();
         if (appName.includes(query)) {
           app.style.display = '';
@@ -91,23 +93,122 @@
   };
 
   const toArray = (value) => Array.isArray(value) ? value : [];
+  
+  // App usage tracking
+  const APP_USAGE_KEY = 'text2_app_usage';
+  const MAX_FREQUENTLY_USED = 8; // Maximum number of apps in "Hay dùng" section
+
+  // Get frequently used apps from localStorage
+  const getFrequentlyUsedApps = () => {
+    try {
+      const stored = localStorage.getItem(APP_USAGE_KEY);
+      if (!stored) return [];
+      const usage = JSON.parse(stored);
+      // Sort by usage count (descending) and timestamp (most recent first)
+      return Object.entries(usage)
+        .sort((a, b) => {
+          if (b[1].count !== a[1].count) return b[1].count - a[1].count;
+          return b[1].lastUsed - a[1].lastUsed;
+        })
+        .slice(0, MAX_FREQUENTLY_USED)
+        .map(([url]) => url);
+    } catch (e) {
+      console.error('Error reading app usage:', e);
+      return [];
+    }
+  };
+
+  // Track app usage
+  const trackAppUsage = (appUrl) => {
+    try {
+      const stored = localStorage.getItem(APP_USAGE_KEY);
+      const usage = stored ? JSON.parse(stored) : {};
+      
+      if (!usage[appUrl]) {
+        usage[appUrl] = { count: 0, lastUsed: Date.now() };
+      }
+      usage[appUrl].count += 1;
+      usage[appUrl].lastUsed = Date.now();
+      
+      localStorage.setItem(APP_USAGE_KEY, JSON.stringify(usage));
+    } catch (e) {
+      console.error('Error tracking app usage:', e);
+    }
+  };
+
   // Render apps from data.js if available
   const renderAppsFromData = () => {
-    const container = document.getElementById('mainApps');
-    if (!container) return;
+    const frequentlyUsedContainer = document.getElementById('frequentlyUsedApps');
+    const ecosystemContainer = document.getElementById('ecosystemApps');
+    const frequentlyUsedEmpty = document.getElementById('frequentlyUsedEmpty');
+    
+    if (!frequentlyUsedContainer || !ecosystemContainer) return;
     if (typeof appData === 'undefined' || !Array.isArray(appData)) return;
 
-    container.innerHTML = appData.map(app => {
+    const frequentlyUsedUrls = getFrequentlyUsedApps();
+    const frequentlyUsedApps = [];
+    const ecosystemApps = [];
+
+    // Separate apps into frequently used and ecosystem
+    appData.forEach(app => {
+      const url = app.url || '#';
+      if (frequentlyUsedUrls.includes(url)) {
+        frequentlyUsedApps.push(app);
+      } else {
+        ecosystemApps.push(app);
+      }
+    });
+
+    // Render frequently used apps
+    const frequentlyUsedSection = document.getElementById('frequentlyUsed');
+    if (frequentlyUsedApps.length > 0) {
+      frequentlyUsedContainer.innerHTML = frequentlyUsedApps.map(app => {
+        const name = app.name || '';
+        const icon = app.icon || '';
+        const url = app.url || '#';
+        const alt = (app.name || 'app').toString().replace(/"/g, '');
+        return `
+        <a href="${url}" target="_blank" rel="noopener" class="icon main-app" data-app-url="${url}">
+          <img src="${icon}" alt="${alt}" />
+          <p>${name}</p>
+        </a>`;
+      }).join('');
+      if (frequentlyUsedEmpty) frequentlyUsedEmpty.style.display = 'none';
+      // Show section if there are frequently used apps
+      if (frequentlyUsedSection) frequentlyUsedSection.style.display = 'block';
+    } else {
+      frequentlyUsedContainer.innerHTML = '';
+      if (frequentlyUsedEmpty) frequentlyUsedEmpty.style.display = 'block';
+      // Hide section if no frequently used apps
+      if (frequentlyUsedSection) frequentlyUsedSection.style.display = 'none';
+    }
+
+    // Render ecosystem apps
+    ecosystemContainer.innerHTML = ecosystemApps.map(app => {
       const name = app.name || '';
       const icon = app.icon || '';
       const url = app.url || '#';
       const alt = (app.name || 'app').toString().replace(/"/g, '');
       return `
-      <a href="${url}" target="_blank" rel="noopener" class="icon main-app">
+      <a href="${url}" target="_blank" rel="noopener" class="icon main-app" data-app-url="${url}">
         <img src="${icon}" alt="${alt}" />
         <p>${name}</p>
       </a>`;
     }).join('');
+
+    // Add click tracking to all app links
+    document.querySelectorAll('.main-app[data-app-url]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const appUrl = link.getAttribute('data-app-url');
+        if (appUrl && appUrl !== '#') {
+          trackAppUsage(appUrl);
+          // Re-render apps after a short delay to update the sections
+          setTimeout(() => {
+            renderAppsFromData();
+          }, 500);
+        }
+      });
+    });
   };
 
   const renderNavigationFromData = () => {
@@ -321,16 +422,18 @@
     // Enable automatic search on typing
     handlers.performSearch = () => {
       const query = elements.searchInput.value.trim().toLowerCase();
-      const apps = document.querySelectorAll('#mainApps .icon');
+      const frequentlyUsedApps = document.querySelectorAll('#frequentlyUsedApps .icon');
+      const ecosystemApps = document.querySelectorAll('#ecosystemApps .icon');
+      const allApps = [...frequentlyUsedApps, ...ecosystemApps];
 
       if (query.length < 1) {
-        apps.forEach(app => app.style.display = ''); // Show all apps
+        allApps.forEach(app => app.style.display = ''); // Show all apps
         elements.searchResults.classList.remove('active');
         return;
       }
 
       let matchFound = false;
-      apps.forEach(app => {
+      allApps.forEach(app => {
         const appName = app.querySelector('p').textContent.toLowerCase();
         if (appName.includes(query)) {
           app.style.display = '';
@@ -545,10 +648,15 @@
   }
   // App visibility management
   const initAppVisibility = () => {
-    const apps = Array.from(document.querySelectorAll('#mainApps .main-app'));
-    const showMoreBtn = document.getElementById('showMoreMainApps');
+    const frequentlyUsedApps = Array.from(document.querySelectorAll('#frequentlyUsedApps .main-app'));
+    const ecosystemApps = Array.from(document.querySelectorAll('#ecosystemApps .main-app'));
+    const showMoreBtn = document.getElementById('showMoreEcosystemApps');
 
-    apps.forEach((el) => {
+    frequentlyUsedApps.forEach((el) => {
+      el.style.display = '';
+    });
+
+    ecosystemApps.forEach((el) => {
       el.style.display = '';
     });
 

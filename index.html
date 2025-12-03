@@ -277,15 +277,26 @@
     <div id="searchResults" class="search-results"></div>
   </div>
   </section>
-  <div class="popup-title" style="margin-top:32px;">Text2 Ecosystem</div>
+  <!-- Section Hệ sinh thái (Ecosystem) -->
+  <section id="ecosystem" style="margin-top:32px;">
+    <div class="popup-title">Ecosystem</div>
+    <div class="icon-container" id="ecosystemApps">
+      <!-- Ecosystem apps will be loaded dynamically -->
+    </div>
+    <div style="text-align:center; margin: 10px 0;">
+      <button id="showMoreEcosystemApps" style="display:none; padding:8px 18px; border-radius:8px; background:linear-gradient(135deg,#1e1e1e,#242424); color:#fff; border:1px solid rgba(255,255,255,0.05); cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.35);">Show more apps</button>
+    </div>
+  </section>
 
-  <section id="apps">
-  <div class="icon-container" id="mainApps">
-    <!-- Apps will be loaded dynamically from data.js -->
-  </div>
-  <div style="text-align:center; margin: 10px 0;">
-    <button id="showMoreMainApps" style="display:none; padding:8px 18px; border-radius:8px; background:linear-gradient(135deg,#1e1e1e,#242424); color:#fff; border:1px solid rgba(255,255,255,0.05); cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.35);">View more app</button>
-  </div>
+  <!-- Section Hay dùng (Frequently Used) -->
+  <section id="frequentlyUsed" style="margin-top:40px; display:none;">
+    <div class="popup-title">Frequently Used</div>
+    <div class="icon-container" id="frequentlyUsedApps">
+      <!-- Frequently used apps will be loaded dynamically -->
+    </div>
+    <div id="frequentlyUsedEmpty" style="text-align:center; padding:40px 20px; color:#888; display:none;">
+      <p>No apps have been used yet. Start using apps to see them appear here!</p>
+    </div>
   </section>
   <!-- Section Mạng xã hội -->
   <section id="social-media" style="margin-top:40px;">
@@ -329,7 +340,7 @@ We are constantly creating applications in the text2 ecosystem, web apps are con
 
       <div class="footer-links">
         <span class="footer-label">Explore</span>
-        <a href="#apps">Ecosystem</a>
+        <a href="#ecosystem">Ecosystem</a>
         <a href="#social-media">Media</a>
         <a href="#partners">Partners</a>
         <a href="/app/" data-same-tab="true">App</a>
