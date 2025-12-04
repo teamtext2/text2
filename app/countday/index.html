@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Moments - Countdown</title>
     
+    <!-- SEO Meta Tags -->
+    <title>Text2 Countday</title>
+    <meta name="description" content="Text2 Countday - Free event countdown app, track important dates, birthdays, anniversaries. Beautiful interface, easy to use on Text2.pro" />
+    <meta name="keywords" content="text2 countday, countdown, events, birthday, anniversary, text2.pro, free app" />
+    <meta name="author" content="Text2.pro" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Text2 Countday - Free Event Countdown App" />
+    <meta property="og:description" content="Track and countdown to important events with Text2 Countday. Beautiful interface, easy to use, completely free." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://text2.pro/app/countday/" />
+    <meta property="og:site_name" content="Text2.pro" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="google" content="notranslate"> 
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Text2 Countday - Event Countdown App" />
+    <meta name="twitter:description" content="Track and countdown to important events with Text2 Countday" />
+    <meta name="twitter:url" content="https://text2.pro/app/countday/" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://text2.pro/app/countday/" />
+    
+    <!-- Favicon and App Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Text2.pro",
+          "item": "https://text2.pro/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Apps",
+          "item": "https://text2.pro/app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Text2 Countday",
+          "item": "https://text2.pro/app/countday/"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Text2 Countday",
+      "description": "Free event countdown app, track important dates, birthdays, anniversaries",
+      "url": "https://text2.pro/app/countday/",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Text2.pro",
+        "url": "https://text2.pro/"
+      }
+    }
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -14,7 +114,7 @@
       
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #000;
+        background-color: #121212;
       }
       
       /* Hide scrollbar */
@@ -33,6 +133,27 @@
       }
       .animate-in {
         animation: fadeIn 0.2s ease-out forwards;
+      }
+
+      /* Custom dark theme colors */
+      .bg-main {
+        background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+      }
+      
+      .bg-panel {
+        background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+      }
+      
+      .border-custom {
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+      
+      .hover-effect:hover {
+        background-color: rgba(79, 195, 247, 0.2);
+      }
+      
+      .text-secondary {
+        color: #c0c0c0;
       }
     </style>
 
@@ -108,7 +229,7 @@
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
             <div className="bg-gray-900 border border-white/10 w-full max-w-md rounded-3xl p-6 relative z-10 shadow-2xl animate-in">
               <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-2xl font-bold text-white">Sự kiện mới</h2>
+                  <h2 className="text-2xl font-bold text-white">New Event</h2>
                   <button onClick={onClose} className="text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 p-2 rounded-full transition-all">
                       <X size={20} />
                   </button>
@@ -116,19 +237,19 @@
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400 font-medium ml-1">Tên sự kiện</label>
+                  <label className="text-sm text-gray-400 font-medium ml-1">Event Name</label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Ví dụ: Sinh nhật, Kỷ niệm..."
+                    placeholder="e.g. Birthday, Anniversary..."
                     className="w-full bg-black/20 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400 font-medium ml-1">Ngày diễn ra</label>
+                  <label className="text-sm text-gray-400 font-medium ml-1">Event Date</label>
                   <input
                     type="date"
                     value={date}
@@ -139,7 +260,7 @@
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm text-gray-400 font-medium ml-1">Chủ đề màu sắc</label>
+                  <label className="text-sm text-gray-400 font-medium ml-1">Color Theme</label>
                   <div className="flex gap-3 justify-between">
                     {Object.keys(THEMES).map((c) => (
                       <button
@@ -158,7 +279,7 @@
                   type="submit"
                   className="w-full bg-white text-black font-bold text-lg py-4 rounded-2xl hover:bg-gray-200 transition-colors mt-4 shadow-lg shadow-white/10"
                 >
-                  Tạo Sự Kiện
+                  Create Event
                 </button>
               </form>
             </div>
@@ -180,20 +301,20 @@
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           
           if (diffDays === 0) {
-              return { diff: 0, label: 'Hôm nay', isPast: false, isToday: true };
+              return { diff: 0, label: 'Today', isPast: false, isToday: true };
           }
           
           const isPast = diffDays < 0;
           
           return { 
               diff: Math.abs(diffDays), 
-              label: isPast ? 'Ngày đã qua' : 'Ngày nữa',
+              label: isPast ? 'days ago' : 'days left',
               isPast,
               isToday: false
           };
         }, [event.date]);
 
-        const formattedDate = new Date(event.date).toLocaleDateString('vi-VN', {
+        const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
           weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
         });
 
@@ -261,7 +382,7 @@
         };
 
         const handleDeleteEvent = (id) => {
-          if(confirm('Bạn có chắc muốn xóa sự kiện này?')) {
+          if(confirm('Are you sure you want to delete this event?')) {
              setEvents(prev => prev.filter(e => e.id !== id));
           }
         };
@@ -272,8 +393,16 @@
               
               {/* Header */}
               <header className="p-8 pb-4">
-                <h1 className="text-4xl font-black tracking-tight mb-1 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">Moments.</h1>
-                <p className="text-gray-400 text-sm font-medium">Theo dõi hành trình của bạn</p>
+                <div className="flex items-center gap-3 mb-1">
+                  <a href="https://text2.pro" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+                    <img 
+                      src="https://text2.pro/favicon.ico" 
+                      alt="Text2.pro Logo" 
+                      className="w-8 h-8 rounded-lg hover:scale-110 transition-transform duration-200"
+                    />
+                  </a>
+                  <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">Text2 - Countday</h1>
+                </div>
               </header>
 
               {/* Content */}
@@ -283,7 +412,7 @@
                     <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-gray-800 to-gray-900 flex items-center justify-center animate-pulse">
                       <Plus size={40} className="text-gray-700" />
                     </div>
-                    <p className="text-gray-500 font-medium">Chưa có sự kiện nào.<br/>Chạm vào dấu + để bắt đầu.</p>
+                    <p className="text-gray-500 font-medium">No events yet.<br/>Tap the + button to get started.</p>
                   </div>
                 ) : (
                   events.map(event => (
