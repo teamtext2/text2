@@ -4,28 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
-    <!-- SEO Meta Tags -->
+    <!-- SEO Meta Tags - Giữ nguyên, rất chuẩn rồi -->
     <title>Text2 Countday</title>
     <meta name="description" content="Text2 Countday - Free event countdown app, track important dates, birthdays, anniversaries. Beautiful interface, easy to use on Text2.pro" />
-    <meta name="keywords" content="text2 countday, countdown, events, birthday, anniversary, text2.pro, free app" />
+    <meta name="keywords" content="text2 countday, countdown, events, birthday, anniversary, text2.pro, free app, time tracking, event manager" />
     <meta name="author" content="Text2.pro" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-  <!-- Google tag (gtag.js) - GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-6J85STMJ14');
-  </script>
+    
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
 
-    <!-- Open Graph Meta Tags -->
+    <!-- Google tag (gtag.js) - GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6J85STMJ14');
+    </script>
+
+    <!-- Open Graph & Twitter Cards - Chuẩn -->
     <meta property="og:title" content="Text2 Countday - Free Event Countdown App" />
     <meta property="og:description" content="Track and countdown to important events with Text2 Countday. Beautiful interface, easy to use, completely free." />
     <meta property="og:type" content="website" />
@@ -34,55 +36,19 @@
     <meta property="og:locale" content="en_US" />
     <meta name="google" content="notranslate"> 
     
-    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Text2 Countday - Event Countdown App" />
     <meta name="twitter:description" content="Track and countdown to important events with Text2 Countday" />
     <meta name="twitter:url" content="https://text2.pro/app/countday/" />
     
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://text2.pro/app/countday/" />
     
-    <!-- Favicon and App Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    
-    <!-- Preconnect for Performance -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     
-    <!-- Breadcrumb Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Text2.pro",
-          "item": "https://text2.pro/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Apps",
-          "item": "https://text2.pro/app/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Text2 Countday",
-          "item": "https://text2.pro/app/countday/"
-        }
-      ]
-    }
-    </script>
-    
-    <!-- WebApplication Schema -->
+    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -105,10 +71,8 @@
     }
     </script>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fonts -->
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
       
@@ -117,60 +81,55 @@
         background-color: #121212;
       }
       
-      /* Hide scrollbar */
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-      }
-      .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-      }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-      /* Animations */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-      .animate-in {
-        animation: fadeIn 0.2s ease-out forwards;
-      }
+      @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+      .animate-in { animation: fadeIn 0.2s ease-out forwards; }
 
-      /* Custom dark theme colors */
-      .bg-main {
-        background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
-      }
-      
-      .bg-panel {
-        background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
-      }
-      
-      .border-custom {
-        border-color: rgba(255, 255, 255, 0.08);
-      }
-      
-      .hover-effect:hover {
-        background-color: rgba(79, 195, 247, 0.2);
-      }
-      
-      .text-secondary {
-        color: #c0c0c0;
-      }
+      .bg-main { background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%); }
+      .bg-panel { background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%); }
+      .border-custom { border-color: rgba(255, 255, 255, 0.08); }
     </style>
 
-    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- 
+      SEO TRICK: Nội dung tĩnh bên trong root.
+      Khi Google Bot crawl, nó sẽ thấy đoạn text này ngay lập tức.
+      Khi React load xong, nó sẽ replace toàn bộ nội dung trong div này bằng App.
+    -->
+    <div id="root">
+      <div style="padding: 20px; color: #fff; text-align: center; font-family: sans-serif;">
+        <h1 style="font-size: 24px; font-weight: bold;">Text2 Countday - Event Countdown App</h1>
+        <p>The best free app to track your important events, birthdays, and anniversaries.</p>
+        <p>Loading application...</p>
+        <nav>
+          <a href="https://text2.pro" style="color: #ccc;">Home</a>
+          <a href="https://text2.pro/app/" style="color: #ccc;">Apps</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- 
+      SEO TRICK: Thẻ noscript dành cho trình duyệt tắt JS hoặc bot đời cũ 
+    -->
+    <noscript>
+      <div style="padding: 20px; color: white; background: #121212;">
+        <h1>Text2 Countday</h1>
+        <p>Text2 Countday is a free, beautiful event countdown application.</p>
+        <p>Please enable JavaScript to use this application.</p>
+        <a href="https://text2.pro">Visit Text2.pro</a>
+      </div>
+    </noscript>
 
     <script type="text/babel">
       const { useState, useEffect, useMemo } = React;
 
-      // --- ICONS (Inline SVG replacements for lucide-react) ---
+      // --- ICONS ---
       const Plus = ({ size = 24, className = "", strokeWidth = 2 }) => (
         <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       );
@@ -205,8 +164,6 @@
       };
 
       // --- COMPONENTS ---
-
-      // 1. AddEventModal Component
       const AddEventModal = ({ isOpen, onClose, onAdd }) => {
         const [title, setTitle] = useState('');
         const [date, setDate] = useState('');
@@ -287,31 +244,18 @@
         );
       };
 
-      // 2. EventCard Component
       const EventCard = ({ event, onDelete }) => {
         const { diff, label, isPast, isToday } = useMemo(() => {
           const now = new Date();
           const target = new Date(event.date);
-          
-          // Reset hours to compare dates only
           const nowReset = new Date(now.getFullYear(), now.getMonth(), now.getDate());
           const targetReset = new Date(target.getFullYear(), target.getMonth(), target.getDate());
-          
           const diffTime = targetReset.getTime() - nowReset.getTime();
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
           
-          if (diffDays === 0) {
-              return { diff: 0, label: 'Today', isPast: false, isToday: true };
-          }
-          
+          if (diffDays === 0) return { diff: 0, label: 'Today', isPast: false, isToday: true };
           const isPast = diffDays < 0;
-          
-          return { 
-              diff: Math.abs(diffDays), 
-              label: isPast ? 'days ago' : 'days left',
-              isPast,
-              isToday: false
-          };
+          return { diff: Math.abs(diffDays), label: isPast ? 'days ago' : 'days left', isPast, isToday: false };
         }, [event.date]);
 
         const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
@@ -320,7 +264,6 @@
 
         return (
           <div className={`relative group overflow-hidden rounded-3xl bg-gray-900 border border-white/10 p-6 transition-all duration-300 hover:scale-[1.02] ${THEME_SHADOWS[event.theme]} hover:shadow-xl shadow-lg`}>
-            {/* Background Gradient Mesh */}
             <div className={`absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full blur-3xl opacity-20 bg-gradient-to-br ${THEMES[event.theme]}`}></div>
             <div className={`absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full blur-3xl opacity-10 bg-gradient-to-tr ${THEMES[event.theme]}`}></div>
 
@@ -358,7 +301,6 @@
         );
       };
 
-      // 3. Main App Component
       const App = () => {
         const [events, setEvents] = useState(() => {
           const saved = localStorage.getItem('moments_events');
@@ -371,13 +313,7 @@
         }, [events]);
 
         const handleAddEvent = (title, date, theme) => {
-          const newEvent = {
-            id: crypto.randomUUID(),
-            title,
-            date,
-            theme,
-          };
-          // Sort events by date (closest first)
+          const newEvent = { id: crypto.randomUUID(), title, date, theme };
           setEvents(prev => [...prev, newEvent].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
         };
 
@@ -390,22 +326,15 @@
         return (
           <div className="min-h-screen bg-black text-white font-sans selection:bg-white/20">
             <div className="max-w-md mx-auto min-h-screen flex flex-col relative bg-gray-950 shadow-2xl">
-              
-              {/* Header */}
               <header className="p-8 pb-4">
                 <div className="flex items-center gap-3 mb-1">
                   <a href="https://text2.pro" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-                    <img 
-                      src="https://text2.pro/favicon.ico" 
-                      alt="Text2.pro Logo" 
-                      className="w-8 h-8 rounded-lg hover:scale-110 transition-transform duration-200"
-                    />
+                    <img src="https://text2.pro/favicon.ico" alt="Text2.pro Logo" className="w-8 h-8 rounded-lg hover:scale-110 transition-transform duration-200"/>
                   </a>
                   <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">Text2 - Countday</h1>
                 </div>
               </header>
 
-              {/* Content */}
               <main className="flex-1 p-6 space-y-6 pb-32 overflow-y-auto scrollbar-hide">
                 {events.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-[50vh] text-center opacity-50 space-y-4">
@@ -416,16 +345,11 @@
                   </div>
                 ) : (
                   events.map(event => (
-                    <EventCard 
-                      key={event.id} 
-                      event={event} 
-                      onDelete={handleDeleteEvent}
-                    />
+                    <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
                   ))
                 )}
               </main>
 
-              {/* Floating Action Button */}
               <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40">
                   <button
                       onClick={() => setIsModalOpen(true)}
@@ -436,15 +360,10 @@
                   </button>
               </div>
               
-              {/* Gradient Blur at bottom */}
               <div className="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-30 max-w-md mx-auto" />
             </div>
 
-            <AddEventModal 
-              isOpen={isModalOpen} 
-              onClose={() => setIsModalOpen(false)} 
-              onAdd={handleAddEvent} 
-            />
+            <AddEventModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAdd={handleAddEvent} />
           </div>
         );
       };
