@@ -138,24 +138,24 @@
   };
 
   const toArray = (value) => Array.isArray(value) ? value : [];
-  // Render apps from data.js if available
-  const renderAppsFromData = () => {
-    const container = document.getElementById('mainApps');
-    if (!container) return;
-    if (typeof appData === 'undefined' || !Array.isArray(appData)) return;
+  // Render apps from data.js if available - DISABLED: Apps are now hardcoded in HTML for SEO
+  // const renderAppsFromData = () => {
+  //   const container = document.getElementById('mainApps');
+  //   if (!container) return;
+  //   if (typeof appData === 'undefined' || !Array.isArray(appData)) return;
 
-    container.innerHTML = appData.map(app => {
-      const name = app.name || '';
-      const icon = app.icon || '';
-      const url = app.url || '#';
-      const alt = (app.name || 'app').toString().replace(/"/g, '');
-      return `
-      <a href="${url}" target="_blank" rel="noopener" class="icon main-app">
-        <img src="${icon}" alt="${alt}" />
-        <p>${name}</p>
-      </a>`;
-    }).join('');
-  };
+  //   container.innerHTML = appData.map(app => {
+  //     const name = app.name || '';
+  //     const icon = app.icon || '';
+  //     const url = app.url || '#';
+  //     const alt = (app.name || 'app').toString().replace(/"/g, '');
+  //     return `
+  //     <a href="${url}" target="_blank" rel="noopener" class="icon main-app">
+  //       <img src="${icon}" alt="${alt}" />
+  //       <p>${name}</p>
+  //     </a>`;
+  //   }).join('');
+  // };
 
   const renderNavigationFromData = () => {
     const nav = document.getElementById('primaryNav') || document.querySelector('nav');
@@ -337,7 +337,7 @@
   };
 
   const renderDataCollections = () => {
-    renderAppsFromData();
+    // renderAppsFromData(); // DISABLED: Apps are now hardcoded in HTML for SEO
     renderNavigationFromData();
     renderSocialMediaFromData();
     renderPartnersFromData();
