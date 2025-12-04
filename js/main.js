@@ -16,8 +16,15 @@
     settingsHardRefresh: document.getElementById('settingsHardRefresh'),
     sidebar: document.getElementById('sidebar'),
     sidebarToggle: document.getElementById('sidebarToggle'),
-    sidebarClose: document.getElementById('sidebarClose')
+    sidebarClose: document.getElementById('sidebarClose'),
+    sidebarOverlay: document.getElementById('sidebarOverlay'),
+    sidebarOpenSettings: document.getElementById('sidebarOpenSettings'),
+    sidebarOpenNotifications: document.getElementById('sidebarOpenNotifications')
   };
+
+  // Sidebar focus trap helpers
+  let lastFocusedElementBeforeSidebar = null;
+  const sidebarFocusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
   // Event handlers
   const handlers = {
@@ -78,15 +85,55 @@
 
     // Sidebar management
     openSidebar: () => {
-      elements.sidebar.classList.add('active');
+      if (!elements.sidebar) return;
+
+      lastFocusedElementBeforeSidebar = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
       elements.sidebar.classList.remove('hidden');
+      if (elements.sidebarOverlay) {
+        elements.sidebarOverlay.classList.remove('hidden');
+        elements.sidebarOverlay.classList.add('active');
+      }
+
+      // force next frame so transition runs
+      requestAnimationFrame(() => {
+        elements.sidebar.classList.add('active');
+      });
+
       document.body.style.overflow = 'hidden';
+
+      // Move focus into sidebar for accessibility
+      setTimeout(() => {
+        if (!elements.sidebar) return;
+        const focusable = elements.sidebar.querySelectorAll(sidebarFocusableSelector);
+        if (focusable.length > 0 && focusable[0] instanceof HTMLElement) {
+          focusable[0].focus();
+        }
+      }, 50);
     },
 
     closeSidebar: () => {
+      if (!elements.sidebar) return;
+
       elements.sidebar.classList.remove('active');
-      setTimeout(() => elements.sidebar.classList.add('hidden'), 150);
+      if (elements.sidebarOverlay) {
+        elements.sidebarOverlay.classList.remove('active');
+      }
+
+      setTimeout(() => {
+        elements.sidebar.classList.add('hidden');
+        if (elements.sidebarOverlay) {
+          elements.sidebarOverlay.classList.add('hidden');
+        }
+      }, 320);
+
       document.body.style.overflow = '';
+
+      // Restore focus to previous element if possible
+      if (lastFocusedElementBeforeSidebar && typeof lastFocusedElementBeforeSidebar.focus === 'function') {
+        lastFocusedElementBeforeSidebar.focus();
+      }
+      lastFocusedElementBeforeSidebar = null;
     }
   };
 
@@ -402,10 +449,30 @@
     });
 
     // Sidebar
-    elements.sidebarToggle.addEventListener('click', handlers.openSidebar);
-    elements.sidebarClose.addEventListener('click', handlers.closeSidebar);
+    if (elements.sidebarToggle) {
+      elements.sidebarToggle.addEventListener('click', handlers.openSidebar);
+    }
+    if (elements.sidebarClose) {
+      elements.sidebarClose.addEventListener('click', handlers.closeSidebar);
+    }
+    if (elements.sidebarOverlay) {
+      elements.sidebarOverlay.addEventListener('click', handlers.closeSidebar);
+    }
+    if (elements.sidebarOpenSettings) {
+      elements.sidebarOpenSettings.addEventListener('click', () => {
+        handlers.closeSidebar();
+        handlers.openMiniPopup(elements.settingsPopup);
+      });
+    }
+    if (elements.sidebarOpenNotifications) {
+      elements.sidebarOpenNotifications.addEventListener('click', () => {
+        handlers.closeSidebar();
+        handlers.openMiniPopup(elements.notificationPopup);
+      });
+    }
 
     document.addEventListener('mousedown', (e) => {
+      if (!elements.sidebar || !elements.sidebarToggle) return;
       if (elements.sidebar.classList.contains('active') && 
           !elements.sidebar.contains(e.target) && 
           !elements.sidebarToggle.contains(e.target)) {
@@ -414,8 +481,35 @@
     });
 
     document.addEventListener('keydown', (e) => {
+      if (!elements.sidebar) return;
+
+      // ESC to close
       if (e.key === 'Escape' && elements.sidebar.classList.contains('active')) {
         handlers.closeSidebar();
+        return;
+      }
+
+      // Focus trap with Tab
+      if (e.key === 'Tab' && elements.sidebar.classList.contains('active')) {
+        const focusable = Array.from(elements.sidebar.querySelectorAll(sidebarFocusableSelector))
+          .filter(el => el.offsetParent !== null);
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const current = document.activeElement;
+
+        if (e.shiftKey) {
+          if (current === first || !elements.sidebar.contains(current)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (current === last || !elements.sidebar.contains(current)) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     });
 
