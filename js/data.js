@@ -18,7 +18,7 @@ const appData = [
   { id: 14, name: "Create Img", description: "AI Image Generator.", icon: "https://text2.pro/app/create-img/apple-touch-icon.png", url: "https://text2.pro/app/create-img" },
   { id: 15, name: "Weather", description: "Check weather.", icon: "https://text2.pro/app/weather/apple-touch-icon.png", url: "https://text2.pro/app/weather" },
   { id: 16, name: "Game Chess", description: "Play game chess.", icon: "https://text2.pro/app/chess/apple-touch-icon.png", url: "https://text2.pro/app/chess/" },
-  { id: 17, name: "Countday", description: "countday your time.", icon: "https://text2.pro/app/countdays/apple-touch-icon.png", url: "https://text2.pro/app/countdays/" },
+  { id: 17, name: "Countday", description: "countday your time.", icon: "https://text2.pro/app/count/apple-touch-icon.png", url: "https://text2.pro/app/count/" },
   { id: 18, name: "Game Caro", description: "Play Caro.", icon: "https://text2.pro/app/caro/apple-touch-icon.png", url: "https://text2.pro/app/caro" }
 ];
 
