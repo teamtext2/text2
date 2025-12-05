@@ -97,15 +97,29 @@
   /* Header */
   .app-title {
     padding: 22px 20px;
-    font-size: 26px;
-    font-weight: 700;
-    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     background: linear-gradient(135deg, #1E1E1E, #242424);
     backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
     z-index: 20;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
   }
 
   /* Events list */
@@ -362,11 +376,11 @@
     position: absolute;
     top: 15px;
     right: 15px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     border: none;
-    background: rgba(212, 70, 107, 0.2);
+    background: rgba(212, 70, 107, 0.1);
     color: #d4466b;
     font-size: 16px;
     cursor: pointer;
@@ -378,20 +392,35 @@
   }
 
   .delete-btn:hover {
-    background: rgba(212, 70, 107, 0.3);
+    background: rgba(212, 70, 107, 0.2);
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   .delete-btn:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
+  }
+
+  .delete-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .delete-btn:hover svg {
+    transform: scale(1.1);
   }
 </style>
 </head>
 
 <body>
 
-<header class="app-title">Text2 - Countday</header>
+<header class="app-title">
+  <a href="https://text2.pro" class="logo-link">
+    <img src="https://text2.pro/assets/logo.png" alt="Text2 Logo" class="logo">
+    <span>Text2 - Countday</span>
+  </a>
+</header>
 
 <div id="events-container" class="events"></div>
 
@@ -490,10 +519,19 @@
         <div class="event-date">${evDate.toDateString()}</div>
         <div class="event-number" style="color:${ev.color}">${displayNumber}</div>
         <div class="days-text">${label}</div>
+        <button class="delete-btn" onclick="deleteEvent(${events.indexOf(ev)})">✕</button>
       `;
 
       eventsContainer.appendChild(card);
     });
+  }
+
+  function deleteEvent(index) {
+    if (confirm("Are you sure you want to delete this event?")) {
+      events.splice(index, 1);
+      localStorage.setItem("events", JSON.stringify(events));
+      renderEvents();
+    }
   }
 
   renderEvents();
