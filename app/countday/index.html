@@ -356,6 +356,36 @@
   .close:hover {
     color: #ffffff;
   }
+
+  /* Delete button styles */
+  .delete-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(212, 70, 107, 0.2);
+    color: #d4466b;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+  }
+
+  .delete-btn:hover {
+    background: rgba(212, 70, 107, 0.3);
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  .delete-btn:active {
+    transform: scale(0.9);
+  }
 </style>
 </head>
 
