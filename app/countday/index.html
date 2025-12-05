@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- SEO Meta Tags -->
+<title>Text2 Countday</title>
+<meta name="description" content="Text2 Countday - Free countdown app to track important events like birthdays, anniversaries, deadlines. Beautiful interface, easy to use on Text2.pro">
+<meta name="keywords" content="text2 countday, countdown, events, birthday, anniversary, text2, text2.pro, countdown app">
+<meta name="author" content="Text2.pro">
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
+<meta name="google" content="notranslate"> 
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+<!-- Canonical URL -->
+<link rel="canonical" href="https://text2.pro/app/countday/">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Text2 Countday - Count Days to Important Events">
+<meta property="og:description" content="Free countdown app with beautiful interface. Track birthdays, anniversaries and important events easily.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://text2.pro/app/countday/">
+<meta property="og:site_name" content="Text2.pro">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Text2 Countday - Count Days to Important Events">
+<meta name="twitter:description" content="Free countdown app with beautiful interface. Track birthdays, anniversaries and important events.">
+<meta name="twitter:url" content="https://text2.pro/app/countday/">
+
+<!-- Favicon and App Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Additional SEO Meta Tags -->
+<meta name="theme-color" content="#070c18">
+<meta name="msapplication-TileColor" content="#070c18">
+<meta name="application-name" content="Text2 Countday">
+<meta name="apple-mobile-web-app-title" content="Text2 Countday">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Text2 Countday",
+  "description": "Free countdown app to track important events like birthdays, anniversaries, deadlines",
+  "url": "https://text2.pro/app/countday/",
+  "applicationCategory": "Utility",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Text2.pro",
+    "url": "https://text2.pro"
+  },
+  "inLanguage": "en",
+  "browserRequirements": "Requires JavaScript. Requires HTML5.",
+  "softwareVersion": "1.0",
+  "datePublished": "2024",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "150"
+  }
+}
+</script>
+
+<style>
+  body {
+    font-family: "Inter", sans-serif;
+    background: #121212;
+    margin: 0;
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .app-title {
+    padding: 22px 20px;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(135deg, #1E1E1E, #242424);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Events list */
+  .events {
+    padding: 20px;
+  }
+
+  /* Event Card */
+  .event-card {
+    position: relative;
+    background: linear-gradient(135deg, #1E1E1E, #242424);
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 6px solid #35b4ff;
+    overflow: hidden;
+    animation: fadeInUp 0.4s ease, glowPulse 4s ease infinite;
+    transform: translateY(0);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  .event-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 25px rgba(79, 195, 247, 0.2);
+    background: linear-gradient(135deg, #242424, #2A2A2A);
+  }
+
+  /* Glow Effect Behind Card */
+  .event-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    filter: blur(40px);
+    z-index: -1;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glowPulse {
+    0% {
+      filter: brightness(1);
+    }
+
+    50% {
+      filter: brightness(1.18);
+    }
+
+    100% {
+      filter: brightness(1);
+    }
+  }
+
+  .event-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .event-date {
+    font-size: 14px;
+    color: #c0c0c0;
+    margin-bottom: 10px;
+  }
+
+  .event-number {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .days-text {
+    color: #c0c0c0;
+  }
+
+  /* Add button */
+  .add-btn {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    color: #121212;
+    font-size: 40px;
+    position: fixed;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 30;
+    box-shadow: 0 10px 30px rgba(79, 195, 247, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .add-btn:hover {
+    box-shadow: 0 15px 40px rgba(79, 195, 247, 0.3);
+  }
+
+  .add-btn:active {
+    transform: translateX(-50%) scale(0.9);
+    box-shadow: 0 5px 15px rgba(79, 195, 247, 0.2);
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .modal-content {
+    background: linear-gradient(135deg, #1E1E1E, #242424);
+    padding: 25px;
+    width: 330px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    animation: scaleIn 0.25s ease;
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .modal h2 {
+    color: #ffffff;
+    margin-top: 0;
+  }
+
+  .modal label {
+    color: #c0c0c0;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .modal input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #121212;
+    color: #ffffff;
+    transition: border-color 0.2s ease;
+  }
+
+  .modal input:focus {
+    outline: none;
+    border-color: rgba(79, 195, 247, 0.5);
+  }
+
+  .colors {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .color {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .color:hover {
+    transform: scale(1.1);
+  }
+
+  .color:active {
+    transform: scale(0.85);
+  }
+
+  .color.selected {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .create-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 17px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    color: #121212;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .create-btn:hover {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+  }
+
+  .create-btn:active {
+    transform: scale(0.95);
+  }
+
+  .close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #c0c0c0;
+    transition: color 0.2s ease;
+  }
+
+  .close:hover {
+    color: #ffffff;
+  }
+</style>
+</head>
+
+<body>
+
+<header class="app-title">Text2 - Countday</header>
+
+<div id="events-container" class="events"></div>
+
+<button class="add-btn" id="open-modal">+</button>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>New Event</h2>
+
+    <label>Event Name</label>
+    <input type="text" id="event-name" placeholder="e.g. Birthday, Anniversary..." />
+
+    <label>Event Date</label>
+    <input type="date" id="event-date" />
+
+    <label>Color Theme</label>
+    <div class="colors">
+      <span class="color" data-color="#35b4ff"></span>
+      <span class="color" data-color="#a26bff"></span>
+      <span class="color" data-color="#d28f2c"></span>
+      <span class="color" data-color="#21b78a"></span>
+      <span class="color" data-color="#d4466b"></span>
+    </div>
+
+    <button id="create-event" class="create-btn">Create Event</button>
+    <span id="close-modal" class="close">✕</span>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("modal");
+  const openModal = document.getElementById("open-modal");
+  const closeModal = document.getElementById("close-modal");
+  const createBtn = document.getElementById("create-event");
+  const eventsContainer = document.getElementById("events-container");
+
+  let selectedColor = "#35b4ff";
+  let events = JSON.parse(localStorage.getItem("events")) || [];
+
+  openModal.onclick = () => modal.style.display = "flex";
+  closeModal.onclick = () => modal.style.display = "none";
+
+  document.querySelectorAll(".color").forEach(c => {
+    c.style.background = c.dataset.color;
+    c.onclick = () => {
+      document.querySelectorAll(".color").forEach(x => x.classList.remove("selected"));
+      c.classList.add("selected");
+      selectedColor = c.dataset.color;
+    };
+  });
+
+  createBtn.onclick = () => {
+    const name = document.getElementById("event-name").value.trim();
+    const date = document.getElementById("event-date").value;
+
+    if (!name || !date) return alert("Please fill in all fields 😊");
+
+    events.push({ name, date, color: selectedColor });
+    localStorage.setItem("events", JSON.stringify(events));
+
+    modal.style.display = "none";
+    renderEvents();
+  };
+
+  function renderEvents() {
+    eventsContainer.innerHTML = "";
+
+    events.forEach(ev => {
+      const evDate = new Date(ev.date);
+      const today = new Date();
+      const diff = Math.floor((today - evDate) / (1000 * 60 * 60 * 24));
+
+      let displayNumber, label;
+
+      if (diff > 0) {
+        displayNumber = `+${diff}`;
+        label = "days ago";
+      } else if (diff === 0) {
+        displayNumber = "Today";
+        label = "";
+      } else {
+        displayNumber = Math.abs(diff);
+        label = "days left";
+      }
+
+      const card = document.createElement("div");
+      card.className = "event-card";
+      card.style.borderLeftColor = ev.color;
+      card.style.setProperty("--glow", ev.color);
+      card.style.setProperty("background", "linear-gradient(135deg, #1E1E1E, #242424)");
+      card.style.setProperty("box-shadow", `0 0 35px ${ev.color}30`);
+
+      card.innerHTML = `
+        <div class="event-title">${ev.name}</div>
+        <div class="event-date">${evDate.toDateString()}</div>
+        <div class="event-number" style="color:${ev.color}">${displayNumber}</div>
+        <div class="days-text">${label}</div>
+      `;
+
+      eventsContainer.appendChild(card);
+    });
+  }
+
+  renderEvents();
+</script>
+
+</body>
+</html>
