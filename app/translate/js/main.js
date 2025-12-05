@@ -1,246 +1,269 @@
-    // --- CONSTANTS & CONFIG ---
-    const workerUrl = "https://cloudflare-llm.text2team.workers.dev"; 
-    const MAX_CHARS = 500;
-    const supportedLanguages = {
-        'auto': 'Auto Detect',
-        'vi': 'Vietnamese',
-        'en': 'English',
-        'zh': 'Chinese',
-        'ja': 'Japanese',
-        'ko': 'Korean',
-        'fr': 'French',
-        'de': 'German',
-        'es': 'Spanish',
-        'ru': 'Russian',
-        'th': 'Thai',
-        'id': 'Indonesian',
-    };
+/**
+ * Text2 Translate - Ultra Optimized Version
+ * Author: Text2 Team
+ * Optimization: Short Prompt, Faster Token Usage, Safer Output
+ */
 
-    // --- DOM ELEMENTS ---
-    const elements = {
-        input: document.getElementById('inputText'),
-        output: document.getElementById('outputText'),
-        btnTranslate: document.getElementById('translateButton'),
-        btnSwap: document.getElementById('swapButton'),
-        btnCopy: document.getElementById('copyButton'),
-        btnClear: document.getElementById('clearButton'),
-        selectSource: document.getElementById('sourceLanguageSelect'),
-        selectTarget: document.getElementById('targetLanguageSelect'),
-        displaySource: document.getElementById('sourceLangDisplay'),
-        displayTarget: document.getElementById('targetLangDisplay'),
-        charCount: document.getElementById('charCount'),
-        spinner: document.getElementById('loadingSpinner'),
-        btnText: document.getElementById('buttonText'),
-        btnIcon: document.getElementById('buttonIcon'),
-        errorMsg: document.getElementById('errorMessage'),
-    };
+// --- CONSTANTS & CONFIG ---
+const WORKER_URL = "https://cloudflare-llm.text2team.workers.dev";
+const MAX_CHARS = 1000;
+const TIMEOUT_MS = 15000;
 
-    // --- INITIALIZATION ---
-    function init() {
-        // Populate Selects
-        populateSelect(elements.selectSource, true);
-        populateSelect(elements.selectTarget, false);
-        
-        // Set Defaults
-        elements.selectSource.value = 'vi';
-        elements.selectTarget.value = 'en';
-        updateDisplays();
+const supportedLanguages = {
+    'auto': 'Auto Detect',
+    'vi': 'Vietnamese',
+    'en': 'English',
+    'zh': 'Chinese (Simplified)',
+    'ja': 'Japanese',
+    'ko': 'Korean',
+    'fr': 'French',
+    'de': 'German',
+    'es': 'Spanish',
+    'ru': 'Russian',
+    'th': 'Thai',
+    'id': 'Indonesian',
+};
 
-        // Add Event Listeners
-        setupListeners();
-        
-        // Mobile viewport fix
-        setAppHeight();
-        window.addEventListener('resize', setAppHeight);
+// --- DOM ELEMENTS ---
+const elements = {
+    input: document.getElementById('inputText'),
+    output: document.getElementById('outputText'),
+    btnTranslate: document.getElementById('translateButton'),
+    btnSwap: document.getElementById('swapButton'),
+    btnCopy: document.getElementById('copyButton'),
+    btnClear: document.getElementById('clearButton'),
+    selectSource: document.getElementById('sourceLanguageSelect'),
+    selectTarget: document.getElementById('targetLanguageSelect'),
+    displaySource: document.getElementById('sourceLangDisplay'),
+    displayTarget: document.getElementById('targetLangDisplay'),
+    charCount: document.getElementById('charCount'),
+    spinner: document.getElementById('loadingSpinner'),
+    btnText: document.getElementById('buttonText'),
+    btnIcon: document.getElementById('buttonIcon'),
+    errorMsg: document.getElementById('errorMessage'),
+};
+
+// --- INITIALIZATION ---
+function init() {
+    populateSelect(elements.selectSource, true);
+    populateSelect(elements.selectTarget, false);
+
+    elements.selectSource.value = 'vi';
+    elements.selectTarget.value = 'en';
+    updateDisplays();
+
+    setupListeners();
+    setAppHeight();
+}
+
+// --- HELPERS ---
+function populateSelect(selectElement, includeAuto) {
+    if (!selectElement) return;
+    selectElement.innerHTML = '';
+    const fragment = document.createDocumentFragment();
+    for (const [code, name] of Object.entries(supportedLanguages)) {
+        if (!includeAuto && code === 'auto') continue;
+        const option = document.createElement('option');
+        option.value = code;
+        option.textContent = name;
+        fragment.appendChild(option);
     }
+    selectElement.appendChild(fragment);
+}
 
-    function populateSelect(selectElement, includeAuto) {
-        const fragment = document.createDocumentFragment();
-        for (const [code, name] of Object.entries(supportedLanguages)) {
-            if (!includeAuto && code === 'auto') continue;
-            const option = document.createElement('option');
-            option.value = code;
-            option.textContent = name;
-            fragment.appendChild(option);
-        }
-        selectElement.appendChild(fragment);
+function setAppHeight() {
+    document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+}
+
+function updateDisplays() {
+    if (elements.displaySource)
+        elements.displaySource.textContent = elements.selectSource.options[elements.selectSource.selectedIndex].text;
+
+    if (elements.displayTarget)
+        elements.displayTarget.textContent = elements.selectTarget.options[elements.selectTarget.selectedIndex].text;
+}
+
+function showError(msg) {
+    if (!elements.errorMsg) return alert(msg);
+    elements.errorMsg.textContent = msg;
+    elements.errorMsg.classList.remove('hidden');
+    elements.errorMsg.style.display = 'block';
+    setTimeout(() => {
+        elements.errorMsg.style.display = 'none';
+        elements.errorMsg.classList.add('hidden');
+    }, 5000);
+}
+
+function toggleLoading(isLoading) {
+    if (!elements.btnTranslate) return;
+    elements.btnTranslate.disabled = isLoading;
+
+    if (isLoading) {
+        elements.spinner?.classList.remove('hidden');
+        elements.spinner.style.display = 'block';
+        elements.btnText.style.display = 'none';
+        elements.btnIcon.style.display = 'none';
+        elements.btnTranslate.classList.add('opacity-75', 'cursor-wait');
+    } else {
+        elements.spinner?.classList.add('hidden');
+        elements.spinner.style.display = 'none';
+        elements.btnText.style.display = 'block';
+        elements.btnIcon.style.display = 'block';
+        elements.btnTranslate.classList.remove('opacity-75', 'cursor-wait');
     }
+}
 
-    function setupListeners() {
-        // Language Changes
-        elements.selectSource.addEventListener('change', updateDisplays);
-        elements.selectTarget.addEventListener('change', updateDisplays);
+// --- SHORT & SAFE PROMPT ---
+function generateSmartPrompt(sourceLang, targetLang, text) {
+    return `
+Translate from ${sourceLang} to ${targetLang}.
+Use ONLY the official writing system of ${targetLang}.
+No romanization, no phonetic transcription, no explanations.
+Output only the final translation:
 
-        // Swap
-        elements.btnSwap.addEventListener('click', handleSwap);
+${text}
+    `.trim();
+}
 
-        // Text Input
-        elements.input.addEventListener('input', handleInput);
-        
-        // Clear
-        elements.btnClear.addEventListener('click', () => {
-            elements.input.value = '';
-            elements.output.value = '';
-            handleInput();
-            elements.input.focus();
+// --- CLEAN RESPONSE ---
+function cleanResponse(rawText) {
+    if (!rawText) return "";
+
+    let cleaned = rawText;
+    cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/gi, '');
+    cleaned = cleaned.replace(/^```[a-z]*\n/i, '').replace(/\n```$/i, '');
+    cleaned = cleaned.replace(/Here is the translation:?/i, '');
+    cleaned = cleaned.replace(/Translation:?/i, '');
+    cleaned = cleaned.trim();
+
+    return cleaned;
+}
+
+// --- EVENT LISTENERS ---
+function setupListeners() {
+    if (elements.input) {
+        elements.input.addEventListener('input', () => {
+            const len = elements.input.value.length;
+            elements.charCount.textContent = `${len}/${MAX_CHARS}`;
+            elements.charCount.classList.toggle('text-red-500', len > MAX_CHARS);
         });
 
-        // Copy
-        elements.btnCopy.addEventListener('click', handleCopy);
-
-        // Translate Action
-        elements.btnTranslate.addEventListener('click', handleTranslate);
-        
-        // Ctrl+Enter Shortcut
         elements.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                elements.btnTranslate.click();
+                e.preventDefault();
+                handleTranslate();
             }
         });
     }
 
-    // --- LOGIC FUNCTIONS ---
+    elements.selectSource.addEventListener('change', updateDisplays);
+    elements.selectTarget.addEventListener('change', updateDisplays);
 
-    function setAppHeight() {
-        document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    if (elements.btnSwap) {
+        elements.btnSwap.addEventListener('click', () => {
+            const oldSrc = elements.selectSource.value;
+            const oldTgt = elements.selectTarget.value;
+
+            elements.btnSwap.style.transition = 'transform 0.3s ease';
+            elements.btnSwap.style.transform = 'rotate(180deg)';
+            setTimeout(() => elements.btnSwap.style.transform = 'rotate(0deg)', 300);
+
+            if (oldSrc !== 'auto') {
+                elements.selectSource.value = oldTgt;
+                elements.selectTarget.value = oldSrc;
+
+                const tmp = elements.input.value;
+                elements.input.value = elements.output.value;
+                elements.output.value = tmp;
+                elements.input.dispatchEvent(new Event('input'));
+            } else {
+                elements.selectSource.value = oldTgt;
+            }
+            updateDisplays();
+        });
     }
 
-    function updateDisplays() {
-        const sText = elements.selectSource.options[elements.selectSource.selectedIndex].text;
-        const tText = elements.selectTarget.options[elements.selectTarget.selectedIndex].text;
-        
-        elements.displaySource.textContent = sText;
-        elements.displayTarget.textContent = tText;
+    elements.btnTranslate.addEventListener('click', handleTranslate);
+
+    if (elements.btnCopy) {
+        elements.btnCopy.addEventListener('click', async () => {
+            const text = elements.output.value;
+            if (!text) return;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                elements.btnCopy.classList.add('text-green-400');
+                setTimeout(() => elements.btnCopy.classList.remove('text-green-400'), 1500);
+            } catch {
+                showError("Could not copy text.");
+            }
+        });
     }
 
-    function handleSwap() {
-        const oldSource = elements.selectSource.value;
-        const oldTarget = elements.selectTarget.value;
-
-        // Animation for swap button
-        elements.btnSwap.style.transform = 'rotate(180deg)';
-        setTimeout(() => elements.btnSwap.style.transform = 'rotate(0deg)', 300);
-
-        if (oldSource !== 'auto') {
-            elements.selectSource.value = oldTarget;
-            elements.selectTarget.value = oldSource;
-            
-            // Swap content
-            const tempText = elements.input.value;
-            elements.input.value = elements.output.value;
-            elements.output.value = tempText;
-            
-            handleInput(); // Update char count
-        } else {
-            // If auto, just set source to target's value
-            elements.selectSource.value = oldTarget;
-        }
-        updateDisplays();
+    if (elements.btnClear) {
+        elements.btnClear.addEventListener('click', () => {
+            elements.input.value = '';
+            elements.output.value = '';
+            elements.input.focus();
+            elements.input.dispatchEvent(new Event('input'));
+        });
     }
 
-    function handleInput() {
-        const len = elements.input.value.length;
-        elements.charCount.textContent = `${len}/${MAX_CHARS}`;
-        
-        // Toggle Clear Button
-        elements.btnClear.style.display = len > 0 ? 'block' : 'none';
+    window.addEventListener('resize', setAppHeight);
+}
 
-        // Validation Visuals
-        if (len > MAX_CHARS) {
-            elements.charCount.classList.add('text-red-500');
-            elements.input.value = elements.input.value.substring(0, MAX_CHARS);
-        } else {
-            elements.charCount.classList.remove('text-red-500');
-        }
+// --- API CORE ---
+async function handleTranslate() {
+    const text = elements.input.value.trim();
+    if (!text) {
+        showError("Please enter text to translate!");
+        return elements.input.focus();
     }
 
-    async function handleCopy() {
-        const text = elements.output.value;
-        if (!text) return showError("Nothing to copy!");
-        
-        try {
-            await navigator.clipboard.writeText(text);
-            const originalIcon = elements.btnCopy.innerHTML;
-            // Success Icon (Checkmark)
-            elements.btnCopy.innerHTML = `<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-            elements.btnCopy.classList.add('bg-green-500/10', 'border-green-500/50');
-            
-            setTimeout(() => {
-                elements.btnCopy.innerHTML = originalIcon;
-                elements.btnCopy.classList.remove('bg-green-500/10', 'border-green-500/50');
-            }, 1500);
-        } catch (err) {
-            showError("Failed to copy");
-        }
+    if (text.length > MAX_CHARS)
+        return showError(`Text too long! Max ${MAX_CHARS} characters.`);
+
+    if (window.innerWidth < 768) elements.input.blur();
+
+    toggleLoading(true);
+    elements.output.value = '';
+
+    const sourceName = elements.selectSource.options[elements.selectSource.selectedIndex].text;
+    const targetName = elements.selectTarget.options[elements.selectTarget.selectedIndex].text;
+
+    const prompt = generateSmartPrompt(sourceName, targetName, text);
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+        const response = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt }),
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) throw new Error(`Server Error: ${response.status}`);
+
+        const data = await response.json();
+        let raw = data.response || data.reply || data.result || "";
+
+        if (typeof raw === 'object') raw = raw.response || JSON.stringify(raw);
+
+        const finalText = cleanResponse(raw);
+        if (!finalText) throw new Error("Empty translation received");
+
+        elements.output.value = finalText;
+
+    } catch (err) {
+        if (err.name === 'AbortError') showError("Request timed out.");
+        else showError("Translation failed.");
+    } finally {
+        toggleLoading(false);
     }
+}
 
-    function showError(msg) {
-        elements.errorMsg.textContent = msg;
-        elements.errorMsg.classList.remove('hidden');
-        elements.errorMsg.style.opacity = '1';
-        setTimeout(() => {
-            elements.errorMsg.style.opacity = '0';
-            setTimeout(() => elements.errorMsg.classList.add('hidden'), 300);
-        }, 3000);
-    }
-
-    function toggleLoading(isLoading) {
-        elements.btnTranslate.disabled = isLoading;
-        if (isLoading) {
-            elements.spinner.style.display = 'block';
-            elements.btnText.style.display = 'none';
-            elements.btnIcon.style.display = 'none';
-            elements.btnTranslate.classList.add('opacity-80', 'cursor-wait');
-        } else {
-            elements.spinner.style.display = 'none';
-            elements.btnText.style.display = 'block';
-            elements.btnIcon.style.display = 'block';
-            elements.btnTranslate.classList.remove('opacity-80', 'cursor-wait');
-        }
-    }
-
-    // --- API LOGIC ---
-    async function handleTranslate() {
-        const text = elements.input.value.trim();
-        if (!text) return showError("Please enter some text");
-        
-        // Dismiss Keyboard on Mobile
-        elements.input.blur();
-
-        toggleLoading(true);
-        elements.output.value = '';
-
-        const sText = elements.selectSource.value === 'auto' 
-            ? 'detected language' 
-            : elements.selectSource.options[elements.selectSource.selectedIndex].text;
-        const tText = elements.selectTarget.options[elements.selectTarget.selectedIndex].text;
-
-        const prompt = `translate this text from ${sText} to ${tText} with context-aware natural language translation style and only respond with the result, respond in that country's language, no additional explanation, only the translated text, translate: (${text})`;
-
-        try {
-            const response = await fetch(workerUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt })
-            });
-
-            if (!response.ok) throw new Error("Network response was not ok");
-
-            const data = await response.json();
-            let translatedText = data?.reply?.response || data?.reply || "Translation failed";
-            
-            // Cleanup think tags if any
-            translatedText = translatedText.replace(/<think>.*?<\/think>/gs, '').trim();
-            
-            elements.output.value = translatedText;
-
-        } catch (error) {
-            console.error(error);
-            showError("Connection failed. Try again.");
-        } finally {
-            toggleLoading(false);
-        }
-    }
-
-    // Run Init
-    document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', init);
