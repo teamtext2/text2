@@ -1,317 +1,197 @@
-const KEY = 'simple_notes_v1';
-let notes = [];
-let editingId = null;
+  // Colors Palette
+  const COLORS = [
+    { bg: "#35b4ff", name: "Blue" },
+    { bg: "#a26bff", name: "Purple" },
+    { bg: "#ff6b6b", name: "Red" },
+    { bg: "#2bcbba", name: "Teal" },
+    { bg: "#fd9644", name: "Orange" },
+    { bg: "#4b6584", name: "Grey" }
+  ];
 
-// DOM ELEMENTS MAPPING
-const dom = {
-  list: document.getElementById('view-list'),
-  editor: document.getElementById('view-editor'),
-  notesContainer: document.getElementById('notesContainer'),
-  titleInput: document.getElementById('note-title'),
-  bodyInput: document.getElementById('note-body'),
-  emptyMsg: document.getElementById('emptyMsg'),
-  search: document.getElementById('searchInput'),
-  exportSheet: document.getElementById('exportSheet'),
-  colorSheet: document.getElementById('colorSheet')
-};
+  // State
+  let notes = JSON.parse(localStorage.getItem("text2-notes-v2")) || [];
+  let currentColor = COLORS[0].bg;
+  let editingId = null; // Track which note is being edited
 
-// --- INIT ---
-function load() {
-  try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e) { notes = []; }
-  renderNotesList();
-}
+  // DOM Elements
+  const container = document.getElementById("notes-grid");
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modal-title");
+  const fab = document.getElementById("fab");
+  const closeBtn = document.getElementById("close-modal");
+  const saveBtn = document.getElementById("save");
+  const titleInput = document.getElementById("title");
+  const contentInput = document.getElementById("content");
+  const colorBar = document.querySelector(".color-bar");
 
-function saveToStorage() { localStorage.setItem(KEY, JSON.stringify(notes)); }
+  // --- UI Functions ---
 
-function makeId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+  function initColors() {
+    colorBar.innerHTML = "";
+    COLORS.forEach(c => {
+      const div = document.createElement("div");
+      div.className = `color-opt ${c.bg === currentColor ? 'selected' : ''}`;
+      div.style.backgroundColor = c.bg;
+      div.onclick = () => {
+        document.querySelectorAll(".color-opt").forEach(el => el.classList.remove("selected"));
+        div.classList.add("selected");
+        currentColor = c.bg;
+      };
+      colorBar.appendChild(div);
+    });
+  }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-// --- NAVIGATION & VIEW LOGIC ---
-function gotoEditor(noteId = null) {
-  editingId = noteId;
-  
-  if (noteId) {
-    const n = notes.find(x => x.id === noteId);
-    if (n) {
-      dom.titleInput.value = n.title;
-      dom.bodyInput.innerHTML = n.body;
+  function toggleModal(show) {
+    if (show) {
+      modal.style.display = "flex";
+      setTimeout(() => modal.classList.add("show"), 10);
+      titleInput.focus();
+    } else {
+      modal.classList.remove("show");
+      setTimeout(() => {
+        modal.style.display = "none";
+        resetForm(); // Clear form on close
+      }, 300);
     }
-  } else {
-    // New Note
-    dom.titleInput.value = '';
-    dom.bodyInput.innerHTML = '';
   }
 
-  // Animation: Slide Editor In
-  dom.list.classList.remove('view-active');
-  dom.list.classList.add('view-hidden-left');
-  
-  dom.editor.classList.remove('view-hidden-right');
-  dom.editor.classList.add('view-active');
-}
-
-function gotoList() {
-  // Auto-save on back
-  autoSaveNote();
-
-  // Animation: Slide Editor Out
-  dom.editor.classList.remove('view-active');
-  dom.editor.classList.add('view-hidden-right');
-
-  dom.list.classList.remove('view-hidden-left');
-  dom.list.classList.add('view-active');
-  
-  editingId = null;
-  
-  // Hide keyboard
-  document.activeElement.blur();
-}
-
-// --- NOTE OPERATIONS ---
-function saveNote() {
-  const title = dom.titleInput.value.trim();
-  const body = (dom.bodyInput.innerHTML || '').trim();
-  
-  if (!title && !body) return; // Empty, don't save
-
-  if (editingId) {
-    const i = notes.findIndex(n => n.id === editingId);
-    if (i > -1) { 
-      notes[i].title = title; 
-      notes[i].body = body; 
-      notes[i].updated = Date.now(); 
-    }
-  } else {
-    const newId = makeId();
-    notes.unshift({ id: newId, title, body, created: Date.now(), updated: Date.now(), pinned: false });
-    editingId = newId; // Set current editing ID so further edits update this note
-  }
-  saveToStorage();
-  renderNotesList();
-  showToast('Saved');
-}
-
-function autoSaveNote() {
-  const title = dom.titleInput.value.trim();
-  const body = (dom.bodyInput.innerHTML || '').trim();
-  if(!title && !body) return; 
-  
-  // Logic identical to saveNote but no toast
-  if (editingId) {
-    const i = notes.findIndex(n => n.id === editingId);
-    if (i > -1) { notes[i].title = title; notes[i].body = body; notes[i].updated = Date.now(); }
-  } else {
-    notes.unshift({ id: makeId(), title, body, created: Date.now(), updated: Date.now(), pinned: false });
-  }
-  saveToStorage();
-  renderNotesList();
-}
-
-function deleteNote(id) {
-  if (confirm('Delete this note?')) {
-    notes = notes.filter(n => n.id !== id);
-    saveToStorage();
-    renderNotesList();
-    if(editingId === id) gotoList();
-  }
-}
-
-function togglePin(e, id) {
-  e.stopPropagation();
-  const i = notes.findIndex(n => n.id === id);
-  if (i > -1) {
-    notes[i].pinned = !notes[i].pinned;
-    saveToStorage();
-    renderNotesList(dom.search.value);
-  }
-}
-
-// --- RENDER ---
-function renderNotesList(filter = '') {
-  dom.notesContainer.innerHTML = '';
-  const f = filter.toLowerCase().trim();
-  
-  const list = notes.filter(n => {
-    if (!f) return true;
-    return (n.title || '').toLowerCase().includes(f) || (n.body || '').toLowerCase().includes(f);
-  }).sort((a, b) => (b.pinned === true) - (a.pinned === true) || (b.updated || 0) - (a.updated || 0));
-
-  if (list.length === 0) {
-    dom.emptyMsg.style.display = 'flex';
-  } else {
-    dom.emptyMsg.style.display = 'none';
+  function resetForm() {
+    titleInput.value = "";
+    contentInput.value = "";
+    editingId = null;
+    modalTitle.innerText = "New Note";
+    // Reset to first color or keep current choice, defaulting to blue for new
+    currentColor = COLORS[0].bg;
+    initColors();
   }
 
-  list.forEach(n => {
-    // Create stripped text for preview
-    const tmp = document.createElement('DIV');
-    tmp.innerHTML = n.body;
-    const plainText = tmp.textContent || tmp.innerText || 'No additional text';
-
-    const card = document.createElement('div');
-    card.className = 'note-card';
-    card.onclick = () => gotoEditor(n.id);
+  function renderNotes() {
+    container.innerHTML = "";
     
-    // HTML Structure for Card
-    card.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div class="card-title" style="${!n.title ? 'color:var(--text-muted);font-style:italic':''}">${n.title || 'Untitled Note'}</div>
-        ${n.pinned ? '<ion-icon name="pin" style="color:var(--primary);font-size:14px;"></ion-icon>' : ''}
-      </div>
-      <div class="card-preview">${plainText.substring(0, 80)}</div>
-      <div class="card-meta">
-        <span>${new Date(n.updated).toLocaleDateString()}</span>
-        <div class="card-actions">
-           <button class="btn-icon mini-btn" onclick="togglePin(event, '${n.id}')">
-             <ion-icon name="${n.pinned ? 'pin-outline' : 'pin-outline'}"></ion-icon>
-           </button>
-           <button class="btn-icon mini-btn" onclick="event.stopPropagation(); deleteNote('${n.id}')" style="color:#ef4444">
-             <ion-icon name="trash-outline"></ion-icon>
-           </button>
+    if (notes.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>Nothing here yet? 🤔</h3>
+          <p>Tap the + button below to write something!</p>
         </div>
-      </div>
-    `;
-    dom.notesContainer.appendChild(card);
-  });
-}
+      `;
+      container.style.display = 'flex';
+      container.style.justifyContent = 'center';
+      return;
+    }
+    
+    container.style.display = 'block';
 
-// --- RICH TEXT HELPERS ---
-function exec(cmd, val=null) { document.execCommand(cmd, false, val); dom.bodyInput.focus(); }
-function formatHeading(level) { document.execCommand('formatBlock', false, `<h${level}>`); dom.bodyInput.focus(); }
+    notes.forEach((note, index) => {
+      const el = document.createElement("div");
+      el.className = "note-card";
+      el.style.setProperty("--note-color", note.color);
+      el.style.animationDelay = `${index * 0.05}s`;
 
-// --- EVENT LISTENERS ---
-
-// FAB & Buttons
-document.getElementById('fab-add').addEventListener('click', () => gotoEditor(null));
-document.getElementById('saveBtn').addEventListener('click', () => { saveNote(); });
-document.getElementById('btn-back').addEventListener('click', gotoList);
-document.getElementById('clearBtn').addEventListener('click', () => { if(confirm('Clear all content?')) dom.bodyInput.innerHTML = ''; });
-
-// Search
-dom.search.addEventListener('input', (e) => renderNotesList(e.target.value));
-
-// Formatting Toolbar
-document.getElementById('btnH1').onclick = () => formatHeading(1);
-document.getElementById('btnH2').onclick = () => formatHeading(2);
-document.getElementById('btnBold').onclick = () => exec('bold');
-document.getElementById('btnItalic').onclick = () => exec('italic');
-document.getElementById('btnUnderline').onclick = () => exec('underline');
-
-// Color Picker
-const colorSheet = document.getElementById('colorSheet');
-document.getElementById('btnColorTrigger').onclick = () => { colorSheet.classList.add('open'); };
-window.setColor = (hex) => { exec('foreColor', hex); colorSheet.classList.remove('open'); };
-document.getElementById('colorInput').onchange = (e) => { exec('foreColor', e.target.value); colorSheet.classList.remove('open'); };
-
-// Image Handling
-document.getElementById('btnImage').onclick = () => document.getElementById('imgInput').click();
-document.getElementById('imgInput').onchange = function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt) {
-    // Insert simple resizable image HTML
-    const html = `<img src="${evt.target.result}" style="max-width:100%;height:auto;margin:10px 0;display:block">`;
-    document.execCommand('insertHTML', false, html);
-    // Re-bind zoom events if needed, but for this mobile version simple full-width is best
-  };
-  reader.readAsDataURL(file);
-  this.value = '';
-};
-
-// Export Sheet Logic
-const exportSheet = document.getElementById('exportSheet');
-document.getElementById('btn-export-trigger').onclick = () => exportSheet.classList.add('open');
-window.closeSheet = (id) => document.getElementById(id).classList.remove('open');
-document.getElementById('deleteCurrentBtn').onclick = () => {
-  closeSheet('exportSheet');
-  if(editingId) deleteNote(editingId);
-};
-
-// Theme Logic
-const themeToggle = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('simple_notes_theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-themeToggle.querySelector('ion-icon').name = savedTheme === 'dark' ? 'sunny-outline' : 'moon-outline';
-
-themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('simple_notes_theme', next);
-  themeToggle.querySelector('ion-icon').name = next === 'dark' ? 'sunny-outline' : 'moon-outline';
-});
-
-// Import Logic
-const fileInput = document.getElementById('file-input');
-document.getElementById('btn-import-trigger').onclick = () => fileInput.click();
-
-fileInput.addEventListener('change', function(event) {
-  const file = this.files[0];
-  if(!file) return;
-  
-  if(file.name.endsWith('.docx')) {
-    const reader = new FileReader();
-    reader.onload = function(loadEvent) {
-      mammoth.convertToHtml({ arrayBuffer: loadEvent.target.result })
-        .then(function(result) {
-          gotoEditor(null); // Open new
-          setTimeout(() => {
-              dom.titleInput.value = file.name.replace('.docx','');
-              dom.bodyInput.innerHTML = result.value;
-          }, 300); // Wait for anim
-        })
-        .catch(err => alert(err));
-    };
-    reader.readAsArrayBuffer(file);
-  } else {
-    alert('Please select a .docx file');
+      el.innerHTML = `
+        <div class="note-indicator"></div>
+        <div class="note-title">${note.title}</div>
+        <div class="note-content">${note.content}</div>
+        <div class="note-footer">
+          <div class="note-date">${note.date}</div>
+          <div class="card-actions">
+            <button class="icon-btn edit" onclick="editNote(${note.id})">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </button>
+            <button class="icon-btn delete" onclick="deleteNote(${note.id})">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </div>
+      `;
+      container.appendChild(el);
+    });
   }
-  this.value = '';
-});
 
-// Export Logic (Wrapped from original)
-function getHtmlForExport() {
-  const t = dom.titleInput.value || 'Untitled';
-  const b = dom.bodyInput.innerHTML;
-  return `
-    <html><head><style>body{font-family:Arial;} img{max-width:100%}</style></head>
-    <body><h1>${t}</h1>${b}</body></html>
-  `;
-}
+  // --- Logic Functions ---
 
-document.getElementById('export-docx').onclick = () => {
-  closeSheet('exportSheet');
-  const content = getHtmlForExport();
-  const converted = window.htmlDocx.asBlob(content);
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(converted);
-  link.download = `${dom.titleInput.value || 'note'}.docx`;
-  link.click();
-};
+  function saveNote() {
+    const title = titleInput.value.trim();
+    const content = contentInput.value.trim();
 
-document.getElementById('export-pdf').onclick = () => {
-  closeSheet('exportSheet');
-  const element = document.createElement('div');
-  element.innerHTML = getHtmlForExport();
-  element.style.padding = '20px';
-  element.style.color = 'black'; // Force black text for PDF
-  element.style.background = 'white'; // Force white bg
+    if (!content && !title) {
+      alert("Please write at least something! 😅");
+      return;
+    }
+
+    if (editingId) {
+      // UPDATE existing note
+      notes = notes.map(n => {
+        if (n.id === editingId) {
+          return {
+            ...n,
+            title: title || "Untitled",
+            content: content,
+            color: currentColor,
+            // Keep original date or update? Let's keep original for now.
+          };
+        }
+        return n;
+      });
+    } else {
+      // CREATE new note
+      const newNote = {
+        id: Date.now(),
+        title: title || "Untitled",
+        content: content,
+        color: currentColor,
+        date: new Date().toLocaleDateString('en-US', {day: 'numeric', month: 'short'})
+      };
+      notes.unshift(newNote);
+    }
+
+    localStorage.setItem("text2-notes-v2", JSON.stringify(notes));
+    toggleModal(false);
+    renderNotes();
+  }
+
+  // Edit Function
+  window.editNote = function(id) {
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+
+    editingId = id;
+    titleInput.value = note.title;
+    contentInput.value = note.content;
+    currentColor = note.color;
+    
+    // Update modal title
+    modalTitle.innerText = "Edit Note";
+    
+    // Update color UI
+    initColors();
+    
+    toggleModal(true);
+  }
+
+  // Delete Function
+  window.deleteNote = function(id) {
+    if(confirm("Are you sure? This will permanently delete the note!")) {
+      notes = notes.filter(n => n.id !== id);
+      localStorage.setItem("text2-notes-v2", JSON.stringify(notes));
+      renderNotes();
+    }
+  }
+
+  // --- Event Listeners ---
+
+  fab.onclick = () => {
+    resetForm(); // Ensure clean state for new note
+    toggleModal(true);
+  };
   
-  html2pdf().set({
-    margin: 10,
-    filename: `${dom.titleInput.value || 'note'}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  }).from(element).save();
-};
+  closeBtn.onclick = () => toggleModal(false);
+  saveBtn.onclick = saveNote;
+  
+  modal.onclick = (e) => {
+    if (e.target === modal) toggleModal(false);
+  }
 
-// Initial Load
-load();
+  // Init
+  initColors();
+  renderNotes();

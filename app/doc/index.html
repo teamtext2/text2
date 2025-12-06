@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  
+  <!-- Primary Meta Tags -->
+  <title>Text2 Doc</title>
+  <meta name="google" content="notranslate"> 
+  <meta name="title" content="Text2 Doc - Free Online Document Editor | Text2.pro">
+  <meta name="description" content="Text2 Doc - Free online document editor with rich text support, DOCX/PDF export. Create and manage documents easily with Text2 Doc from Text2.pro">
+  <meta name="keywords" content="text2 doc, online documents, document editor, text2.pro, doc app, rich text editor, export docx, export pdf, free documents">
+  <meta name="author" content="Text2.pro">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://text2.pro/app/doc/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://text2.pro/app/doc/">
+  <meta property="og:title" content="Text2 Doc - Free Online Document Editor">
+  <meta property="og:description" content="Text2 Doc - Free online document editor with rich text support, DOCX/PDF export. Create and manage documents easily with Text2 Doc from Text2.pro">
+  <meta property="og:image" content="https://text2.pro/app/doc/apple-touch-icon.png">
+  <meta property="og:site_name" content="Text2 Doc">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://text2.pro/app/doc/">
+  <meta property="twitter:title" content="Text2 Doc - Free Online Document Editor">
+  <meta property="twitter:description" content="Text2 Doc - Free online document editor with rich text support, DOCX/PDF export. Create and manage documents easily with Text2 Doc from Text2.pro">
+  <meta property="twitter:image" content="https://text2.pro/app/doc/apple-touch-icon.png">
+  
+  <!-- PWA Manifest & Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Text2 Doc">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="application-name" content="Text2 Doc">
+  <meta name="msapplication-TileColor" content="#6366f1">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text2 Doc",
+    "alternateName": ["Text2 Doc App", "Text2 Doc Application"],
+    "description": "Text2 Doc - Free online document editor with rich text support, DOCX/PDF export. Create and manage documents easily.",
+    "url": "https://text2.pro/app/doc/",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Web Browser",
+    "inLanguage": "en",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Text2.pro",
+      "url": "https://text2.pro"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Text2.pro",
+      "url": "https://text2.pro",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://text2.pro/app/doc/apple-touch-icon.png"
+      }
+    },
+    "screenshot": "https://text2.pro/app/doc/apple-touch-icon.png",
+    "featureList": [
+      "Create rich text documents",
+      "Export DOCX files",
+      "Export PDF files", 
+      "Search documents",
+      "Pin important documents",
+      "Dark/light mode",
+      "Responsive design",
+      "Free document editing",
+      "Text2 Doc online"
+    ],
+    "keywords": "text2 doc, online documents, document editor, doc app, rich text editor"
+  }
+  </script>
+  
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="app">
+  
+  <!-- VIEW: LIST (HOME) -->
+  <div id="view-list" class="view view-active">
+    <header class="header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="https://text2.pro" target="_blank" style="display:flex;align-items:center;text-decoration:none;">
+          <img src="https://text2.pro/favicon.ico" onerror="this.style.display='none'" style="width:24px;height:24px;border-radius:4px;">
+        </a>
+        <span class="header-title">Text2 - Doc</span>
+      </div>
+      <div style="display:flex; gap: 4px;">
+        <button class="btn-icon" id="themeToggle" title="Toggle Theme">
+          <ion-icon name="moon-outline"></ion-icon>
+        </button>
+        <button class="btn-icon" id="btn-import-trigger" title="Open File">
+          <ion-icon name="folder-open-outline"></ion-icon>
+        </button>
+      </div>
+    </header>
+
+    <div class="search-bar-container">
+      <div style="position:relative">
+        <ion-icon name="search-outline" class="search-icon-fixed"></ion-icon>
+        <input type="text" id="searchInput" class="search-input" placeholder="   Search Documents">
+      </div>
+    </div>
+
+    <div id="notesContainer" class="notes-list">
+      <!-- Documents generated here -->
+    </div>
+    
+    <div id="emptyMsg" class="empty-state" style="display:none">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <p>No documents here yet.<br>Tap + to create one.</p>
+    </div>
+
+    <button id="fab-add" class="fab">
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- VIEW: EDITOR -->
+  <div id="view-editor" class="view view-hidden-right">
+    <header class="header">
+      <button class="btn-icon" id="btn-back">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+      <div style="flex:1"></div>
+      <button class="btn-icon" id="btn-export-trigger">
+        <ion-icon name="share-outline"></ion-icon>
+      </button>
+      <button class="btn-icon" id="saveBtn" style="color:var(--primary)">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </button>
+    </header>
+
+    <div class="editor-container">
+      <input id="note-title" class="editor-title-input" placeholder="Document Title">
+      
+      <!-- Horizontal Scrollable Toolbar -->
+      <div class="toolbar-scroll">
+        <button class="tool-btn" id="btnH1">H1</button>
+        <button class="tool-btn" id="btnH2">H2</button>
+        <button class="tool-btn" id="btnBold"><ion-icon name="beer-outline" style="display:none"></ion-icon><b>B</b></button>
+        <button class="tool-btn" id="btnItalic"><i>I</i></button>
+        <button class="tool-btn" id="btnUnderline"><u>U</u></button>
+        <div style="width:1px; background:var(--border); margin:0 4px;"></div>
+        <button class="tool-btn" id="btnImage"><ion-icon name="image-outline"></ion-icon></button>
+        <button class="tool-btn" id="btnColorTrigger"><ion-icon name="color-palette-outline"></ion-icon></button>
+        <button class="tool-btn" id="clearBtn"><ion-icon name="trash-outline"></ion-icon></button>
+      </div>
+
+      <div id="note-body" class="editor-body" contenteditable="true" placeholder="Start typing..."></div>
+    </div>
+  </div>
+
+  <!-- HIDDEN INPUTS -->
+  <input id="file-input" type="file" accept=".docx,.doc" style="display:none" />
+  <input id="imgInput" type="file" accept="image/*" style="display:none" />
+  <input id="colorInput" type="color" style="display:none" />
+
+  <!-- EXPORT/MENU BOTTOM SHEET -->
+  <div class="bottom-sheet-overlay" id="exportSheet">
+    <div class="bottom-sheet">
+      <div style="text-align:center; margin-bottom:16px; font-weight:700; color:var(--text-muted)">Export / Actions</div>
+      <button class="sheet-option" id="export-docx">
+        <ion-icon name="document-text-outline"></ion-icon> Export as DOCX
+      </button>
+      <button class="sheet-option" id="export-pdf">
+        <ion-icon name="document-outline"></ion-icon> Export as PDF
+      </button>
+      <button class="sheet-option" style="color: #ef4444;" id="deleteCurrentBtn">
+        <ion-icon name="trash-outline" style="color: #ef4444;"></ion-icon> Delete this Document
+      </button>
+      <button class="sheet-option" onclick="closeSheet('exportSheet')" style="justify-content:center; border-top:1px solid var(--border); margin-top:10px;">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+  <!-- COLOR PICKER BOTTOM SHEET -->
+  <div class="bottom-sheet-overlay" id="colorSheet">
+    <div class="bottom-sheet">
+      <div style="text-align:center; margin-bottom:16px; font-weight:700; color:var(--text-muted)">Select Color</div>
+      <div class="color-grid">
+        <div class="color-dot" style="background:#000000" onclick="setColor('#000000')"></div>
+        <div class="color-dot" style="background:#dc2626" onclick="setColor('#dc2626')"></div>
+        <div class="color-dot" style="background:#16a34a" onclick="setColor('#16a34a')"></div>
+        <div class="color-dot" style="background:#2563eb" onclick="setColor('#2563eb')"></div>
+        <div class="color-dot" style="background:#ca8a04" onclick="setColor('#ca8a04')"></div>
+        <div class="color-dot" style="background:#9333ea" onclick="setColor('#9333ea')"></div>
+        <div class="color-dot" style="background:conic-gradient(red, yellow, lime, cyan, blue, magenta)" onclick="document.getElementById('colorInput').click()"></div>
+      </div>
+      <button class="sheet-option" onclick="closeSheet('colorSheet')" style="justify-content:center; margin-top:20px;">
+        Close
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">Document Saved</div>
+
+<!-- LIBS -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script src="https://unpkg.com/html-docx-js/dist/html-docx.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+</body>
+</html>
