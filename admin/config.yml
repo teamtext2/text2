@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: teamtext2/text2   # đã sửa đúng repo của em
+  repo: teamtext2/text2
   branch: main
 
 media_folder: "static/uploads"
@@ -11,8 +11,10 @@ collections:
     label: "Bài viết"
     folder: "posts"
     create: true
+    extension: "html"   # ⬅️ CHỈ GHI HTML Ở ĐÂY LÀ XONG
     slug: "{{slug}}"
+    widget: "file"
     fields:
       - { label: "Tiêu đề", name: "title", widget: "string" }
       - { label: "Ngày", name: "date", widget: "datetime" }
-      - { label: "Nội dung", name: "body", widget: "markdown" }
+      - { label: "Nội dung HTML", name: "body", widget: "html" }
