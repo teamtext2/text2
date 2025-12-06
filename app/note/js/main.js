@@ -59,7 +59,7 @@
     titleInput.value = "";
     contentInput.value = "";
     editingId = null;
-    modalTitle.innerText = "New Note";
+    modalTitle.innerText = "Note";
     // Reset to first color or keep current choice, defaulting to blue for new
     currentColor = COLORS[0].bg;
     initColors();
@@ -71,7 +71,7 @@
     if (notes.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
-          <h3>Nothing here yet? 🤔</h3>
+          <h3>Nothing here yet?</h3>
           <p>Tap the + button below to write something!</p>
         </div>
       `;
