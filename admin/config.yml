@@ -1,15 +1,15 @@
 backend:
   name: github
-  repo: text2team/text2   # ví dụ: text2team/text2-website
+  repo: teamtext2/text2   # đã sửa đúng repo của em
   branch: main
 
-media_folder: "static/uploads"     # nơi lưu ảnh trong repo
-public_folder: "/uploads"          # URL công khai
+media_folder: "static/uploads"
+public_folder: "/uploads"
 
 collections:
-  - name: "posts"
+  - name: posts
     label: "Bài viết"
-    folder: "posts"                # thư mục chứa file .md
+    folder: "posts"
     create: true
     slug: "{{slug}}"
     fields:
