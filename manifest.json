@@ -63,7 +63,7 @@
       "url": "https://text2.pro/app/translate/",
       "icons": [
         {
-          "src": "translate.text2.pro/favicon.ico",
+          "src": "text2.pro/app/translate/favicon.ico",
           "sizes": "96x96"
         }
       ]
@@ -84,4 +84,6 @@
     "preferred_width": 400
   }
 } 
+
+
 
