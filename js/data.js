@@ -78,8 +78,8 @@ const partnersData = [
   {
     id: 1,
     name: "05 Production",
-    url: "https://05.text2.pro",
-    icon: "https://05.text2.pro/favicon.ico",
+    url: "https://05.text02.com",
+    icon: "https://05.text02.com/favicon.ico",
     description: "05 Production"
   }
 ];
@@ -88,7 +88,7 @@ const partnersData = [
 const navigationData = [
   {
     name: "APP",
-    url: "https://team.text2.pro/",
+    url: "https://team.text02.com/",
     dataLink: "GAME",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -97,8 +97,8 @@ const navigationData = [
   },
   {
     name: "GAME",
-    url: "https://game.text2.pro",
-    dataLink: "https://game.text2.pro",
+    url: "https://game.text02.com",
+    dataLink: "https://game.text02.com",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="6" width="20" height="12" rx="4" ry="4"></rect>
       <circle cx="8" cy="12" r="1.5"></circle>
@@ -109,8 +109,8 @@ const navigationData = [
   },
   {
     name: "Camera",
-    url: "https://camera.text2.pro",
-    dataLink: "https://camera.text2.pro",
+    url: "https://camera.text02.com",
+    dataLink: "https://camera.text02.com",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
       <circle cx="12" cy="13" r="4"></circle>
@@ -123,7 +123,7 @@ const sidebarData = {
   mainLinks: [
     {
       name: "Text2 - Team",
-      url: "https://team.text2.pro",
+      url: "https://team.text02.com",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -134,7 +134,7 @@ const sidebarData = {
     },
     {
       name: "Gamme",
-      url: "https://game.text2.pro/",
+      url: "https://game.text02.com/",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -143,7 +143,7 @@ const sidebarData = {
     },
     {
       name: "Camera",
-      url: "https://camera.text2.pro/",
+      url: "https://camera.text02.com/",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:linear-gradient(135deg,#1e1e1e,#242424);border-radius:4px;box-shadow:0 1px 6px rgba(0,0,0,0.4);">
         <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
