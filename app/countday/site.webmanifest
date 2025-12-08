@@ -1,5 +1,6 @@
 {
-	"name": "Text2 Countday",
+	"id": "/app/countday/",
+    "name": "Text2 Countday",
 	"short_name": "Countday",
 	"description": "Free countdown app to track birthdays, anniversaries and important events.",
 	"start_url": "/app/countday/",
