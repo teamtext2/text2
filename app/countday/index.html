@@ -43,7 +43,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+<link rel="manifest" href="site.webmanifest">
 
 <!-- Additional SEO Meta Tags -->
 <meta name="theme-color" content="#070c18">
@@ -690,6 +690,17 @@
   }
 
   renderEvents();
+</script>
+
+<!-- Register Service Worker (no caching service worker in this folder) -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('ServiceWorker registered in countday:', reg.scope))
+        .catch(err => console.warn('ServiceWorker registration failed:', err));
+    });
+  }
 </script>
 
 </body>
