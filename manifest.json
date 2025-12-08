@@ -33,25 +33,25 @@
   ],
   "shortcuts": [
     {
-      "name": "Chat AI",
-      "short_name": "Chat",
-      "description": "Open Chat AI",
-      "url": "chat.text2.pro",
+      "name": "Text2 - Doc",
+      "short_name": "Doc",
+      "description": "Open Text2 Doc",
+      "url": "https://text2.pro/app/doc/",
       "icons": [
         {
-          "src": "chat.text2.pro/favicon.ico",
+          "src": "text2.pro/app/doc/favicon.ico",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "note",
-      "short_name": "Doc",
+      "name": "Text2 - note",
+      "short_name": "note",
       "description": "Open note",
-      "url": "/app/note",
+      "url": "https://text2.pro/app/note/",
       "icons": [
         {
-          "src": "note.text2.pro/favicon.ico",
+          "src": "text2.pro/app/note/favicon.ico",
           "sizes": "96x96"
         }
       ]
@@ -60,7 +60,7 @@
       "name": "Translate",
       "short_name": "Translate",
       "description": "Open Translate",
-      "url": "https://translate.text2.pro",
+      "url": "https://text2.pro/app/translate/",
       "icons": [
         {
           "src": "translate.text2.pro/favicon.ico",
