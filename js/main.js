@@ -594,39 +594,72 @@
       }
     });
 
-    // Hard refresh: full cache clear + reload
+    // Hard refresh: attempt to fully clear caches and service workers, then reload with cache-bust
     elements.settingsHardRefresh.addEventListener('click', async () => {
       const btn = elements.settingsHardRefresh;
       btn.disabled = true;
       const original = btn.innerHTML;
       btn.style.background = '#b71c1c';
       btn.innerHTML = 'Đang xóa cache...';
+
       try {
-        // Service worker unregistration removed since the service worker is being removed.
-        // Proceed to clear caches and storage directly.
-        if (window.caches && caches.keys) {
-          const keys = await caches.keys();
-          await Promise.all(keys.map(k => caches.delete(k)));
+        // 1) Try to unregister all service workers so they stop controlling the page
+        if ('serviceWorker' in navigator) {
+          try {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(regs.map(async (reg) => {
+              try { await reg.unregister(); } catch (e) { /* ignore */ }
+            }));
+          } catch (e) {
+            console.warn('ServiceWorker unregister failed', e);
+          }
         }
+
+        // 2) Delete Cache Storage entries
+        if (window.caches && caches.keys) {
+          try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+          } catch (e) {
+            console.warn('Cache deletion failed', e);
+          }
+        }
+
+        // 3) Attempt to remove IndexedDB databases (best effort)
         try {
-          if (indexedDB && typeof indexedDB.databases === 'function') {
+          if (window.indexedDB && typeof indexedDB.databases === 'function') {
             const dbs = await indexedDB.databases();
             await Promise.all((dbs || []).map(db => db && db.name ? new Promise((resolve) => {
               const req = indexedDB.deleteDatabase(db.name);
               req.onsuccess = req.onerror = req.onblocked = () => resolve();
             }) : Promise.resolve()));
           }
-        } catch (_) {}
-        try { localStorage.clear(); } catch (_) {}
-        try { sessionStorage.clear(); } catch (_) {}
+        } catch (e) {
+          console.warn('IndexedDB cleanup failed', e);
+        }
+
+        // 4) Clear storage objects
+        try { localStorage.clear(); } catch (e) { /* ignore */ }
+        try { sessionStorage.clear(); } catch (e) { /* ignore */ }
+
+        // 5) Optionally call any app-level cache clear method
+        try { if (window.pwaInstaller && typeof window.pwaInstaller.clearCache === 'function') await window.pwaInstaller.clearCache(); } catch (_) {}
+
       } catch (e) {
         console.error('Hard refresh error:', e);
       } finally {
         btn.innerHTML = 'Đang tải lại...';
+        // Force a navigation with cache-busting param so browser cannot use HTTP cache.
         setTimeout(() => {
-          const bust = Date.now();
-          const path = window.location.pathname || '/';
-          window.location.replace(`${path}?refresh=${bust}`);
+          try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('_hard_refresh', Date.now().toString());
+            // Use replace to avoid polluting history
+            window.location.replace(url.toString());
+          } catch (e) {
+            // fallback
+            window.location.replace(window.location.pathname + '?_hard_refresh=' + Date.now());
+          }
         }, 300);
       }
     });
