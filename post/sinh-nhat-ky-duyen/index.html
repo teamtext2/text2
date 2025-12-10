@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Kỳ Duyên</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #020202;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* Canvas cho pháo hoa */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Màn hình chờ (Intro) */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1a0b2e 0%, #000000 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out;
+        }
+
+        .btn-start {
+            padding: 20px 50px;
+            font-size: 2rem;
+            background: transparent;
+            color: #ff00de;
+            border: 2px solid #ff00de;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 0 0 20px #ff00de, inset 0 0 20px #ff00de;
+            text-shadow: 0 0 10px #ff00de;
+            transition: all 0.3s;
+            animation: pulse 1.5s infinite;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        .btn-start:hover {
+            background: #ff00de;
+            color: white;
+            box-shadow: 0 0 50px #ff00de, inset 0 0 30px #ff00de;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px #ff00de; }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px #ff00de; }
+            100% { transform: scale(1); box-shadow: 0 0 20px #ff00de; }
+        }
+
+        /* Nội dung chính */
+        #main-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none; /* Ẩn mặc định */
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(255, 0, 222, 0.3);
+            position: relative;
+        }
+
+        .avatar-frame {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 30px;
+            position: relative;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, #ff00de, #00d4ff, #ff00de);
+            background-size: 200% 200%;
+            animation: borderRotate 2s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 0, 222, 0.8);
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #fff;
+        }
+
+        @keyframes borderRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff00de, #00d4ff, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 0, 222, 0.5);
+            line-height: 1.2;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #ddd;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .wish-text {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; }
+            to { text-shadow: 0 0 20px #00d4ff, 0 0 30px #00d4ff, 0 0 40px #00d4ff; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .avatar-frame { width: 160px; height: 160px; margin-bottom: 20px; }
+            .glass-panel { 
+                padding: 25px; 
+                width: 92%;
+                max-height: 85vh; /* Chống tràn màn hình dọc trên điện thoại nhỏ */
+                overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+            }
+            .btn-start {
+                font-size: 1.5rem;
+                padding: 15px 35px;
+                width: 80%;
+            }
+            .message {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Âm thanh -->
+    <!-- Dùng link nhạc online để demo. Anh có thể thay bằng file mp3 cục bộ -->
+    <audio id="bg-music" loop>
+        <source src="https://dl.dropboxusercontent.com/s/8s7271788s/happy-birthday.mp3?dl=0" type="audio/mpeg">
+        <!-- Fallback link nhạc sinh nhật remix sôi động -->
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Màn hình chờ để kích hoạt âm thanh -->
+    <div id="intro-screen">
+        <button class="btn-start" onclick="startParty()">Ấn vào đi nè 🎁</button>
+    </div>
+
+    <!-- Canvas pháo hoa -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Nội dung chính -->
+    <div id="main-content">
+        <div class="glass-panel">
+            <div class="avatar-frame">
+                <img src="/1.jpg" alt="Kỳ Duyên" onerror="this.src='https://api.dicebear.com/7.x/avataaars/svg?seed=KyDuyen&backgroundColor=ffdfbf'">
+            </div>
+            <h1>Happy Birthday<br>Kỳ Duyên</h1>
+            <p class="message">
+                Chúc chị Duyên tuổi mới siu vui và siu đẹp gái! 💖
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIC PHÁO HOA (High Performance) ---
+        window.requestAnimFrame = (function() {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                function(callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var canvas = document.getElementById('canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = window.innerWidth,
+            ch = window.innerHeight,
+            fireworks = [],
+            particles = [],
+            hue = 120,
+            limiterTotal = 5,
+            limiterTick = 0,
+            timerTotal = 40, // Tăng tốc độ bắn pháo hoa
+            timerTick = 0,
+            mousedown = false,
+            mx,
+            my;
+
+        canvas.width = cw;
+        canvas.height = ch;
+
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function calculateDistance(p1x, p1y, p2x, p2y) {
+            var xDistance = p1x - p2x,
+                yDistance = p1y - p2y;
+            return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        }
+
+        function Firework(sx, sy, tx, ty) {
+            this.x = sx;
+            this.y = sy;
+            this.sx = sx;
+            this.sy = sy;
+            this.tx = tx;
+            this.ty = ty;
+            this.distanceToTarget = calculateDistance(sx, sy, tx, ty);
+            this.distanceTraveled = 0;
+            this.coordinates = [];
+            this.coordinateCount = 3;
+            while (this.coordinateCount--) {
+                this.coordinates.push([this.x, this.y]);
+            }
+            this.angle = Math.atan2(ty - sy, tx - sx);
+            this.speed = 2;
+            this.acceleration = 1.05;
+            this.brightness = random(50, 70);
+            this.targetRadius = 1;
+        }
+
+        Firework.prototype.update = function(index) {
+            this.coordinates.pop();
+            this.coordinates.unshift([this.x, this.y]);
+
+            if (this.targetRadius < 8) {
+                this.targetRadius += 0.3;
+            } else {
+                this.targetRadius = 1;
+            }
+
+            this.speed *= this.acceleration;
+            var vx = Math.cos(this.angle) * this.speed,
+                vy = Math.sin(this.angle) * this.speed;
+            this.distanceTraveled = calculateDistance(this.sx, this.sy, this.x + vx, this.y + vy);
+
+            if (this.distanceTraveled >= this.distanceToTarget) {
+                createParticles(this.tx, this.ty);
+                fireworks.splice(index, 1);
+            } else {
+                this.x += vx;
+                this.y += vy;
+            }
+        }
+
+        Firework.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = 'hsl(' + hue + ', 100%, ' + this.brightness + '%)';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(this.tx, this.ty, this.targetRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        function Particle(x, y) {
+            this.x = x;
+            this.y = y;
+            this.coordinates = [];
+            this.coordinateCount = 5;
+            while (this.coordinateCount--) {
+                this.coordinates.push([this.x, this.y]);
+            }
+            this.angle = random(0, Math.PI * 2);
+            this.speed = random(1, 15); // Tăng tốc độ nổ
+            this.friction = 0.95;
+            this.gravity = 1;
+            this.hue = random(hue - 50, hue + 50);
+            this.brightness = random(50, 80);
+            this.alpha = 1;
+            this.decay = random(0.01, 0.03);
+        }
+
+        Particle.prototype.update = function(index) {
+            this.coordinates.pop();
+            this.coordinates.unshift([this.x, this.y]);
+            this.speed *= this.friction;
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed + this.gravity;
+            this.alpha -= this.decay;
+
+            if (this.alpha <= this.decay) {
+                particles.splice(index, 1);
+            }
+        }
+
+        Particle.prototype.draw = function() {
+            ctx. beginPath();
+            ctx.moveTo(this.coordinates[this.coordinates.length - 1][0], this.coordinates[this.coordinates.length - 1][1]);
+            ctx.lineTo(this.x, this.y);
+            ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
+            ctx.stroke();
+        }
+
+        function createParticles(x, y) {
+            var particleCount = 100; // Số lượng hạt pháo hoa
+            while (particleCount--) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        function loop() {
+            requestAnimFrame(loop);
+            hue += 0.5;
+            
+            // Hiệu ứng đuôi mờ ảo
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.globalCompositeOperation = 'lighter';
+
+            var i = fireworks.length;
+            while (i--) {
+                fireworks[i].draw();
+                fireworks[i].update(i);
+            }
+
+            var i = particles.length;
+            while (i--) {
+                particles[i].draw();
+                particles[i].update(i);
+            }
+
+            if (timerTick >= timerTotal) {
+                if (!mousedown) {
+                    // Bắn pháo hoa tự động ở vị trí ngẫu nhiên
+                    fireworks.push(new Firework(cw / 2, ch, random(0, cw), random(0, ch / 2)));
+                    timerTick = 0;
+                }
+            } else {
+                timerTick++;
+            }
+        }
+
+        // --- XỬ LÝ SỰ KIỆN ---
+        function startParty() {
+            const intro = document.getElementById('intro-screen');
+            const mainContent = document.getElementById('main-content');
+            const audio = document.getElementById('bg-music');
+
+            // 1. Ẩn màn hình chờ
+            intro.style.opacity = '0';
+            setTimeout(() => {
+                intro.style.display = 'none';
+            }, 1000);
+
+            // 2. Hiện nội dung chính
+            mainContent.style.display = 'block';
+            setTimeout(() => {
+                mainContent.style.opacity = '1';
+                mainContent.style.transform = 'scale(1)';
+            }, 100);
+
+            // 3. Chạy nhạc (Mở to hết cỡ)
+            audio.volume = 1.0; 
+            audio.play().catch(e => console.log("Cần tương tác người dùng để phát nhạc"));
+
+            // 4. Bắt đầu bắn pháo hoa
+            loop();
+        }
+
+        window.onload = function() {
+            // Chờ người dùng click nút Start
+        };
+
+        window.onresize = function() {
+            cw = window.innerWidth;
+            ch = window.innerHeight;
+            canvas.width = cw;
+            canvas.height = ch;
+        }
+    </script>
+</body>
+</html>
+
