@@ -24,7 +24,6 @@
             color: white;
         }
 
-        /* Canvas cho pháo hoa */
         canvas {
             display: block;
             position: absolute;
@@ -33,7 +32,6 @@
             z-index: 1;
         }
 
-        /* Màn hình chờ (Intro) */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -79,7 +77,6 @@
             100% { transform: scale(1); box-shadow: 0 0 20px #ff00de; }
         }
 
-        /* Nội dung chính */
         #main-content {
             position: relative;
             z-index: 10;
@@ -87,7 +84,7 @@
             opacity: 0;
             transform: scale(0.8);
             transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: none; /* Ẩn mặc định */
+            display: none;
             width: 90%;
             max-width: 600px;
         }
@@ -162,15 +159,14 @@
             to { text-shadow: 0 0 20px #00d4ff, 0 0 30px #00d4ff, 0 0 40px #00d4ff; }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
             .avatar-frame { width: 160px; height: 160px; margin-bottom: 20px; }
             .glass-panel { 
                 padding: 25px; 
                 width: 92%;
-                max-height: 85vh; /* Chống tràn màn hình dọc trên điện thoại nhỏ */
-                overflow-y: auto; /* Cho phép cuộn nếu nội dung dài */
+                max-height: 85vh;
+                overflow-y: auto;
             }
             .btn-start {
                 font-size: 1.5rem;
@@ -185,23 +181,16 @@
 </head>
 <body>
 
-    <!-- Âm thanh -->
-    <!-- Dùng link nhạc online để demo. Anh có thể thay bằng file mp3 cục bộ -->
     <audio id="bg-music" loop>
         <source src="https://dl.dropboxusercontent.com/s/8s7271788s/happy-birthday.mp3?dl=0" type="audio/mpeg">
-        <!-- Fallback link nhạc sinh nhật remix sôi động -->
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Màn hình chờ để kích hoạt âm thanh -->
     <div id="intro-screen">
         <button class="btn-start" onclick="startParty()">Ấn vào đây nè</button>
     </div>
-
-    <!-- Canvas pháo hoa -->
     <canvas id="canvas"></canvas>
 
-    <!-- Nội dung chính -->
     <div id="main-content">
         <div class="glass-panel">
             <div class="avatar-frame">
@@ -215,7 +204,6 @@
     </div>
 
     <script>
-        // --- LOGIC PHÁO HOA (High Performance) ---
         window.requestAnimFrame = (function() {
             return window.requestAnimationFrame ||
                 window.webkitRequestAnimationFrame ||
@@ -234,7 +222,7 @@
             hue = 120,
             limiterTotal = 5,
             limiterTick = 0,
-            timerTotal = 40, // Tăng tốc độ bắn pháo hoa
+            timerTotal = 40,
             timerTick = 0,
             mousedown = false,
             mx,
@@ -319,7 +307,7 @@
                 this.coordinates.push([this.x, this.y]);
             }
             this.angle = random(0, Math.PI * 2);
-            this.speed = random(1, 15); // Tăng tốc độ nổ
+            this.speed = random(1, 15);
             this.friction = 0.95;
             this.gravity = 1;
             this.hue = random(hue - 50, hue + 50);
@@ -350,7 +338,7 @@
         }
 
         function createParticles(x, y) {
-            var particleCount = 100; // Số lượng hạt pháo hoa
+            var particleCount = 100;
             while (particleCount--) {
                 particles.push(new Particle(x, y));
             }
@@ -360,7 +348,6 @@
             requestAnimFrame(loop);
             hue += 0.5;
             
-            // Hiệu ứng đuôi mờ ảo
             ctx.globalCompositeOperation = 'destination-out';
             ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             ctx.fillRect(0, 0, cw, ch);
@@ -380,7 +367,6 @@
 
             if (timerTick >= timerTotal) {
                 if (!mousedown) {
-                    // Bắn pháo hoa tự động ở vị trí ngẫu nhiên
                     fireworks.push(new Firework(cw / 2, ch, random(0, cw), random(0, ch / 2)));
                     timerTick = 0;
                 }
@@ -389,35 +375,29 @@
             }
         }
 
-        // --- XỬ LÝ SỰ KIỆN ---
         function startParty() {
             const intro = document.getElementById('intro-screen');
             const mainContent = document.getElementById('main-content');
             const audio = document.getElementById('bg-music');
 
-            // 1. Ẩn màn hình chờ
             intro.style.opacity = '0';
             setTimeout(() => {
                 intro.style.display = 'none';
             }, 1000);
 
-            // 2. Hiện nội dung chính
             mainContent.style.display = 'block';
             setTimeout(() => {
                 mainContent.style.opacity = '1';
                 mainContent.style.transform = 'scale(1)';
             }, 100);
 
-            // 3. Chạy nhạc (Mở to hết cỡ)
             audio.volume = 1.0; 
             audio.play().catch(e => console.log("Cần tương tác người dùng để phát nhạc"));
 
-            // 4. Bắt đầu bắn pháo hoa
             loop();
         }
 
         window.onload = function() {
-            // Chờ người dùng click nút Start
         };
 
         window.onresize = function() {
