@@ -366,3 +366,156 @@
     color: #444;
     grid-column: 1 / -1;
   }
+
+  /* Header actions (settings button) */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .settings-btn, .export-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .settings-btn:hover, .export-btn:hover { background: rgba(255,255,255,0.04); color: #fff; }
+
+  /* Settings Modal Styling */
+  .settings-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .settings-section:last-child { border-bottom: none; }
+
+  .settings-heading {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .settings-description {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* Action buttons */
+  .action-btn {
+    padding: 12px 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .action-btn:hover {
+    border-color: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .action-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+  }
+
+  .action-btn.primary:hover {
+    opacity: 0.9;
+    background: var(--accent);
+  }
+
+  .action-btn.full-width { width: 100%; }
+
+  /* File input styling */
+  .file-input-hidden {
+    display: none;
+  }
+
+  .file-input-label {
+    display: block;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 16px;
+    transition: all 0.2s;
+  }
+
+  .file-input-label:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* Import mode selection */
+  .import-mode-section {
+    margin: 16px 0;
+  }
+
+  .import-mode-label {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .radio-group { display: flex; flex-direction: column; gap: 10px; }
+
+  .radio-label {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .radio-label:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .radio-label input[type="radio"] {
+    margin-top: 2px;
+    margin-right: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .radio-inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .radio-text {
+    display: block;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 14px;
+  }
+
+  .radio-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }

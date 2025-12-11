@@ -195,3 +195,111 @@
   // Init
   initColors();
   renderNotes();
+  // Export notes as JSON file (used by settings)
+  function exportNotes() {
+    const data = notes || [];
+    if (!data || data.length === 0) {
+      alert('Không có dữ liệu để xuất.');
+      return;
+    }
+
+    try {
+      const json = JSON.stringify(data, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const ts = new Date().toISOString().slice(0,19).replace(/:/g,'-');
+      const filename = `text2-notes-${ts}.json`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Export failed', e);
+      alert('Xuất dữ liệu thất bại. Vui lòng thử lại.');
+    }
+  }
+
+  // Settings modal handling (contains import/export controls)
+  const settingsBtn = document.getElementById('settings-btn');
+  const settingsModal = document.getElementById('settings-modal');
+  const closeSettingsBtn = document.getElementById('close-settings');
+  const importFileInput = document.getElementById('import-file');
+  const importBtn = document.getElementById('import-btn');
+  const settingsExportBtn = document.getElementById('settings-export-btn');
+
+  function toggleSettings(show) {
+    if (!settingsModal) return;
+    if (show) {
+      settingsModal.style.display = 'flex';
+      setTimeout(() => settingsModal.classList.add('show'), 10);
+    } else {
+      settingsModal.classList.remove('show');
+      setTimeout(() => { settingsModal.style.display = 'none'; }, 260);
+    }
+  }
+
+  // Import function: supports array of notes or object { notes: [...] }
+  async function importNotes() {
+    const file = importFileInput && importFileInput.files && importFileInput.files[0];
+    if (!file) {
+      alert('Vui lòng chọn file JSON để nhập.');
+      return;
+    }
+
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const imported = Array.isArray(parsed) ? parsed : (parsed && parsed.notes ? parsed.notes : null);
+      if (!imported || !Array.isArray(imported)) {
+        alert('File không chứa dữ liệu hợp lệ (một mảng ghi chú).');
+        return;
+      }
+
+      // Validate minimal shape (title/content) and normalize
+      const normalized = imported.map((n, i) => {
+        return {
+          id: typeof n.id === 'number' ? n.id : Date.now() + i,
+          title: n.title || 'Untitled',
+          content: n.content || '',
+          color: n.color || COLORS[0].bg,
+          date: n.date || new Date().toLocaleDateString('en-US', {day: 'numeric', month: 'short'})
+        };
+      });
+
+      const modeEl = document.querySelector('input[name="import-mode"]:checked');
+      const mode = modeEl ? modeEl.value : 'merge';
+
+      if (mode === 'replace') {
+        notes = normalized.slice().reverse(); // reverse to keep order consistent (newest first)
+      } else {
+        // Merge: avoid id collisions by remapping duplicates
+        const existingIds = new Set(notes.map(n => n.id));
+        const toAdd = normalized.map((n, idx) => {
+          if (existingIds.has(n.id)) {
+            n.id = Date.now() + idx + Math.floor(Math.random() * 1000);
+          }
+          return n;
+        });
+        // prepend imported notes so they appear first
+        notes = toAdd.concat(notes);
+      }
+
+      localStorage.setItem('text2-notes-v2', JSON.stringify(notes));
+      renderNotes();
+      toggleSettings(false);
+      alert('Nhập dữ liệu thành công.');
+    } catch (e) {
+      console.error('Import failed', e);
+      alert('Nhập dữ liệu thất bại. File không hợp lệ hoặc có lỗi.');
+    }
+  }
+
+  // Wire settings controls
+  if (settingsBtn) settingsBtn.onclick = () => toggleSettings(true);
+  if (closeSettingsBtn) closeSettingsBtn.onclick = () => toggleSettings(false);
+  if (settingsModal) settingsModal.onclick = (e) => { if (e.target === settingsModal) toggleSettings(false); };
+  if (settingsExportBtn) settingsExportBtn.onclick = exportNotes;
+  if (importBtn) importBtn.onclick = importNotes;

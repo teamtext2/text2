@@ -129,6 +129,11 @@
     <img src="https://text02.com/favicon.ico" alt="Logo" onerror="this.src='https://placehold.co/40'">
     Text2 Notes
   </a>
+  <div class="header-actions">
+    <button id="settings-btn" class="settings-btn" title="Cài đặt">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 1 1 2.3 17.9l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09c.7 0 1.27-.4 1.51-1a1.65 1.65 0 0 0-.33-1.82L4.3 4.3A2 2 0 1 1 7.12 1.47l.06.06A1.65 1.65 0 0 0 9 1.86c.23.6.8 1 1.5 1H11a2 2 0 1 1 4 0h.09c.7 0 1.27.4 1.5 1 .3.9 1 1.5 1.5 1.86l.06-.06A2 2 0 1 1 21.7 6.1l-.06.06a1.65 1.65 0 0 0-.33 1.82c.23.6.8 1 1.5 1H21a2 2 0 1 1 0 4h-.09c-.7 0-1.27.4-1.5 1z"></path></svg>
+    </button>
+  </div>
 </header>
 
 <div id="notes-grid" class="notes-container">
@@ -166,5 +171,62 @@
     </button>
   </div>
 </div>
+  </div>
+
+  <!-- Settings Modal (Import / Export) -->
+  <div class="modal" id="settings-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="close-modal" id="close-settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="input-area no-scrollbar">
+        <!-- Export Section -->
+        <div class="settings-section">
+          <h3 class="settings-heading">Xuất dữ liệu</h3>
+          <p class="settings-description">Tải xuống các ghi chú của bạn dưới dạng tệp JSON</p>
+          <button id="settings-export-btn" class="action-btn primary full-width">Xuất JSON</button>
+        </div>
+
+        <!-- Import Section -->
+        <div class="settings-section">
+          <h3 class="settings-heading">Nhập dữ liệu</h3>
+          <p class="settings-description">Khôi phục ghi chú từ tệp JSON đã xuất trước đó</p>
+          
+          <!-- File input wrapper -->
+          <label for="import-file" class="file-input-label">Chọn file JSON</label>
+          <input type="file" id="import-file" accept="application/json" class="file-input-hidden" />
+          
+          <!-- Import mode selection -->
+          <div class="import-mode-section">
+            <p class="import-mode-label">Chọn cách nhập:</p>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="import-mode" value="merge" checked />
+                <span class="radio-inner">
+                  <span class="radio-text">Gộp (merge)</span>
+                  <span class="radio-desc">Thêm ghi chú mới, giữ những cái cũ</span>
+                </span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="import-mode" value="replace" />
+                <span class="radio-inner">
+                  <span class="radio-text">Thay thế (replace)</span>
+                  <span class="radio-desc">Xóa tất cả, chỉ giữ những cái nhập</span>
+                </span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Import button -->
+          <button id="import-btn" class="action-btn primary full-width">Nhập dữ liệu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
