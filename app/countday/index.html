@@ -526,6 +526,105 @@
   .delete-btn:hover svg {
     transform: scale(1.1);
   }
+
+  /* Settings button */
+  .settings-btn {
+    position: fixed;
+    top: 22px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #c0c0c0;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 25;
+  }
+
+  .settings-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: scale(1.05) rotate(15deg);
+  }
+
+  .settings-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Settings menu */
+  .settings-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    min-width: 220px;
+    z-index: 30;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .settings-menu.active {
+    display: block;
+  }
+
+  .settings-menu button {
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    background: transparent;
+    color: #e0e0e0;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .settings-menu button:last-child {
+    border-bottom: none;
+  }
+
+  .settings-menu button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding-left: 20px;
+  }
+
+  .settings-menu button:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .settings-menu button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  #hidden-file-input {
+    display: none;
+  }
 </style>
 </head>
 
@@ -536,7 +635,20 @@
     <img src="https://text02.com/favicon.ico" alt="Text2 Logo" class="logo">
     <span>Text2 - Countday</span>
   </a>
+  <button class="settings-btn" id="settings-btn" title="Settings">⚙️</button>
+  <div class="settings-menu" id="settings-menu">
+    <button id="export-btn">
+      <span>📥</span>
+      <span>Xuất dữ liệu</span>
+    </button>
+    <button id="import-btn">
+      <span>📤</span>
+      <span>Nhập dữ liệu</span>
+    </button>
+  </div>
 </header>
+
+<input type="file" id="hidden-file-input" accept=".json" />
 
 <div id="events-container" class="events"></div>
 
@@ -573,9 +685,105 @@
   const closeModal = document.getElementById("close-modal");
   const createBtn = document.getElementById("create-event");
   const eventsContainer = document.getElementById("events-container");
+  
+  // Settings
+  const settingsBtn = document.getElementById("settings-btn");
+  const settingsMenu = document.getElementById("settings-menu");
+  const exportBtn = document.getElementById("export-btn");
+  const importBtn = document.getElementById("import-btn");
+  const hiddenFileInput = document.getElementById("hidden-file-input");
 
   let selectedColor = "#35b4ff";
   let events = JSON.parse(localStorage.getItem("events")) || [];
+
+  // Settings menu toggle
+  settingsBtn.onclick = (e) => {
+    e.stopPropagation();
+    settingsMenu.classList.toggle("active");
+  };
+
+  // Close settings menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!settingsBtn.contains(e.target) && !settingsMenu.contains(e.target)) {
+      settingsMenu.classList.remove("active");
+    }
+  });
+
+  // Export data
+  exportBtn.onclick = () => {
+    const dataStr = JSON.stringify(events, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `countday-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    settingsMenu.classList.remove("active");
+  };
+
+  // Import data
+  importBtn.onclick = () => {
+    hiddenFileInput.click();
+  };
+
+  hiddenFileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedEvents = JSON.parse(event.target.result);
+        
+        if (!Array.isArray(importedEvents)) {
+          alert("❌ File không hợp lệ! Phải là mảng các sự kiện.");
+          return;
+        }
+
+        // Validate events
+        const isValid = importedEvents.every(ev => 
+          ev.name && typeof ev.name === 'string' &&
+          ev.date && typeof ev.date === 'string' &&
+          ev.color && typeof ev.color === 'string'
+        );
+
+        if (!isValid) {
+          alert("❌ Định dạng dữ liệu không chính xác!");
+          return;
+        }
+
+        // Ask user to replace or merge
+        if (events.length > 0) {
+          const choice = confirm(
+            "Bạn có " + events.length + " sự kiện hiện tại.\n\n" +
+            "Chọn OK để thay thế tất cả, hoặc Cancel để thêm vào."
+          );
+          
+          if (choice) {
+            events = importedEvents;
+          } else {
+            events = [...events, ...importedEvents];
+          }
+        } else {
+          events = importedEvents;
+        }
+
+        localStorage.setItem("events", JSON.stringify(events));
+        renderEvents();
+        alert("✅ Nhập dữ liệu thành công!");
+        settingsMenu.classList.remove("active");
+      } catch (err) {
+        alert("❌ Lỗi khi đọc file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+    
+    // Reset input
+    hiddenFileInput.value = "";
+  };
 
   openModal.onclick = () => modal.style.display = "flex";
   closeModal.onclick = () => modal.style.display = "none";
