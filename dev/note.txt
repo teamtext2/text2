@@ -21,14 +21,14 @@ Yêu cầu thương mai add Scrip ads
      crossorigin="anonymous"></script>
 
 logo và ảnh bìa tiêu chuẩn trang text2 
-https://text2.pro/logoc.png
-https://text2.pro/thumnel.png
+https://text02.com/logoc.png
+https://text02.com/thumnel.png
 
 giao diện đồng bộ vui lòng - truy cập
-https://text2.pro/dev/ui.txt 
+https://text02.com/dev/ui.txt 
 
 Mẫu gọi api llm của text2 
-https://text2.pro/dev/api-llm.txt
+https://text02.com/dev/api-llm.txt
 
 Giao diện 
 Nền: Gần với mã màu #121212 hoặc #1A1A1A (đen than, charcoal black).
