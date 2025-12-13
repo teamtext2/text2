@@ -10,10 +10,12 @@
     refreshBtn: document.getElementById('refreshButton'),
     notificationPopup: document.getElementById('notificationPopup'),
     settingsPopup: document.getElementById('settingsPopup'),
+    scanQRPopup: document.getElementById('scanQRPopup'),
     settingsInstallPWA: document.getElementById('settingsInstallPWA'),
     settingsNotificationPermission: document.getElementById('settingsNotificationPermission'),
     settingsClearCache: document.getElementById('settingsClearCache'),
     settingsHardRefresh: document.getElementById('settingsHardRefresh'),
+    settingsScanQR: document.getElementById('settingsScanQR'),
     sidebar: document.getElementById('sidebar'),
     sidebarToggle: document.getElementById('sidebarToggle'),
     sidebarClose: document.getElementById('sidebarClose'),
@@ -431,10 +433,19 @@
       btn.addEventListener('click', () => handlers.closeMiniPopup(btn.closest('.mini-popup')));
     });
 
+    // Scan QR button
+    if (elements.settingsScanQR) {
+      elements.settingsScanQR.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handlers.closeMiniPopup(elements.settingsPopup);
+        handlers.openMiniPopup(elements.scanQRPopup);
+      });
+    }
+
     // Close popups on outside click and ESC
     document.addEventListener('mousedown', (e) => {
-      [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
-        if (!popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
+      [elements.notificationPopup, elements.settingsPopup, elements.scanQRPopup].forEach(popup => {
+        if (popup && !popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
           handlers.closeMiniPopup(popup);
         }
       });
@@ -442,8 +453,8 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
-          if (!popup.classList.contains('hidden')) handlers.closeMiniPopup(popup);
+        [elements.notificationPopup, elements.settingsPopup, elements.scanQRPopup].forEach(popup => {
+          if (popup && !popup.classList.contains('hidden')) handlers.closeMiniPopup(popup);
         });
       }
     });
