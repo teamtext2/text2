@@ -12,6 +12,18 @@
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#4f46e5">
   
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+
+<meta name="google" content="notranslate"> 
+
   <!-- Canonical URL -->
   <link rel="canonical" href="https://text02.com/app/calendar">
   
@@ -105,12 +117,13 @@
     }
 
     body.dark-mode {
-      --bg-body: #0f172a;
-      --bg-surface: #1e293b;
-      --text-main: #f1f5f9;
-      --text-sub: #94a3b8;
-      --border: #334155;
-      --primary-soft: rgba(79, 70, 229, 0.2);
+      --bg-body: #121212;
+      --bg-surface: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+      --text-main: #ffffff;
+      --text-sub: #c0c0c0;
+      --border: rgba(255,255,255,0.08);
+      --primary-soft: rgba(79,195,247,0.2);
+      --shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
