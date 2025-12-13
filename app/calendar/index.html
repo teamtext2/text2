@@ -432,9 +432,9 @@
       </div>
       <div class="form-group">
         <label style="font-size:12px; color:var(--text-sub)">Data Management</label>
-        <button class="btn-primary" style="margin-top:8px; background:var(--text-sub)" onclick="exportData()">Backup Data (JSON)</button>
-        <button class="btn-primary" style="margin-top:8px; background:var(--text-sub)" onclick="document.getElementById('fileInput').click()">Restore Data</button>
-        <input type="file" id="fileInput" hidden onchange="importData(this)">
+        <button class="btn-primary" style="margin-top:8px; background:var(--text-sub)" onclick="exportData()">Export ICS</button>
+        <button class="btn-primary" style="margin-top:8px; background:var(--text-sub)" onclick="document.getElementById('fileInput').click()">Import ICS</button>
+        <input type="file" id="fileInput" hidden accept=".ics,text/calendar" onchange="importData(this)">
       </div>
       <div style="font-size:12px; color:var(--text-sub); text-align:center; margin-top:20px">Text2 Calendar v2.0</div>
     </div>
@@ -684,12 +684,145 @@
     el('themeStatus').innerText = isDark ? 'On' : 'Off';
   };
 
+  // ICS Export/Import Functions
+  function formatICSDate(dateStr, timeStr) {
+    // dateStr: YYYY-MM-DD, timeStr: HH:MM or empty
+    if (!timeStr) {
+      // All-day event
+      return dateStr.replace(/-/g, '');
+    }
+    // Timed event - convert to UTC
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  }
+
+  function parseICSDate(icsDate) {
+    // ICS format: YYYYMMDDTHHMMSSZ or YYYYMMDD (all-day)
+    // Remove any timezone suffix if present
+    icsDate = icsDate.trim();
+    
+    if (icsDate.length === 8) {
+      // All-day event: YYYYMMDD
+      return {
+        date: `${icsDate.slice(0,4)}-${icsDate.slice(4,6)}-${icsDate.slice(6,8)}`,
+        time: null
+      };
+    }
+    
+    // Timed event: YYYYMMDDTHHMMSS or YYYYMMDDTHHMMSSZ
+    let hasT = icsDate.indexOf('T') !== -1;
+    let hasZ = icsDate.endsWith('Z');
+    
+    if (hasT) {
+      const datePart = icsDate.slice(0, 8);
+      const timePart = icsDate.slice(9, hasZ ? 15 : icsDate.length);
+      
+      const year = datePart.slice(0, 4);
+      const month = datePart.slice(4, 6);
+      const day = datePart.slice(6, 8);
+      
+      const hours = timePart.slice(0, 2) || '00';
+      const minutes = timePart.slice(2, 4) || '00';
+      
+      // Create date in UTC if Z is present, otherwise assume local
+      const dateStr = `${year}-${month}-${day}T${hours}:${minutes}:00${hasZ ? 'Z' : ''}`;
+      const date = new Date(dateStr);
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        time: String(date.getUTCHours()).padStart(2, '0') + ':' + 
+              String(date.getUTCMinutes()).padStart(2, '0')
+      };
+    }
+    
+    // Fallback: treat as all-day
+    return {
+      date: `${icsDate.slice(0,4)}-${icsDate.slice(4,6)}-${icsDate.slice(6,8)}`,
+      time: null
+    };
+  }
+
+  function escapeICS(text) {
+    if (!text) return '';
+    return text
+      .replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\n/g, '\\n');
+  }
+
+  function unescapeICS(text) {
+    if (!text) return '';
+    return text
+      .replace(/\\n/g, '\n')
+      .replace(/\\,/g, ',')
+      .replace(/\\;/g, ';')
+      .replace(/\\\\/g, '\\');
+  }
+
   window.exportData = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.evts));
+    let icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Text2 Calendar//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ];
+
+    // Convert events to ICS format
+    Object.keys(state.evts).forEach(date => {
+      state.evts[date].forEach((evt, idx) => {
+        const uid = `text2-cal-${date}-${idx}-${Date.now()}@text02.com`;
+        const dtStart = formatICSDate(date, evt.start || '');
+        const dtEnd = evt.end 
+          ? formatICSDate(date, evt.end)
+          : evt.start 
+            ? formatICSDate(date, evt.start) 
+            : formatICSDate(date, '');
+        
+        // If all-day, increment end date by 1 day
+        let dtEndFormatted = dtEnd;
+        if (!evt.start && !evt.end) {
+          const endDate = new Date(date);
+          endDate.setDate(endDate.getDate() + 1);
+          dtEndFormatted = endDate.toISOString().split('T')[0].replace(/-/g, '');
+        } else if (evt.start && !evt.end) {
+          // If start time but no end time, add 1 hour
+          const [year, month, day] = date.split('-').map(Number);
+          const [hours, minutes] = evt.start.split(':').map(Number);
+          const endDate = new Date(Date.UTC(year, month - 1, day, hours + 1, minutes));
+          dtEndFormatted = endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        }
+
+        icsContent.push('BEGIN:VEVENT');
+        icsContent.push(`UID:${uid}`);
+        icsContent.push(`DTSTART${!evt.start ? ';VALUE=DATE' : ''}:${dtStart}`);
+        icsContent.push(`DTEND${!evt.start ? ';VALUE=DATE' : ''}:${dtEndFormatted}`);
+        icsContent.push(`SUMMARY:${escapeICS(evt.t)}`);
+        if (evt.desc) {
+          icsContent.push(`DESCRIPTION:${escapeICS(evt.desc)}`);
+        }
+        // Store color in X-COLOR property (non-standard but useful)
+        if (evt.c) {
+          icsContent.push(`X-COLOR:${evt.c}`);
+        }
+        icsContent.push(`DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`);
+        icsContent.push('END:VEVENT');
+      });
+    });
+
+    icsContent.push('END:VCALENDAR');
+    
+    const icsString = icsContent.join('\r\n');
+    const blob = new Blob([icsString], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
     const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute("href", dataStr);
-    dlAnchorElem.setAttribute("download", `text2_cal_backup_${new Date().toISOString().slice(0,10)}.json`);
+    dlAnchorElem.setAttribute("href", url);
+    dlAnchorElem.setAttribute("download", `text2_calendar_${new Date().toISOString().slice(0,10)}.ics`);
     dlAnchorElem.click();
+    URL.revokeObjectURL(url);
   };
 
   window.importData = (input) => {
@@ -698,12 +831,92 @@
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        state.evts = JSON.parse(e.target.result);
+        const icsText = e.target.result;
+        const importedEvents = {};
+        
+        // Parse ICS file
+        const lines = icsText.split(/\r?\n/);
+        let currentEvent = null;
+        let inEvent = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+          let line = lines[i];
+          
+          // Handle line folding (ICS allows lines to be folded with space/tab continuation)
+          while (i + 1 < lines.length && (lines[i + 1].startsWith(' ') || lines[i + 1].startsWith('\t'))) {
+            line += lines[i + 1].substring(1);
+            i++;
+          }
+          
+          if (line.startsWith('BEGIN:VEVENT')) {
+            inEvent = true;
+            currentEvent = {};
+          } else if (line.startsWith('END:VEVENT')) {
+            if (currentEvent && currentEvent.summary) {
+              const dateKey = currentEvent.date;
+              if (!importedEvents[dateKey]) {
+                importedEvents[dateKey] = [];
+              }
+              
+              const evt = {
+                t: currentEvent.summary,
+                desc: currentEvent.description || '',
+                c: currentEvent.color || '#4f46e5',
+                start: currentEvent.startTime || '',
+                end: currentEvent.endTime || ''
+              };
+              
+              importedEvents[dateKey].push(evt);
+            }
+            inEvent = false;
+            currentEvent = null;
+          } else if (inEvent && currentEvent) {
+            if (line.startsWith('DTSTART')) {
+              // Handle DTSTART;VALUE=DATE:20240101 or DTSTART:20240101T120000Z
+              const colonIndex = line.indexOf(':');
+              if (colonIndex !== -1) {
+                const value = line.substring(colonIndex + 1);
+                const parsed = parseICSDate(value);
+                currentEvent.date = parsed.date;
+                currentEvent.startTime = parsed.time;
+              }
+            } else if (line.startsWith('DTEND')) {
+              // Handle DTEND;VALUE=DATE:20240102 or DTEND:20240101T130000Z
+              const colonIndex = line.indexOf(':');
+              if (colonIndex !== -1) {
+                const value = line.substring(colonIndex + 1);
+                const parsed = parseICSDate(value);
+                currentEvent.endTime = parsed.time;
+              }
+            } else if (line.startsWith('SUMMARY:')) {
+              currentEvent.summary = unescapeICS(line.substring(8));
+            } else if (line.startsWith('DESCRIPTION:')) {
+              currentEvent.description = unescapeICS(line.substring(12));
+            } else if (line.startsWith('X-COLOR:')) {
+              currentEvent.color = line.substring(8);
+            }
+          }
+        }
+        
+        // Merge with existing events
+        const mergedEvents = { ...state.evts };
+        for (const date in importedEvents) {
+          if (mergedEvents[date]) {
+            mergedEvents[date] = mergedEvents[date].concat(importedEvents[date]);
+          } else {
+            mergedEvents[date] = importedEvents[date];
+          }
+        }
+        
+        state.evts = mergedEvents;
         saveData();
         render();
-        alert('Data restored successfully!');
+        alert('Events imported successfully!');
         closeModal('settingsModal');
-      } catch(err) { alert('Invalid file'); }
+      } catch(err) { 
+        console.error(err);
+        alert('Invalid ICS file. Please check the file format.'); 
+      }
     };
     reader.readAsText(file);
   };
