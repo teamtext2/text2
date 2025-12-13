@@ -1,55 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Center</title>
-    <style>
-        /* Body full screen, centered */
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #1A1A1A;
-            color: #FFFFFF;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 
-        /* Loading spinner */
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #242424;
-            border-top-color: #1E90FF;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
+  <!-- Canonical and Alternate -->
+  <link rel="canonical" href="https://text02.com/app" />
+  <meta property="og:url" content="https://text02.com/app" />
+  <meta property="og:site_name" content="Text2 - App Center" />
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+  <!-- SEO Title and Description -->
+  <title>Text2 - App Center</title>
+  <meta name="description" content="Text2 - App Center: Discover, search, and use the best free utility, creative, productivity, and game apps online. Explore the ecosystem of Text2 now!">
 
-        .message {
-            font-size: 18px;
-            color: #B0B0B0;
+  <!-- Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Text2 - App Center",
+      "url": "https://text02.com/app",
+      "description": "Text2 - App Center: Discover, search, and use the best free utility, creative, productivity, and game apps online. Explore the ecosystem of Text2 now!",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Text2",
+        "url": "https://text02.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://text02.com/apple-touch-icon.png"
         }
-    </style>
+      }
+    }
+  </script>
+
+  <meta name="theme-color" content="#0f172a">
+  <meta property="og:title" content="Text2 - App Center" />
+  <meta property="og:description" content="Explore all apps from Text2 - App Center. Discover powerful utility, productivity, creative tools, and games. Text2 - App Center is your one-stop app ecosystem." />
+  <meta property="og:image" content="https://text02.com/apple-touch-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Text2 - App Center" />
+  <meta name="twitter:description" content="Explore all apps from Text2 - App Center. Discover powerful utility, productivity, creative tools, and games." />
+  <meta name="twitter:image" content="https://text02.com/apple-touch-icon.png" />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="Text2, App Center, Text2 App Center, Text2 tools, productivity apps, creative apps, utility apps, games, free web apps, app store, text02.com" />
+
+  <!-- Favicon & App Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-body: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(51, 65, 85, 0.8);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.3);
+      --border: rgba(148, 163, 184, 0.1);
+      --glass: rgba(15, 23, 42, 0.8);
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --nav-height: 64px;
+      --safe-area-top: env(safe-area-inset-top);
+      --safe-area-bottom: env(safe-area-inset-bottom);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-body);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: calc(20px + var(--safe-area-bottom));
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Header & Nav --- */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(12px + var(--safe-area-top)) 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .back-btn:active { transform: scale(0.9); }
+
+    /* --- Main Container --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      text-align: center;
+      margin-bottom: 24px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* --- Search & Filter --- */
+    .controls-wrapper {
+      position: sticky;
+      top: calc(var(--nav-height) + var(--safe-area-top) + 5px); 
+      z-index: 90;
+      margin-bottom: 24px;
+      /* background: transparent; */ 
+      /* For mobile sticky effect on search */
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px -6px rgba(0,0,0,0.3);
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 14px 48px 14px 20px;
+      border-radius: var(--radius-xl);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+      background: rgba(30, 41, 59, 1);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    /* Horizontal Scroll Filters */
+    .filter-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+      margin: 0 -16px; /* Bleed to edges on mobile */
+      padding: 0 16px 8px; /* Inner padding */
+    }
+
+    .filter-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      user-select: none;
+    }
+
+    .filter-chip.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+      font-weight: 700;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    /* --- App Grid --- */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-left: 4px;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .app-count {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+      padding-bottom: 20px;
+    }
+
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* Glass sheen effect */
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: 0.5s;
+    }
+
+    .app-card:hover::before {
+      left: 100%;
+    }
+
+    .app-card:hover {
+      transform: translateY(-5px);
+      background: var(--bg-card-hover);
+      border-color: rgba(56, 189, 248, 0.3);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+
+    .app-card:active {
+      transform: scale(0.96);
+    }
+
+    .app-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      background: #1e293b; /* Placeholder color */
+      transition: transform 0.3s ease;
+    }
+
+    .app-card:hover .app-icon {
+      transform: scale(1.05);
+    }
+
+    .app-name {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .app-desc {
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* --- Empty State --- */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .no-results svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    /* --- Responsive Tweaks --- */
+    @media (min-width: 640px) {
+      .apps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+      }
+      .filter-scroll {
+        justify-content: center;
+        margin: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .apps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <div class="spinner"></div>
-        <div class="message">Redirecting...</div>
-    </div>
+  <!-- Navigation -->
+  <header class="app-header">
+    <a href="https://text02.com" class="brand">
+      <img src="/apple-touch-icon.png" alt="Text2 Logo" width="32" height="32" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PC9zdmc+'">
+      <span>Text2</span>
+    </a>
+    <a href="https://text02.com" class="back-btn" aria-label="Go Home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </a>
+  </header>
 
-    <script>
-        // Redirect after 1s (or 0s for immediate redirect)
-        setTimeout(() => {
-            window.location.href = "https://team.text02.com";
-        }, 1000); // 1000ms = 1s
-    </script>
+  <main class="container" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Hero -->
+    <section class="hero">
+      <h1 itemprop="name">Text2 - App Center</h1>
+      <p itemprop="description">Text2 App Center: Explore the best productivity, creative, and utility apps from Text2. Discover and use online web apps instantly.</p>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls-wrapper">
+      <form class="search-box" role="search" aria-label="Search Text2 App Center">
+        <input type="text" id="appSearchInput" placeholder="Search apps, games..." autocomplete="off" aria-label="Search apps or games">
+        <div class="search-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+      </form>
+      <nav class="filter-scroll" aria-label="Filter app by category">
+        <div class="filter-chip active" data-filter="all">All</div>
+        <div class="filter-chip" data-filter="productivity">Productivity</div>
+        <div class="filter-chip" data-filter="creative">Creative</div>
+        <div class="filter-chip" data-filter="utility">Utility</div>
+        <div class="filter-chip" data-filter="game">Game</div>
+      </nav>
+    </section>
+
+    <!-- Grid -->
+    <section id="appsContainer">
+      <div class="section-header">
+        <span class="section-title">Explore</span>
+        <span class="app-count" id="appCount"></span>
+      </div>
+      <div class="apps-grid" id="appsGrid">
+        <!-- Rendered by JS -->
+      </div>
+      <div id="noResults" class="no-results" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <h3>No apps found</h3>
+        <p>Try a different keyword!</p>
+      </div>
+    </section>
+  </main>
+
+  <footer style="text-align:center; padding:32px 0 8px; color: #94a3b8; font-size:0.89rem;" itemscope itemtype="https://schema.org/WPFooter">
+    <span>
+      &copy; <span itemprop="copyrightYear"><?=(new Date()).getFullYear?.()||'2024'?></span>
+      <a href="https://text02.com/app" itemprop="url" style="color:#38bdf8;text-decoration:none;">
+        Text2 - App Center
+      </a>
+      &middot;
+      <a href="https://text02.com" style="color:#38bdf8;text-decoration:none;">Back to Homepage</a>
+    </span>
+  </footer>
+
+  <script>
+    // Data (SEO: All app names/keywords as content)
+    const appsData = [
+      { name: "Doc", description: "Take notes quickly", url: "https://text02.com/app/doc", icon: "https://text02.com/app/doc/apple-touch-icon.png", category: "productivity" },
+      { name: "Note", description: "Text2-note", url: "https://text02.com/app/note", icon: "https://text02.com/app/note/apple-touch-icon.png", category: "productivity" },
+      { name: "Translate", description: "Translate text", url: "https://text02.com/app/translate", icon: "https://text02.com/app/translate/apple-touch-icon.png", category: "utility" },
+      { name: "Countday", description: "Text-countday", url: "https://text02.com/app/countday", icon: "https://text02.com/app/countday/apple-touch-icon.png", category: "utility" },
+      { name: "Create QR", description: "Generate QR codes", url: "https://text02.com/app/qr", icon: "https://text02.com/app/qr/apple-touch-icon.png", category: "utility" },
+      { name: "Scan QR", description: "Scan QR codes", url: "https://text02.com/app/qr/scan", icon: "https://text02.com/app/qr/scan/apple-touch-icon.png", category: "utility" },
+      { name: "Grammar", description: "Check grammar", url: "https://text02.com/app/grammar", icon: "https://text02.com/app/grammar/apple-touch-icon.png", category: "productivity" },
+      { name: "Chat AI", description: "Chat with AI", url: "https://text02.com/app/chat", icon: "https://text02.com/app/chat/apple-touch-icon.png", category: "productivity" },
+      { name: "Camera", description: "Camera tools", url: "https://text02.com/app/camera", icon: "https://text02.com/app/camera/apple-touch-icon.png", category: "creative" },
+      { name: "HTML View", description: "View HTML files", url: "https://text02.com/app/html", icon: "https://text02.com/app/html/apple-touch-icon.png", category: "utility" },
+      { name: "Calendar", description: "Manage dates", url: "https://text02.com/app/calendar", icon: "https://text02.com/app/calendar/apple-touch-icon.png", category: "productivity" },
+      { name: "Img Design", description: "Design images", url: "https://text02.com/app/img", icon: "https://text02.com/app/img/apple-touch-icon.png", category: "creative" },
+      { name: "Create Img", description: "AI Image Generator", url: "https://text02.com/app/create-img", icon: "https://text02.com/app/create-img/apple-touch-icon.png", category: "creative" },
+      { name: "Love Match", description: "Love fortune", url: "https://text02.com/app/love", icon: "https://text02.com/app/love/apple-touch-icon.png", category: "utility" },
+      { name: "Add Luts", description: "Apply LUTs", url: "https://text02.com/app/luts", icon: "https://text02.com/app/luts/apple-touch-icon.png", category: "creative" },
+      { name: "Weather", description: "Check weather", url: "https://text02.com/app/weather", icon: "https://text02.com/app/weather/apple-touch-icon.png", category: "utility" },
+      { name: "Game Chess", description: "Play game chess", url: "https://text02.com/game/chess", icon: "https://text02.com/game/chess/apple-touch-icon.png", category: "game" },
+      { name: "Game Caro", description: "Play Caro", url: "https://text02.com/game/caro", icon: "https://text02.com/game/caro/apple-touch-icon.png", category: "game" }
+    ];
+
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    function renderApps() {
+      const appsGrid = document.getElementById("appsGrid");
+      const noResults = document.getElementById("noResults");
+      const appCount = document.getElementById("appCount");
+
+      requestAnimationFrame(() => {
+        let filteredApps = appsData.filter(app => {
+          const matchesFilter = currentFilter === "all" || app.category === currentFilter;
+          const matchesSearch = !searchQuery || 
+            app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            app.description.toLowerCase().includes(searchQuery.toLowerCase());
+          return matchesFilter && matchesSearch;
+        });
+
+        appCount.textContent = `(${filteredApps.length})`;
+
+        // Use Fragment for minimal reflow
+        const fragment = document.createDocumentFragment();
+
+        if (filteredApps.length === 0) {
+          appsGrid.style.display = "none";
+          noResults.style.display = "block";
+        } else {
+          appsGrid.style.display = "grid";
+          noResults.style.display = "none";
+          appsGrid.innerHTML = ""; // Clear current
+
+          filteredApps.forEach((app, index) => {
+            const a = document.createElement("a");
+            a.className = "app-card";
+            a.href = app.url;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.setAttribute("title", app.name + " - " + app.description + " | Text2 - App Center");
+            // Stagger animation
+            a.style.animation = `fadeIn 0.5s ease-out ${index * 0.05}s backwards`;
+
+            // Fallback for icons
+            const fallbackIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTRhM2I4IiBzdHJva2Utd2lkdGg9IjEiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjUiLz48L3N2Zz4=`;
+
+            a.innerHTML = `
+              <img src="${app.icon}" class="app-icon" alt="${app.name} - ${app.description} | Text2 App Center" loading="lazy" onerror="this.src='${fallbackIcon}'">
+              <div class="app-name">${app.name}</div>
+              <div class="app-desc">${app.description}</div>
+            `;
+            fragment.appendChild(a);
+          });
+          
+          appsGrid.appendChild(fragment);
+        }
+      });
+    }
+
+    // Interactions
+    const searchInput = document.getElementById("appSearchInput");
+    // Smooth Filter Switching
+    document.querySelectorAll(".filter-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelector(".filter-chip.active").classList.remove("active");
+        chip.classList.add("active");
+        currentFilter = chip.dataset.filter;
+        // Haptic feedback simulation
+        if (navigator.vibrate) navigator.vibrate(10);
+        renderApps();
+      });
+    });
+
+    // Debounce Search
+    let timeout;
+    searchInput.addEventListener("input", (e) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        searchQuery = e.target.value.trim();
+        renderApps();
+      }, 150);
+    });
+
+    // Init
+    renderApps();
+  </script>
+
 </body>
 </html>
