@@ -11,6 +11,7 @@
     notificationPopup: document.getElementById('notificationPopup'),
     settingsPopup: document.getElementById('settingsPopup'),
     scanQRPopup: document.getElementById('scanQRPopup'),
+    scanQRIframe: document.getElementById('scanQRIframe'),
     settingsInstallPWA: document.getElementById('settingsInstallPWA'),
     settingsNotificationPermission: document.getElementById('settingsNotificationPermission'),
     settingsHardRefresh: document.getElementById('settingsHardRefresh'),
@@ -82,6 +83,26 @@
     closeMiniPopup: (popup) => {
       popup.classList.add('hidden');
       document.body.style.overflow = '';
+    },
+
+    // Scan QR popup management
+    openScanQRPopup: () => {
+      if (elements.scanQRPopup && elements.scanQRIframe) {
+        // Set src để load iframe khi mở popup
+        elements.scanQRIframe.src = 'https://text02.com/app/qr/scan';
+        elements.scanQRPopup.classList.remove('hidden');
+        elements.scanQRPopup.focus();
+        document.body.style.overflow = 'hidden';
+      }
+    },
+
+    closeScanQRPopup: () => {
+      if (elements.scanQRPopup && elements.scanQRIframe) {
+        // Xóa src để ngắt kết nối iframe khi đóng popup
+        elements.scanQRIframe.src = 'about:blank';
+        elements.scanQRPopup.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
     },
 
     // Sidebar management
@@ -429,7 +450,14 @@
 
     // Close popups
     document.querySelectorAll('.mini-popup-close').forEach(btn => {
-      btn.addEventListener('click', () => handlers.closeMiniPopup(btn.closest('.mini-popup')));
+      btn.addEventListener('click', () => {
+        const popup = btn.closest('.mini-popup');
+        if (popup && popup.id === 'scanQRPopup') {
+          handlers.closeScanQRPopup();
+        } else {
+          handlers.closeMiniPopup(popup);
+        }
+      });
     });
 
     // Scan QR button
@@ -437,13 +465,19 @@
       elements.settingsScanQR.addEventListener('click', (e) => {
         e.stopPropagation();
         handlers.closeMiniPopup(elements.settingsPopup);
-        handlers.openMiniPopup(elements.scanQRPopup);
+        handlers.openScanQRPopup();
       });
     }
 
     // Close popups on outside click and ESC
     document.addEventListener('mousedown', (e) => {
-      [elements.notificationPopup, elements.settingsPopup, elements.scanQRPopup].forEach(popup => {
+      // Handle scan QR popup separately
+      if (elements.scanQRPopup && !elements.scanQRPopup.classList.contains('hidden') && 
+          !elements.scanQRPopup.querySelector('.mini-popup-content').contains(e.target)) {
+        handlers.closeScanQRPopup();
+      }
+      // Handle other popups
+      [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
         if (popup && !popup.classList.contains('hidden') && !popup.querySelector('.mini-popup-content').contains(e.target)) {
           handlers.closeMiniPopup(popup);
         }
@@ -452,7 +486,12 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        [elements.notificationPopup, elements.settingsPopup, elements.scanQRPopup].forEach(popup => {
+        // Handle scan QR popup separately
+        if (elements.scanQRPopup && !elements.scanQRPopup.classList.contains('hidden')) {
+          handlers.closeScanQRPopup();
+        }
+        // Handle other popups
+        [elements.notificationPopup, elements.settingsPopup].forEach(popup => {
           if (popup && !popup.classList.contains('hidden')) handlers.closeMiniPopup(popup);
         });
       }
