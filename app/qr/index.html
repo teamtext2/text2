@@ -268,6 +268,25 @@
                     </div>
                     <button id="close-settings" class="text-sm text-primary-500 dark:text-primary-500 font-semibold hover-blue px-2 py-1 rounded transition-all">Done</button>
                 </div>
+
+                <!-- Logo upload + shape -->
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-800 dark:text-white">Upload Icon</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input id="logo-file-input" type="file" accept="image/*" class="hidden">
+                            <button id="logo-upload-btn" class="text-sm font-semibold bg-slate-100 dark:bg-[#242424] px-3 py-1.5 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] hover-blue transition-all">Upload</button>
+                            <button id="logo-clear-btn" class="text-xs text-slate-500 dark:text-[#c0c0c0] underline hover:text-primary-500">Remove</button>
+                        </div>
+                    </div>
+                    <div id="logo-preview" class="h-12 rounded-xl border border-dashed border-slate-200 dark:border-[rgba(255,255,255,0.1)] bg-slate-50 dark:bg-[#181818] flex items-center justify-center text-xs text-slate-500 dark:text-[#c0c0c0] px-3"></div>
+                    <div class="flex items-center gap-2">
+                        <button data-shape="square" id="logo-shape-square" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] bg-white dark:bg-[#1E1E1E] text-sm font-semibold hover-blue transition-all">Square</button>
+                        <button data-shape="circle" id="logo-shape-circle" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] bg-white dark:bg-[#1E1E1E] text-sm font-semibold hover-blue transition-all">Circle</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Main Buttons Row -->
@@ -299,6 +318,12 @@
             settingsPanel: document.getElementById('settings-panel'),
             toggleSettings: document.getElementById('toggle-settings'),
             closeSettings: document.getElementById('close-settings'),
+            logoInput: document.getElementById('logo-file-input'),
+            logoUploadBtn: document.getElementById('logo-upload-btn'),
+            logoClearBtn: document.getElementById('logo-clear-btn'),
+            logoPreview: document.getElementById('logo-preview'),
+            logoShapeSquare: document.getElementById('logo-shape-square'),
+            logoShapeCircle: document.getElementById('logo-shape-circle'),
             themeToggle: document.getElementById('theme-toggle'),
             html: document.documentElement
         };
@@ -306,6 +331,9 @@
         // State
         let qrColor = '#000000';
         let bgColor = '#ffffff';
+        let logoDataUrl = null;
+        let logoShape = 'square'; // square | circle
+        let logoImg = null;
         let debounceTimer;
 
         // 1. Theme Handling (Persist & Smooth)
@@ -346,6 +374,54 @@
         };
         els.toggleSettings.addEventListener('click', togglePanel);
         els.closeSettings.addEventListener('click', togglePanel);
+
+        // Logo Upload + Shape handling
+        function updateShapeButtons() {
+            const activeClasses = 'border-primary-500 text-primary-500 shadow-sm';
+            [els.logoShapeSquare, els.logoShapeCircle].forEach(btn => btn.classList.remove('border-primary-500', 'text-primary-500', 'shadow-sm'));
+            const activeBtn = logoShape === 'square' ? els.logoShapeSquare : els.logoShapeCircle;
+            activeBtn.classList.add('border-primary-500', 'text-primary-500', 'shadow-sm');
+        }
+        updateShapeButtons();
+
+        function setLogoPreview(text) {
+            els.logoPreview.textContent = text;
+        }
+        setLogoPreview('Click and add your icon');
+
+        els.logoUploadBtn.addEventListener('click', () => els.logoInput.click());
+
+        els.logoInput.addEventListener('change', (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                logoDataUrl = reader.result;
+                logoImg = new Image();
+                logoImg.onload = () => {
+                    setLogoPreview(`Selected: ${file.name}`);
+                    generateQR();
+                };
+                logoImg.src = logoDataUrl;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        els.logoClearBtn.addEventListener('click', () => {
+            logoDataUrl = null;
+            logoImg = null;
+            els.logoInput.value = '';
+            setLogoPreview('Logo removed. Click Upload to add again.');
+            generateQR();
+        });
+
+        [els.logoShapeSquare, els.logoShapeCircle].forEach(btn => {
+            btn.addEventListener('click', () => {
+                logoShape = btn.dataset.shape;
+                updateShapeButtons();
+                generateQR();
+            });
+        });
 
         // 4. Paste Functionality
         els.pasteBtn.addEventListener('click', async () => {
@@ -393,6 +469,37 @@
                 // Animation Class
                 canvas.classList.add('animate-pop');
 
+                // Draw logo if available
+                if (logoImg) {
+                    const ctx = canvas.getContext('2d');
+                    const size = Math.min(canvas.width, canvas.height) * 0.22;
+                    const x = (canvas.width - size) / 2;
+                    const y = (canvas.height - size) / 2;
+                    const radius = logoShape === 'circle' ? size / 2 : size * 0.18;
+                    const padding = logoShape === 'circle' ? 0 : size * 0.08; // circle: full bleed
+
+                    ctx.save();
+                    ctx.translate(x, y);
+
+                    // background box for contrast
+                    ctx.fillStyle = bgColor;
+                    drawRoundedBox(ctx, size, size, radius);
+                    ctx.fill();
+
+                    // slight border to separate from QR
+                    ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+                    ctx.lineWidth = size * 0.02;
+                    drawRoundedBox(ctx, size, size, radius);
+                    ctx.stroke();
+
+                    // clip to shape then draw image
+                    drawRoundedBox(ctx, size, size, radius);
+                    ctx.clip();
+                    ctx.drawImage(logoImg, padding, padding, size - padding * 2, size - padding * 2);
+
+                    ctx.restore();
+                }
+
                 els.qrContainer.appendChild(canvas);
                 
                 // Show Container / Hide Empty
@@ -432,6 +539,20 @@
             els.downloadBtn.innerHTML = `<span class="text-white">Saved! 🎉</span>`;
             setTimeout(() => { els.downloadBtn.innerHTML = originalText; }, 2000);
         });
+
+        function drawRoundedBox(ctx, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(r, 0);
+            ctx.lineTo(w - r, 0);
+            ctx.quadraticCurveTo(w, 0, w, r);
+            ctx.lineTo(w, h - r);
+            ctx.quadraticCurveTo(w, h, w - r, h);
+            ctx.lineTo(r, h);
+            ctx.quadraticCurveTo(0, h, 0, h - r);
+            ctx.lineTo(0, r);
+            ctx.quadraticCurveTo(0, 0, r, 0);
+            ctx.closePath();
+        }
 
     </script>
 </body>
