@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Text2 Posts - Khám phá</title>
+    <title>Text2 Posts - Discover</title>
     
     <!-- PWA & SEO Support -->
     <meta name="theme-color" content="#ffffff">
@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Tùy chỉnh CSS để tạo hiệu ứng App-like */
+        /* Custom CSS for App-like effect */
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             background-color: #f3f4f6;
@@ -102,8 +102,8 @@
 
                 <!-- Desktop Menu (Optional) -->
                 <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-                    <a href="#" class="hover:text-blue-600 transition">Mới nhất</a>
-                    <a href="#" class="hover:text-blue-600 transition">Phổ biến</a>
+                    <a href="#" class="hover:text-blue-600 transition">Newest</a>
+                    <a href="#" class="hover:text-blue-600 transition">Popular</a>
                 </div>
             </div>
         </div>
@@ -114,8 +114,8 @@
         
         <!-- Search Section -->
         <div class="mb-10 max-w-2xl mx-auto text-center animate-fade-in" style="animation-delay: 0.1s;">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Khám phá bài viết</h1>
-            <p class="text-gray-500 mb-6">Tìm kiếm thông tin, hướng dẫn và câu chuyện mới nhất.</p>
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Discover Posts</h1>
+            <p class="text-gray-500 mb-6">Search for information, guides, and the latest stories.</p>
             
             <div class="relative search-container group">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -123,20 +123,12 @@
                 </div>
                 <input type="text" id="search-input" 
                     class="search-input w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 text-gray-700 placeholder-gray-400 shadow-sm transition-all"
-                    placeholder="Tìm kiếm bài viết..." autocomplete="off">
+                    placeholder="Search posts..." autocomplete="off">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
                     <button id="clear-search" class="text-gray-300 hover:text-gray-500 hidden transition">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Tag Filters (Horizontal Scroll on Mobile) -->
-        <div class="mb-8 overflow-x-auto pb-2 scrollbar-hide animate-fade-in" style="animation-delay: 0.2s;">
-            <div class="flex space-x-2 md:justify-center" id="tag-container">
-                <button class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium shadow-md hover:bg-blue-700 transition tag-btn active" data-tag="all">Tất cả</button>
-                <!-- Tags will be injected here JS -->
             </div>
         </div>
 
@@ -164,8 +156,8 @@
             <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
                 <i class="fa-solid fa-file-circle-question text-3xl text-gray-400"></i>
             </div>
-            <h3 class="text-xl font-medium text-gray-900">Không tìm thấy bài viết</h3>
-            <p class="text-gray-500 mt-1">Hãy thử tìm kiếm với từ khóa khác.</p>
+            <h3 class="text-xl font-medium text-gray-900">No posts found</h3>
+            <p class="text-gray-500 mt-1">Try searching with a different keyword.</p>
         </div>
 
     </main>
@@ -194,53 +186,10 @@
         const searchInput = document.getElementById('search-input');
         const clearBtn = document.getElementById('clear-search');
         const noResults = document.getElementById('no-results');
-        const tagContainer = document.getElementById('tag-container');
-        
         // Setup Config
         document.getElementById('site-name').textContent = config.siteName;
         document.getElementById('site-logo').src = config.siteLogo;
         document.getElementById('footer-text').textContent = config.footerText;
-
-        // Current Tag Filter
-        let currentTag = 'all';
-
-        // Extract Unique Tags & Render Buttons
-        function renderTags() {
-            const tags = ['all', ...new Set(posts.map(p => p.tag).filter(Boolean))];
-            
-            // Keep "Tất cả" button, clear others
-            const allBtn = tagContainer.firstElementChild;
-            tagContainer.innerHTML = '';
-            tagContainer.appendChild(allBtn);
-
-            tags.forEach(tag => {
-                if(tag === 'all') return;
-                const btn = document.createElement('button');
-                btn.className = `px-5 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-medium hover:bg-gray-50 hover:border-blue-300 transition whitespace-nowrap`;
-                btn.textContent = tag;
-                btn.dataset.tag = tag;
-                btn.addEventListener('click', () => filterByTag(tag, btn));
-                tagContainer.appendChild(btn);
-            });
-
-            // Re-attach event for "All" button
-            allBtn.addEventListener('click', () => filterByTag('all', allBtn));
-        }
-
-        function filterByTag(tag, btnElement) {
-            currentTag = tag;
-            
-            // Update UI buttons
-            const buttons = tagContainer.querySelectorAll('button');
-            buttons.forEach(b => {
-                b.className = `px-5 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-medium hover:bg-gray-50 hover:border-blue-300 transition whitespace-nowrap`;
-            });
-            
-            btnElement.className = `px-5 py-2 bg-blue-600 text-white border border-blue-600 rounded-full text-sm font-medium shadow-md transition whitespace-nowrap`;
-
-            // Trigger Search to apply both text and tag filter
-            renderPosts(searchInput.value);
-        }
 
         // Render Posts Function
         function renderPosts(searchTerm = '') {
@@ -250,8 +199,7 @@
             const filteredPosts = posts.filter(post => {
                 const matchesSearch = post.title.toLowerCase().includes(term) || 
                                       post.desc.toLowerCase().includes(term);
-                const matchesTag = currentTag === 'all' || post.tag === currentTag;
-                return matchesSearch && matchesTag;
+                return matchesSearch;
             });
 
             if (filteredPosts.length === 0) {
@@ -270,26 +218,17 @@
 
                     card.innerHTML = `
                         <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-3">
-                                <span class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold uppercase tracking-wide">
-                                    ${post.tag || 'Blog'}
-                                </span>
-                                <div class="flex items-center text-xs text-gray-400 space-x-1.5">
-                                    <i class="far fa-calendar-alt"></i>
-                                    <span>${post.date}</span>
-                                </div>
+                            <div class="flex items-center text-xs text-gray-400 space-x-1.5 mb-3">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>${post.date}</span>
                             </div>
                             
                             <h3 class="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
                                 ${post.title}
                             </h3>
                             
-                            <p class="text-sm text-gray-500 line-clamp-3 mb-4 flex-grow">
-                                ${post.desc}
-                            </p>
-                            
                             <div class="flex items-center text-blue-600 text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-gray-100">
-                                Đọc tiếp <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                                Read more <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                             </div>
                         </div>
                     `;
@@ -317,7 +256,6 @@
         });
 
         // Initial Load
-        renderTags();
         renderPosts();
 
     </script>
