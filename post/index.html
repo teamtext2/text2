@@ -1,1 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Text2 Posts - Khám phá</title>
+    
+    <!-- PWA & SEO Support -->
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" href="../../favicon-32x32.png">
+    <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
 
+    <!-- Tailwind CSS (CDN for instant styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Tùy chỉnh CSS để tạo hiệu ứng App-like */
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Input Search Animation */
+        .search-container {
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Header (Sticky & Glass) -->
+    <header class="fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300" id="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo & Back Button -->
+                <div class="flex items-center gap-3">
+                    <a href="../../index.html" class="p-2 rounded-full hover:bg-gray-100 transition duration-200 text-gray-600">
+                        <i class="fa-solid fa-arrow-left text-lg"></i>
+                    </a>
+                    <a href="#" class="flex items-center gap-2 group">
+                        <img id="site-logo" src="../../logoc.png" alt="Logo" class="h-8 w-auto transition-transform group-hover:scale-110">
+                        <span class="font-bold text-xl tracking-tight text-gray-900" id="site-name">Text2</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu (Optional) -->
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+                    <a href="#" class="hover:text-blue-600 transition">Mới nhất</a>
+                    <a href="#" class="hover:text-blue-600 transition">Phổ biến</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        
+        <!-- Search Section -->
+        <div class="mb-10 max-w-2xl mx-auto text-center animate-fade-in" style="animation-delay: 0.1s;">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Khám phá bài viết</h1>
+            <p class="text-gray-500 mb-6">Tìm kiếm thông tin, hướng dẫn và câu chuyện mới nhất.</p>
+            
+            <div class="relative search-container group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
+                </div>
+                <input type="text" id="search-input" 
+                    class="search-input w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 text-gray-700 placeholder-gray-400 shadow-sm transition-all"
+                    placeholder="Tìm kiếm bài viết..." autocomplete="off">
+                <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                    <button id="clear-search" class="text-gray-300 hover:text-gray-500 hidden transition">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tag Filters (Horizontal Scroll on Mobile) -->
+        <div class="mb-8 overflow-x-auto pb-2 scrollbar-hide animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="flex space-x-2 md:justify-center" id="tag-container">
+                <button class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium shadow-md hover:bg-blue-700 transition tag-btn active" data-tag="all">Tất cả</button>
+                <!-- Tags will be injected here JS -->
+            </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <!-- Loading Skeleton (Updated for Text Only) -->
+            <div class="animate-pulse glass-card rounded-2xl overflow-hidden shadow-sm h-48">
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between">
+                        <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/5"></div>
+                    </div>
+                    <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div class="space-y-2">
+                        <div class="h-4 bg-gray-200 rounded w-full"></div>
+                        <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- More skeletons can be added here -->
+        </div>
+
+        <!-- No Results View -->
+        <div id="no-results" class="hidden text-center py-12 animate-fade-in">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
+                <i class="fa-solid fa-file-circle-question text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-medium text-gray-900">Không tìm thấy bài viết</h3>
+            <p class="text-gray-500 mt-1">Hãy thử tìm kiếm với từ khóa khác.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                 <img src="../../logoc.png" alt="Logo Small" class="h-6 w-auto opacity-80">
+                <p class="text-gray-500 text-sm" id="footer-text">© 2024 Text2.</p>
+            </div>
+            <div class="flex space-x-6 text-gray-400">
+                <a href="#" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-blue-500 transition"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="hover:text-blue-500 transition"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { posts, config } from './js/data.js';
+
+        // Initialize DOM Elements
+        const grid = document.getElementById('posts-grid');
+        const searchInput = document.getElementById('search-input');
+        const clearBtn = document.getElementById('clear-search');
+        const noResults = document.getElementById('no-results');
+        const tagContainer = document.getElementById('tag-container');
+        
+        // Setup Config
+        document.getElementById('site-name').textContent = config.siteName;
+        document.getElementById('site-logo').src = config.siteLogo;
+        document.getElementById('footer-text').textContent = config.footerText;
+
+        // Current Tag Filter
+        let currentTag = 'all';
+
+        // Extract Unique Tags & Render Buttons
+        function renderTags() {
+            const tags = ['all', ...new Set(posts.map(p => p.tag).filter(Boolean))];
+            
+            // Keep "Tất cả" button, clear others
+            const allBtn = tagContainer.firstElementChild;
+            tagContainer.innerHTML = '';
+            tagContainer.appendChild(allBtn);
+
+            tags.forEach(tag => {
+                if(tag === 'all') return;
+                const btn = document.createElement('button');
+                btn.className = `px-5 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-medium hover:bg-gray-50 hover:border-blue-300 transition whitespace-nowrap`;
+                btn.textContent = tag;
+                btn.dataset.tag = tag;
+                btn.addEventListener('click', () => filterByTag(tag, btn));
+                tagContainer.appendChild(btn);
+            });
+
+            // Re-attach event for "All" button
+            allBtn.addEventListener('click', () => filterByTag('all', allBtn));
+        }
+
+        function filterByTag(tag, btnElement) {
+            currentTag = tag;
+            
+            // Update UI buttons
+            const buttons = tagContainer.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.className = `px-5 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-medium hover:bg-gray-50 hover:border-blue-300 transition whitespace-nowrap`;
+            });
+            
+            btnElement.className = `px-5 py-2 bg-blue-600 text-white border border-blue-600 rounded-full text-sm font-medium shadow-md transition whitespace-nowrap`;
+
+            // Trigger Search to apply both text and tag filter
+            renderPosts(searchInput.value);
+        }
+
+        // Render Posts Function
+        function renderPosts(searchTerm = '') {
+            const term = searchTerm.toLowerCase().trim();
+            grid.innerHTML = '';
+
+            const filteredPosts = posts.filter(post => {
+                const matchesSearch = post.title.toLowerCase().includes(term) || 
+                                      post.desc.toLowerCase().includes(term);
+                const matchesTag = currentTag === 'all' || post.tag === currentTag;
+                return matchesSearch && matchesTag;
+            });
+
+            if (filteredPosts.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+
+                filteredPosts.forEach((post, index) => {
+                    const card = document.createElement('a');
+                    card.href = post.url;
+                    // Removed 'h-full' to allow auto height based on content
+                    card.className = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative hover:border-blue-300 transition-colors';
+                    card.style.animationDelay = `${index * 0.05}s`; // Faster stagger
+
+                    card.innerHTML = `
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold uppercase tracking-wide">
+                                    ${post.tag || 'Blog'}
+                                </span>
+                                <div class="flex items-center text-xs text-gray-400 space-x-1.5">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>${post.date}</span>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                                ${post.title}
+                            </h3>
+                            
+                            <p class="text-sm text-gray-500 line-clamp-3 mb-4 flex-grow">
+                                ${post.desc}
+                            </p>
+                            
+                            <div class="flex items-center text-blue-600 text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-gray-100">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderPosts(val);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            renderPosts();
+            searchInput.focus();
+        });
+
+        // Initial Load
+        renderTags();
+        renderPosts();
+
+    </script>
+</body>
+</html>
