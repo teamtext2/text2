@@ -8,8 +8,8 @@ const socialMediaData = [
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
     </svg>`,
     links: [
-      { name: "Text2 Vietnam", url: "https://www.facebook.com/text2.click" },
-      { name: "Text2 Team", url: "https://www.facebook.com/text2team" }
+      { name: "Text2 Vietnam", url: "https://www.facebook.com/text2vn" },
+      { name: "Text2 Team", url: "https://www.facebook.com/text02com" }
     ]
   },
   {
@@ -21,7 +21,7 @@ const socialMediaData = [
     </svg>`,
     links: [
       { name: "Text2 Team", url: "https://www.youtube.com/@text2_team" },
-      { name: "Text2", url: "https://www.youtube.com/@text2_click" },
+      { name: "Text2", url: "https://www.youtube.com/@text02com" },
       { name: "Text2 - Vietnam", url: "https://www.youtube.com/@Text2_Vietnam" },
       { name: "Text2 - Magic", url: "https://www.youtube.com/@text2_magic" },
       { name: "Text2 - Tech", url: "https://www.youtube.com/@text2_tech" }
