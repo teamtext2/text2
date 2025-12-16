@@ -126,7 +126,18 @@ const navigationData = [
 const sidebarData = {
   mainLinks: [
     {
-      name: "Text2 - Team",
+      name: "App Center",
+      url: "https://text02.com/app",
+      dataSameTab: true,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+        <rect x="3" y="3" width="7" height="7" rx="2" ry="2"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="2" ry="2"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="2" ry="2"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="2" ry="2"></rect>
+      </svg>`
+    },
+    {
+      name: "Text2 Team",
       url: "https://team.text02.com",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
@@ -137,25 +148,17 @@ const sidebarData = {
       </svg>`
     },
     {
-      name: "Gamme",
-      url: "https://game.text02.com/",
+      name: "Post",
+      url: "https://text02.com/post/",
       dataSameTab: true,
       icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>`
-    },
-    {
-      name: "Camera",
-      url: "https://camera.text02.com/",
-      dataSameTab: true,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="background:linear-gradient(135deg,#1e1e1e,#242424);border-radius:4px;box-shadow:0 1px 6px rgba(0,0,0,0.4);">
-        <rect x="3" y="7" width="18" height="13" rx="2" ry="2"></rect>
-        <circle cx="12" cy="13.5" r="3.5"></circle>
-        <path d="M8.5 7V5a2.5 2.5 0 0 1 5 0v2"></path>
+        <path d="M4 4h16v16H4z"></path>
+        <path d="M8 4v16"></path>
+        <path d="M4 8h4"></path>
+        <path d="M4 12h4"></path>
       </svg>`
     }
   ],
-  socialMedia: socialMediaData // Reuse social media data
+  socialMedia: [] // No social items in sidebar
 };
 

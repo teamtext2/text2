@@ -261,7 +261,7 @@
   const renderSidebarFromData = () => {
     const mainLinksContainer = document.getElementById('sidebarMainLinks');
     const socialContainer = document.getElementById('sidebarSocialMedia');
-    if (!mainLinksContainer || !socialContainer) return;
+    if (!mainLinksContainer) return;
 
     const sidebarConfig = typeof sidebarData !== 'undefined' ? sidebarData : {};
     const mainLinks = toArray(sidebarConfig.mainLinks);
@@ -275,31 +275,38 @@
       </a>
     `).join('');
 
-    const dropdownArrow = `
-      <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6,9 12,15 18,9"></polyline>
-      </svg>
-    `;
+    if (socialContainer) {
+      if (!socialItems.length) {
+        socialContainer.innerHTML = '';
+        return;
+      }
 
-    socialContainer.innerHTML = `
-      <div style="margin-bottom: 10px;">
-        <div style="font-size: 14px; color: #888; margin-bottom: 8px; padding-left: 10px;">Social Media</div>
-        ${socialItems.map(item => `
-          <div class="social-dropdown" data-platform="${item?.platform || ''}">
-            <div class="social-header" data-platform="${item?.platform || ''}">
-              ${item?.icon || ''}
-              ${item?.name || ''}
-              ${dropdownArrow}
+      const dropdownArrow = `
+        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+      `;
+
+      socialContainer.innerHTML = `
+        <div style="margin-bottom: 10px;">
+          <div style="font-size: 14px; color: #888; margin-bottom: 8px; padding-left: 10px;">Social Media</div>
+          ${socialItems.map(item => `
+            <div class="social-dropdown" data-platform="${item?.platform || ''}">
+              <div class="social-header" data-platform="${item?.platform || ''}">
+                ${item?.icon || ''}
+                ${item?.name || ''}
+                ${dropdownArrow}
+              </div>
+              <div class="social-options" id="${item?.platform || 'social'}-options">
+                ${toArray(item?.links).map(link => `
+                  <a href="${link?.url || '#'}" target="_blank">${link?.name || ''}</a>
+                `).join('')}
+              </div>
             </div>
-            <div class="social-options" id="${item?.platform || 'social'}-options">
-              ${toArray(item?.links).map(link => `
-                <a href="${link?.url || '#'}" target="_blank">${link?.name || ''}</a>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    `;
+          `).join('')}
+        </div>
+      `;
+    }
   };
 
   const initMobileSocialToggle = (() => {
