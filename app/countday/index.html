@@ -1,45 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO Meta Tags for "Text2 - Countday" -->
-    <title>Text2 - Countday</title>
-    <meta name="description" content="Text2 - Countday: Countdown app for events, anniversaries, birthdays, deadlines. Fast, beautiful, easy-to-use. Available on Text2 and Text02.com.">
-    <meta name="keywords" content="Text2, Countday, Text2 Countday, countdown, countdown app, Text2 Countday, days count, event, birthday, deadline, anniversary, date counter, Text02.com, text2.com, text2, text02">
+
+    <!-- SEO Meta Tags -->
+    <title>Text2 Countday</title>
+    <meta name="description" content="Text2 Countday - Free countdown app to track important events like birthdays, anniversaries, deadlines. Beautiful interface, easy to use on Text02.com">
+    <meta name="keywords" content="text2 countday, countdown, events, birthday, anniversary, text2, text02.com, countdown app">
     <meta name="author" content="Text02.com">
     <meta name="robots" content="index, follow">
-    <meta name="language" content="en">
+    <meta name="language" content="English">
     <meta name="google" content="notranslate">
-
-    <!-- Open Graph for SEO & Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Text2 - Countday | Free Event Countdown App">
-    <meta property="og:description" content="Text2 - Countday: Countdown app for events, anniversaries, deadlines. Beautiful UI, free to use at Text2.com.">
-    <meta property="og:url" content="https://text02.com/app/countday">
-    <meta property="og:site_name" content="Text2 - Countday">
-    <meta property="og:image" content="https://text02.com/apple-touch-icon.png">
-
-    <!-- Canonical, Home, Manifest, Favicon for SEO -->
+    
+    <!-- Google tag (gtag.js) - GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        gtag('config', 'G-6J85STMJ14');
+    </script>
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://text02.com/app/countday">
-    <link rel="home" href="https://text02.com" title="Text2 - Home">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-
-  <!-- Google tag (gtag.js) - GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-6J85STMJ14');
-  </script>
-
-
-    <!-- Google Ads (optional) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270" crossorigin="anonymous"></script>
     
     <!-- Libraries -->
@@ -48,8 +34,10 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" href="https://text02.com/favicon.ico">
+    
     <style>
-        /* All styles unchanged - see original for reference */
         body {
             font-family: "Inter", sans-serif;
             background: #121212;
@@ -58,7 +46,8 @@
             overflow-x: hidden;
             padding-bottom: 100px;
         }
-        /* ... All other CSS unchanged ... */
+
+        /* Header - Reverted to Original Gradient */
         .app-title {
             padding: 22px 20px;
             font-size: 18px;
@@ -73,8 +62,554 @@
             z-index: 50;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        /* (All other selectors/copy as in original) */
-        /* ... [TRUNCATED: for brevity, copy-paste all original CSS content here, unchanged] ... */
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .logo-link:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            margin-right: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-link:hover .logo {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        /* Quote Section */
+        .quote-container {
+            text-align: center;
+            padding: 20px 20px 10px 20px;
+            color: #a0a0a0;
+            font-style: italic;
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease;
+        }
+
+        .quote-text {
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+
+        /* Controls: Search & Filter */
+        .controls {
+            padding: 15px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1E1E1E, #242424);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box input:focus {
+             outline: none;
+             border-color: #35b4ff;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .filter-tab.active {
+            background: #35b4ff;
+            color: white;
+            border-color: #35b4ff;
+        }
+
+        /* Events list */
+        .events {
+            padding: 10px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Event Card - Reverted to Original Gradient */
+        .event-card {
+            position: relative;
+            background: linear-gradient(135deg, #1E1E1E, #242424);
+            padding: 22px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            background-size: cover;
+            background-position: center;
+            /* Border left will be handled by JS for colors */
+        }
+
+        .event-card:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #242424, #2A2A2A);
+        }
+
+        /* Overlay for background images */
+        .event-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.6));
+            z-index: 1;
+        }
+        
+        .event-content {
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .event-card.hero {
+            border: 2px solid #ffd700;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+            margin-bottom: 15px;
+        }
+
+        .event-card.hero::after {
+            content: '📌 Pinned';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ffd700;
+            color: #000;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 3;
+        }
+
+        .event-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .event-date {
+            font-size: 14px;
+            color: #c0c0c0;
+            margin-bottom: 10px;
+        }
+
+        .event-number {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .days-text {
+            color: #c0c0c0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Card Actions */
+        .card-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .btn-pin.pinned {
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.15);
+        }
+
+        .btn-delete:hover {
+            background: rgba(212, 70, 107, 0.4);
+            color: #ffcccc;
+        }
+
+        /* Floating Add Button - Reverted to Original White */
+        .add-btn {
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            color: #121212;
+            font-size: 40px;
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 40;
+            box-shadow: 0 10px 30px rgba(79, 195, 247, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .add-btn:hover {
+            box-shadow: 0 15px 40px rgba(79, 195, 247, 0.3);
+        }
+
+        .add-btn:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+
+        /* Modal Styles - Reverted to Original Gradient */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            padding: 32px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            color: #fff;
+            background: linear-gradient(135deg, #35b4ff, #a26bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 14px;
+            background: rgba(18, 18, 18, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #35b4ff;
+            background: rgba(18, 18, 18, 0.9);
+            box-shadow: 0 0 0 4px rgba(53, 180, 255, 0.1);
+        }
+
+        /* Color Picker */
+        .colors {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .color {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .color.selected {
+            border-color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Image Upload */
+        .image-preview {
+            width: 100%;
+            height: 120px;
+            border-radius: 12px;
+            border: 2px dashed #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            background: rgba(18, 18, 18, 0.5);
+        }
+        
+        .image-preview span {
+            color: #888;
+            font-size: 14px;
+            pointer-events: none;
+            font-style: italic;
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #35b4ff, #a26bff);
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 8px 24px rgba(53, 180, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(53, 180, 255, 0.4);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #c0c0c0;
+            font-size: 18px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Detail Modal Specifics */
+        .detail-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #35b4ff;
+            display: block;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* Settings Menu */
+        .settings-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #c0c0c0;
+            font-size: 20px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .settings-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 0;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            min-width: 220px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .settings-menu.active {
+            display: block;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: #e0e0e0;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+            padding-left: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Export Helper */
+        .hide-on-export {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .event-number { font-size: 42px; }
+            .detail-time-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 
@@ -82,8 +617,8 @@
 
     <header class="app-title">
         <a href="https://text02.com" class="logo-link">
-            <img src="apple-touch-icon.png" alt="Text2 - Countday Logo" class="logo">
-            <span>Text2 - Countday</span>
+            <img src="https://text02.com/favicon.ico" alt="Text2 Logo" class="logo">
+            <span>Text2 Countday</span>
         </a>
         <button class="settings-btn" id="settings-toggle"><i class="fas fa-cog"></i></button>
         
@@ -163,7 +698,7 @@
                 <button id="remove-bg" style="background:none; border:none; color:#d4466b; font-size:12px; margin-top:5px; cursor:pointer; display:none;">Remove Image</button>
             </div>
 
-            <button id="save-event-btn" class="primary-btn">Create Event</button>
+            <button id="save-event-btn" class="primary-btn">Create Count</button>
         </div>
     </div>
 
@@ -462,7 +997,6 @@
                 document.getElementById("event-date").value = "";
                 tempBgImage = null;
                 resetFormVisuals();
-                saveBtn.innerText = "Create Event";
             }
         }
 
@@ -501,7 +1035,7 @@
             tempBgImage = ev.image || null;
             
             resetFormVisuals();
-            saveBtn.innerText = "Update Event";
+            saveBtn.innerText = "Update Count";
             modal.style.display = "flex";
         };
 
@@ -514,13 +1048,16 @@
         };
 
         window.togglePin = function(id) {
-            // Allow only one pinned event
+            // Unpin others if we want only one pinned? Or allow multiple? 
+            // User requirement: "Choose 1 most important event". So we unpin others.
             const index = events.findIndex(e => e.id === id);
             if (index === -1) return;
 
+            // If clicking the already pinned one, unpin it
             if (events[index].pinned) {
                 events[index].pinned = false;
             } else {
+                // Unpin all others
                 events.forEach(e => e.pinned = false);
                 events[index].pinned = true;
             }
@@ -573,7 +1110,7 @@
             card.classList.add("capturing");
             const actions = card.querySelector(".card-actions");
             const originalDisplay = actions.style.display;
-            actions.style.display = "none";
+            actions.style.display = "none"; // Hide buttons
 
             // Add branding watermark temporarily
             const watermark = document.createElement("div");
@@ -583,11 +1120,13 @@
 
             html2canvas(card, {
                 backgroundColor: "#1E1E1E",
-                scale: 2
+                scale: 2 // High res
             }).then(canvas => {
+                // Restore state
                 actions.style.display = originalDisplay;
                 card.removeChild(watermark);
                 
+                // Download
                 const link = document.createElement('a');
                 link.download = 'countday-share.png';
                 link.href = canvas.toDataURL();
@@ -624,9 +1163,10 @@
                     const data = JSON.parse(event.target.result);
                     if (Array.isArray(data)) {
                         if (confirm(`Import ${data.length} events? This will merge with current events.`)) {
+                            // Merge logic: avoid duplicate IDs
                             const currentIds = new Set(events.map(ev => ev.id));
                             data.forEach(ev => {
-                                if(!ev.id) ev.id = Date.now() + Math.random();
+                                if(!ev.id) ev.id = Date.now() + Math.random(); // Ensure ID
                                 if(!currentIds.has(ev.id)) events.push(ev);
                             });
                             saveData();
@@ -641,7 +1181,7 @@
                 }
             };
             reader.readAsText(file);
-            e.target.value = '';
+            e.target.value = ''; // reset
         };
 
     </script>
