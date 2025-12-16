@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Text2 Posts - Discover</title>
-    
-    <!-- PWA & SEO Support -->
+    <title>Text2 - Post</title>
+
+    <!-- Canonical & Alternate -->
+    <link rel="canonical" href="https://text02.com/post" />
+    <link rel="home" href="https://text02.com" />
+
+    <!-- Full SEO META -->
+    <meta name="description" content="Discover the latest posts about Text2 - Post. Find featured articles, knowledge, and guides at text02.com, a platform for quality knowledge sharing.">
+    <meta name="keywords" content="Text2, Post, Text2 post, Text2 Post, text02.com, knowledge sharing, new post, Text2 guide">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Text2 - Post">
+    <meta property="og:url" content="https://text02.com/post">
+    <meta property="og:title" content="Text2 - Post | List of Good Posts &amp; Latest Knowledge Sharing">
+    <meta property="og:description" content="Discover the latest posts about Text2 - Post. Find featured articles, knowledge, and guides at text02.com.">
+    <meta property="og:image" content="https://text02.com/apple-touch-icon.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Text2 - Post | List of Good Posts &amp; Latest Knowledge Sharing">
+    <meta name="twitter:description" content="Discover the latest posts about Text2 - Post at text02.com. Knowledge sharing, guides, and featured articles.">
+    <meta name="twitter:image" content="https://text02.com/apple-touch-icon.png">
+
     <meta name="theme-color" content="#ffffff">
-    <link rel="icon" type="image/png" href="../../favicon-32x32.png">
-    <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+
+    <!-- PWA & Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 
     <!-- Tailwind CSS (CDN for instant styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,54 +43,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Custom CSS for App-like effect */
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             background-color: #f3f4f6;
             -webkit-tap-highlight-color: transparent;
         }
-
-        /* Glassmorphism Effect */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-
         .glass-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
             background: rgba(255, 255, 255, 0.95);
             border-color: rgba(59, 130, 246, 0.3);
         }
-
-        /* Input Search Animation */
         .search-container {
             transition: all 0.3s ease;
         }
         .search-input:focus {
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
-
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .animate-fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -91,20 +102,19 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo & Back Button -->
                 <div class="flex items-center gap-3">
-                    <a href="../../index.html" class="p-2 rounded-full hover:bg-gray-100 transition duration-200 text-gray-600">
+                    <a href="https://text02.com" class="p-2 rounded-full hover:bg-gray-100 transition duration-200 text-gray-600" aria-label="Back to Text2 Home">
                         <i class="fa-solid fa-arrow-left text-lg"></i>
                     </a>
-                    <a href="#" class="flex items-center gap-2 group">
-                        <img id="site-logo" src="../../logoc.png" alt="Logo" class="h-8 w-auto transition-transform group-hover:scale-110">
+                    <a href="https://text02.com" class="flex items-center gap-2 group" aria-label="Text2 Home">
+                        <img id="site-logo" src="/logoc.png" alt="Text2 - Logo" class="h-8 w-auto transition-transform group-hover:scale-110">
                         <span class="font-bold text-xl tracking-tight text-gray-900" id="site-name">Text2</span>
                     </a>
                 </div>
-
-                <!-- Desktop Menu (Optional) -->
-                <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600" aria-label="Filter">
                     <a href="#" class="hover:text-blue-600 transition">Newest</a>
                     <a href="#" class="hover:text-blue-600 transition">Popular</a>
-                </div>
+                </nav>
             </div>
         </div>
     </header>
@@ -113,27 +123,27 @@
     <main class="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
         <!-- Search Section -->
-        <div class="mb-10 max-w-2xl mx-auto text-center animate-fade-in" style="animation-delay: 0.1s;">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Discover Posts</h1>
-            <p class="text-gray-500 mb-6">Search for information, guides, and the latest stories.</p>
+        <section class="mb-10 max-w-2xl mx-auto text-center animate-fade-in" style="animation-delay: 0.1s;">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Text2 - Post: Featured Blog Posts</h1>
+            <p class="text-gray-500 mb-6">Search for the latest information, guides, and articles about Text2 Post on text02.com.</p>
             
-            <div class="relative search-container group">
+            <div class="relative search-container group" role="search">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <i class="fa-solid fa-magnifying-glass text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
                 </div>
                 <input type="text" id="search-input" 
                     class="search-input w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 text-gray-700 placeholder-gray-400 shadow-sm transition-all"
-                    placeholder="Search posts..." autocomplete="off">
+                    placeholder="Search posts about Text2..." autocomplete="off">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                    <button id="clear-search" class="text-gray-300 hover:text-gray-500 hidden transition">
+                    <button id="clear-search" class="text-gray-300 hover:text-gray-500 hidden transition" aria-label="Clear search">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Posts Grid -->
-        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <section id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" aria-live="polite">
             <!-- Loading Skeleton (Updated for Text Only) -->
             <div class="animate-pulse glass-card rounded-2xl overflow-hidden shadow-sm h-48">
                 <div class="p-6 space-y-4">
@@ -149,15 +159,15 @@
                 </div>
             </div>
             <!-- More skeletons can be added here -->
-        </div>
+        </section>
 
         <!-- No Results View -->
         <div id="no-results" class="hidden text-center py-12 animate-fade-in">
             <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
                 <i class="fa-solid fa-file-circle-question text-3xl text-gray-400"></i>
             </div>
-            <h3 class="text-xl font-medium text-gray-900">No posts found</h3>
-            <p class="text-gray-500 mt-1">Try searching with a different keyword.</p>
+            <h2 class="text-xl font-medium text-gray-900">No posts about Text2 - Post found</h2>
+            <p class="text-gray-500 mt-1">Please try another keyword or return to the <a href="https://text02.com" class="text-blue-600 underline">Text2 homepage</a>.</p>
         </div>
 
     </main>
@@ -166,13 +176,13 @@
     <footer class="bg-white border-t border-gray-200 mt-auto">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
-                 <img src="../../logoc.png" alt="Logo Small" class="h-6 w-auto opacity-80">
+                 <img src="/logoc.png" alt="Text2 - Logo Small" class="h-6 w-auto opacity-80">
                 <p class="text-gray-500 text-sm" id="footer-text">© 2024 Text2.</p>
             </div>
             <div class="flex space-x-6 text-gray-400">
-                <a href="#" class="hover:text-blue-500 transition"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="hover:text-blue-500 transition"><i class="fa-brands fa-github"></i></a>
-                <a href="#" class="hover:text-blue-500 transition"><i class="fa-solid fa-envelope"></i></a>
+                <a href="#" class="hover:text-blue-500 transition" aria-label="Text2 Facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-blue-500 transition" aria-label="Text2 GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="hover:text-blue-500 transition" aria-label="Contact Email"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </footer>
@@ -212,9 +222,8 @@
                 filteredPosts.forEach((post, index) => {
                     const card = document.createElement('a');
                     card.href = post.url;
-                    // Removed 'h-full' to allow auto height based on content
                     card.className = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative hover:border-blue-300 transition-colors';
-                    card.style.animationDelay = `${index * 0.05}s`; // Faster stagger
+                    card.style.animationDelay = `${index * 0.05}s`;
 
                     card.innerHTML = `
                         <div class="p-6 flex flex-col flex-grow">
@@ -228,7 +237,7 @@
                             </h3>
                             
                             <div class="flex items-center text-blue-600 text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-gray-100">
-                                Read more <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                                Read Post <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                             </div>
                         </div>
                     `;
