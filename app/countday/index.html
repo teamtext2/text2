@@ -77,6 +77,11 @@
     <link rel="manifest" href="site.webmanifest">
     
     <style>
+        :root {
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            --soft-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
         body {
             font-family: "Inter", sans-serif;
             background: #121212;
@@ -228,15 +233,23 @@
             margin-bottom: 10px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s var(--ease-smooth), background 0.35s var(--ease-smooth), border-color 0.35s var(--ease-smooth);
             background-size: cover;
             background-position: center;
+            will-change: transform, box-shadow, filter;
+            transform-origin: center center;
             /* Border left will be handled by JS for colors */
         }
 
         .event-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px) scale(1.015);
             background: linear-gradient(135deg, #242424, #2A2A2A);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .event-card.card-enter {
+            animation: cardEnter 0.45s var(--ease-smooth);
+            animation-delay: var(--card-delay, 0ms);
         }
 
         /* Overlay for background images */
@@ -334,6 +347,10 @@
             transform: scale(1.1);
         }
 
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
         .btn-pin.pinned {
             color: #ffd700;
             background: rgba(255, 215, 0, 0.15);
@@ -373,7 +390,7 @@
 
         /* Modal Styles - Reverted to Original Gradient */
         .modal {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             left: 0;
@@ -384,7 +401,16 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeIn 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.28s var(--ease-smooth), visibility 0.28s ease;
+        }
+
+        .modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
         }
 
         .modal-content {
@@ -397,13 +423,27 @@
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--soft-shadow);
+            transform: translateY(10px) scale(0.985);
+            opacity: 0.9;
+            transition: transform 0.32s var(--ease-smooth), opacity 0.32s var(--ease-smooth);
+        }
+
+        .modal.visible .modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .modal.closing .modal-content {
+            transform: translateY(6px) scale(0.98);
+            opacity: 0.85;
         }
 
         .modal h2 {
             margin-top: 0;
             color: #fff;
             background: linear-gradient(135deg, #35b4ff, #a26bff);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
@@ -640,6 +680,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(14px) scale(0.99); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         /* Export Helper */
         .hide-on-export {
             display: none !important;
@@ -743,8 +788,8 @@
 
     <!-- Detail Modal -->
     <div class="modal" id="detail-modal">
-        <div class="modal-content" style="text-align: center;">
-            <button class="close-modal" onclick="document.getElementById('detail-modal').style.display='none'"><i class="fas fa-times"></i></button>
+            <div class="modal-content" style="text-align: center;">
+            <button class="close-modal" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
             <h2 id="detail-title" style="color: #35b4ff;">Event Name</h2>
             <p id="detail-full-date" style="color: #888; font-size: 14px; margin-bottom: 20px;"></p>
             
@@ -802,6 +847,28 @@
         const searchInput = document.getElementById("search-input");
         const filterTabs = document.querySelectorAll(".filter-tab");
         const settingsMenu = document.getElementById("settings-menu");
+
+        // Modal helpers for smooth open/close
+        function showModal(el) {
+            el.style.display = "flex";
+            requestAnimationFrame(() => {
+                el.classList.add("visible");
+                el.classList.remove("closing");
+            });
+        }
+
+        function hideModal(el) {
+            el.classList.remove("visible");
+            el.classList.add("closing");
+            setTimeout(() => {
+                el.style.display = "none";
+                el.classList.remove("closing");
+            }, 240);
+        }
+
+        // Ensure modals are hidden on first paint
+        modal.style.display = "none";
+        detailModal.style.display = "none";
         
         // --- Initialization ---
         document.addEventListener("DOMContentLoaded", () => {
@@ -961,7 +1028,7 @@
                 return;
             }
 
-            filtered.forEach(ev => {
+            filtered.forEach((ev, idx) => {
                 const evDate = new Date(ev.date);
                 const now = new Date();
                 const diffTime = evDate - now;
@@ -1021,6 +1088,10 @@
                     </div>
                 `;
 
+                card.classList.add("card-enter");
+                card.style.setProperty("--card-delay", `${Math.min(idx * 40, 200)}ms`);
+                setTimeout(() => card.classList.remove("card-enter"), 500);
+
                 eventsContainer.appendChild(card);
             });
         }
@@ -1028,7 +1099,7 @@
         // --- Logic: CRUD & Actions ---
         
         function openModal(isEdit = false) {
-            modal.style.display = "flex";
+            showModal(modal);
             if (!isEdit) {
                 editingIndex = -1;
                 modalTitle.innerText = "New Event";
@@ -1040,7 +1111,7 @@
         }
 
         function closeModal() {
-            modal.style.display = "none";
+            hideModal(modal);
         }
 
         function resetFormVisuals() {
@@ -1075,7 +1146,7 @@
             
             resetFormVisuals();
             saveBtn.innerText = "Update Count";
-            modal.style.display = "flex";
+            showModal(modal);
         };
 
         window.deleteEvent = function(id) {
@@ -1138,7 +1209,11 @@
             document.getElementById("d-days").innerText = days;
             document.getElementById("d-hours").innerText = hours;
 
-            detailModal.style.display = "flex";
+            showModal(detailModal);
+        };
+
+        window.closeDetailModal = function() {
+            hideModal(detailModal);
         };
 
         // --- Logic: Share Image ---
