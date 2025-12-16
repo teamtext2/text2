@@ -26,7 +26,7 @@
     <meta name="twitter:description" content="Discover the latest posts about Text2 - Post at text02.com. Knowledge sharing, guides, and featured articles.">
     <meta name="twitter:image" content="https://text02.com/apple-touch-icon.png">
 
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#121212">
 
     <!-- PWA & Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -46,56 +46,114 @@
     <style>
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            background-color: #f3f4f6;
+            background: #121212;
+            color: #fff;
             -webkit-tap-highlight-color: transparent;
         }
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: linear-gradient(90deg, #1E1E1E 0%, #242424 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: linear-gradient(120deg, #1E1E1E 80%, #242424 120%);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.25,0.8,0.25,1), 
+                        box-shadow 0.2s, border 0.2s, transform 0.18s;
         }
         .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(79,195,247,0.10), 0 15px 30px rgba(0,0,0,0.10);
+            /* BlueLight shade on hover border and subtle overlay */
+            border-color: rgba(79,195,247,0.20);
+            background: linear-gradient(120deg, #262B35 70%, #20242A 130%);
         }
         .search-container {
+            background: #1E1E1E;
+            border-radius: 1.25rem;
             transition: all 0.3s ease;
         }
+        .search-input {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #fff;
+            transition: border 0.2s;
+        }
         .search-input:focus {
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 4px rgba(79,195,247,0.18);
+            border-color: rgba(79,195,247,0.2);
+            background: #232629;
+        }
+        .search-input::placeholder {
+            color: #c0c0c0;
+            opacity: 1;
+        }
+        .icon-action {
+            color: #c0c0c0;
+            transition: color 0.18s;
+        }
+        .icon-action:hover,
+        .icon-action:focus {
+            color: #4fc3f7;
+        }
+        .search-action-btn {
+            background: none;
+            border: none;
+            color: #c0c0c0;
+            transition: color 0.18s;
+        }
+        .search-action-btn:hover,
+        .search-action-btn:focus {
+            color: #4fc3f7;
+        }
+        .text-accent {
+            color: #4fc3f7 !important;
+        }
+        .text-soft {
+            color: #c0c0c0 !important;
+        }
+        .border-soft {
+            border-color: rgba(255,255,255,0.08) !important;
+        }
+        .bg-dark {
+            background: #121212 !important;
+        }
+        .bg-panel {
+            background: linear-gradient(90deg, #1E1E1E 0%, #242424 100%) !important;
+        }
+        .hover-bg-blue-light:hover {
+            background: rgba(79,195,247,0.20) !important;
+        }
+        .footer-link {
+            color: #c0c0c0 !important;
+            transition: color 0.18s;
+        }
+        .footer-link:hover,
+        .footer-link:focus {
+            color: #4fc3f7 !important;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
         }
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.5s cubic-bezier(0.32,0,0.67,0) forwards;
         }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        /* Scrollbar for dark theme */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #181818;}
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #242424;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #2e3236;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+<body class="bg-dark text-white min-h-screen flex flex-col">
 
     <!-- Header (Sticky & Glass) -->
     <header class="fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300" id="header">
@@ -103,18 +161,18 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo & Back Button -->
                 <div class="flex items-center gap-3">
-                    <a href="https://text02.com" class="p-2 rounded-full hover:bg-gray-100 transition duration-200 text-gray-600" aria-label="Back to Text2 Home">
+                    <a href="https://text02.com" class="p-2 rounded-full hover-bg-blue-light transition duration-200 text-soft" aria-label="Back to Text2 Home">
                         <i class="fa-solid fa-arrow-left text-lg"></i>
                     </a>
                     <a href="https://text02.com" class="flex items-center gap-2 group" aria-label="Text2 Home">
                         <img id="site-logo" src="/logoc.png" alt="Text2 - Logo" class="h-8 w-auto transition-transform group-hover:scale-110">
-                        <span class="font-bold text-xl tracking-tight text-gray-900" id="site-name">Text2</span>
+                        <span class="font-bold text-xl tracking-tight text-white" id="site-name">Text2</span>
                     </a>
                 </div>
                 <!-- Desktop Menu -->
-                <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-600" aria-label="Filter">
-                    <a href="#" class="hover:text-blue-600 transition">Newest</a>
-                    <a href="#" class="hover:text-blue-600 transition">Popular</a>
+                <nav class="hidden md:flex space-x-6 text-sm font-medium text-soft" aria-label="Filter">
+                    <a href="#" class="hover:text-accent transition">Newest</a>
+                    <a href="#" class="hover:text-accent transition">Popular</a>
                 </nav>
             </div>
         </div>
@@ -125,16 +183,15 @@
         
         <!-- Search Section -->
         <section class="mb-10 max-w-2xl mx-auto text-center animate-fade-in" style="animation-delay: 0.1s;">
-            
             <div class="relative search-container group" role="search">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-magnifying-glass text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
+                    <i class="fa-solid fa-magnifying-glass icon-action"></i>
                 </div>
                 <input type="text" id="search-input" 
-                    class="search-input w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 text-gray-700 placeholder-gray-400 shadow-sm transition-all"
+                    class="search-input w-full pl-11 pr-4 py-3.5 rounded-2xl focus:outline-none text-white shadow-sm border-soft"
                     placeholder="Search..." autocomplete="off">
                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                    <button id="clear-search" class="text-gray-300 hover:text-gray-500 hidden transition" aria-label="Clear search">
+                    <button id="clear-search" class="search-action-btn hidden transition" aria-label="Clear search">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
                 </div>
@@ -143,45 +200,48 @@
 
         <!-- Posts Grid -->
         <section id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" aria-live="polite">
-            <!-- Loading Skeleton (Updated for Text Only) -->
+            <!-- Loading Skeleton (Dark) -->
             <div class="animate-pulse glass-card rounded-2xl overflow-hidden shadow-sm h-48">
                 <div class="p-6 space-y-4">
                     <div class="flex justify-between">
-                        <div class="h-4 bg-gray-200 rounded w-1/4"></div>
-                        <div class="h-4 bg-gray-200 rounded w-1/5"></div>
+                        <div class="h-4 rounded w-1/4" style="background:#232323"></div>
+                        <div class="h-4 rounded w-1/5" style="background:#232323"></div>
                     </div>
-                    <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div class="h-6 rounded w-3/4" style="background:#222226"></div>
                     <div class="space-y-2">
-                        <div class="h-4 bg-gray-200 rounded w-full"></div>
-                        <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                        <div class="h-4 rounded w-full" style="background:#232323"></div>
+                        <div class="h-4 rounded w-5/6" style="background:#232323"></div>
                     </div>
                 </div>
             </div>
-            <!-- More skeletons can be added here -->
+            <!-- Add more skeletons if needed -->
         </section>
 
         <!-- No Results View -->
         <div id="no-results" class="hidden text-center py-12 animate-fade-in">
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
-                <i class="fa-solid fa-file-circle-question text-3xl text-gray-400"></i>
+            <div class="inline-flex items-center justify-center w-20 h-20" style="background:#18191a; border-radius:9999px; margin-bottom:1rem;">
+                <i class="fa-solid fa-file-circle-question text-3xl" style="color:#4fc3f7;"></i>
             </div>
-            <h2 class="text-xl font-medium text-gray-900">No posts about Text2 - Post found</h2>
-            <p class="text-gray-500 mt-1">Please try another keyword or return to the <a href="https://text02.com" class="text-blue-600 underline">Text2 homepage</a>.</p>
+            <h2 class="text-xl font-medium text-white">No posts about Text2 - Post found</h2>
+            <p class="text-soft mt-1">
+                Please try another keyword or return to the 
+                <a href="https://text02.com" class="text-accent underline">Text2 homepage</a>.
+            </p>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-auto">
+    <footer class="bg-panel border-t border-soft mt-auto">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
                  <img src="/logoc.png" alt="Text2 - Logo Small" class="h-6 w-auto opacity-80">
-                <p class="text-gray-500 text-sm" id="footer-text">© 2024 Text2.</p>
+                <p class="text-soft text-sm" id="footer-text">© 2024 Text2.</p>
             </div>
-            <div class="flex space-x-6 text-gray-400">
-                <a href="#" class="hover:text-blue-500 transition" aria-label="Text2 Facebook"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="hover:text-blue-500 transition" aria-label="Text2 GitHub"><i class="fa-brands fa-github"></i></a>
-                <a href="#" class="hover:text-blue-500 transition" aria-label="Contact Email"><i class="fa-solid fa-envelope"></i></a>
+            <div class="flex space-x-6 text-soft">
+                <a href="#" class="footer-link" aria-label="Text2 Facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="footer-link" aria-label="Text2 GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="footer-link" aria-label="Contact Email"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
     </footer>
@@ -221,21 +281,21 @@
                 filteredPosts.forEach((post, index) => {
                     const card = document.createElement('a');
                     card.href = post.url;
-                    card.className = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative hover:border-blue-300 transition-colors';
+                    card.className = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative border-soft hover:border-accent transition-colors';
                     card.style.animationDelay = `${index * 0.05}s`;
 
                     card.innerHTML = `
                         <div class="p-6 flex flex-col flex-grow">
-                            <div class="flex items-center text-xs text-gray-400 space-x-1.5 mb-3">
+                            <div class="flex items-center text-xs text-soft space-x-1.5 mb-3">
                                 <i class="far fa-calendar-alt"></i>
                                 <span>${post.date}</span>
                             </div>
                             
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                            <h3 class="text-lg font-bold text-white mb-2 leading-tight group-hover:text-accent transition-colors">
                                 ${post.title}
                             </h3>
                             
-                            <div class="flex items-center text-blue-600 text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-gray-100">
+                            <div class="flex items-center text-accent text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-soft">
                                 Read Post <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                             </div>
                         </div>
