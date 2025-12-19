@@ -5,55 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text2 - Team</title>
     <meta name="description" content="Text2 Development Team">
-    <!-- Tailwind CSS for instant styling -->
+    <!-- Tailwind CSS for instant styling (kept for spacing/utilities only, not for colors) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Custom touches */
+        html, body {
+            height: 100%;
+            background: #121212;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            background: #121212;
+            min-height: 100vh;
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        /* Gradient Panel */
+        .main-panel {
+            background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
         }
-        /* Dark mode support basic */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #111827;
-                color: #f3f4f6;
-            }
-            .glass-effect {
-                background: rgba(17, 24, 39, 0.95);
-            }
+        .header-bar {
+            background: linear-gradient(90deg, #1E1E1E 65%, #242424 100%);
+            border-bottom: 1.5px solid rgba(255,255,255,0.06);
+            box-shadow: 0 1px 8px 0 rgba(0,0,0,0.12);
         }
-        /* Card hover effect like Google's */
+        .logo-bg {
+            background: #242424;
+        }
+        .border-custom {
+            border: 1.5px solid rgba(255,255,255,0.07);
+        }
+        .footer-bg {
+            background: #181818;
+            border-top: 1.5px solid rgba(255,255,255,0.07);
+        }
+        .main-text { color: #fff; }
+        .muted-text { color: #c0c0c0;}
+        .secondary-text { color: #c0c0c0;}
+        .panel-title {
+            background: linear-gradient(90deg, #4fc3f7 10%, #c0c0c0 90%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+        /* Card Styles */
+        .google-card {
+            background: #191919;
+            border: 1.5px solid rgba(255,255,255,0.07);
+            color: #fff;
+            transition: background .2s, border .2s, box-shadow .2s;
+        }
         .google-card:hover {
-            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            background-color: rgba(232, 240, 254, 0.5);
+            background: rgba(79,195,247,0.2);
+            border-color: rgba(79,195,247,0.25);
+            box-shadow: 0 4px 24px 0 rgba(79,195,247,0.05);
         }
-        .dark .google-card:hover {
-             background-color: rgba(55, 65, 81, 0.5);
+        .icon-panel {
+            background: rgba(79,195,247,0.08);
+            color: #4fc3f7;
+        }
+        .icon-panel-green {
+            background: rgba(60, 255, 150, 0.10);
+            color: #c0c0c0;
+        }
+        /* Navbar link styles */
+        .nav-link {
+            color: #c0c0c0;
+            transition: color .18s;
+        }
+        .nav-link.active,
+        .nav-link:hover {
+            color: #4fc3f7;
+        }
+        .logo-text {
+            color: #fff;
+        }
+        /* Footer Links */
+        .footer-link {
+            color: #c0c0c0;
+            transition: color .18s;
+        }
+        .footer-link:hover {
+            color: #4fc3f7;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+<body class="main-panel transition-colors duration-300">
     <!-- HEADER / NAVIGATION -->
-    <header class="fixed w-full top-0 z-50 glass-effect border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <header class="header-bar fixed w-full top-0 z-50 shadow-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
             <a href="index.html" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl group-hover:bg-blue-700 transition">T2</div>
-                <span class="text-xl font-bold tracking-tight">Text2</span>
+                <div class="w-8 h-8 logo-bg rounded-lg flex items-center justify-center text-white font-bold text-xl transition"
+                     style="background: #242424;">
+                    T2
+                </div>
+                <span class="logo-text text-xl font-bold tracking-tight">Text2</span>
             </a>
             <!-- Navigation Links -->
             <nav class="hidden md:flex gap-6 font-medium">
-                <a href="index.html" class="hover:text-blue-600 transition">Home</a>
-                <a href="#" class="text-blue-600">Team</a>
-                <a href="about-me.html" class="hover:text-blue-600 transition">About Me</a>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link active">Team</a>
+                <a href="about-me.html" class="nav-link">About Me</a>
             </nav>
             <!-- Mobile Menu Button (Placeholder) -->
-            <button class="md:hidden text-2xl focus:outline-none">
+            <button class="md:hidden text-2xl focus:outline-none text-[#c0c0c0] hover:text-[#4fc3f7]">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
@@ -63,41 +118,40 @@
         
         <!-- Hero Section -->
         <section class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 panel-title">
                 Text2 Team
             </h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p class="text-lg secondary-text max-w-2xl mx-auto">
                 The minds behind the breakthrough.
             </p>
         </section>
         <!-- RESOURCES SECTION (Google Style) -->
         <section class="mb-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-semibold text-center mb-8 text-gray-700 dark:text-gray-300">Quick Resources</h2>
-            
+            <h2 class="text-2xl font-semibold text-center mb-8 secondary-text">Quick Resources</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Dev Doc Card -->
-                <a href="https://text02.com/team/dev/note.txt" target="_blank" class="google-card block p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 transition duration-200">
+                <a href="https://text02.com/team/dev/note.txt" target="_blank" class="google-card block p-6 rounded-xl border-custom transition duration-200">
                     <div class="flex items-start gap-4">
-                        <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg text-blue-600 dark:text-blue-400">
+                        <div class="p-3 icon-panel rounded-lg">
                             <i class="fa-solid fa-book-open text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-1 text-gray-900 dark:text-white">Developer Guide</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                            <h3 class="text-lg font-bold mb-1 main-text">Developer Guide</h3>
+                            <p class="text-sm muted-text">
                                 Comprehensive documentation and notes for developers.
                             </p>
                         </div>
                     </div>
                 </a>
                 <!-- About Us Card -->
-                <a href="https://text02.com/about-me.html" class="google-card block p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 transition duration-200">
+                <a href="https://text02.com/about-me.html" class="google-card block p-6 rounded-xl border-custom transition duration-200">
                     <div class="flex items-start gap-4">
-                        <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg text-green-600 dark:text-green-400">
+                        <div class="p-3 icon-panel-green rounded-lg">
                             <i class="fa-solid fa-users text-2xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-1 text-gray-900 dark:text-white">About Us</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                            <h3 class="text-lg font-bold mb-1 main-text">About Us</h3>
+                            <p class="text-sm muted-text">
                                 Learn more about our mission, vision, and the team.
                             </p>
                         </div>
@@ -107,12 +161,12 @@
         </section>
     </main>
     <!-- FOOTER -->
-    <footer class="bg-gray-100 dark:bg-gray-800 py-8 border-t border-gray-200 dark:border-gray-700">
+    <footer class="footer-bg py-8">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-600 dark:text-gray-400">&copy; 2025 Text2 Technology. All rights reserved.</p>
-            <div class="mt-4 space-x-4 text-sm text-gray-500">
-                <a href="#" class="hover:text-blue-600">Terms</a>
-                <a href="#" class="hover:text-blue-600">Privacy</a>
+            <p class="muted-text">&copy; 2025 Text2 Technology. All rights reserved.</p>
+            <div class="mt-4 space-x-4 text-sm">
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Privacy</a>
             </div>
         </div>
     </footer>
