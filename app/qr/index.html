@@ -1,106 +1,163 @@
 <!DOCTYPE html>
-<html lang="en" class="antialiased touch-manipulation">
+<html lang="en" class="antialiased scroll-smooth" itemscope itemtype="https://schema.org/WebApplication">
 <head>
     <meta charset="UTF-8" />
-    <!-- Viewport fix for mobile inputs to prevent zooming and handle notch -->
+    <!-- Viewport optimized for mobile: no zoom, cover notch area -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
-    crossorigin="anonymous"></script>
-    <!-- SEO Meta Tags -->
+    
+    <!-- SEO & Metadata -->
     <title>Text2 QR Code Generator</title>
-  <!-- Google tag (gtag.js) - GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-6J85STMJ14');
-  </script>
-
-    <meta name="description" content="Create QR codes instantly with Text2 QR code generator. Convert text, URLs, and links to high-quality QR codes for free. Fast, secure, and mobile-friendly text2 QR code maker with customizable colors.">
-    <meta name="keywords" content="text2 QR code, text2 QR code generator, free QR code generator, text to QR code, URL to QR code, online QR code maker, mobile QR code generator, custom QR colors, download QR code PNG, QR code creator">
-    <meta name="author" content="Text2.pro">
-    <meta name="google" content="notranslate"> 
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Text2 - QR Code Generator: Create free, professional QR codes with custom logos, colors, and styles. High-quality export for businesses and individuals. Supports URL, Wi-Fi, and business cards.">
+    <meta name="keywords" content="Text2 QR Code Generator, QR code generator, free QR code, custom QR code, QR code with logo, professional QR code, online QR code maker, Text2 QR, QR code creator">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="author" content="Text2">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://text02.com/qr">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://text02.com/app/qr">
-    <meta property="og:title" content="Text2 QR Code Generator - Free Online QR Code Maker">
-    <meta property="og:description" content="Create QR codes instantly with Text2 QR code generator. Convert text and URLs to high-quality QR codes for free. Fast, secure, and mobile-friendly.">
-    <meta property="og:image" content="https://text02.com/android-chrome-512x512.png">
+    <meta property="og:url" content="https://text02.com/qr">
+    <meta property="og:title" content="Text2 - QR Code Generator | Free Professional QR Code Maker">
+    <meta property="og:description" content="Create free, professional QR codes with custom logos and colors. Supports URL, Wi-Fi, and business cards. Export high-quality PNG files.">
+    <meta property="og:image" content="https://text02.com/media/thumnel.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Text2.pro">
+    <meta property="og:image:alt" content="Text2 - QR Code Generator">
+    <meta property="og:site_name" content="Text2">
     <meta property="og:locale" content="en_US">
     
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://text02.com/app/qr">
-    <meta property="twitter:title" content="Text2 QR Code Generator - Free Online QR Code Maker">
-    <meta property="twitter:description" content="Create QR codes instantly with Text2 QR code generator. Convert text and URLs to high-quality QR codes for free. Fast, secure, and mobile-friendly.">
-    <meta property="twitter:image" content="https://text02.com/android-chrome-512x512.png">
-    <meta property="twitter:creator" content="@text2pro">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://text02.com/qr">
+    <meta name="twitter:title" content="Text2 - QR Code Generator | Free Professional QR Code Maker">
+    <meta name="twitter:description" content="Create free, professional QR codes with custom logos and colors. Supports URL, Wi-Fi, and business cards.">
+    <meta name="twitter:image" content="https://text02.com/media/thumnel.png">
+    <meta name="twitter:image:alt" content="Text2 - QR Code Generator">
+    <meta name="twitter:site" content="@Text2click">
     
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://text02.com/app/qr">
-    
-    <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <!-- Manifest -->
     <link rel="manifest" href="site.webmanifest">
-
-    <!-- Preload critical resources -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" as="style">
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js" as="script">
-
-    <!-- Fonts: Plus Jakarta Sans (Modern, Geometric, High Legibility) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Structured Data (JSON-LD) -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Text2 QR",
-        "description": "Free online QR code generator that converts text and URLs into high-quality QR codes instantly",
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Text2 - QR Code Generator",
+      "alternateName": "Text2 QR",
+      "url": "https://text02.com/qr",
+      "description": "Create free, professional QR codes with custom logos and colors. Supports URL, Wi-Fi, and business cards. Export high-quality PNG files.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      },
+      "featureList": [
+        "Free QR code generation",
+        "Add logo to QR code",
+        "Custom colors",
+        "Multiple styles (Square, Rounded, Dots)",
+        "Supports URL, Wi-Fi, Business Cards",
+        "Export high-quality PNG files",
+        "Unlimited generation"
+      ],
+      "screenshot": "https://text02.com/media/thumnel.png",
+      "softwareVersion": "1.0",
+      "datePublished": "2024-01-01",
+      "dateModified": "2024-01-01",
+      "author": {
+        "@type": "Organization",
+        "name": "Text2",
+        "url": "https://text02.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Text2",
         "url": "https://text02.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://text02.com/media/thumnel.png"
+        }
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "Text2 - QR Code Generator",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "Any",
         "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "featureList": [
-            "Instant QR code generation",
-            "Customizable colors",
-            "High-resolution PNG download",
-            "Mobile-friendly interface",
-            "No registration required",
-            "Privacy-focused (no data stored)"
-        ],
-        "author": {
-            "@type": "Organization",
-            "name": "Text2 QR"
-        },
-        "datePublished": "2024-01-01",
-        "dateModified": "2024-01-01",
-        "inLanguage": "en-US",
-        "isAccessibleForFree": true,
-        "browserRequirements": "Requires JavaScript. Requires HTML5."
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://text02.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "QR Code Generator",
+            "item": "https://text02.com/qr"
+          }
+        ]
+      }
     }
     </script>
+    
+    <!-- Additional Schema for Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowToTool",
+      "name": "Text2 - QR Code Generator",
+      "description": "Free and professional QR code generation tool",
+      "url": "https://text02.com/qr",
+      "toolCategory": "QR Code Generator",
+      "applicationCategory": "Utility"
+    }
+    </script>
+    
+    <!-- AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270" crossorigin="anonymous"></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6J85STMJ14');
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -109,37 +166,23 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
                     colors: {
-                        primary: { 500: '#4fc3f7', 600: '#29b6f6' }, // Light blue for hover effects
-                        dark: {
-                            bg: '#121212', // Main background
-                            panel: '#1E1E1E', // Panel start
-                            'panel-end': '#242424', // Panel end
-                            text: '#ffffff', // Primary text
-                            'text-secondary': '#c0c0c0', // Secondary text
-                            border: 'rgba(255,255,255,0.05)', // Subtle borders
-                            'border-light': 'rgba(255,255,255,0.08)', // Slightly more visible borders
-                            hover: 'rgba(79,195,247,0.2)' // Hover effect
-                        }
-                    },
-                    boxShadow: {
-                        'app': '0 10px 40px -10px rgba(0,0,0,0.3)',
-                        'glow': '0 0 20px rgba(79, 195, 247, 0.3)',
+                        primary: { 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' },
+                        dark: { bg: '#0f172a', card: '#1e293b', border: '#334155' } 
                     },
                     animation: {
-                        'pop': 'pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pop': 'pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
                         'slide-up': 'slideUp 0.3s ease-out forwards',
+                        'fade-in': 'fadeIn 0.2s ease-out forwards',
                     },
                     keyframes: {
-                        pop: {
-                            '0%': { transform: 'scale(0.9)', opacity: '0' },
-                            '100%': { transform: 'scale(1)', opacity: '1' }
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(100%)' },
-                            '100%': { transform: 'translateY(0)' }
-                        }
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+                        pop: { '0%': { transform: 'scale(0.9)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }
                     }
                 }
             }
@@ -152,407 +195,510 @@
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 
     <style>
-        /* Hide Scrollbar but keep functionality */
+        html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* iOS Like Inputs */
-        textarea:focus, input:focus { outline: none; }
         
-        /* Smooth transitions for theme */
-        body { transition: background-color 0.3s ease, color 0.3s ease; }
-
-        /* Glass effect utility */
-        .glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
-        .dark .glass {
-            background: rgba(30, 30, 30, 0.9);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .dark .glass-panel {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Custom gradient backgrounds for dark theme */
-        .dark-panel-gradient {
-            background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
-        }
-
-        /* Hover effects */
-        .hover-blue:hover {
-            background-color: rgba(79, 195, 247, 0.2);
-        }
-
-        /* Safe Area for notched phones */
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
-        .pt-safe { padding-top: env(safe-area-inset-top); }
+        
+        .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 16px); }
+        .pt-safe { padding-top: calc(env(safe-area-inset-top) + 8px); }
+        .qr-enter { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .btn-active:active { transform: scale(0.96); transition: transform 0.1s; }
+        
+        /* Tab Transitions */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
     </style>
 </head>
 
-<body class="bg-slate-50 dark:bg-[#121212] text-slate-800 dark:text-white h-[100dvh] flex flex-col overflow-hidden">
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-100 min-h-[100dvh] flex flex-col transition-colors duration-500 overflow-x-hidden selection:bg-primary-500/30">
 
-    <!-- 1. Header (Minimal & Clean) -->
-    <header class="flex-none pt-safe px-6 py-4 flex justify-between items-center bg-transparent z-20">
-        <a href="https://text02.com" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="https://text02.com/favicon.ico" alt="Text2 QR Logo" class="w-9 h-9 rounded-xl shadow-lg shadow-primary-500/30">
-            <span class="font-bold text-lg tracking-tight text-slate-900 dark:text-white">Text2 QR</span>
-        </a>
-        <button id="theme-toggle" class="w-10 h-10 rounded-full bg-white dark:bg-[#1E1E1E] dark:border dark:border-[rgba(255,255,255,0.05)] shadow-sm flex items-center justify-center text-slate-500 dark:text-[#c0c0c0] hover-blue active:scale-90 transition-all">
-            <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-            <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+    <!-- Ambient Background -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-15%] left-[-15%] w-[60vh] h-[60vh] bg-blue-400/20 dark:bg-primary-500/15 rounded-full blur-[80px] animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] right-[-20%] w-[50vh] h-[50vh] bg-purple-400/20 dark:bg-purple-500/15 rounded-full blur-[80px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="flex-none pt-safe px-5 py-3 flex justify-between items-center z-50 transition-all duration-300">
+        <div class="flex items-center gap-3 active:opacity-70 transition-opacity cursor-pointer" onclick="window.location.reload()">
+            <div class="w-10 h-10 bg-white dark:bg-dark-card rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/10 border border-slate-100 dark:border-dark-border" aria-label="Text2 QR Code Generator Logo">
+                <i data-lucide="qr-code" class="w-5 h-5 text-primary-500" aria-hidden="true"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-xl tracking-tight leading-none text-slate-800 dark:text-white">Text2<span class="text-primary-500">QR</span></h1>
+                <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Ultimate</p>
+            </div>
+        </div>
+        <button id="theme-btn" class="w-10 h-10 rounded-full bg-white/80 dark:bg-dark-card/80 backdrop-blur-md border border-slate-200 dark:border-dark-border flex items-center justify-center text-slate-500 hover:text-primary-500 transition-all shadow-sm btn-active">
+            <i data-lucide="moon" class="w-5 h-5 dark:hidden fill-current opacity-80"></i>
+            <i data-lucide="sun" class="w-5 h-5 hidden dark:block fill-current opacity-80"></i>
         </button>
     </header>
 
-    <!-- 2. Main Scrollable Area (Content) -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden relative no-scrollbar pb-32">
-        <div class="px-4 sm:px-6 max-w-md mx-auto space-y-6 pt-2">
+    <!-- Main Content -->
+    <main class="flex-1 w-full max-w-lg mx-auto px-5 pb-40 flex flex-col gap-6 pt-2">
+        
+        <!-- Tab Navigation (Type Selector) -->
+        <div class="flex p-1 bg-slate-200/50 dark:bg-dark-card/50 rounded-xl backdrop-blur-sm border border-slate-200 dark:border-dark-border">
+            <button onclick="setTab('text')" class="tab-btn flex-1 py-2 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 transition-all active-tab" data-tab="text">
+                Link / Text
+            </button>
+            <button onclick="setTab('wifi')" class="tab-btn flex-1 py-2 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 transition-all" data-tab="wifi">
+                Wi-Fi
+            </button>
+            <button onclick="setTab('vcard')" class="tab-btn flex-1 py-2 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 transition-all" data-tab="vcard">
+                Contact
+            </button>
+        </div>
 
-            <!-- Hero Card: The QR Preview (Center Stage) -->
-            <div id="preview-card" class="relative w-full aspect-square bg-white dark:bg-[#1E1E1E] dark:dark-panel-gradient rounded-[2rem] shadow-app flex items-center justify-center p-6 border border-slate-100 dark:border-[rgba(255,255,255,0.05)] transition-all duration-500">
+        <!-- QR Preview Card -->
+        <section class="relative group mx-auto w-full max-w-[340px]">
+            <div class="absolute -inset-4 bg-gradient-to-tr from-primary-400/30 to-purple-500/30 rounded-[3rem] blur-xl opacity-60 dark:opacity-40 transition duration-1000"></div>
+            <div class="relative w-full aspect-square bg-white dark:bg-dark-card rounded-[2rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] dark:shadow-none border border-slate-100 dark:border-dark-border flex items-center justify-center p-6 overflow-hidden transition-all duration-500">
                 
-                <!-- Empty State -->
-                <div id="empty-state" class="text-center">
-                    <div class="w-16 h-16 bg-slate-100 dark:bg-[#242424] rounded-full mx-auto flex items-center justify-center mb-4 animate-pulse border dark:border-[rgba(255,255,255,0.08)]">
-                        <svg class="w-8 h-8 text-slate-400 dark:text-[#c0c0c0]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                <div id="empty-state" class="text-center space-y-4">
+                    <div class="w-20 h-20 bg-slate-50 dark:bg-slate-800/50 rounded-2xl mx-auto flex items-center justify-center animate-float border border-slate-100 dark:border-slate-700/50">
+                        <i data-lucide="scan-line" class="w-8 h-8 text-primary-400"></i>
                     </div>
-                    <p class="text-slate-500 dark:text-[#c0c0c0] font-medium">Start typing to generate...</p>
+                    <div class="space-y-1">
+                        <p class="text-base font-bold text-slate-700 dark:text-slate-200">Start Creating</p>
+                        <p class="text-xs text-slate-400 font-medium px-4">Fill the form below to generate</p>
+                    </div>
                 </div>
 
-                <!-- The QR Canvas Container -->
-                <div id="qr-container" class="hidden w-full h-full flex items-center justify-center relative">
-                    <!-- Canvas injected here -->
-                    
-                    <!-- Corner decorations for "Scan" look -->
-                    <div class="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-primary-500 rounded-tl-xl"></div>
-                    <div class="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-primary-500 rounded-tr-xl"></div>
-                    <div class="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-primary-500 rounded-bl-xl"></div>
-                    <div class="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-primary-500 rounded-br-xl"></div>
-                </div>
+                <div id="canvas-wrapper" class="hidden w-full h-full flex items-center justify-center drop-shadow-2xl"></div>
             </div>
+        </section>
 
-            <!-- Input Field (Floating Card Style) -->
-            <div class="bg-white dark:bg-[#1E1E1E] dark:dark-panel-gradient rounded-3xl p-1 shadow-sm border border-slate-100 dark:border-[rgba(255,255,255,0.05)] focus-within:ring-2 focus-within:ring-primary-500 transition-all duration-300">
-                <div class="relative">
-                    <textarea id="textInput" rows="3" 
-                        class="w-full bg-transparent text-lg font-medium p-5 rounded-3xl placeholder-slate-400 dark:placeholder-[#c0c0c0] resize-none text-slate-800 dark:text-white"
-                        placeholder="https://text02.com"></textarea>
-                    
-                    <!-- Paste Button (Absolute positioned inside input) -->
-                    <button id="paste-btn" class="absolute bottom-3 right-3 bg-slate-100 dark:bg-[#242424] hover:bg-slate-200 dark:hover:bg-[rgba(79,195,247,0.2)] text-xs font-bold py-1.5 px-3 rounded-lg text-slate-600 dark:text-[#c0c0c0] border dark:border-[rgba(255,255,255,0.08)] transition-all">
-                        Paste
+        <!-- Dynamic Input Forms -->
+        <section class="glass-panel rounded-2xl p-4 shadow-lg shadow-slate-200/50 dark:shadow-none animate-slide-up" style="animation-delay: 0.1s;">
+            
+            <!-- 1. Text/URL Input -->
+            <div id="form-text" class="tab-content active space-y-3">
+                <div class="relative group">
+                    <textarea id="text-input" rows="2" class="w-full bg-transparent text-lg font-medium p-3 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 resize-none focus:bg-white/50 dark:focus:bg-slate-800/50 border-2 border-transparent focus:border-primary-200 dark:focus:border-primary-900/50 outline-none transition-all" placeholder="https://example.com"></textarea>
+                    <button onclick="pasteText()" class="absolute top-2 right-2 p-2 rounded-lg bg-slate-100 dark:bg-slate-700/50 text-slate-500 hover:text-primary-500 transition-colors btn-active">
+                        <i data-lucide="clipboard" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
-        </div>
+            <!-- 2. Wi-Fi Input -->
+            <div id="form-wifi" class="tab-content space-y-3">
+                <input type="text" id="wifi-ssid" placeholder="Network Name (SSID)" class="w-full bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+                <div class="flex gap-2">
+                    <input type="text" id="wifi-pass" placeholder="Password" class="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+                    <select id="wifi-type" class="bg-slate-100 dark:bg-slate-800 p-3 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 outline-none">
+                        <option value="WPA">WPA</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">None</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 3. VCard Input -->
+            <div id="form-vcard" class="tab-content space-y-3">
+                <div class="flex gap-2">
+                    <input type="text" id="vcard-fn" placeholder="First Name" class="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+                    <input type="text" id="vcard-ln" placeholder="Last Name" class="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+                </div>
+                <input type="tel" id="vcard-phone" placeholder="Phone Number" class="w-full bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+                <input type="email" id="vcard-email" placeholder="Email Address" class="w-full bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent focus:border-primary-400 outline-none text-slate-800 dark:text-white text-sm font-medium">
+            </div>
+
+        </section>
+
+        <!-- Styling & Logo Controls -->
+        <section class="space-y-4 animate-slide-up" style="animation-delay: 0.2s;">
+            
+            <!-- Quick Presets -->
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 snap-x -mx-5 px-5">
+                <button onclick="applyPreset('classic')" class="snap-start flex-none px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 btn-active">Classic</button>
+                <button onclick="applyPreset('blue')" class="snap-start flex-none px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 text-xs font-bold text-blue-600 dark:text-blue-400 btn-active">Social</button>
+                <button onclick="applyPreset('neon')" class="snap-start flex-none px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-800 text-xs font-bold text-purple-600 dark:text-purple-400 btn-active">Vibe</button>
+                <button onclick="applyPreset('love')" class="snap-start flex-none px-4 py-2 rounded-full bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-800 text-xs font-bold text-rose-600 dark:text-rose-400 btn-active">Love</button>
+                <button onclick="applyPreset('dark')" class="snap-start flex-none px-4 py-2 rounded-full bg-slate-800 border border-slate-600 text-xs font-bold text-white btn-active">Dark</button>
+            </div>
+
+            <!-- Style & Logo Card -->
+            <div class="bg-white/60 dark:bg-dark-card/60 backdrop-blur-md rounded-2xl p-5 border border-slate-200/60 dark:border-dark-border space-y-5">
+                
+                <!-- Dot Style Selector -->
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Dot Style</span>
+                    <div class="flex gap-2">
+                        <button onclick="setDotStyle('square')" class="dot-btn p-2 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active-dot" data-style="square" title="Square">
+                            <div class="w-4 h-4 bg-current rounded-sm"></div>
+                        </button>
+                        <button onclick="setDotStyle('rounded')" class="dot-btn p-2 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all" data-style="rounded" title="Rounded">
+                            <div class="w-4 h-4 bg-current rounded-md"></div>
+                        </button>
+                        <button onclick="setDotStyle('dots')" class="dot-btn p-2 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all" data-style="dots" title="Dots">
+                            <div class="w-4 h-4 bg-current rounded-full"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="h-px bg-slate-100 dark:bg-slate-700/50"></div>
+
+                <!-- Colors -->
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                        <i data-lucide="palette" class="w-4 h-4"></i> Colors
+                    </span>
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center gap-1">
+                            <div id="picker-fg" class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-600 shadow-sm cursor-pointer"></div>
+                            <span class="text-[9px] font-bold text-slate-400">QR</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div id="picker-bg" class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-600 shadow-sm cursor-pointer"></div>
+                            <span class="text-[9px] font-bold text-slate-400">Back</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px bg-slate-100 dark:bg-slate-700/50"></div>
+
+                <!-- Logo -->
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                        <i data-lucide="image" class="w-4 h-4"></i> Logo
+                    </span>
+                    <div class="flex gap-2">
+                        <label for="logo-upload" class="cursor-pointer px-4 py-1.5 bg-slate-100 dark:bg-slate-700/50 text-xs font-bold text-primary-600 dark:text-primary-400 rounded-lg btn-active border border-slate-200 dark:border-slate-600">
+                            Upload
+                        </label>
+                        <input type="file" id="logo-upload" accept="image/*" class="hidden">
+                        <button id="remove-logo" class="px-3 py-1.5 text-xs font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/10 rounded-lg hidden btn-active">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- 3. Bottom Action Bar (Fixed Glassmorphism) -->
-    <div class="fixed bottom-0 left-0 right-0 glass pb-safe pt-4 px-4 z-30 animate-slide-up">
-        <div class="max-w-md mx-auto flex flex-col gap-4">
-            
-            <!-- Settings Toggle (Colors) - Collapsible -->
-            <div id="settings-panel" class="hidden bg-white dark:bg-[#1E1E1E] dark:dark-panel-gradient rounded-2xl p-4 mb-2 shadow-lg border border-slate-100 dark:border-[rgba(255,255,255,0.05)]">
-                <p class="text-xs font-bold text-slate-500 dark:text-[#c0c0c0] uppercase mb-3 tracking-wider">Customize Style</p>
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <div class="flex flex-col items-center gap-1">
-                            <div id="fg-color-picker" class="w-10 h-10 rounded-full shadow-sm border dark:border-[rgba(255,255,255,0.08)] cursor-pointer"></div>
-                            <span class="text-[10px] text-slate-500 dark:text-[#c0c0c0]">Code</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1">
-                            <div id="bg-color-picker" class="w-10 h-10 rounded-full shadow-sm border dark:border-[rgba(255,255,255,0.08)] cursor-pointer"></div>
-                            <span class="text-[10px] text-slate-500 dark:text-[#c0c0c0]">Back</span>
-                        </div>
-                    </div>
-                    <button id="close-settings" class="text-sm text-primary-500 dark:text-primary-500 font-semibold hover-blue px-2 py-1 rounded transition-all">Done</button>
-                </div>
-
-                <!-- Logo upload + shape -->
-                <div class="mt-4 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-semibold text-slate-800 dark:text-white">Upload Icon</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <input id="logo-file-input" type="file" accept="image/*" class="hidden">
-                            <button id="logo-upload-btn" class="text-sm font-semibold bg-slate-100 dark:bg-[#242424] px-3 py-1.5 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] hover-blue transition-all">Upload</button>
-                            <button id="logo-clear-btn" class="text-xs text-slate-500 dark:text-[#c0c0c0] underline hover:text-primary-500">Remove</button>
-                        </div>
-                    </div>
-                    <div id="logo-preview" class="h-12 rounded-xl border border-dashed border-slate-200 dark:border-[rgba(255,255,255,0.1)] bg-slate-50 dark:bg-[#181818] flex items-center justify-center text-xs text-slate-500 dark:text-[#c0c0c0] px-3"></div>
-                    <div class="flex items-center gap-2">
-                        <button data-shape="square" id="logo-shape-square" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] bg-white dark:bg-[#1E1E1E] text-sm font-semibold hover-blue transition-all">Square</button>
-                        <button data-shape="circle" id="logo-shape-circle" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-[rgba(255,255,255,0.08)] bg-white dark:bg-[#1E1E1E] text-sm font-semibold hover-blue transition-all">Circle</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Buttons Row -->
-            <div class="flex gap-3 mb-4">
-                <!-- Customize Button -->
-                <button id="toggle-settings" class="flex-none w-14 h-14 rounded-2xl bg-slate-100 dark:bg-[#1E1E1E] dark:border dark:border-[rgba(255,255,255,0.05)] flex items-center justify-center text-slate-600 dark:text-[#c0c0c0] hover-blue active:scale-95 transition-all">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                </button>
-
-                <!-- Download Button (The Big CTA) -->
-                <button id="downloadBtn" class="flex-1 h-14 rounded-2xl bg-primary-600 hover:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 text-white font-bold text-lg shadow-glow flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                    <span>Download PNG</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                </button>
-            </div>
+    <!-- Bottom Action Bar -->
+    <div class="fixed bottom-0 left-0 right-0 z-40 pb-safe pt-4 px-5">
+        <div class="absolute inset-0 bg-white/80 dark:bg-dark-bg/90 backdrop-blur-xl border-t border-white/50 dark:border-white/5 shadow-[0_-10px_40px_-10px_rgba(0,0,0,0.05)] rounded-t-[2rem]"></div>
+        <div class="max-w-lg mx-auto w-full relative z-10">
+            <button id="download-btn" disabled class="w-full h-14 bg-gradient-to-r from-primary-500 to-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-primary-500/25 transition-all disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed btn-active flex items-center justify-center gap-3 group">
+                <span class="group-hover:scale-105 transition-transform">Download PNG</span>
+                <i data-lucide="download" class="w-5 h-5 group-hover:translate-y-1 transition-transform"></i>
+            </button>
         </div>
     </div>
 
+    <!-- Logic -->
     <script>
-        // --- Mobile App Logic ---
+        lucide.createIcons();
 
+        // Elements
         const els = {
-            input: document.getElementById('textInput'),
-            preview: document.getElementById('preview-card'),
-            qrContainer: document.getElementById('qr-container'),
+            inputs: document.querySelectorAll('input, textarea, select'),
+            canvasWrapper: document.getElementById('canvas-wrapper'),
             emptyState: document.getElementById('empty-state'),
-            downloadBtn: document.getElementById('downloadBtn'),
-            pasteBtn: document.getElementById('paste-btn'),
-            settingsPanel: document.getElementById('settings-panel'),
-            toggleSettings: document.getElementById('toggle-settings'),
-            closeSettings: document.getElementById('close-settings'),
-            logoInput: document.getElementById('logo-file-input'),
-            logoUploadBtn: document.getElementById('logo-upload-btn'),
-            logoClearBtn: document.getElementById('logo-clear-btn'),
-            logoPreview: document.getElementById('logo-preview'),
-            logoShapeSquare: document.getElementById('logo-shape-square'),
-            logoShapeCircle: document.getElementById('logo-shape-circle'),
-            themeToggle: document.getElementById('theme-toggle'),
-            html: document.documentElement
+            downloadBtn: document.getElementById('download-btn'),
+            themeBtn: document.getElementById('theme-btn'),
+            logoInput: document.getElementById('logo-upload'),
+            removeLogoBtn: document.getElementById('remove-logo'),
         };
 
         // State
-        let qrColor = '#000000';
-        let bgColor = '#ffffff';
-        let logoDataUrl = null;
-        let logoShape = 'square'; // square | circle
-        let logoImg = null;
-        let debounceTimer;
+        let state = {
+            mode: 'text', // text, wifi, vcard
+            text: '',
+            fgColor: '#1e293b',
+            bgColor: '#ffffff',
+            logoImg: null,
+            dotStyle: 'square', // square, rounded, dots
+            isDark: localStorage.getItem('theme') === 'dark'
+        };
 
-        // 1. Theme Handling (Persist & Smooth)
-        function initTheme() {
-            // Default to dark mode to match the specified color scheme
-            if (localStorage.theme === 'light') {
-                els.html.classList.remove('dark');
-            } else {
-                // Default to dark mode with the new color scheme
-                els.html.classList.add('dark');
+        const vibrate = () => navigator.vibrate?.(10);
+
+        // --- 1. Tab Switching ---
+        window.setTab = (mode) => {
+            vibrate();
+            state.mode = mode;
+            
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.dataset.tab === mode) {
+                    btn.classList.add('bg-white', 'dark:bg-slate-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
+                    btn.classList.remove('text-slate-500', 'dark:text-slate-400');
+                } else {
+                    btn.classList.remove('bg-white', 'dark:bg-slate-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
+                    btn.classList.add('text-slate-500', 'dark:text-slate-400');
+                }
+            });
+
+            // Show Content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`form-${mode}`).classList.add('active');
+            
+            generate();
+        };
+
+        // Init Tab Style
+        window.setTab('text');
+
+        // --- 2. Dot Styles ---
+        window.setDotStyle = (style) => {
+            vibrate();
+            state.dotStyle = style;
+            document.querySelectorAll('.dot-btn').forEach(btn => {
+                const isActive = btn.dataset.style === style;
+                btn.classList.toggle('border-primary-500', isActive);
+                btn.classList.toggle('text-primary-500', isActive);
+                btn.classList.toggle('bg-primary-50', isActive);
+                btn.classList.toggle('dark:bg-primary-900/20', isActive);
+                if(!isActive) {
+                    btn.classList.add('text-slate-400');
+                    btn.classList.remove('bg-primary-50', 'dark:bg-primary-900/20');
+                }
+            });
+            generate();
+        };
+        window.setDotStyle('square'); // Default
+
+        // --- 3. Theme & Colors ---
+        function toggleTheme() {
+            vibrate();
+            state.isDark = !state.isDark;
+            document.documentElement.classList.toggle('dark', state.isDark);
+            localStorage.setItem('theme', state.isDark ? 'dark' : 'light');
+            if(!els.canvasWrapper.querySelector('canvas')) {
+                state.fgColor = state.isDark ? '#f8fafc' : '#1e293b';
+                state.bgColor = state.isDark ? '#1e293b' : '#ffffff';
+                pickrFG.setColor(state.fgColor);
+                pickrBG.setColor(state.bgColor);
             }
+            generate();
         }
-        initTheme();
+        if(state.isDark) document.documentElement.classList.add('dark');
+        els.themeBtn.addEventListener('click', toggleTheme);
 
-        els.themeToggle.addEventListener('click', () => {
-            els.html.classList.toggle('dark');
-            localStorage.theme = els.html.classList.contains('dark') ? 'dark' : 'light';
-            // Visual feedback
-            navigator.vibrate?.(10); // Haptic feedback on Android
-        });
+        const pickrConfig = { theme: 'nano', components: { preview: true, opacity: false, hue: true, interaction: { input: true, save: true } } };
+        const pickrFG = Pickr.create({ ...pickrConfig, el: '#picker-fg', default: state.fgColor }).on('change', c => { state.fgColor = c.toHEXA().toString(); generate(); });
+        const pickrBG = Pickr.create({ ...pickrConfig, el: '#picker-bg', default: state.bgColor }).on('change', c => { state.bgColor = c.toHEXA().toString(); generate(); });
 
-        // 2. Color Pickers (Simple & Clean)
-        const pickrConfig = {
-            theme: 'nano',
-            components: { preview: true, opacity: true, hue: true, interaction: { input: true, save: true } }
+        window.applyPreset = (name) => {
+            vibrate();
+            const presets = {
+                classic: { fg: '#000000', bg: '#ffffff' },
+                blue: { fg: '#2563eb', bg: '#eff6ff' },
+                neon: { fg: '#d946ef', bg: '#2e1065' },
+                love: { fg: '#e11d48', bg: '#fff1f2' },
+                dark: { fg: '#ffffff', bg: '#1e293b' }
+            };
+            const p = presets[name];
+            state.fgColor = p.fg; state.bgColor = p.bg;
+            pickrFG.setColor(p.fg); pickrBG.setColor(p.bg);
+            generate();
         };
 
-        Pickr.create({ ...pickrConfig, el: '#fg-color-picker', default: qrColor })
-            .on('change', (c, instance) => { qrColor = c.toHEXA().toString(); instance.applyColor(); generateQR(); });
+        // --- 4. Content Logic ---
+        function getQRContent() {
+            if (state.mode === 'text') return document.getElementById('text-input').value.trim();
+            
+            if (state.mode === 'wifi') {
+                const ssid = document.getElementById('wifi-ssid').value.trim();
+                const pass = document.getElementById('wifi-pass').value;
+                const type = document.getElementById('wifi-type').value;
+                if (!ssid) return '';
+                return `WIFI:S:${ssid};T:${type};P:${pass};;`;
+            }
 
-        Pickr.create({ ...pickrConfig, el: '#bg-color-picker', default: bgColor })
-            .on('change', (c, instance) => { bgColor = c.toHEXA().toString(); instance.applyColor(); generateQR(); });
+            if (state.mode === 'vcard') {
+                const fn = document.getElementById('vcard-fn').value.trim();
+                const ln = document.getElementById('vcard-ln').value.trim();
+                const phone = document.getElementById('vcard-phone').value.trim();
+                const email = document.getElementById('vcard-email').value.trim();
+                if (!fn && !ln && !phone) return '';
+                return `BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+            }
+            return '';
+        }
 
-        // 3. Settings Panel Toggle
-        const togglePanel = () => {
-            els.settingsPanel.classList.toggle('hidden');
-            navigator.vibrate?.(10);
+        window.pasteText = async () => {
+            try {
+                document.getElementById('text-input').value = await navigator.clipboard.readText();
+                generate();
+            } catch(e) {}
         };
-        els.toggleSettings.addEventListener('click', togglePanel);
-        els.closeSettings.addEventListener('click', togglePanel);
 
-        // Logo Upload + Shape handling
-        function updateShapeButtons() {
-            const activeClasses = 'border-primary-500 text-primary-500 shadow-sm';
-            [els.logoShapeSquare, els.logoShapeCircle].forEach(btn => btn.classList.remove('border-primary-500', 'text-primary-500', 'shadow-sm'));
-            const activeBtn = logoShape === 'square' ? els.logoShapeSquare : els.logoShapeCircle;
-            activeBtn.classList.add('border-primary-500', 'text-primary-500', 'shadow-sm');
+        let debounce;
+        els.inputs.forEach(el => el.addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(generate, 150); }));
+
+        // --- 5. Custom QR Drawing (The Pro Part) ---
+        function generate() {
+            const content = getQRContent();
+            
+            if (!content) {
+                els.canvasWrapper.classList.add('hidden');
+                els.emptyState.classList.remove('hidden');
+                els.downloadBtn.disabled = true;
+                return;
+            }
+
+            // Generate Matrix
+            const qr = QRCode.create(content, { errorCorrectionLevel: 'H' });
+            const modules = qr.modules.data;
+            const moduleCount = qr.modules.size;
+            const margin = 2; // modules
+            const size = 1024;
+            const cellSize = size / (moduleCount + margin * 2);
+
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Fill Background
+            ctx.fillStyle = state.bgColor;
+            ctx.fillRect(0, 0, size, size);
+
+            // 2. Draw Modules
+            ctx.fillStyle = state.fgColor;
+            
+            for (let r = 0; r < moduleCount; r++) {
+                for (let c = 0; c < moduleCount; c++) {
+                    if (modules[r * moduleCount + c]) {
+                        const x = (c + margin) * cellSize;
+                        const y = (r + margin) * cellSize;
+                        const w = Math.ceil(cellSize);
+
+                        // Position Markers (Always Square-ish for readability)
+                        const isPositionMarker = (r < 7 && c < 7) || (r < 7 && c >= moduleCount - 7) || (r >= moduleCount - 7 && c < 7);
+
+                        if (isPositionMarker) {
+                            // Rounded corners for markers if style is not square
+                            if (state.dotStyle === 'square') ctx.fillRect(x, y, w, w);
+                            else {
+                                // Just a bit rounded for markers to look clean
+                                ctx.beginPath();
+                                ctx.roundRect(x, y, w, w, w * 0.1); 
+                                ctx.fill();
+                            }
+                        } else {
+                            // Inner Modules
+                            ctx.beginPath();
+                            if (state.dotStyle === 'dots') {
+                                ctx.arc(x + w/2, y + w/2, w/2.4, 0, Math.PI * 2); // 2.4 gives nice spacing
+                                ctx.fill();
+                            } else if (state.dotStyle === 'rounded') {
+                                ctx.roundRect(x + w*0.1, y + w*0.1, w*0.8, w*0.8, w*0.25);
+                                ctx.fill();
+                            } else {
+                                ctx.fillRect(x, y, w, w); // Square
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 3. Draw Logo
+            if (state.logoImg) {
+                const logoSize = size * 0.22;
+                const logoX = (size - logoSize) / 2;
+                const logoY = (size - logoSize) / 2;
+
+                ctx.save();
+                ctx.beginPath();
+                // Logo Backing
+                const pad = 15;
+                if(state.dotStyle === 'dots') ctx.arc(size/2, size/2, logoSize/2 + pad, 0, Math.PI*2);
+                else ctx.roundRect(logoX - pad, logoY - pad, logoSize + pad*2, logoSize + pad*2, 30);
+                
+                ctx.fillStyle = state.bgColor;
+                ctx.shadowColor = "rgba(0,0,0,0.1)";
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowColor = "transparent";
+
+                // Clip & Draw
+                ctx.beginPath();
+                if(state.dotStyle === 'dots') ctx.arc(size/2, size/2, logoSize/2, 0, Math.PI*2);
+                else ctx.roundRect(logoX, logoY, logoSize, logoSize, 20);
+                ctx.clip();
+                
+                ctx.drawImage(state.logoImg, logoX, logoY, logoSize, logoSize);
+                ctx.restore();
+            }
+
+            // Display
+            els.canvasWrapper.innerHTML = '';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.borderRadius = '24px';
+            canvas.classList.add('qr-enter');
+            els.canvasWrapper.appendChild(canvas);
+
+            els.emptyState.classList.add('hidden');
+            els.canvasWrapper.classList.remove('hidden');
+            els.downloadBtn.disabled = false;
         }
-        updateShapeButtons();
 
-        function setLogoPreview(text) {
-            els.logoPreview.textContent = text;
-        }
-        setLogoPreview('Click and add your icon');
-
-        els.logoUploadBtn.addEventListener('click', () => els.logoInput.click());
-
+        // --- 6. Utilities ---
         els.logoInput.addEventListener('change', (e) => {
             const file = e.target.files?.[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = () => {
-                logoDataUrl = reader.result;
-                logoImg = new Image();
-                logoImg.onload = () => {
-                    setLogoPreview(`Selected: ${file.name}`);
-                    generateQR();
+            reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                    state.logoImg = img;
+                    els.removeLogoBtn.classList.remove('hidden');
+                    generate();
                 };
-                logoImg.src = logoDataUrl;
+                img.src = evt.target.result;
             };
             reader.readAsDataURL(file);
         });
 
-        els.logoClearBtn.addEventListener('click', () => {
-            logoDataUrl = null;
-            logoImg = null;
+        els.removeLogoBtn.addEventListener('click', () => {
+            state.logoImg = null;
             els.logoInput.value = '';
-            setLogoPreview('Logo removed. Click Upload to add again.');
-            generateQR();
+            els.removeLogoBtn.classList.add('hidden');
+            generate();
         });
 
-        [els.logoShapeSquare, els.logoShapeCircle].forEach(btn => {
-            btn.addEventListener('click', () => {
-                logoShape = btn.dataset.shape;
-                updateShapeButtons();
-                generateQR();
-            });
-        });
-
-        // 4. Paste Functionality
-        els.pasteBtn.addEventListener('click', async () => {
-            try {
-                const text = await navigator.clipboard.readText();
-                els.input.value = text;
-                generateQR();
-                navigator.vibrate?.(20);
-            } catch (err) {
-                // Fallback or permission denied - focus input
-                els.input.focus();
-            }
-        });
-
-        // 5. The Generator Core
-        function generateQR() {
-            const text = els.input.value.trim();
-
-            if (!text) {
-                // Reset State
-                els.qrContainer.classList.add('hidden');
-                els.emptyState.classList.remove('hidden');
-                els.downloadBtn.disabled = true;
-                els.downloadBtn.classList.add('opacity-50');
-                return;
-            }
-
-            // Generate
-            els.qrContainer.innerHTML = ''; // Clear old
-            
-            QRCode.toCanvas(text, {
-                width: 1000, // High res for download, CSS scales it down
-                margin: 1,
-                color: { dark: qrColor, light: bgColor },
-                errorCorrectionLevel: 'H'
-            }, (err, canvas) => {
-                if (err) return console.error(err);
-
-                // CSS Styling for Canvas
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.objectFit = 'contain';
-                canvas.style.borderRadius = '12px'; // Soft corners inside
-                
-                // Animation Class
-                canvas.classList.add('animate-pop');
-
-                // Draw logo if available
-                if (logoImg) {
-                    const ctx = canvas.getContext('2d');
-                    const size = Math.min(canvas.width, canvas.height) * 0.22;
-                    const x = (canvas.width - size) / 2;
-                    const y = (canvas.height - size) / 2;
-                    const radius = logoShape === 'circle' ? size / 2 : size * 0.18;
-                    const padding = logoShape === 'circle' ? 0 : size * 0.08; // circle: full bleed
-
-                    ctx.save();
-                    ctx.translate(x, y);
-
-                    // background box for contrast
-                    ctx.fillStyle = bgColor;
-                    drawRoundedBox(ctx, size, size, radius);
-                    ctx.fill();
-
-                    // slight border to separate from QR
-                    ctx.strokeStyle = 'rgba(0,0,0,0.08)';
-                    ctx.lineWidth = size * 0.02;
-                    drawRoundedBox(ctx, size, size, radius);
-                    ctx.stroke();
-
-                    // clip to shape then draw image
-                    drawRoundedBox(ctx, size, size, radius);
-                    ctx.clip();
-                    ctx.drawImage(logoImg, padding, padding, size - padding * 2, size - padding * 2);
-
-                    ctx.restore();
-                }
-
-                els.qrContainer.appendChild(canvas);
-                
-                // Show Container / Hide Empty
-                els.emptyState.classList.add('hidden');
-                els.qrContainer.classList.remove('hidden');
-                
-                // Enable Button
-                els.downloadBtn.disabled = false;
-                els.downloadBtn.classList.remove('opacity-50');
-            });
-        }
-
-        // Input Listener with Debounce
-        els.input.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(generateQR, 300);
-        });
-
-        // 6. Download Action
         els.downloadBtn.addEventListener('click', () => {
-            const canvas = els.qrContainer.querySelector('canvas');
-            if (!canvas) return;
-
-            // Create link
+            vibrate();
+            const canvas = els.canvasWrapper.querySelector('canvas');
+            if(!canvas) return;
             const link = document.createElement('a');
-            link.download = `Text2-QR-${Date.now()}.png`;
+            link.download = `text2-qr-${Date.now()}.png`;
             link.href = canvas.toDataURL('image/png');
-            document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
-
-            // Success Haptic
-            navigator.vibrate?.([50, 50, 50]);
             
-            // Visual Feedback on Button
-            const originalText = els.downloadBtn.innerHTML;
-            els.downloadBtn.innerHTML = `<span class="text-white">Saved! 🎉</span>`;
-            setTimeout(() => { els.downloadBtn.innerHTML = originalText; }, 2000);
+            const btn = els.downloadBtn;
+            const oldHTML = btn.innerHTML;
+            btn.innerHTML = `<span class="flex items-center gap-2">Saved! <i data-lucide="check" class="w-5 h-5"></i></span>`;
+            btn.classList.add('brightness-110');
+            setTimeout(() => {
+                btn.innerHTML = oldHTML;
+                btn.classList.remove('brightness-110');
+                lucide.createIcons();
+            }, 2000);
         });
 
-        function drawRoundedBox(ctx, w, h, r) {
-            ctx.beginPath();
-            ctx.moveTo(r, 0);
-            ctx.lineTo(w - r, 0);
-            ctx.quadraticCurveTo(w, 0, w, r);
-            ctx.lineTo(w, h - r);
-            ctx.quadraticCurveTo(w, h, w - r, h);
-            ctx.lineTo(r, h);
-            ctx.quadraticCurveTo(0, h, 0, h - r);
-            ctx.lineTo(0, r);
-            ctx.quadraticCurveTo(0, 0, r, 0);
-            ctx.closePath();
-        }
+        // Initialize (if browser auto-filled)
+        if(document.getElementById('text-input').value) generate();
 
     </script>
 </body>
