@@ -1,12 +1,6 @@
 {
   "posts": [
     {
-      "title": "Text2 - Everything You Need to Know About Me",
-      "desc": "Text2 - Everything you need to know about me. Discover the Text2 Ecosystem, our passionate team, innovative projects, and mission. Visit text02.com for complete information.",
-      "url": "./en/aboutme.html",
-      "date": "19/12/2025"
-    },
-    {
       "title": "Happy Birthday Kỳ Duyên",
       "desc": "Happy Birthday Kỳ Duyên",
       "url": "./sinh-nhat-ky-duyen/index.html",
@@ -37,7 +31,7 @@
       "date": "21 Tháng 11, 2025"
     }
   ],
-  "lastUpdated": "2025-12-19T14:20:33.079Z",
+  "lastUpdated": "2025-12-19T14:46:23.663Z",
   "config": {
     "siteName": "Text2 Posts",
     "siteLogo": "../../logoc.png",
