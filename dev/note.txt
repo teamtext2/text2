@@ -1,8 +1,19 @@
-Đường dẫn thư mục cấu trúc bắt buột cho css js 
+XIN CHÀO CÁC LẬP TRÌNH VIÊN CỦA TEXT2
+
+<bắt buột cấu trúc js css>
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
 
-Đo lường bắt buộc 
+
+<Bắt buột đường dẫn Icon ( ICO )>
+  <link rel="icon" href="/favicon.ico">
+
+<Vui lòng liên hệ với text2 team để nhận được mẫu gọi API mô hình ngôn ngữ để phục vụ các bạn>
+Chúng tôi cung cấp 100 000k Token một ngày dành cho các bạn 
+
+tối ưu seo tiêu chuẩn đầy đủ tất cả với từ khóa Text2 - name app, có cả schema. và <link rel="manifest" href="site.webmanifest"> và liên kết tragn này là https://text02.com/nameapp và trang chủ là https://text02.com
+
+<Bắt buột đường dẫn đo lường>
   <!-- Google tag (gtag.js) - GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
 <script>
@@ -13,34 +24,19 @@
   gtag('config', 'G-6J85STMJ14');
 </script>
 
-Nếu hỗ trợ pwa cần chặng dịch tránh lỗi cấu trúctrúc
+<bảo vệ cấu trúc pwa>
   <meta name="google" content="notranslate"> 
 
-Yêu cầu thương mai add Scrip ads 
+<yêu cầu ADS>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
      crossorigin="anonymous"></script>
 
-logo và ảnh bìa tiêu chuẩn trang text2 
-https://text02.com/logoc.png
-https://text02.com/thumnel.png
-
-giao diện đồng bộ vui lòng - truy cập
-https://text02.com/dev/ui.txt 
-
-Mẫu gọi api llm của text2 
-https://text02.com/dev/api-llm.txt
-
-Giao diện 
-Nền: Gần với mã màu #121212 hoặc #1A1A1A (đen than, charcoal black).
-Thanh menu và khung icon: Xám đậm #1E1E1E – #242424.
-Chữ trắng/xám: Trắng tinh #FFFFFF hoặc xám nhạt #B0B0B0 để giảm độ chói.
-Điểm nhấn (accent): Xanh dương tươi #1E90FF hoặc tương tự, dùng trong logo và các biểu tượng.
-Nếu muốn mình có thể trích luôn mã màu chính xác từ ảnh này để bạn dùng thiết kế đồng bộ.
+<dự liệu srcsrc>
+https://text02.com/media/logoc.png
+https://text02.com/media/thumnel.png
 
 
-
--
-
+<lệnh yêu cầu màu>
 Trang web này sử dụng chủ đạo tông màu tối (dark theme):
 Nền: #121212 (đen xám đậm)
 Panel chính: gradient từ #1E1E1E sang #242424 (xám rất đậm)
@@ -48,5 +44,17 @@ Text: #ffffff (trắng), màu phụ #c0c0c0 (xám nhạt)
 Viền: trắng mờ (rgba(255,255,255,0.05 ~ 0.08))
 Hiệu ứng hover, nhấn: xanh dương nhạt (rgba(79,195,247,0.2))
 Tóm lại: chủ yếu là đen–xám đậm, chữ trắng/xám nhạt, hiệu ứng xanh dương.
+
+<update datat post thủ công với  PowerShell/Terminal >
+cd D:\website\text2\post
+node update-posts.js
+
+THANK YOU all developers 
+call me hoanhatanh@text02.com ( ceo text2 )
+call me mail@text02.com ( Text2 Team )
+
+
+
+
 
 
