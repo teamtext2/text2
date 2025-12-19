@@ -7,7 +7,7 @@ const path = require('path');
  */
 
 const POST_EN_DIR = path.join(__dirname, 'en');
-const DATA_JS_PATH = path.join(__dirname, 'js', 'data.js');
+const POSTS_JSON_PATH = path.join(__dirname, 'posts.json');
 
 /**
  * Đọc và parse HTML file để lấy metadata
@@ -166,7 +166,7 @@ function getOtherPosts() {
 }
 
 /**
- * Cập nhật file data.js
+ * Cập nhật file posts.json
  */
 function updateDataFile() {
     const enPosts = scanPostDirectory();
@@ -180,37 +180,23 @@ function updateDataFile() {
         return dateB - dateA; // Mới nhất trước
     });
     
-    // Tạo nội dung file data.js
+    // Tạo nội dung JSON
     const config = {
         siteName: "Text2 Posts",
         siteLogo: "../../logoc.png",
         footerText: "© 2024 Text2. All rights reserved."
     };
     
-    let content = 'export const posts = [\n';
-    allPosts.forEach((post, index) => {
-        content += '    {\n';
-        content += `        title: ${JSON.stringify(post.title)},\n`;
-        content += `        desc: ${JSON.stringify(post.desc)},\n`;
-        content += `        url: ${JSON.stringify(post.url)},\n`;
-        content += `        date: ${JSON.stringify(post.date)}\n`;
-        content += '    }';
-        if (index < allPosts.length - 1) {
-            content += ',';
-        }
-        content += '\n';
-    });
-    content += '];\n\n';
-    content += 'export const config = {\n';
-    content += `    siteName: ${JSON.stringify(config.siteName)},\n`;
-    content += `    siteLogo: ${JSON.stringify(config.siteLogo)},\n`;
-    content += `    footerText: ${JSON.stringify(config.footerText)}\n`;
-    content += '};\n';
+    const jsonData = {
+        posts: allPosts,
+        lastUpdated: new Date().toISOString(),
+        config: config
+    };
     
-    // Ghi file
-    fs.writeFileSync(DATA_JS_PATH, content, 'utf-8');
+    // Ghi file JSON
+    fs.writeFileSync(POSTS_JSON_PATH, JSON.stringify(jsonData, null, 2), 'utf-8');
     
-    console.log(`✅ Đã cập nhật ${allPosts.length} bài viết vào data.js`);
+    console.log(`✅ Đã cập nhật ${allPosts.length} bài viết vào posts.json`);
     console.log(`   - Bài viết tiếng Anh (en): ${enPosts.length}`);
     console.log(`   - Bài viết khác: ${otherPosts.length}`);
     if (enPosts.length > 0) {
@@ -223,6 +209,8 @@ if (require.main === module) {
     console.log('🔄 Đang quét thư mục post/en...\n');
     updateDataFile();
     console.log('\n✨ Hoàn thành!');
+    console.log('💡 File posts.json đã được tạo/cập nhật.');
+    console.log('   Trang index.html sẽ tự động load từ file này.\n');
 }
 
 module.exports = { updateDataFile, scanPostDirectory };

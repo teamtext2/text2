@@ -264,17 +264,117 @@
 
     <!-- Logic Script -->
     <script type="module">
-        import { posts, config } from './js/data.js';
+        // Load posts từ posts.json (tự động cập nhật)
+        let posts = [];
+        let config = {
+            siteName: "Text2 Posts",
+            siteLogo: "../../logoc.png",
+            footerText: "© 2024 Text2. All rights reserved."
+        };
+
+        // Load posts từ posts.json
+        async function loadPosts() {
+            try {
+                const response = await fetch('./posts.json?' + new Date().getTime());
+                if (response.ok) {
+                    const data = await response.json();
+                    posts = data.posts || [];
+                    if (data.config) {
+                        config = { ...config, ...data.config };
+                    }
+                } else {
+                    console.warn('Không tìm thấy posts.json, đang tải từ thư mục en...');
+                    await loadPostsFromDirectory();
+                }
+            } catch (error) {
+                console.warn('Lỗi khi tải posts.json:', error);
+                await loadPostsFromDirectory();
+            }
+        }
+
+        // Fallback: Load posts trực tiếp từ thư mục en
+        async function loadPostsFromDirectory() {
+            try {
+                // Thử fetch danh sách file từ thư mục en
+                const response = await fetch('./en/');
+                if (response.ok) {
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const links = doc.querySelectorAll('a[href$=".html"]');
+                    
+                    const loadedPosts = [];
+                    for (const link of links) {
+                        const filename = link.getAttribute('href');
+                        if (filename && filename.endsWith('.html')) {
+                            try {
+                                const postResponse = await fetch(`./en/${filename}`);
+                                const postHtml = await postResponse.text();
+                                
+                                // Extract metadata
+                                const titleMatch = postHtml.match(/<title>(.*?)<\/title>/i);
+                                const title = titleMatch ? titleMatch[1].trim() : filename.replace('.html', '');
+                                
+                                const descMatch = postHtml.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/i);
+                                const desc = descMatch ? descMatch[1].trim() : title;
+                                
+                                // Extract date
+                                let dateStr = '';
+                                const dateMatch = postHtml.match(/<span[^>]*>📅\s*(.*?)<\/span>/i);
+                                if (dateMatch) {
+                                    try {
+                                        const date = new Date(dateMatch[1].trim());
+                                        if (!isNaN(date.getTime())) {
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const year = date.getFullYear();
+                                            dateStr = `${day}/${month}/${year}`;
+                                        }
+                                    } catch (e) {
+                                        dateStr = new Date().toLocaleDateString('vi-VN');
+                                    }
+                                } else {
+                                    dateStr = new Date().toLocaleDateString('vi-VN');
+                                }
+                                
+                                loadedPosts.push({
+                                    title,
+                                    desc,
+                                    url: `./en/${filename}`,
+                                    date: dateStr
+                                });
+                            } catch (e) {
+                                console.warn(`Không thể load ${filename}:`, e);
+                            }
+                        }
+                    }
+                    posts = loadedPosts;
+                }
+            } catch (error) {
+                console.error('Lỗi khi load từ thư mục:', error);
+            }
+        }
 
         // Initialize DOM Elements
         const grid = document.getElementById('posts-grid');
         const searchInput = document.getElementById('search-input');
         const clearBtn = document.getElementById('clear-search');
         const noResults = document.getElementById('no-results');
-        // Setup Config
-        document.getElementById('site-name').textContent = config.siteName;
-        document.getElementById('site-logo').src = config.siteLogo;
-        document.getElementById('footer-text').textContent = config.footerText;
+        // Initialize after posts are loaded
+        async function initialize() {
+            await loadPosts();
+            
+            // Setup Config
+            document.getElementById('site-name').textContent = config.siteName;
+            document.getElementById('site-logo').src = config.siteLogo;
+            document.getElementById('footer-text').textContent = config.footerText;
+            
+            // Render posts
+            renderPosts();
+        }
+
+        // Start initialization
+        initialize();
 
         // Parse date string DD/MM/YYYY to Date object for sorting
         function parseDate(dateStr) {
@@ -404,8 +504,7 @@
             searchInput.focus();
         });
 
-        // Initial Load
-        renderPosts();
+        // Posts will be rendered after loadPosts() completes in initialize()
 
     </script>
 </body>
