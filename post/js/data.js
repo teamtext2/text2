@@ -1,33 +1,33 @@
 export const posts = [
     {
-        title: "Text2 Cập Nhật Tên Miền Mới",
-        desc: "Thông báo quan trọng về việc thay đổi địa chỉ truy cập của hệ thống Text2.",
-        url: "./vi/text2-cap-nhat-ten-mien-moi.html",
-        date: "15/12/2023"
-    },
-    {
-        title: "Text2 - Những gì bạn cần biết",
-        desc: "Tổng hợp thông tin, hướng dẫn và các tính năng nổi bật của Text2.",
-        url: "./vi/text2-nhung-gi-ban-can-biet/index.html",
-        date: "10/12/2023"
-    },
-    {
-        title: "Sinh Nhật Kỳ Duyên",
-        desc: "Kỷ niệm sinh nhật, những khoảnh khắc đáng nhớ.",
+        title: "Happy Birthday Kỳ Duyên",
+        desc: "Happy Birthday Kỳ Duyên",
         url: "./sinh-nhat-ky-duyen/index.html",
-        date: "05/11/2023"
+        date: "11/12/2025"
     },
     {
-        title: "Text2 Update New Domain (English)",
-        desc: "Official announcement regarding the new domain update for global users.",
-        url: "./en/text2-update-new-domain.html",
-        date: "15/12/2023"
+        title: "Text2 - Những gì bạn cần biết về chúng tôi",
+        desc: "Khám phá Text2 - Những gì bạn cần biết về chúng tôi. Hệ sinh thái sản phẩm đa dạng từ phần mềm, app đến phần cứng. Cùng nhau bước vào cuộc chơi và tạo nên sự khác biệt.",
+        url: "./vi/text2-nhung-gi-ban-can-biet/index.html",
+        date: "10/12/2025"
     },
     {
-        title: "Hoa Nhật Ánh Gallery",
-        desc: "Bộ sưu tập hình ảnh nghệ thuật Hoa Nhật Ánh.",
+        title: "HOA NHAT ANH — CEO TEXT2 | Businessman, Developer, Press, Editor, Football Player, Technology Expert, Astronomer",
+        desc: "Official bio of HOA NHAT ANH (Hóa Nhật Anh) — CEO of Text2. Businessman, Developer, Press professional, Editor, Football player, Technology expert, and Astronomer. Learn about his work, education at VTV College and VOV College, and connect via Instagram, X, and Facebook.",
         url: "./hoanhatanh/index.html",
-        date: "20/10/2023"
+        date: "04/12/2025"
+    },
+    {
+        title: "Important Update: Text2 is Moving to Text02.com",
+        desc: "Official announcement from Text2: We are transitioning our domain from text2.click to text02.com. The legacy domain remains active until March 2025 to ensure a seamless experience.",
+        url: "./en/text2-update-new-domain.html",
+        date: "21/11/2025"
+    },
+    {
+        title: "Cập nhật quan trọng: Text2 chuyển sang Text02.com",
+        desc: "Thông báo chính thức từ Text2: Chúng tôi đang chuyển đổi tên miền từ text2.click sang text02.com. Tên miền cũ vẫn hoạt động đến tháng 3/2025 để đảm bảo trải nghiệm liền mạch.",
+        url: "./vi/text2-cap-nhat-ten-mien-moi.html",
+        date: "21 Tháng 11, 2025"
     }
 ];
 

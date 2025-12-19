@@ -70,6 +70,22 @@
             border-color: rgba(79,195,247,0.20);
             background: linear-gradient(120deg, #262B35 70%, #20242A 130%);
         }
+        .glass-card.newest-post {
+            border-color: rgba(79,195,247,0.30);
+            background: linear-gradient(120deg, #1E2A35 70%, #1A2530 130%);
+            box-shadow: 0 4px 20px 0 rgba(79,195,247,0.15);
+        }
+        .glass-card.newest-post:hover {
+            border-color: rgba(79,195,247,0.40);
+            box-shadow: 0 8px 32px 0 rgba(79,195,247,0.20), 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
         .search-container {
             background: #1E1E1E;
             border-radius: 1.25rem;
@@ -260,16 +276,56 @@
         document.getElementById('site-logo').src = config.siteLogo;
         document.getElementById('footer-text').textContent = config.footerText;
 
-        // Render Posts Function
-        function renderPosts(searchTerm = '') {
-            const term = searchTerm.toLowerCase().trim();
-            grid.innerHTML = '';
+        // Parse date string DD/MM/YYYY to Date object for sorting
+        function parseDate(dateStr) {
+            const parts = dateStr.split('/');
+            if (parts.length === 3) {
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+            return new Date(0);
+        }
 
-            const filteredPosts = posts.filter(post => {
+        // Sort posts by date (newest first) and filter by search term
+        function getFilteredAndSortedPosts(searchTerm = '') {
+            const term = searchTerm.toLowerCase().trim();
+            
+            // Filter posts
+            let filteredPosts = posts.filter(post => {
                 const matchesSearch = post.title.toLowerCase().includes(term) || 
                                       post.desc.toLowerCase().includes(term);
                 return matchesSearch;
             });
+
+            // Sort by date (newest first)
+            filteredPosts.sort((a, b) => {
+                const dateA = parseDate(a.date);
+                const dateB = parseDate(b.date);
+                return dateB - dateA; // Descending order (newest first)
+            });
+
+            return filteredPosts;
+        }
+
+        // Check if a post is from post/en directory (English posts)
+        function isEnglishPost(post) {
+            return post.url && post.url.startsWith('./en/');
+        }
+
+        // Get the newest English post
+        function getNewestEnglishPost(posts) {
+            const englishPosts = posts.filter(isEnglishPost);
+            if (englishPosts.length > 0) {
+                return englishPosts[0]; // Already sorted, first is newest
+            }
+            return null;
+        }
+
+        // Render Posts Function
+        function renderPosts(searchTerm = '') {
+            grid.innerHTML = '';
+
+            const filteredPosts = getFilteredAndSortedPosts(searchTerm);
+            const newestEnglishPost = getNewestEnglishPost(filteredPosts);
 
             if (filteredPosts.length === 0) {
                 grid.classList.add('hidden');
@@ -281,19 +337,44 @@
                 filteredPosts.forEach((post, index) => {
                     const card = document.createElement('a');
                     card.href = post.url;
-                    card.className = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative border-soft hover:border-accent transition-colors';
+                    
+                    // Check if this is the newest English post
+                    const isNewest = newestEnglishPost && post.url === newestEnglishPost.url;
+                    
+                    // Add special styling for newest post
+                    let cardClasses = 'glass-card block rounded-2xl overflow-hidden flex flex-col group animate-fade-in relative border-soft hover:border-accent transition-colors';
+                    if (isNewest) {
+                        cardClasses += ' newest-post';
+                    }
+                    card.className = cardClasses;
                     card.style.animationDelay = `${index * 0.05}s`;
 
+                    // Add "NEW" badge for newest English post
+                    const newBadge = isNewest ? `
+                        <div class="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1.5">
+                            <i class="fa-solid fa-sparkles text-xs"></i>
+                            <span>NEW</span>
+                        </div>
+                    ` : '';
+
                     card.innerHTML = `
-                        <div class="p-6 flex flex-col flex-grow">
+                        <div class="p-6 flex flex-col flex-grow relative">
+                            ${newBadge}
                             <div class="flex items-center text-xs text-soft space-x-1.5 mb-3">
                                 <i class="far fa-calendar-alt"></i>
                                 <span>${post.date}</span>
+                                ${isEnglishPost(post) ? '<span class="text-accent text-xs">• EN</span>' : ''}
                             </div>
                             
-                            <h3 class="text-lg font-bold text-white mb-2 leading-tight group-hover:text-accent transition-colors">
+                            <h3 class="text-lg font-bold text-white mb-2 leading-tight group-hover:text-accent transition-colors ${isNewest ? 'text-accent' : ''}">
                                 ${post.title}
                             </h3>
+                            
+                            ${post.desc ? `
+                            <p class="text-sm text-soft mb-3 line-clamp-2">
+                                ${post.desc}
+                            </p>
+                            ` : ''}
                             
                             <div class="flex items-center text-accent text-sm font-medium mt-auto group-hover:translate-x-1 transition-transform pt-2 border-t border-soft">
                                 Read Post <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
