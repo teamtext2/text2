@@ -1,6 +1,18 @@
 {
   "posts": [
     {
+      "title": "Text2 Translate - All You Need To Know",
+      "desc": "Text2 Translate: The revolutionary zero-latency AI translation platform by Text2. Discover how our advanced NLP engine preserves context and nuance. No registration required.",
+      "url": "./en/text2-update-new-domain.html",
+      "date": "21/12/2025"
+    },
+    {
+      "title": "Text2 Translate - All You Need To Know",
+      "desc": "Text2 Translate: The revolutionary zero-latency AI translation platform by Text2. Discover how our advanced NLP engine preserves context and nuance. No registration required.",
+      "url": "./en/what-you-need-to-know-about.html",
+      "date": "21/12/2025"
+    },
+    {
       "title": "Happy Birthday Kỳ Duyên",
       "desc": "Happy Birthday Kỳ Duyên",
       "url": "./sinh-nhat-ky-duyen/index.html",
@@ -19,19 +31,13 @@
       "date": "04/12/2025"
     },
     {
-      "title": "Important Update: Text2 is Moving to Text02.com",
-      "desc": "Official announcement from Text2: We are transitioning our domain from text2.click to text02.com. The legacy domain remains active until March 2025 to ensure a seamless experience.",
-      "url": "./en/text2-update-new-domain.html",
-      "date": "21/11/2025"
-    },
-    {
       "title": "Cập nhật quan trọng: Text2 chuyển sang Text02.com",
       "desc": "Thông báo chính thức từ Text2: Chúng tôi đang chuyển đổi tên miền từ text2.click sang text02.com. Tên miền cũ vẫn hoạt động đến tháng 3/2025 để đảm bảo trải nghiệm liền mạch.",
       "url": "./vi/text2-cap-nhat-ten-mien-moi.html",
       "date": "21 Tháng 11, 2025"
     }
   ],
-  "lastUpdated": "2025-12-19T14:46:23.663Z",
+  "lastUpdated": "2025-12-21T06:52:55.658Z",
   "config": {
     "siteName": "Text2 Posts",
     "siteLogo": "../../logoc.png",
