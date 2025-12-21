@@ -13,6 +13,12 @@
       "date": "21/12/2025"
     },
     {
+      "title": "Text2 Translate - Tất Cả Những Gì Bạn Cần Biết",
+      "desc": "Text2 Translate: Nền tảng dịch thuật AI độ trễ bằng không mang tính cách mạng từ Text2. Khám phá cách công cụ NLP tiên tiến của chúng tôi bảo tồn ngữ cảnh và sắc thái. Không cần đăng ký.",
+      "url": "./vi/text2-translate-app-dich-theo-ngu-canh.html",
+      "date": "21/12/2025"
+    },
+    {
       "title": "Happy Birthday Kỳ Duyên",
       "desc": "Happy Birthday Kỳ Duyên",
       "url": "./sinh-nhat-ky-duyen/index.html",
@@ -37,7 +43,7 @@
       "date": "21 Tháng 11, 2025"
     }
   ],
-  "lastUpdated": "2025-12-21T06:52:55.658Z",
+  "lastUpdated": "2025-12-21T06:58:43.908Z",
   "config": {
     "siteName": "Text2 Posts",
     "siteLogo": "../../logoc.png",
