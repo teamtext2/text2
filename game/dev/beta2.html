@@ -1,423 +1,871 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google" content="notranslate">
-    <!-- Google tag (gtag.js) - GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-6J85STMJ14'); // Keep your GA ID
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Primary Meta Tags -->
-    <title>Text2 Game</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
-    crossorigin="anonymous"></script>
-    <meta name="title" content="Text2 Game - Play Free Online Games | Text2 Game Center">
-    <meta name="description" content="Text2 Game - Discover exclusive game collection from Text2. Play free online games, latest games, beta games and game development projects. Official Text2 Game Center.">
-    <meta name="keywords" content="text2 game, text2 game center, play online games, free games, new games, beta games, text2, game center">
-    <meta name="author" content="Text2">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    
-    <!-- Favicon (Assuming you use Text2's shared favicon) -->
-    <link rel="apple-touch-icon" sizes="180x180" href="https://game.text2.click/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://game.text2.click/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://game.text2.click/favicon-16x16.png">
-    <link rel="manifest" href="https://game.text2.click/site.webmanifest">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://game.text2.click/"> <!-- Example URL -->
-    <meta property="og:title" content="Text2 Game - Play Free Online Games">
-    <meta property="og:description" content="Text2 Game - Discover exclusive game collection from Text2. Play free online games, latest games and beta games.">
-    <meta property="og:image" content="https://game.text2.click/favicon.ico"> <!-- SEO optimized OG image -->
-    <meta property="og:image:alt" content="Text2 Game - Free online game center from Text2">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Text2 Game">
-    <meta property="og:locale" content="en_US">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://game.text2.click/"> <!-- Example URL -->
-    <meta property="twitter:title" content="Text2 Game - Play Free Online Games">
-    <meta property="twitter:description" content="Text2 Game - Discover exclusive game collection from Text2. Play free online games, latest games and beta games.">
-    <meta property="twitter:image" content="https://game.text2.click/images/text2-game-hub-twitter.jpg"> <!-- SEO optimized Twitter image -->
-    <meta property="twitter:image:alt" content="Text2 Game - Free online game center from Text2">
-    <meta property="twitter:creator" content="@text2click">
-    
-    <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#9333ea"> <!-- Change theme color to purple "gamer" -->
-    <meta name="msapplication-TileColor" content="#9333ea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Text2 Game">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://game.text2.click/"> <!-- Example URL -->
-    
-    <!-- Structured Data (JSON-LD) for Games and Images -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Text2 Game",
-        "alternateName": "Text2 Game Center",
-        "description": "Text2 Game - Free online game center from Text2. Discover and play unique games, latest games and beta games.",
-        "url": "https://game.text2.click/",
-        "image": {
-            "@type": "ImageObject",
-            "url": "https://game.text2.click/images/text2-game-hub-logo.jpg",
-            "width": 512,
-            "height": 512,
-            "caption": "Text2 Game Logo - Online game center from Text2"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Text2",
-            "url": "https://text2.click/",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://game.text2.click/favicon.ico",
-                "width": 32,
-                "height": 32,
-                "caption": "Text2 Logo"
-            }
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://game.text2.click/?search={search_term_string}",
-            "query-input": "required name=search_term_string"
-        },
-        "mainEntity": {
-            "@type": "GameServer",
-            "name": "Text2 Game",
-            "description": "Free online game center with exclusive game collection from Text2",
-            "url": "https://game.text2.click/",
-            "gameLocation": "https://game.text2.click/"
-        }
-    }
-    </script>
-    
-    <!-- Load Tailwind CSS -->
+    <!-- SEO Meta Tags -->
+    <title>Text2 Caro Game</title>
+    <meta name="theme-color" content="#F0F4F8">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide icon library -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        /* Add Inter font (Tailwind default) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1A1A1A; /* Ensure background color is applied */
-        }
-        /* Custom scrollbar for Webkit browsers (Chrome, Safari) */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #242424;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a4a4a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-    </style>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter for clean iOS look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script>
-        // Custom Tailwind color configuration
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    },
                     colors: {
-                        'charcoal': '#1A1A1A',   // Main background
-                        'gray-dark': '#242424',   // Menu, card background
-                        'gray-medium': '#1E1E1E', // Border or slightly darker background
-                        'gray-light': '#B0B0B0',  // Secondary text
-                        'accent': '#9333ea',    // Accent color (Purple-600) - "Gamer Purple"
+                        glass: {
+                            border: 'rgba(255, 255, 255, 0.4)',
+                            surface: 'rgba(255, 255, 255, 0.25)',
+                            highlight: 'rgba(255, 255, 255, 0.6)',
+                        },
+                        ios: {
+                            blue: '#007AFF',
+                            red: '#FF3B30',
+                        }
+                    },
+                    animation: {
+                        'scale-in': 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
                     }
                 }
             }
         }
     </script>
-</head>
-<body class="bg-charcoal text-gray-light min-h-screen">
 
-    <!-- Header -->
-    <header class="bg-gray-dark shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logo and App Name -->
-            <div class="flex items-center gap-2">
-                <!-- Logo Icon (using custom favicon) -->
-                <a href="https://text2.click" target="_blank" class="flex items-center" title="Text2 - Official Homepage">
-                    <img 
-                        src="https://game.text2.click/favicon.ico" 
-                        alt="Text2 Logo - Official Text2 icon"
-                        title="Text2 Game - Online game center from Text2"
-                        class="w-6 h-6 rounded object-cover"
-                        width="24"
-                        height="24"
-                        loading="eager"
-                    >
-                </a>
-                <span class="text-white text-xl font-bold">Text2 Game</span>
-            </div>
+    <style>
+        body {
+            background-color: #F0F4F8;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior: none;
+            user-select: none;
+            -webkit-user-select: none;
+            /* Changed to Cool Metallic/White Gradient */
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210, 20%, 90%, 1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(210, 30%, 85%, 1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(200, 20%, 95%, 1) 0, transparent 50%);
+            background: linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%); /* Metallic Silver/Blue */
+            overflow: hidden;
+        }
+
+        /* Animated Blobs Background - Powerful Cool Tones */
+        .bg-blobs {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(80px); /* Increased blur for smoother look */
+            opacity: 0.7;
+            animation: blob 15s infinite alternate;
+        }
+        /* Changed blob colors to remove pink, use cool blues/whites */
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #a8edea; animation-delay: 0s; } /* Cyan */
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: #accbee; animation-delay: 2s; } /* Soft Blue */
+        .blob-3 { top: 40%; left: 30%; width: 40vw; height: 40vw; background: #e6e9f0; animation-delay: 4s; } /* White/Grey */
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* LIQUID GLASS CARD STYLE */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.35); /* Tăng độ đậm chút cho rõ */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.07),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        /* Shimmer effect for glass */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%; width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* Seamless Grid on Glass - UPDATED FOR HIGH CONTRAST */
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(50, 44px);
+            grid-template-rows: repeat(50, 44px);
+            /* Removed the old gradient lines to use border on cells instead */
+            background-color: rgba(0, 0, 0, 0.05); 
+            backdrop-filter: blur(4px);
+            /* Softened outer border */
+            border: 2px solid rgba(0, 0, 0, 0.6); 
+            border-radius: 4px; /* Less rounded for sharp grid */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            gap: 0; /* Ensure cells touch to form grid lines */
+        }
+
+        .cell {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
             
-            <!-- Back to Home Button -->
-            <a href="https://text2.click" target="_blank" class="p-2 rounded-full text-gray-light hover:text-white hover:bg-gray-medium transition-colors duration-200" aria-label="Go to Text2 homepage" title="Back to Text2 homepage">
-                <i data-lucide="home" class="w-5 h-5" aria-hidden="true"></i>
-            </a>
-        </nav>
+            /* UPDATED: Trắng sậm nhẹ và Viền đen dịu hơn */
+            background-color: #e2e8f0; /* Slate-200: Trắng sậm/Xám nhẹ */
+            /* Changed from solid black to 50% opacity black */
+            border: 1px solid rgba(0, 0, 0, 0.5); 
+        }
+
+        .cell:active { 
+            background-color: #cbd5e1; /* Darker when clicked */
+            transition: background 0.1s;
+        }
+
+        /* Neon Glow Pieces */
+        .cell-x i {
+            font-size: 26px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(255, 71, 87, 0.4));
+        }
+
+        .cell-o i {
+            font-size: 22px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(0, 242, 254, 0.4));
+            font-weight: 900;
+        }
+
+        .last-move::after {
+            content: '';
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.1); /* Darker highlight for light cell */
+            box-shadow: inset 0 0 0 2px rgba(0,0,0,0.5); /* Black inner border */
+            z-index: 0;
+            animation: pulse-glass 2s infinite;
+        }
+        
+        @keyframes pulse-glass {
+            0% { box-shadow: inset 0 0 2px rgba(0,0,0,0.3); }
+            50% { box-shadow: inset 0 0 8px rgba(0,0,0,0.6); }
+            100% { box-shadow: inset 0 0 2px rgba(0,0,0,0.3); }
+        }
+
+        .winning-cell {
+            background: #dcfce7 !important; /* Greenish white */
+            border: 1px solid #16a34a !important;
+            backdrop-filter: blur(4px);
+        }
+        .winning-cell i { 
+            background: #16a34a; 
+            -webkit-text-fill-color: white;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+        }
+
+        /* Liquid Button */
+        .liquid-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 6px rgba(0,0,0,0.05), 
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .liquid-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .liquid-primary {
+            background: linear-gradient(135deg, rgba(0,122,255,0.9), rgba(0,198,255,0.9));
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0,122,255,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+
+        /* Custom Radio */
+        .diff-radio:checked + label {
+            background: rgba(0, 122, 255, 0.2);
+            color: #007AFF;
+            border-color: #007AFF;
+            font-weight: 600;
+            box-shadow: inset 0 0 10px rgba(0,122,255,0.1);
+        }
+
+        /* Safe Area Fixes */
+        .safe-pb {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+    </style>
+</head>
+<body class="h-[100dvh] w-full flex flex-col relative text-slate-800 font-sans">
+
+    <!-- Animated Background -->
+    <div class="bg-blobs">
+        <div class="blob blob-1 rounded-full mix-blend-multiply"></div>
+        <div class="blob blob-2 rounded-full mix-blend-multiply"></div>
+        <div class="blob blob-3 rounded-full mix-blend-multiply"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="glass-panel overflow-hidden h-[60px] px-4 mx-4 mt-2 rounded-2xl flex items-center justify-between z-30 fixed top-0 left-0 right-0 transition-all duration-300" id="main-header">
+        <div class="flex items-center gap-2">
+            <h1 class="text-[17px] font-bold tracking-tight text-slate-800 bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600">Text2 Caro <span class="text-xs font-normal text-slate-500 ml-1">cờ caro</span></h1>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <div id="ai-typing" class="hidden text-xs text-slate-500 font-medium animate-pulse flex items-center gap-1">
+                <span>Bot</span>
+                <span class="w-1 h-1 bg-slate-400 rounded-full animate-bounce"></span>
+                <span class="w-1 h-1 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
+                <span class="w-1 h-1 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+            </div>
+            <div class="px-3 py-1.5 rounded-full bg-white/40 border border-white/60 flex items-center gap-2 shadow-sm backdrop-blur-sm">
+                <span id="turn-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(255,59,48,0.6)]"></span>
+                <span id="turn-text" class="text-[10px] font-bold text-slate-600 uppercase tracking-wide">LƯỢT BẠN</span>
+            </div>
+            <button onclick="openSettings()" class="w-8 h-8 flex items-center justify-center text-slate-600 text-lg active:opacity-50 hover:bg-white/20 rounded-full transition-colors">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 md:p-6">
-        
-        <!-- Search Bar -->
-        <div class="relative mb-6">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-light">
-                <i data-lucide="search" class="w-5 h-5" aria-hidden="true"></i>
-            </span>
-            <input 
-                type="search" 
-                id="search-input"
-                placeholder="Search Text2 games..."
-                aria-label="Search games in Text2 Game"
-                class="w-full bg-gray-dark border border-gray-medium text-white placeholder-gray-light text-sm rounded-lg focus:ring-accent focus:border-accent block py-3 pl-12 pr-4 transition-all duration-200"
-            >
+    <!-- AI MESSAGE (Glass Toast) -->
+    <div class="fixed top-[75px] left-0 right-0 px-4 z-20 pointer-events-none flex justify-center">
+        <div id="chat-bubble" class="glass-panel overflow-hidden px-5 py-2.5 rounded-full transform translate-y-[-150%] opacity-0 transition-all duration-300 max-w-[90%] text-center pointer-events-auto">
+            <span id="ai-text" class="text-[13px] font-medium text-slate-700"></span>
         </div>
+    </div>
 
-        <!-- Hero video (full rectangular, no curve) -->
-        <div class="mb-8">
-            <div id="hero" class="relative overflow-hidden bg-gray-dark">
-                <video 
-                    id="hero-video" 
-                    class="w-full h-[60vh] md:h-[70vh] object-cover" 
-                    playsinline 
-                    autoplay 
-                    muted 
-                    loop 
-                    preload="metadata"
-                    poster="https://game.text2.click/images/text2-game-hero-poster.jpg"
-                    aria-label="Text2 Game introduction video"
-                >
-                    <!-- Placeholder sample video; replace src with your own video URL -->
-                    <source src="https://rr2---sn-npoldn7s.googlevideo.com/videoplayback?expire=1763480652&ei=zCMcadbsJMjHsfIP0aOjiAk&ip=2a09:bac5:d46b:263c::3cf:6e&id=6c6ad9cb93513cf5&itag=22&source=blogger&xpc=Egho7Zf3LnoBAQ%3D%3D&cps=43&met=1763451852,&mh=yH&mm=31&mn=sn-npoldn7s&ms=au&mv=m&mvi=2&pl=48&rms=au,au&susc=bl&eaua=49efLvKx0zY&mime=video/mp4&vprv=1&rqh=1&dur=7.848&lmt=1763451618919664&mt=1763451481&txp=1311224&sparams=expire,ei,ip,id,itag,source,xpc,susc,eaua,mime,vprv,rqh,dur,lmt&sig=AJfQdSswRQIgHZBfLlYFeoGOk2yPIeVPqGiNNVWktngep4qqYPGcg9gCIQC7VqCCyb47b-E-OsSmbdISeeQcfnCwhWkip8isYG6H3g%3D%3D&lsparams=cps,met,mh,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRQIhAJtdiwON66Gy7Th_Vg1YhG62_3cops08Dcvl4H9000nGAiBSJLAr2MFP4HfK0_Mhey6L1cbYH8iLZcg7CB-MQpQksA%3D%3D&cpn=HkCRmm7ynPnaaBva&c=WEB_EMBEDDED_PLAYER&cver=1.20251112.21.00" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 pointer-events-none"></div>
-                <div class="absolute left-4 bottom-6 md:left-12 md:bottom-12 text-white">
-                    <h1 class="text-2xl md:text-4xl font-bold">Text2 Game — Introduction</h1>
-                    <p class="text-sm md:text-base text-gray-light mt-1">Discover the unique world of games from Text2. Play the latest and upcoming games now.</p>
-                </div>
-            </div>
-
-            <!-- Title and Filter (under the hero) -->
-            <div class="flex justify-between items-center mt-6 mb-4">
-                <h2 class="text-white text-2xl font-semibold">ALL TEXT2 GAMES</h2>
-                <button class="p-2 rounded-lg text-gray-light hover:text-white hover:bg-gray-dark transition-colors duration-200" aria-label="Filter Text2 games" title="Filter and sort games">
-                     <i data-lucide="swords" class="w-5 h-5" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <!-- App Grid Display -->
-            <div id="game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-12">
-                <!-- Games will be inserted here by JavaScript -->
+    <!-- MAIN BOARD -->
+    <main class="flex-1 w-full h-full relative overflow-hidden" id="board-container">
+        <!-- ADDED PADDING: pt-24 pb-32 to fix covered content -->
+        <div class="absolute inset-0 overflow-auto no-scrollbar flex items-center justify-center overscroll-none touch-pan-x touch-pan-y pt-24 pb-32" id="scroll-area">
+            <div class="board-grid select-none" id="game-board">
+                <!-- Cells -->
             </div>
         </div>
-
-        <!-- Research Apps Section -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-white text-2xl font-semibold">UPCOMING TEXT2 GAMES</h2>
-            <div class="flex items-center gap-2">
-                <span class="bg-accent text-white text-xs px-2 py-1 rounded-full">BETA ACCESS</span>
-            </div>
-        </div>
-
-        <!-- Research App Grid Display -->
-        <div id="upcoming-game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-            <!-- Upcoming games will be inserted here by JavaScript -->
-        </div>
-
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-dark mt-12 border-t border-gray-medium">
-        <div class="container mx-auto px-4 py-6 text-center text-gray-500 text-sm">
-            © 2025 Text2 Game. Developed by <span class="text-accent font-medium">Text2</span>.
-        </div>
+    <!-- FOOTER: Removed 'overflow-hidden' from glass-panel via inline style override implicit in class structure logic (handled by not adding overflow-hidden class here, unlike Header) -->
+    <!-- Changed: z-40 to be above board but ensuring button popout works -->
+    <footer class="glass-panel h-[80px] px-8 mx-4 mb-4 rounded-3xl flex items-center justify-between z-40 fixed bottom-0 left-0 right-0 safe-pb">
+        <button onclick="undoMove()" id="btn-undo" class="flex flex-col items-center justify-center gap-1 w-12 text-slate-500 disabled:opacity-30 active:scale-90 transition-transform">
+            <div class="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center shadow-sm border border-white/50">
+                <i class="fa-solid fa-rotate-left text-sm"></i>
+            </div>
+        </button>
+
+        <!-- Main Button: High Z-Index to float above footer clip -->
+        <button onclick="playSound('click'); resetGame()" class="liquid-btn liquid-primary w-16 h-16 rounded-full text-white text-2xl flex items-center justify-center transform -translate-y-6 z-50 hover:scale-105 transition-transform duration-200">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <button onclick="playSound('click'); toggleMode()" class="flex flex-col items-center justify-center gap-1 w-12 text-slate-500 active:scale-90 transition-transform relative">
+             <div class="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center shadow-sm border border-white/50">
+                <i id="mode-icon" class="fa-solid fa-microchip text-sm text-blue-600"></i>
+            </div>
+            <span id="mode-text" class="absolute -bottom-5 text-[9px] font-bold text-blue-600 w-24 text-center whitespace-nowrap">AI Bất Bại</span>
+        </button>
     </footer>
-    
-    <!-- JavaScript for search handling and app rendering -->
-    <!-- Import game data from external file -->
-    <script src="js/data.js"></script>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-900/20 backdrop-blur-[2px] opacity-0 transition-opacity duration-200">
+        <div class="glass-panel overflow-hidden w-full sm:w-[320px] m-4 rounded-3xl shadow-2xl transform translate-y-full sm:translate-y-10 transition-transform duration-300 bg-white/60" id="settings-content">
+            <div class="p-4 border-b border-white/40 flex justify-between items-center">
+                <h3 class="text-[17px] font-bold text-slate-800">Cài Đặt</h3>
+                <button onclick="closeSettings()" class="w-8 h-8 flex items-center justify-center bg-white/40 rounded-full text-slate-500 hover:bg-white/60">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3">Độ Khó AI</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="radio" name="difficulty" id="diff-easy" value="easy" class="hidden diff-radio" onchange="setDifficulty('easy')">
+                        <label for="diff-easy" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Dễ</label>
+                        
+                        <input type="radio" name="difficulty" id="diff-medium" value="medium" class="hidden diff-radio" onchange="setDifficulty('medium')">
+                        <label for="diff-medium" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Vừa</label>
+                        
+                        <input type="radio" name="difficulty" id="diff-hard" value="hard" class="hidden diff-radio" onchange="setDifficulty('hard')">
+                        <label for="diff-hard" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Khó</label>
+                        
+                        <input type="radio" name="difficulty" id="diff-hardest" value="hardest" class="hidden diff-radio" onchange="setDifficulty('hardest')" checked>
+                        <label for="diff-hardest" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Bất Bại</label>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-white/40">
+                <button onclick="closeSettings()" class="w-full py-3 liquid-btn liquid-primary rounded-xl font-semibold shadow-lg">
+                    Xong
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WIN/LOSE MODAL -->
+    <div id="modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/20 backdrop-blur-[4px] opacity-0 transition-opacity duration-200">
+        <div class="glass-panel overflow-hidden w-[280px] rounded-3xl text-center shadow-2xl transform scale-95 transition-transform duration-200 bg-white/70" id="modal-content">
+            <div class="p-6 border-b border-white/40">
+                <div id="modal-icon" class="text-5xl mb-3 drop-shadow-md">🏆</div>
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800 mb-1">Chiến Thắng</h3>
+                <p id="modal-msg" class="text-sm text-slate-600 font-medium">Trò chơi kết thúc</p>
+            </div>
+            <button onclick="closeModal()" class="w-full py-4 text-[17px] text-blue-600 font-bold active:bg-white/40 rounded-b-3xl hover:bg-white/30 transition-colors">
+                Chơi Lại
+            </button>
+        </div>
+    </div>
+
     <script>
+        // --- SOUND FX ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
 
-        // Function to handle image error
-        const handleImageError = (img) => {
-            const gameName = img.alt || 'Text2 Game';
-            const initial = gameName.charAt(0).toUpperCase();
-            // Change placeholder color to new accent color with SEO optimized text
-            img.src = `https://placehold.co/128x128/333333/9333ea?text=${initial}`;
-            img.alt = `${gameName} - Game from Text2 Game`;
-            img.onerror = null; // Prevent infinite loop if placeholder image also fails
-        };
-
-        // Function to render research apps to screen
-        // Rename function and ID for clarity
-        const renderUpcomingGames = (games) => {
-            const upcomingGameGrid = document.getElementById('upcoming-game-grid');
-            if (!upcomingGameGrid) return; // Exit if grid not found
-
-            upcomingGameGrid.innerHTML = ''; // Clear old content
-
-            if (games.length === 0) {
-                upcomingGameGrid.innerHTML = `<p class="text-gray-light col-span-full text-center">No upcoming Text2 games found.</p>`;
-                return;
-            }
-
-            games.forEach(game => {
-                const gameCard = `
-                    <div class="bg-gray-dark rounded-lg p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
-                        <a href="${game.url}" target="_blank" title="Play ${game.name} - Game from Text2">
-                            <img 
-                                src="${game.icon}" 
-                                alt="${game.name} - Upcoming game from Text2 Game"
-                                title="${game.name} - Play free games at Text2 Game"
-                                class="w-16 h-16 mb-3 rounded-xl object-cover bg-gray-medium"
-                                width="64"
-                                height="64"
-                                loading="lazy"
-                                onerror="handleImageError(this)"
-                            >
-                        </a>
-                        <h3 class="text-white font-semibold text-base mb-1 w-full truncate" title="${game.name} - Text2 Game">
-                            ${game.name}
-                        </h3>
-                        <p class="text-gray-light text-xs w-full overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                            ${game.description}
-                        </p>
-                    </div>
-                `;
-                upcomingGameGrid.innerHTML += gameCard;
-            });
-        };
-
-        // Function to render app list to screen
-        // Rename function and ID
-        const renderGames = (games) => {
-            const gameGrid = document.getElementById('game-grid');
-            if (!gameGrid) return; // Exit if grid not found
-
-            gameGrid.innerHTML = ''; // Clear old content
-
-            if (games.length === 0) {
-                gameGrid.innerHTML = `<p class="text-gray-light col-span-full text-center">No matching Text2 games found.</p>`;
-                return;
-            }
-
-            games.forEach(game => {
-                const gameCard = `
-                    <div class="bg-gray-dark rounded-lg p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
-                        <a href="${game.url}" target="_blank" title="Play ${game.name} - Game from Text2">
-                            <img 
-                                src="${game.icon}" 
-                                alt="${game.name} - Free game from Text2 Game"
-                                title="${game.name} - Play free online games at Text2 Game"
-                                class="w-16 h-16 mb-3 rounded-xl object-cover bg-gray-medium"
-                                width="64"
-                                height="64"
-                                loading="lazy"
-                                onerror="handleImageError(this)"
-                            >
-                        </a>
-                        <h3 class="text-white font-semibold text-base mb-1 w-full truncate" title="${game.name} - Text2 Game">
-                            ${game.name}
-                        </h3>
-                        <p class="text-gray-light text-xs w-full overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                            ${game.description}
-                        </p>
-                    </div>
-                `;
-                gameGrid.innerHTML += gameCard;
-            });
-        };
-
-        // Function to filter apps based on search keyword
-        // Rename variables for consistency
-        const filterGames = () => {
-            const searchInput = document.getElementById('search-input');
-            if (!searchInput) return; // Exit if input not found
-
-            const searchTerm = searchInput.value.toLowerCase().trim();
-
-            // If search is empty, show all games in their original sections
-            if (searchTerm === '') {
-                renderGames(gameData); // Use gameData
-                renderUpcomingGames(upcomingGameData); // Use upcomingGameData
-                // Show section headers
-                document.querySelector('h2').style.display = 'block';
-                document.querySelector('h2').parentElement.style.display = 'flex';
-                document.querySelectorAll('h2')[1].style.display = 'block';
-                document.querySelectorAll('h2')[1].parentElement.style.display = 'flex';
-                return;
-            }
-
-            // Filter both main games and upcoming games
-            const filteredMainGames = gameData.filter(game => 
-                game.name.toLowerCase().includes(searchTerm) || 
-                game.description.toLowerCase().includes(searchTerm)
-            );
-
-            const filteredUpcomingGames = upcomingGameData.filter(game => 
-                game.name.toLowerCase().includes(searchTerm) || 
-                game.description.toLowerCase().includes(searchTerm)
-            );
-
-            // Combine all filtered results
-            const allFilteredGames = [...filteredMainGames, ...filteredUpcomingGames];
-
-            // Hide section headers during search
-            document.querySelector('h2').parentElement.style.display = 'none';
-            document.querySelectorAll('h2')[1].parentElement.style.display = 'none';
-
-            // Render all results in the main grid
-            renderGames(allFilteredGames);
+            const now = audioCtx.currentTime;
             
-            // Clear upcoming games grid during search
-            const upcomingGameGrid = document.getElementById('upcoming-game-grid');
-            if (upcomingGameGrid) {
-                upcomingGameGrid.innerHTML = '';
+            if (type === 'move-x') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start();
+                osc.stop(now + 0.1);
+            } else if (type === 'move-o') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(200, now + 0.1);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start();
+                osc.stop(now + 0.1);
+            } else if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.2);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
+                osc.start();
+                osc.stop(now + 0.5);
+            } else if (type === 'click') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, now);
+                gainNode.gain.setValueAtTime(0.02, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start();
+                osc.stop(now + 0.05);
             }
-        };
+        }
 
-        // Run when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize icons
-            lucide.createIcons();
+        // --- CONFIG ---
+        const ROWS = 50; 
+        const COLS = 50;
+        
+        let board = [];
+        let currentPlayer = 'x';
+        let gameActive = true;
+        let history = [];
+        let mode = 'pve'; 
+        let difficulty = 'hardest'; // Default to Impossible
 
-            // Render all games initially
-            // Use new variables and functions
-            renderGames(gameData);
-            renderUpcomingGames(upcomingGameData);
+        // --- DOM ---
+        const boardEl = document.getElementById('game-board');
+        const scrollArea = document.getElementById('scroll-area');
+        const aiBubble = document.getElementById('chat-bubble');
+        const aiText = document.getElementById('ai-text');
+        const turnText = document.getElementById('turn-text');
+        const turnIndicator = document.getElementById('turn-indicator');
+        const modeText = document.getElementById('mode-text');
 
-            // Attach 'input' event to search bar
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-                searchInput.addEventListener('input', filterGames);
+        // --- INIT ---
+        function initGame() {
+            board = Array(ROWS).fill().map(() => Array(COLS).fill(null));
+            currentPlayer = 'x';
+            gameActive = true;
+            history = [];
+            document.body.style.pointerEvents = 'auto'; 
+
+            renderBoard();
+            updateUI();
+            
+            setTimeout(() => {
+                const centerX = (boardEl.offsetWidth - scrollArea.clientWidth) / 2;
+                const centerY = (boardEl.offsetHeight - scrollArea.clientHeight) / 2;
+                scrollArea.scrollTo({ top: centerY, left: centerX, behavior: 'auto' }); 
+            }, 0);
+
+            // TRANSLATED: Sẵn sàng chưa Boss? Cấp độ...
+            let levelName = difficulty === 'hardest' ? 'BẤT BẠI' : difficulty.toUpperCase();
+            if(difficulty === 'easy') levelName = 'DỄ';
+            if(difficulty === 'medium') levelName = 'VỪA';
+            if(difficulty === 'hard') levelName = 'KHÓ';
+
+            showAiMessage("Sẵn sàng chưa Boss? Cấp độ " + levelName);
+            document.getElementById('btn-undo').disabled = true;
+        }
+
+        function renderBoard() {
+            boardEl.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+            for(let r=0; r<ROWS; r++) {
+                for(let c=0; c<COLS; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.r = r;
+                    cell.dataset.c = c;
+                    cell.onclick = () => handleMove(r, c);
+                    fragment.appendChild(cell);
+                }
+            }
+            boardEl.appendChild(fragment);
+        }
+
+        // --- GAMEPLAY ---
+        function handleMove(r, c) {
+            if(!gameActive || board[r][c]) return;
+
+            placePiece(r, c, currentPlayer);
+
+            const win = checkWin(r, c, currentPlayer);
+            if(win) {
+                endGame(currentPlayer, win);
+                return;
             }
 
-            // No embed select / close handlers needed: iframe is visible by default
-        });
+            currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+            updateUI();
+
+            if(mode === 'pve' && currentPlayer === 'o' && gameActive) {
+                document.getElementById('ai-typing').classList.remove('hidden');
+                document.body.style.pointerEvents = 'none';
+                
+                // AI THINKING DELAY
+                setTimeout(() => {
+                    const move = getBestMove(difficulty); 
+                    placePiece(move.r, move.c, 'o');
+                    
+                    const aiWin = checkWin(move.r, move.c, 'o');
+                    if(aiWin) {
+                        endGame('o', aiWin);
+                    } else {
+                        currentPlayer = 'x';
+                        updateUI();
+                        document.getElementById('ai-typing').classList.add('hidden');
+                        document.body.style.pointerEvents = 'auto';
+                    }
+                }, 300);
+            }
+        }
+
+        function placePiece(r, c, player) {
+            board[r][c] = player;
+            history.push({r, c, player});
+            document.getElementById('btn-undo').disabled = false;
+            playSound(player === 'x' ? 'move-x' : 'move-o');
+
+            const idx = r * COLS + c;
+            const cell = boardEl.children[idx];
+            
+            cell.innerHTML = player === 'x' 
+                ? '<i class="fa-solid fa-xmark animate-scale-in"></i>' 
+                : '<i class="fa-regular fa-circle animate-scale-in" style="font-weight:900"></i>';
+            cell.classList.add(player === 'x' ? 'cell-x' : 'cell-o');
+
+            document.querySelectorAll('.last-move').forEach(el => el.classList.remove('last-move'));
+            cell.classList.add('last-move');
+        }
+
+        // --- SUPER AI LOGIC ---
+        function getBestMove(level) {
+            if (history.length === 0) return { r: Math.floor(ROWS/2), c: Math.floor(COLS/2) };
+
+            const candidates = getCandidateMoves();
+            if(candidates.length === 0) return {r: 25, c: 25};
+
+            // EASY: Random move from candidates
+            if(level === 'easy') {
+                return candidates[Math.floor(Math.random() * candidates.length)];
+            }
+
+            // MEDIUM: Basic Heuristic (Attack only)
+            if(level === 'medium') {
+                let bestScore = -Infinity;
+                let bestMove = candidates[0];
+                for (let move of candidates) {
+                    let score = evaluateMoveStatic(move.r, move.c, 'o', 'x');
+                    if(score > bestScore) {
+                        bestScore = score;
+                        bestMove = move;
+                    }
+                }
+                return bestMove;
+            }
+
+            // HARD & IMPOSSIBLE: Advanced Heuristic
+            let bestScore = -Infinity;
+            let bestMoves = [];
+            
+            for (let move of candidates) {
+                const { r, c } = move;
+                // Attack Score (AI)
+                const attackScore = evaluateMoveStatic(r, c, 'o', 'x');
+                // Defense Score (Block Player)
+                const defenseScore = evaluateMoveStatic(r, c, 'x', 'o');
+                
+                let totalScore = 0;
+
+                if (level === 'hard') {
+                    totalScore = attackScore + (defenseScore * 0.8);
+                } else {
+                    // IMPOSSIBLE LOGIC
+                    if (attackScore >= 100000) totalScore = 200000; // Win now
+                    else if (defenseScore >= 90000) totalScore = 150000; // Must block win
+                    else if (attackScore >= 10000) totalScore = 120000; // Create open 4
+                    else if (defenseScore >= 10000) totalScore = 110000; // Block open 4
+                    else {
+                        totalScore = attackScore * 1.1 + defenseScore;
+                    }
+                }
+
+                if (totalScore > bestScore) {
+                    bestScore = totalScore;
+                    bestMoves = [{r, c}];
+                } else if (totalScore === bestScore) {
+                    bestMoves.push({r, c});
+                }
+            }
+
+            return bestMoves.length > 0 ? bestMoves[Math.floor(Math.random() * bestMoves.length)] : candidates[0];
+        }
+
+        // Optimize: Only check neighbors of occupied cells
+        function getCandidateMoves() {
+            let moves = [];
+            let visited = new Set();
+            const occupied = history.map(h => ({r: h.r, c: h.c}));
+            
+            occupied.forEach(pos => {
+                for(let dr=-2; dr<=2; dr++) {
+                    for(let dc=-2; dc<=2; dc++) {
+                        if(dr===0 && dc===0) continue;
+                        const nr = pos.r + dr;
+                        const nc = pos.c + dc;
+                        if(isValid(nr, nc) && board[nr][nc] === null) {
+                            const key = `${nr},${nc}`;
+                            if(!visited.has(key)) {
+                                moves.push({r: nr, c: nc});
+                                visited.add(key);
+                            }
+                        }
+                    }
+                }
+            });
+            // If empty (first move), return center
+            if(moves.length === 0 && history.length === 0) return [{r: 25, c: 25}];
+            return moves;
+        }
+
+        // Static evaluation of a position (Simulate placing stone)
+        function evaluateMoveStatic(r, c, player, opponent) {
+            let score = 0;
+            const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+            
+            board[r][c] = player; // Simulate
+            
+            for (let [dr, dc] of directions) {
+                score += getLineScoreAdvanced(r, c, dr, dc, player);
+            }
+            
+            board[r][c] = null; // Undo
+            return score;
+        }
+
+        // Improved Line Scoring for Impossible Mode
+        function getLineScoreAdvanced(r, c, dr, dc, player) {
+            let count = 1;
+            let block1 = false; // Blocked at one end
+            let block2 = false; // Blocked at other end
+            
+            // Check forward
+            let i = 1;
+            while (isValid(r + dr*i, c + dc*i) && board[r + dr*i][c + dc*i] === player) { count++; i++; }
+            if (!isValid(r + dr*i, c + dc*i) || board[r + dr*i][c + dc*i] !== null) block1 = true;
+            
+            // Check backward
+            let j = 1;
+            while (isValid(r - dr*j, c - dc*j) && board[r - dr*j][c - dc*j] === player) { count++; j++; }
+            if (!isValid(r - dr*j, c - dc*j) || board[r - dr*j][c - dc*j] !== null) block2 = true;
+
+            // SCORING WEIGHTS
+            if (count >= 5) return 100000; // WIN
+            
+            if (count === 4) {
+                if (!block1 && !block2) return 50000; // Open 4 (Win guaranteed)
+                if ((!block1 && block2) || (block1 && !block2)) return 10000; // Blocked 4 (Threat)
+                return 0; // Double blocked 4 is useless
+            }
+            
+            if (count === 3) {
+                if (!block1 && !block2) return 8000; // Open 3 (Major threat)
+                if ((!block1 && block2) || (block1 && !block2)) return 500; // Blocked 3
+                return 0;
+            }
+            
+            if (count === 2) {
+                if (!block1 && !block2) return 200; // Open 2
+                return 10;
+            }
+            
+            return 0;
+        }
+
+        function isValid(r, c) { return r >= 0 && r < ROWS && c >= 0 && c < COLS; }
+
+        function checkWin(r, c, player) {
+            const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+            for (let [dr, dc] of directions) {
+                let count = 1;
+                let cells = [{r, c}];
+                for(let sign of [1, -1]) {
+                    for (let i = 1; i < 5; i++) {
+                        const nr = r + dr * i * sign;
+                        const nc = c + dc * i * sign;
+                        if (isValid(nr, nc) && board[nr][nc] === player) {
+                            count++; cells.push({r: nr, c: nc});
+                        } else break;
+                    }
+                }
+                if (count >= 5) return cells;
+            }
+            return null;
+        }
+
+        // --- UI ACTIONS ---
+        function undoMove() {
+            if(!gameActive || history.length === 0) return;
+            const steps = mode === 'pve' ? 2 : 1;
+            
+            for(let i=0; i<steps; i++) {
+                if(history.length === 0) break;
+                const last = history.pop();
+                board[last.r][last.c] = null;
+                const idx = last.r * COLS + last.c;
+                const cell = boardEl.children[idx];
+                cell.innerHTML = '';
+                cell.className = 'cell'; 
+                cell.classList.remove('last-move');
+                currentPlayer = last.player; 
+            }
+            
+            if(history.length > 0) {
+                const prev = history[history.length - 1];
+                const prevIdx = prev.r * COLS + prev.c;
+                boardEl.children[prevIdx].classList.add('last-move');
+            } else {
+                document.getElementById('btn-undo').disabled = true;
+            }
+            
+            gameActive = true;
+            updateUI();
+            playSound('click');
+        }
+
+        function updateUI() {
+            if (currentPlayer === 'x') {
+                turnIndicator.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(255,59,48,0.6)] transition-colors';
+                turnText.innerText = "LƯỢT BẠN";
+                turnText.className = "text-[10px] font-bold text-slate-600 uppercase tracking-wide";
+            } else {
+                turnIndicator.className = 'w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(0,122,255,0.6)] transition-colors';
+                turnText.innerText = "BOT ĐANG NGHĨ";
+                turnText.className = "text-[10px] font-bold text-blue-600 uppercase tracking-wide";
+            }
+        }
+
+        function endGame(winner, cells) {
+            gameActive = false;
+            document.body.style.pointerEvents = 'auto';
+            document.getElementById('ai-typing').classList.add('hidden');
+            
+            playSound('win');
+            
+            cells.forEach(pos => {
+                const idx = pos.r * COLS + pos.c;
+                boardEl.children[idx].classList.add('winning-cell');
+            });
+
+            setTimeout(() => {
+                const modal = document.getElementById('modal');
+                const title = document.getElementById('modal-title');
+                const msg = document.getElementById('modal-msg');
+                const icon = document.getElementById('modal-icon');
+                
+                if (winner === 'x') {
+                    icon.innerText = "🏆";
+                    title.innerText = "Chiến Thắng";
+                    msg.innerText = "Đẳng cấp quá Boss ơi!";
+                    showAiMessage("Tâm phục khẩu phục.");
+                } else {
+                    icon.innerText = "💀";
+                    title.innerText = "Thua Cuộc";
+                    msg.innerText = "Thử lại nhé Boss.";
+                    showAiMessage("Còn non lắm boss ơi!");
+                }
+                
+                modal.classList.remove('hidden');
+                requestAnimationFrame(() => {
+                    modal.classList.remove('opacity-0');
+                    document.getElementById('modal-content').classList.remove('scale-95');
+                    document.getElementById('modal-content').classList.add('scale-100');
+                });
+            }, 600);
+        }
+
+        function closeModal() {
+            playSound('click');
+            const modal = document.getElementById('modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('modal-content').classList.remove('scale-100');
+            document.getElementById('modal-content').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                initGame();
+            }, 200);
+        }
+
+        // --- SETTINGS ---
+        function openSettings() {
+            playSound('click');
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-content');
+            modal.classList.remove('hidden');
+            // Check radio button
+            document.querySelector(`input[name="difficulty"][value="${difficulty}"]`).checked = true;
+            
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('translate-y-full');
+                content.classList.add('translate-y-0'); // Mobile slide up
+                if(window.innerWidth >= 640) {
+                     content.classList.remove('sm:translate-y-10');
+                     content.classList.add('sm:translate-y-0');
+                }
+            });
+        }
+
+        function closeSettings() {
+            playSound('click');
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-content');
+            
+            modal.classList.add('opacity-0');
+            content.classList.add('translate-y-full'); // Mobile slide down
+            if(window.innerWidth >= 640) content.classList.add('sm:translate-y-10');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function setDifficulty(level) {
+            difficulty = level;
+            playSound('click');
+            
+            // TRANSLATED LABEL
+            let label = "AI Bất Bại"; // Default
+            if (level === 'easy') label = "AI Dễ";
+            if (level === 'medium') label = "AI Vừa";
+            if (level === 'hard') label = "AI Khó";
+            
+            document.getElementById('mode-text').innerText = label;
+            showAiMessage("Độ khó: " + label);
+        }
+
+        function toggleMode() {
+            // Shortcut button in footer cycles Difficulty in PvE or switches to PvP
+            if (mode === 'pve') {
+                if(difficulty === 'easy') setDifficulty('medium');
+                else if(difficulty === 'medium') setDifficulty('hard');
+                else if(difficulty === 'hard') setDifficulty('hardest');
+                else {
+                    mode = 'pvp';
+                    const icon = document.getElementById('mode-icon');
+                    const text = document.getElementById('mode-text');
+                    icon.className = 'fa-solid fa-user-group text-sm text-slate-500';
+                    text.innerText = "Đấu Người";
+                    text.className = "absolute -bottom-5 text-[9px] font-bold text-slate-500 w-20 text-center";
+                    showAiMessage("Chế độ 2 người chơi.");
+                    initGame();
+                    return;
+                }
+                // Update Radio in Settings silently
+                document.querySelector(`input[name="difficulty"][value="${difficulty}"]`).checked = true;
+            } else {
+                mode = 'pve';
+                setDifficulty('hardest'); // Reset to default Hardest
+                const icon = document.getElementById('mode-icon');
+                const text = document.getElementById('mode-text');
+                icon.className = 'fa-solid fa-microchip text-sm text-blue-600';
+                text.className = "absolute -bottom-5 text-[9px] font-bold text-blue-600 w-20 text-center";
+                initGame();
+            }
+        }
+
+        function showAiMessage(msg) {
+            aiText.innerText = msg;
+            aiBubble.classList.remove('translate-y-[-150%]', 'opacity-0');
+            aiBubble.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                aiBubble.classList.remove('translate-y-0', 'opacity-100');
+                aiBubble.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 2500);
+        }
+
+        function resetGame() { initGame(); }
+        window.onload = initGame;
     </script>
-
 </body>
 </html>

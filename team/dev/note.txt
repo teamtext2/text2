@@ -11,7 +11,7 @@ XIN CHÀO CÁC LẬP TRÌNH VIÊN CỦA TEXT2
 <Vui lòng liên hệ với text2 team để nhận được mẫu gọi API mô hình ngôn ngữ để phục vụ các bạn>
 Chúng tôi cung cấp 100 000k Token một ngày dành cho các bạn 
 
-tối ưu seo tiêu chuẩn đầy đủ tất cả với từ khóa Text2 - name app, có cả schema. và <link rel="manifest" href="site.webmanifest"> và liên kết tragn này là https://text02.com/nameapp và trang chủ là https://text02.com
+tối ưu seo tiêu chuẩn đầy đủ tất cả với từ khóa Text2 - name app, có cả schema. và <link rel="manifest" href="site.webmanifest">   <link rel="icon" href="favicon.ico"> và liên kết tragn này là https://text02.com/nameapp và trang chủ là https://text02.com
 
 <Bắt buột đường dẫn đo lường>
   <!-- Google tag (gtag.js) - GA4 -->
