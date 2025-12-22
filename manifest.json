@@ -36,7 +36,7 @@
       "name": "Text2 - Doc",
       "short_name": "Doc",
       "description": "Open Text2 Doc",
-      "url": "https://text02.com/app/doc/",
+      "url": "https://text02.com/app/doc",
       "icons": [
         {
           "src": "text02.com/app/doc/favicon.ico",
@@ -48,7 +48,7 @@
       "name": "Text2 - note",
       "short_name": "note",
       "description": "Open note",
-      "url": "https://text02.com/app/note/",
+      "url": "https://text02.com/app/note",
       "icons": [
         {
           "src": "text02.com/app/note/favicon.ico",
@@ -60,7 +60,7 @@
       "name": "Translate",
       "short_name": "Translate",
       "description": "Open Translate",
-      "url": "https://text02.com/app/translate/",
+      "url": "https://text02.com/app/translate",
       "icons": [
         {
           "src": "text02.com/app/translate/favicon.ico",
