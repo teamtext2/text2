@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- SEO Meta Tags -->
-    <title>Text2 - Caro Game</title>
-    <meta name="description" content="Play Text2 Caro Game, the classic tic-tac-toe game with advanced AI opponents. Challenge yourself in single-player mode with multiple difficulty levels. Free to play online.">
-    <meta name="keywords" content="Text2, Caro Game, tic-tac-toe, AI game, puzzle game, online game, free game">
+    <title>Text2 Caro Game</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
+    crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+    <meta name="description" content="Chơi Text2 Cờ Caro, phiên bản cờ caro (gomoku / tic-tac-toe mở rộng) với AI thông minh nhiều cấp độ. Thách đấu máy, luyện tư duy chiến thuật, chơi miễn phí trực tuyến.">
+    <meta name="keywords" content="Text2, cờ caro, caro online, caro AI, game trí tuệ, game bàn cờ, game miễn phí, tic-tac-toe, gomoku">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Text2">
     <link rel="canonical" href="https://text02.com/game/caro">
@@ -15,16 +26,16 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://text02.com/game/caro">
-    <meta property="og:title" content="Text2 - Caro Game | Play Classic Tic-Tac-Toe with AI">
-    <meta property="og:description" content="Play Text2 Caro Game, the classic tic-tac-toe game with advanced AI opponents. Challenge yourself in single-player mode with multiple difficulty levels.">
+    <meta property="og:title" content="Text2 - Game Cờ Caro | Chơi cờ caro với AI thông minh">
+    <meta property="og:description" content="Chơi cờ caro với AI thông minh nhiều cấp độ. Thử thách bản thân với chế độ một người chơi cùng máy, hoàn toàn miễn phí.">
     <meta property="og:image" content="https://text02.com/media/thumnel.png">
     <meta property="og:site_name" content="Text2">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://text02.com/game/caro">
-    <meta property="twitter:title" content="Text2 - Caro Game | Play Classic Tic-Tac-Toe with AI">
-    <meta property="twitter:description" content="Play Text2 Caro Game, the classic tic-tac-toe game with advanced AI opponents. Challenge yourself in single-player mode with multiple difficulty levels.">
+    <meta property="twitter:title" content="Text2 - Game Cờ Caro | Chơi cờ caro với AI thông minh">
+    <meta property="twitter:description" content="Chơi Text2 Cờ Caro với AI mạnh, nhiều cấp độ khó. Luyện tư duy chiến thuật, chơi miễn phí ngay trên trình duyệt.">
     <meta property="twitter:image" content="https://text02.com/media/thumnel.png">
     
     <!-- Schema.org JSON-LD -->
@@ -32,8 +43,8 @@
     {
         "@context": "https://schema.org",
         "@type": "VideoGame",
-        "name": "Text2 - Caro Game",
-        "description": "Play the classic Caro game (tic-tac-toe) with advanced AI opponents. Features multiple difficulty levels including impossible mode.",
+        "name": "Text2 - Game Cờ Caro",
+        "description": "Chơi game cờ caro (gomoku / tic-tac-toe mở rộng) với AI thông minh, nhiều cấp độ khó, có cả chế độ 'không thể thắng'.",
         "url": "https://text02.com/game/caro",
         "image": "https://text02.com/media/thumnel.png",
         "author": {
@@ -61,13 +72,13 @@
                 {
                     "@type": "ListItem",
                     "position": 1,
-                    "name": "Home",
+                    "name": "Trang chủ",
                     "item": "https://text02.com"
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
-                    "name": "Caro Game",
+                    "name": "Game Cờ Caro",
                     "item": "https://text02.com/game/caro"
                 }
             ]
@@ -331,7 +342,7 @@
             </div>
             <div class="px-3 py-1.5 rounded-full bg-white/40 border border-white/60 flex items-center gap-2 shadow-sm backdrop-blur-sm">
                 <span id="turn-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(255,59,48,0.6)]"></span>
-                <span id="turn-text" class="text-[10px] font-bold text-slate-600 uppercase tracking-wide">YOUR TURN</span>
+                <span id="turn-text" class="text-[10px] font-bold text-slate-600 uppercase tracking-wide">TỚI LƯỢT BẠN</span>
             </div>
             <button onclick="openSettings()" class="w-8 h-8 flex items-center justify-center text-slate-600 text-lg active:opacity-50 hover:bg-white/20 rounded-full transition-colors">
                 <i class="fa-solid fa-gear"></i>
@@ -382,32 +393,32 @@
     <div id="settings-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center bg-slate-900/20 backdrop-blur-[2px] opacity-0 transition-opacity duration-200">
         <div class="glass-panel overflow-hidden w-full sm:w-[320px] m-4 rounded-3xl shadow-2xl transform translate-y-full sm:translate-y-10 transition-transform duration-300 bg-white/60" id="settings-content">
             <div class="p-4 border-b border-white/40 flex justify-between items-center">
-                <h3 class="text-[17px] font-bold text-slate-800">Settings</h3>
+                <h3 class="text-[17px] font-bold text-slate-800">Cài đặt</h3>
                 <button onclick="closeSettings()" class="w-8 h-8 flex items-center justify-center bg-white/40 rounded-full text-slate-500 hover:bg-white/60">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3">AI Difficulty</label>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-3">Độ khó AI</label>
                     <div class="grid grid-cols-2 gap-3">
                         <input type="radio" name="difficulty" id="diff-easy" value="easy" class="hidden diff-radio" onchange="setDifficulty('easy')">
-                        <label for="diff-easy" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Easy</label>
+                        <label for="diff-easy" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Dễ</label>
                         
                         <input type="radio" name="difficulty" id="diff-medium" value="medium" class="hidden diff-radio" onchange="setDifficulty('medium')">
-                        <label for="diff-medium" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Medium</label>
+                        <label for="diff-medium" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Trung bình</label>
                         
                         <input type="radio" name="difficulty" id="diff-hard" value="hard" class="hidden diff-radio" onchange="setDifficulty('hard')">
-                        <label for="diff-hard" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Hard</label>
+                        <label for="diff-hard" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Khó</label>
                         
                         <input type="radio" name="difficulty" id="diff-hardest" value="hardest" class="hidden diff-radio" onchange="setDifficulty('hardest')" checked>
-                        <label for="diff-hardest" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Impossible</label>
+                        <label for="diff-hardest" class="text-center py-2.5 rounded-xl border border-white/50 bg-white/30 text-sm font-medium text-slate-600 cursor-pointer transition-all hover:bg-white/50">Siêu khó</label>
                     </div>
                 </div>
             </div>
             <div class="p-4 border-t border-white/40">
                 <button onclick="closeSettings()" class="w-full py-3 liquid-btn liquid-primary rounded-xl font-semibold shadow-lg">
-                    Done
+                    Xong
                 </button>
             </div>
         </div>
@@ -418,11 +429,11 @@
         <div class="glass-panel overflow-hidden w-[280px] rounded-3xl text-center shadow-2xl transform scale-95 transition-transform duration-200 bg-white/70" id="modal-content">
             <div class="p-6 border-b border-white/40">
                 <div id="modal-icon" class="text-5xl mb-3 drop-shadow-md">🏆</div>
-                <h3 id="modal-title" class="text-xl font-bold text-slate-800 mb-1">Victory</h3>
-                <p id="modal-msg" class="text-sm text-slate-600 font-medium">Game Over</p>
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800 mb-1">Chiến thắng</h3>
+                <p id="modal-msg" class="text-sm text-slate-600 font-medium">Ván đấu kết thúc</p>
             </div>
             <button onclick="closeModal()" class="w-full py-4 text-[17px] text-blue-600 font-bold active:bg-white/40 rounded-b-3xl hover:bg-white/30 transition-colors">
-                Play Again
+                Chơi lại
             </button>
         </div>
     </div>
@@ -783,11 +794,11 @@
         function updateUI() {
             if (currentPlayer === 'x') {
                 turnIndicator.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(255,59,48,0.6)] transition-colors';
-                turnText.innerText = "YOUR TURN";
+                turnText.innerText = "TỚI LƯỢT BẠN";
                 turnText.className = "text-[10px] font-bold text-slate-600 uppercase tracking-wide";
             } else {
                 turnIndicator.className = 'w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(0,122,255,0.6)] transition-colors';
-                turnText.innerText = "BOT THINKING";
+                turnText.innerText = "BOT ĐANG SUY NGHĨ";
                 turnText.className = "text-[10px] font-bold text-blue-600 uppercase tracking-wide";
             }
         }
@@ -812,13 +823,13 @@
                 
                 if (winner === 'x') {
                     icon.innerText = "🏆";
-                    title.innerText = "Victory";
-                    msg.innerText = "You defeated the AI!";
+                    title.innerText = "Chiến thắng";
+                    msg.innerText = "Bạn đã hạ gục AI!";
                     showAiMessage("Tâm phục khẩu phục.");
                 } else {
                     icon.innerText = "💀";
-                    title.innerText = "Defeat";
-                    msg.innerText = "Better luck next time.";
+                    title.innerText = "Thua cuộc";
+                    msg.innerText = "Thử lại lần sau nhé.";
                     showAiMessage("Còn non lắm boss ơi!");
                 }
                 
@@ -882,7 +893,7 @@
             playSound('click');
             
             let label = "AI " + level.charAt(0).toUpperCase() + level.slice(1);
-            if(level === 'hardest') label = "AI Impossible";
+            if(level === 'hardest') label = "AI Siêu khó";
             
             document.getElementById('mode-text').innerText = label;
             showAiMessage("Độ khó: " + label);
@@ -899,7 +910,7 @@
                     const icon = document.getElementById('mode-icon');
                     const text = document.getElementById('mode-text');
                     icon.className = 'fa-solid fa-user-group text-sm text-slate-500';
-                    text.innerText = "PvP Mode";
+                    text.innerText = "Chế độ 2 người";
                     text.className = "absolute -bottom-5 text-[9px] font-bold text-slate-500 w-20 text-center";
                     showAiMessage("Chế độ 2 người chơi.");
                     initGame();
@@ -909,7 +920,7 @@
                 document.querySelector(`input[name="difficulty"][value="${difficulty}"]`).checked = true;
             } else {
                 mode = 'pve';
-                setDifficulty('hardest'); // Reset to default Hardest
+                setDifficulty('hardest'); // Reset to default hardest
                 const icon = document.getElementById('mode-icon');
                 const text = document.getElementById('mode-text');
                 icon.className = 'fa-solid fa-microchip text-sm text-blue-600';
