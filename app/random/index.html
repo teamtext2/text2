@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text2 - Random Online | Free Random Wheel Picker</title>
+    <title>Text2 - Random Online</title>
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
+
     <meta name="title" content="Text2 - Random Online | Free Random Wheel Picker">
     <meta name="description" content="Text2 - Random Online lets you create a random wheel from your own list of options to quickly decide what to do next, play mini decision games, and more — free and online.">
     <meta name="keywords" content="Text2, Text2 - Random Online, random online, random wheel, wheel spinner, random picker, online picker, random text, random name, random choice, free random tool">
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
     <link rel="canonical" href="https://text02.com/random">
+    <meta name="google" content="notranslate"> 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
+    crossorigin="anonymous"></script>
 
     <!-- PWA & Icons -->
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" href="favicon.ico">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -71,6 +84,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Remove padding-top: 72px here for clarity, instead use .main-content */
+            /* padding-top: 72px; */
+        }
+
+        /* Header styles */
+        .text2-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 60;
+            background: rgba(23, 30, 46, 0.75);
+            -webkit-backdrop-filter: blur(19px);
+            backdrop-filter: blur(19px);
+            box-shadow: 0 4px 22px 0 rgba(0,0,0,0.11);
+        }
+
+        .text2-header-inner {
+            max-width: 90rem;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .text2-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
         }
 
         /* Moving Background Blobs */
@@ -201,9 +247,29 @@
             transform: translateY(-50%);
             z-index: 10;
         }
+        /* Remove padding-top from body on all screens, use .main-content instead */
+        /* Padding for main when header present */
+        /* @media (min-width: 0px) {
+            body { padding-top: 72px; }
+        } */
+        @media (min-width: 0px) {
+            .main-content { padding-top: 88px; } /* 64px header + 24px spacing */
+        }
+        @media (min-width: 768px) {
+            .main-content { padding-top: 96px; } /* Larger space for desktop */
+        }
     </style>
 </head>
 <body class="p-4">
+    <!-- Header for đồng bộ toàn trang -->
+    <header class="text2-header">
+        <div class="text2-header-inner">
+            <a href="/" class="text2-logo flex items-center gap-2 group">
+                <img src="https://text02.com/favicon.ico" alt="Text2" width="36" height="36" class="w-9 h-9 rounded-lg shadow group-hover:scale-110 transition-transform duration-200" loading="lazy" />
+                <span class="ml-2 text-lg lg:text-xl font-bold text-white tracking-tight bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">Text2 - Random</span>
+            </a>
+        </div>
+    </header>
 
     <!-- Ambient Background -->
     <div class="ambient-light">
@@ -212,7 +278,8 @@
         <div class="blob blob-3"></div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Container with extra padding top to separate from header -->
+    <div class="main-content">
     <div class="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
         
         <!-- Left Column: Wheel -->
@@ -232,7 +299,7 @@
             </div>
             
             <button id="spinBtn" class="btn-liquid mt-8 px-12 py-4 rounded-full text-xl uppercase tracking-widest shadow-lg active:scale-95">
-                RANDOM
+                RANDOM 
             </button>
         </div>
 
@@ -261,6 +328,8 @@
             </div>
         </div>
     </div>
+    </div>
+    <!-- End main-content -->
 
     <!-- Result Modal -->
     <div id="resultModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
