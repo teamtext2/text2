@@ -1,3 +1,10 @@
+
+And me have <script src="https://text02.com/js/translate.js"></script>
+
+
+
+
+
 <div id="liquid-translate" style="
   position: fixed;
   bottom: 24px;
