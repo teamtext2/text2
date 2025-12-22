@@ -1,35 +1,33 @@
 (function () {
-    if (window.__TEXT02_TRANSLATE_LOADED__) return;
-    window.__TEXT02_TRANSLATE_LOADED__ = true;
+    if (window.__TEXT02_TRANSLATE__) return;
+    window.__TEXT02_TRANSLATE__ = true;
   
-    // ===== HTML Overlay =====
-    var overlay = document.createElement("div");
-    overlay.id = "lang-overlay";
+    // ====== Overlay HTML ======
+    const overlay = document.createElement("div");
+    overlay.id = "text02-lang-overlay";
     overlay.innerHTML = `
     <div style="
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      background: rgba(0,0,0,0.4);
+      position:fixed;inset:0;z-index:10000;
+      display:flex;align-items:center;justify-content:center;
+      backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      background:rgba(0,0,0,.4);
+      font-family:system-ui,sans-serif;
     ">
       <div style="
-        min-width: 300px;
-        padding: 30px 28px;
-        border-radius: 26px;
-        text-align: center;
-        background: rgba(255,255,255,0.95);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-        color: #222;
-        font-family: system-ui, sans-serif;
+        min-width:300px;
+        padding:30px 28px;
+        border-radius:26px;
+        text-align:center;
+        background:rgba(255,255,255,.95);
+        box-shadow:0 20px 50px rgba(0,0,0,.4);
+        color:#222;
       ">
         <div style="font-size:26px;">🌐</div>
         <div style="font-size:18px;font-weight:700;margin:6px 0;">Choose language</div>
-        <div style="font-size:13px;color:#555;margin-bottom:16px;">Select your language to continue</div>
+        <div style="font-size:13px;color:#555;margin-bottom:16px;">
+          Select your language to continue
+        </div>
   
         <select id="text02-lang-select" style="
           width:100%;
@@ -67,12 +65,12 @@
           cursor:pointer;
         ">Start</button>
       </div>
-    </div>
-    `;
+    </div>`;
     document.body.appendChild(overlay);
   
-    // ===== Floating holder =====
-    var holder = document.createElement("div");
+    // ===== Floating Translate Holder =====
+    const holder = document.createElement("div");
+    holder.id = "text02-translate-holder";
     holder.style.cssText = `
       position:fixed;
       bottom:20px;
@@ -88,7 +86,7 @@
     holder.innerHTML = `🌐 <span id="google_translate_element"></span>`;
     document.body.appendChild(holder);
   
-    // ===== Google Translate init =====
+    // ===== Init Google Translate =====
     window.googleTranslateElementInit = function () {
       new google.translate.TranslateElement(
         { pageLanguage: "vi", autoDisplay: false },
@@ -96,46 +94,53 @@
       );
     };
   
-    var g = document.createElement("script");
+    const g = document.createElement("script");
     g.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
     document.head.appendChild(g);
   
-    // ===== Logic =====
-    var saved = localStorage.getItem("text02_lang");
-    if (saved) {
-      overlay.style.display = "none";
-      holder.style.display = "block";
-      autoTranslate(saved);
+    // ===== Auto translate logic (FIXED) =====
+    function autoTranslate(lang) {
+      let tries = 0;
+      const timer = setInterval(() => {
+        const select = document.querySelector("select.goog-te-combo");
+        if (select) {
+          select.value = lang;
+          select.dispatchEvent(new Event("change"));
+          clearInterval(timer);
+          console.log("[Text02] Translated to:", lang);
+        }
+        if (++tries > 30) {
+          clearInterval(timer);
+          console.warn("[Text02] Google Translate not loaded.");
+        }
+      }, 500);
     }
   
+    // ===== Saved language =====
+    const savedLang = localStorage.getItem("text02_lang");
+    if (savedLang) {
+      overlay.style.display = "none";
+      holder.style.display = "block";
+      autoTranslate(savedLang);
+    }
+  
+    // ===== Button event =====
     document.getElementById("text02-lang-start").onclick = function () {
-      var lang = document.getElementById("text02-lang-select").value;
+      const lang = document.getElementById("text02-lang-select").value;
       localStorage.setItem("text02_lang", lang);
       overlay.style.display = "none";
       holder.style.display = "block";
       autoTranslate(lang);
     };
   
-    function autoTranslate(lang) {
-      var tries = 0;
-      var timer = setInterval(function () {
-        var select = document.querySelector(".goog-te-combo");
-        if (select) {
-          select.value = lang;
-          select.dispatchEvent(new Event("change"));
-          clearInterval(timer);
-        }
-        if (++tries > 10) clearInterval(timer);
-      }, 500);
-    }
-  
-    // ===== Hide Google bar =====
-    var style = document.createElement("style");
+    // ===== Hide Google banner =====
+    const style = document.createElement("style");
     style.innerHTML = `
       .goog-te-banner-frame.skiptranslate { display:none !important; }
       body { top:0 !important; }
       .goog-te-gadget span { display:none !important; }
     `;
     document.head.appendChild(style);
+  
   })();
   
