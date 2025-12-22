@@ -47,7 +47,7 @@ const socialMediaData = [
       <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
     </svg>`,
     links: [
-      { name: "Text2 Magic", url: "https://www.instagram.com/text2_magic" }
+      { name: "Text2 Magic", url: "https://www.instagram.com/text02com" }
     ]
   },
   {
