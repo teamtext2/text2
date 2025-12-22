@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text2 - Random Online | Free Random Wheel Picker</title>
+    <meta name="title" content="Text2 - Random Online | Free Random Wheel Picker">
+    <meta name="description" content="Text2 - Random Online lets you create a random wheel from your own list of options to quickly decide what to do next, play mini decision games, and more — free and online.">
+    <meta name="keywords" content="Text2, Text2 - Random Online, random online, random wheel, wheel spinner, random picker, online picker, random text, random name, random choice, free random tool">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <link rel="canonical" href="https://text02.com/random">
+
+    <!-- PWA & Icons -->
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" href="/favicon.ico">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Text2">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Text2 - Random Online | Free Random Wheel Picker">
+    <meta property="og:description" content="Paste your list of options and let Text2 - Random Online spin the wheel to pick randomly for you: what to eat, where to go, what to do, and more — fast and fun.">
+    <meta property="og:url" content="https://text02.com/random">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Text2 - Random Online | Free Random Wheel Picker">
+    <meta name="twitter:description" content="Free random wheel picker by Text2 that helps you choose a random option from your list in seconds.">
+
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Text2 - Random Online | Free Random Wheel Picker",
+      "url": "https://text02.com/random",
+      "inLanguage": "en",
+      "description": "Text2 - Random Online lets you create a random wheel from your own list of options to quickly decide what to do next, play mini decision games, and more — free and online.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Text2 - Online Text Tools",
+        "url": "https://text02.com"
+      },
+      "potentialAction": {
+        "@type": "UseAction",
+        "target": "https://text02.com/random",
+        "name": "Spin random wheel online"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --accent: #00f2fe;
+            --accent-grad: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a; /* Dark background to make the glass effect pop */
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Moving Background Blobs */
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1e293b, #000);
+            overflow: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #4f46e5; animation-duration: 25s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 400px; height: 400px; background: #06b6d4; animation-duration: 30s; }
+        .blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #d946ef; animation-duration: 22s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(20deg); }
+        }
+
+        /* Liquid Glass Card Style */
+        .liquid-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Glossy Shine Effect */
+        .liquid-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%;
+            width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        .input-area textarea {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .input-area textarea:focus {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Button Styling */
+        .btn-liquid {
+            background: var(--accent-grad);
+            border: none;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .btn-liquid:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.6);
+        }
+        .btn-liquid::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.2), transparent);
+            z-index: -1;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        /* Pointer Triangle */
+        .pointer-arrow {
+            width: 0; 
+            height: 0; 
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 25px solid #fff;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+            position: absolute;
+            right: -10px; /* Adjust based on canvas */
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <!-- Ambient Background -->
+    <div class="ambient-light">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+        
+        <!-- Left Column: Wheel -->
+        <div class="lg:col-span-7 flex flex-col items-center justify-center">
+            <div class="liquid-card p-2 rounded-full relative shadow-2xl">
+                <!-- Outer Ring Glow -->
+                <div class="absolute inset-0 rounded-full border-2 border-white/20 pointer-events-none"></div>
+                
+                <div class="relative">
+                    <canvas id="wheelCanvas" width="500" height="500" class="max-w-full h-auto rounded-full transition-transform duration-[5s] ease-out"></canvas>
+                    <div class="pointer-arrow"></div>
+                    <!-- Center decorative knob -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/10 backdrop-blur-md rounded-full border border-white/30 shadow-lg flex items-center justify-center z-20">
+                        <div class="w-12 h-12 bg-gradient-to-br from-white to-gray-400 rounded-full shadow-inner"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="spinBtn" class="btn-liquid mt-8 px-12 py-4 rounded-full text-xl uppercase tracking-widest shadow-lg active:scale-95">
+                RANDOM
+            </button>
+        </div>
+
+        <!-- Right Column: Input & Controls -->
+        <div class="lg:col-span-5 flex flex-col h-full">
+            <div class="liquid-card p-6 md:p-8 h-full flex flex-col">
+                <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400">
+                    List of Choices
+                </h2>
+                <p class="text-gray-300 text-sm mb-4">Enter each option on a new line</p>
+                
+                <div class="input-area flex-grow relative">
+                    <textarea id="itemsInput" class="w-full h-64 lg:h-96 rounded-xl p-4 text-lg resize-none placeholder-gray-500/50" placeholder="1. Drink milk tea
+2. Go for a walk
+3. Take a nap"></textarea>
+                </div>
+
+                <div class="flex justify-between items-center mt-4">
+                    <div class="text-sm text-gray-400">
+                        Total: <span id="itemCount" class="font-bold text-white">3</span> items
+                    </div>
+                    <button id="resetBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-sm transition-colors border border-white/10">
+                        Reset to default
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content liquid-card w-full max-w-md p-8 text-center bg-gray-900/80 border-t border-white/30">
+            <div class="mb-6">
+                <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-2">The result is</h3>
+                <h1 id="winnerResult" class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-400 break-words leading-tight">
+                    ???
+                </h1>
+            </div>
+            
+            <p class="text-gray-300 mb-8 px-4">Do you want to remove this option from the wheel so it won&apos;t be picked again?</p>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <button id="keepBtn" class="px-6 py-3 rounded-xl bg-gray-600/40 hover:bg-gray-600/60 border border-white/10 transition-colors">
+                    Keep it
+                </button>
+                <button id="deleteBtn" class="btn-liquid px-6 py-3 rounded-xl shadow-lg">
+                    Remove it
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+        const spinBtn = document.getElementById('spinBtn');
+        const itemsInput = document.getElementById('itemsInput');
+        const itemCountSpan = document.getElementById('itemCount');
+        const resetBtn = document.getElementById('resetBtn');
+        
+        const modal = document.getElementById('resultModal');
+        const winnerResult = document.getElementById('winnerResult');
+        const keepBtn = document.getElementById('keepBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+
+        let items = [];
+        let currentRotation = 0;
+        let isSpinning = false;
+        let winnerIndex = -1;
+
+        // New default data (numbered)
+        const defaultItems = [
+            "1. Drink milk tea", 
+            "2. Go for a walk ", 
+            "3. Take a nap"
+        ];
+
+        // Init
+        itemsInput.value = defaultItems.join('\n');
+        updateItems();
+
+        // Event Listeners
+        itemsInput.addEventListener('input', updateItems);
+        
+        // Auto-numbering logic
+        itemsInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                
+                const cursorPos = this.selectionStart;
+                const value = this.value;
+                
+                // Find the start of the current line
+                const lastNewLine = value.lastIndexOf('\n', cursorPos - 1);
+                const currentLineStart = lastNewLine + 1;
+                
+                // Get the current line text
+                const currentLine = value.substring(currentLineStart, cursorPos);
+                
+                // Check if line starts with a number (e.g., "1. ")
+                const match = currentLine.match(/^(\d+)\.\s/);
+                
+                let insertText = '\n';
+                if (match) {
+                    const nextNum = parseInt(match[1]) + 1;
+                    insertText += `${nextNum}. `;
+                }
+
+                // Insert the new text
+                const newValue = value.substring(0, cursorPos) + insertText + value.substring(cursorPos);
+                this.value = newValue;
+                
+                // Move cursor to the end of the inserted text
+                this.selectionStart = this.selectionEnd = cursorPos + insertText.length;
+                
+                // Update wheel
+                updateItems();
+            }
+        });
+
+        spinBtn.addEventListener('click', spinWheel);
+        resetBtn.addEventListener('click', () => {
+            itemsInput.value = defaultItems.join('\n');
+            updateItems();
+        });
+        keepBtn.addEventListener('click', closeModal);
+        deleteBtn.addEventListener('click', deleteWinner);
+
+        function updateItems() {
+            // Filter empty lines
+            items = itemsInput.value.split('\n').filter(item => item.trim() !== '');
+            itemCountSpan.textContent = items.length;
+            drawWheel();
+        }
+
+        function drawWheel() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = canvas.width / 2 - 10; // Padding
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (items.length === 0) {
+                // Empty state
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(255,255,255,0.05)';
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.stroke();
+                
+                ctx.fillStyle = '#fff';
+                ctx.font = '20px Inter';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText("Type something to start spinning!", centerX, centerY);
+                return;
+            }
+
+            const sliceAngle = (2 * Math.PI) / items.length;
+            
+            // Colors using Apple-like gradient simulation
+            const colors = [
+                '#60a5fa', '#34d399', '#f472b6', '#a78bfa', 
+                '#fbbf24', '#f87171', '#2dd4bf', '#818cf8'
+            ];
+
+            items.forEach((item, index) => {
+                const startAngle = index * sliceAngle;
+                const endAngle = startAngle + sliceAngle;
+
+                // Draw slice
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.closePath();
+
+                // Glassy slice style
+                const color = colors[index % colors.length];
+                ctx.fillStyle = hexToRgba(color, 0.6); 
+                ctx.fill();
+                
+                // Border between slices
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.stroke();
+
+                // Draw text
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 18px Inter";
+                ctx.shadowColor = "rgba(0,0,0,0.5)";
+                ctx.shadowBlur = 4;
+                
+                // Remove numbering for cleaner display on wheel if present
+                let text = item.replace(/^\d+\.\s*/, ''); 
+                if (text.length > 18) text = text.substring(0, 15) + '...';
+                
+                ctx.fillText(text, radius - 40, 6);
+                ctx.restore();
+            });
+        }
+
+        function spinWheel() {
+            if (isSpinning || items.length < 2) {
+                if(items.length < 2) alert("Please enter at least 2 items to spin the wheel!");
+                return;
+            }
+
+            isSpinning = true;
+            spinBtn.disabled = true;
+            spinBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            const minSpins = 5;
+            const extraDegrees = Math.floor(Math.random() * 360);
+            const totalDegrees = (minSpins * 360) + extraDegrees;
+            
+            const newRotation = currentRotation + totalDegrees;
+            
+            canvas.style.transform = `rotate(${newRotation}deg)`;
+            currentRotation = newRotation;
+
+            setTimeout(() => {
+                isSpinning = false;
+                spinBtn.disabled = false;
+                spinBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                calculateWinner(newRotation);
+            }, 5000);
+        }
+
+        function calculateWinner(totalRotation) {
+            const actualRotation = totalRotation % 360;
+            const sliceAngleDeg = 360 / items.length;
+            const pointerAngle = 0; 
+            
+            let winningAngle = (360 - actualRotation + pointerAngle) % 360;
+            winnerIndex = Math.floor(winningAngle / sliceAngleDeg);
+            
+            // Show result without numbering
+            const winnerText = items[winnerIndex].replace(/^\d+\.\s*/, '');
+            
+            showResult(winnerText);
+        }
+
+        function showResult(text) {
+            winnerResult.textContent = text;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        function deleteWinner() {
+            if (winnerIndex > -1) {
+                items.splice(winnerIndex, 1); 
+                itemsInput.value = items.join('\n'); 
+                updateItems(); 
+                closeModal();
+            }
+        }
+
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        window.addEventListener('resize', drawWheel);
+
+    </script>
+</body>
+</html>
