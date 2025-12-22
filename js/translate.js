@@ -2,11 +2,10 @@
     if (window.__TEXT02_TRANSLATE__) return;
     window.__TEXT02_TRANSLATE__ = true;
   
-    // ====== Overlay HTML ======
+    // ===== Overlay =====
     const overlay = document.createElement("div");
-    overlay.id = "text02-lang-overlay";
     overlay.innerHTML = `
-    <div style="
+    <div id="text02-overlay" style="
       position:fixed;inset:0;z-index:10000;
       display:flex;align-items:center;justify-content:center;
       backdrop-filter:blur(20px) saturate(160%);
@@ -29,7 +28,7 @@
           Select your language to continue
         </div>
   
-        <select id="text02-lang-select" style="
+        <select id="text02-lang" style="
           width:100%;
           padding:12px 14px;
           border-radius:14px;
@@ -53,7 +52,7 @@
           <option value="id">🇮🇩 Bahasa Indonesia</option>
         </select>
   
-        <button id="text02-lang-start" style="
+        <button id="text02-start" style="
           width:100%;
           padding:12px;
           border-radius:16px;
@@ -68,25 +67,19 @@
     </div>`;
     document.body.appendChild(overlay);
   
-    // ===== Floating Translate Holder =====
+    // ===== Holder =====
     const holder = document.createElement("div");
-    holder.id = "text02-translate-holder";
     holder.style.cssText = `
       position:fixed;
       bottom:20px;
       right:20px;
       z-index:9999;
       display:none;
-      background:rgba(0,0,0,.6);
-      padding:8px 12px;
-      border-radius:14px;
-      color:#fff;
-      font-size:12px;
     `;
-    holder.innerHTML = `🌐 <span id="google_translate_element"></span>`;
+    holder.innerHTML = `<span id="google_translate_element"></span>`;
     document.body.appendChild(holder);
   
-    // ===== Init Google Translate =====
+    // ===== Google init =====
     window.googleTranslateElementInit = function () {
       new google.translate.TranslateElement(
         { pageLanguage: "vi", autoDisplay: false },
@@ -98,8 +91,8 @@
     g.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
     document.head.appendChild(g);
   
-    // ===== Auto translate logic (FIXED) =====
-    function autoTranslate(lang) {
+    // ===== Core auto translate =====
+    function translateNow(lang) {
       let tries = 0;
       const timer = setInterval(() => {
         const select = document.querySelector("select.goog-te-combo");
@@ -109,31 +102,30 @@
           clearInterval(timer);
           console.log("[Text02] Translated to:", lang);
         }
-        if (++tries > 30) {
-          clearInterval(timer);
-          console.warn("[Text02] Google Translate not loaded.");
-        }
-      }, 500);
+        if (++tries > 40) clearInterval(timer);
+      }, 400);
     }
   
-    // ===== Saved language =====
-    const savedLang = localStorage.getItem("text02_lang");
-    if (savedLang) {
-      overlay.style.display = "none";
-      holder.style.display = "block";
-      autoTranslate(savedLang);
-    }
-  
-    // ===== Button event =====
-    document.getElementById("text02-lang-start").onclick = function () {
-      const lang = document.getElementById("text02-lang-select").value;
+    // ===== Button click =====
+    document.getElementById("text02-start").onclick = function () {
+      const lang = document.getElementById("text02-lang").value;
       localStorage.setItem("text02_lang", lang);
-      overlay.style.display = "none";
+      document.getElementById("text02-overlay").style.display = "none";
       holder.style.display = "block";
-      autoTranslate(lang);
+  
+      // 👉 DỊCH NGAY SAU KHI ẤN
+      translateNow(lang);
     };
   
-    // ===== Hide Google banner =====
+    // ===== If saved before =====
+    const saved = localStorage.getItem("text02_lang");
+    if (saved) {
+      document.getElementById("text02-overlay").style.display = "none";
+      holder.style.display = "block";
+      translateNow(saved);
+    }
+  
+    // ===== Hide Google bar =====
     const style = document.createElement("style");
     style.innerHTML = `
       .goog-te-banner-frame.skiptranslate { display:none !important; }
