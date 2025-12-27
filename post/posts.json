@@ -41,9 +41,21 @@
       "desc": "Thông báo chính thức từ Text2: Chúng tôi đang chuyển đổi tên miền từ text2.click sang text02.com. Tên miền cũ vẫn hoạt động đến tháng 3/2025 để đảm bảo trải nghiệm liền mạch.",
       "url": "./vi/text2-cap-nhat-ten-mien-moi.html",
       "date": "21 Tháng 11, 2025"
+    },
+    {
+      "title": "Dịch vụ Email Doanh Nghiệp Chuyên Nghiệp Text2 ",
+      "desc": "Tìm hiểu cách sử dụng dịch vụ gửi mail ẩn danh, bảo vệ quyền riêng tư với Text2. Không cần đăng ký, gửi tin nhắn email ẩn danh dễ dàng và nhanh chóng.",
+      "url": "./vi/mail/index.html",
+      "date": "30/12/2025"
+    },
+    {
+      "title": "Text2 Launches Professional Business Email Service",
+      "desc": "Learn how to use Text2's anonymous email sending service. Protect your privacy—send anonymous emails easily, instantly, and no registration required.",
+      "url": "./en/mail/index.html",
+      "date": "30/12/2025"
     }
   ],
-  "lastUpdated": "2025-12-27T09:33:20.611Z",
+  "lastUpdated": "2025-12-30T15:10:00.000Z",
   "config": {
     "siteName": "Text2 Posts",
     "siteLogo": "../../logoc.png",
