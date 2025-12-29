@@ -1,6 +1,24 @@
 {
   "posts": [
     {
+      "title": "Text2 Countdown 2025 - 2026 | Touching the Future",
+      "desc": "Join Text2 Technology in the final countdown to 2026. Experience a futuristic, interactive 3D starfield interface as we journey towards the future together.",
+      "url": "./en/countdown2026.html",
+      "date": "29/12/2025"
+    },
+    {
+      "title": "Dịch vụ Email Doanh Nghiệp - Text2",
+      "desc": "Dịch vụ Email Doanh Nghiệp - Text2 giúp cá nhân và doanh nghiệp sở hữu email tên miền riêng, tích hợp trực tiếp với Gmail, đơn giản - bảo mật - độc quyền vĩnh viễn chỉ với chi phí cực thấp. Liên hệ ngay để thiết lập email doanh nghiệp chuyên nghiệp cho bạn.",
+      "url": "./vi/mail/index.html",
+      "date": "27/12/2025"
+    },
+    {
+      "title": "HOA NHAT ANH — CEO TEXT2 | Businessman, Developer, Press, Editor, Football Player, Technology Expert, Astronomer",
+      "desc": "Official bio of HOA NHAT ANH (Hóa Nhật Anh) — CEO of Text2. Businessman, Developer, Press professional, Editor, Football player, Technology expert, and Astronomer. Learn about his work, education at VTV College and VOV College, and connect via Instagram, X, and Facebook.",
+      "url": "./hoanhatanh/index.html",
+      "date": "27/12/2025"
+    },
+    {
       "title": "Text2 Translate - All You Need To Know",
       "desc": "Text2 Translate: The revolutionary zero-latency AI translation platform by Text2. Discover how our advanced NLP engine preserves context and nuance. No registration required.",
       "url": "./en/text2-update-new-domain.html",
@@ -31,31 +49,13 @@
       "date": "10/12/2025"
     },
     {
-      "title": "HOA NHAT ANH — CEO TEXT2 | Businessman, Developer, Press, Editor, Football Player, Technology Expert, Astronomer",
-      "desc": "Official bio of HOA NHAT ANH (Hóa Nhật Anh) — CEO of Text2. Businessman, Developer, Press professional, Editor, Football player, Technology expert, and Astronomer. Learn about his work, education at VTV College and VOV College, and connect via Instagram, X, and Facebook.",
-      "url": "./hoanhatanh/index.html",
-      "date": "04/12/2025"
-    },
-    {
       "title": "Cập nhật quan trọng: Text2 chuyển sang Text02.com",
       "desc": "Thông báo chính thức từ Text2: Chúng tôi đang chuyển đổi tên miền từ text2.click sang text02.com. Tên miền cũ vẫn hoạt động đến tháng 3/2025 để đảm bảo trải nghiệm liền mạch.",
       "url": "./vi/text2-cap-nhat-ten-mien-moi.html",
       "date": "21 Tháng 11, 2025"
-    },
-    {
-      "title": "Dịch vụ Email Doanh Nghiệp Chuyên Nghiệp Text2 ",
-      "desc": "Tìm hiểu cách sử dụng dịch vụ gửi mail ẩn danh, bảo vệ quyền riêng tư với Text2. Không cần đăng ký, gửi tin nhắn email ẩn danh dễ dàng và nhanh chóng.",
-      "url": "./vi/mail/index.html",
-      "date": "30/12/2025"
-    },
-    {
-      "title": "Text2 Launches Professional Business Email Service",
-      "desc": "Learn how to use Text2's anonymous email sending service. Protect your privacy—send anonymous emails easily, instantly, and no registration required.",
-      "url": "./en/mail/index.html",
-      "date": "30/12/2025"
     }
   ],
-  "lastUpdated": "2025-12-30T15:10:00.000Z",
+  "lastUpdated": "2025-12-29T10:58:39.849Z",
   "config": {
     "siteName": "Text2 Posts",
     "siteLogo": "../../logoc.png",
