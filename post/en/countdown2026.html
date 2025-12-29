@@ -31,17 +31,17 @@
         body {
             font-family: 'Quicksand', sans-serif;
             overflow: hidden;
-            background-color: #050505;
+            background-color: #000000; /* Nền đen tuyền */
         }
         .font-handwriting {
             font-family: 'Dancing Script', cursive;
         }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            background: rgba(20, 20, 20, 0.4); /* Darker glass for better contrast with fireworks */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
         
         @keyframes float {
@@ -75,11 +75,11 @@
         }
 
         .soft-glow-box {
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.03);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
             transition: all 0.5s ease;
         }
         .soft-glow-box:hover {
-            box-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
             transform: translateY(-5px);
         }
 
@@ -91,23 +91,23 @@
         }
     </style>
 </head>
-<body class="h-screen w-full flex items-center justify-center relative text-white bg-slate-950 overflow-hidden">
+<body class="h-screen w-full flex items-center justify-center relative text-white bg-black overflow-hidden">
 
     <!-- Background Canvas -->
-    <canvas id="starfield"></canvas>
+    <canvas id="fireworksCanvas"></canvas>
 
     <!-- Main Container -->
     <div class="relative z-10 w-full max-w-5xl px-4 sm:px-6 animate-float flex flex-col justify-center h-full sm:h-auto">
         <div class="glass-panel rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-14 text-center border-t border-white/10 shadow-2xl relative overflow-hidden group mx-auto w-full">
             
-            <!-- Decorative blur blobs -->
-            <div class="absolute -top-10 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-500/20 rounded-full blur-[60px] group-hover:bg-blue-500/30 transition-all duration-1000"></div>
-            <div class="absolute -bottom-10 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-500/20 rounded-full blur-[60px] group-hover:bg-purple-500/30 transition-all duration-1000"></div>
+            <!-- Decorative blur blobs - Adjusted for black bg -->
+            <div class="absolute -top-10 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-600/10 rounded-full blur-[60px] group-hover:bg-blue-600/20 transition-all duration-1000"></div>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-600/10 rounded-full blur-[60px] group-hover:bg-purple-600/20 transition-all duration-1000"></div>
 
             <!-- Header -->
             <div class="mb-8 sm:mb-12 relative z-10">
                 <span class="inline-block py-1 px-3 sm:py-1.5 sm:px-4 rounded-full bg-white/5 border border-white/10 text-indigo-200 text-[10px] sm:text-xs font-medium tracking-[0.2em] mb-3 sm:mb-5 backdrop-blur-sm shadow-lg">
-                    TEXT2 TECHNOLOGY
+                    TEXT2 Team
                 </span>
                 <!-- Responsive Title Font Size -->
                 <h1 class="text-4xl sm:text-5xl md:text-7xl font-handwriting font-bold mb-2 sm:mb-3 shimmer-text leading-tight pb-2 drop-shadow-lg">
@@ -203,142 +203,123 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // --- Advanced Starfield & Shooting Stars ---
-        const canvas = document.getElementById('starfield');
+        // --- Gentle Fireworks Animation ---
+        const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
-        let stars = [];
-        let shootingStars = [];
-        
-        // Mouse interaction
-        let mouseX = 0;
-        let mouseY = 0;
+        let fireworks = [];
+        let particles = [];
 
         function initCanvas() {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
-            createStars();
         }
 
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Touch support for mobile interaction
-        window.addEventListener('touchmove', (e) => {
-             if(e.touches.length > 0) {
-                mouseX = e.touches[0].clientX;
-                mouseY = e.touches[0].clientY;
-             }
-        });
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
 
-        class Star {
+        class Firework {
             constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.z = Math.random() * 2; // Depth
-                this.size = Math.random() * 1.5;
-                this.baseAlpha = Math.random() * 0.6 + 0.1;
-                this.alpha = this.baseAlpha;
-                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
-                this.twinkleDir = 1;
+                this.x = random(width * 0.1, width * 0.9);
+                this.y = height;
+                this.targetY = random(height * 0.1, height * 0.5);
+                this.speed = random(3, 6);
+                this.angle = -Math.PI / 2 + random(-0.2, 0.2);
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.hue = random(0, 360);
+                this.brightness = random(50, 80);
+                this.dead = false;
             }
 
             update() {
-                // Parallax effect based on mouse
-                const parallaxX = (mouseX - width / 2) * 0.02 * (this.z * 0.5);
-                const parallaxY = (mouseY - height / 2) * 0.02 * (this.z * 0.5);
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.02; // Gravity for launch
 
-                // Twinkle
-                this.alpha += this.twinkleSpeed * this.twinkleDir;
-                if (this.alpha > this.baseAlpha + 0.2 || this.alpha < this.baseAlpha - 0.1) {
-                    this.twinkleDir *= -1;
+                // Explode when reaching target height or starting to fall
+                if (this.vy >= 0 || this.y <= this.targetY) {
+                    this.dead = true;
+                    createParticles(this.x, this.y, this.hue);
                 }
+            }
 
-                // Gentle drift
-                this.y -= 0.05 * (this.z + 0.5);
-                if (this.y < 0) {
-                    this.y = height;
-                    this.x = Math.random() * width;
-                }
-                
-                // Draw
-                ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, this.alpha)})`;
+            draw() {
                 ctx.beginPath();
-                ctx.arc(this.x + parallaxX, this.y + parallaxY, this.size, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 70%)`;
                 ctx.fill();
             }
         }
 
-        class ShootingStar {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * width;
-                this.y = 0;
-                this.len = Math.random() * 80 + 10;
-                this.speed = Math.random() * 10 + 6;
-                this.size = Math.random() * 1 + 0.1;
-                this.waitTime = new Date().getTime() + Math.random() * 3000 + 1000;
-                this.active = false;
+        class Particle {
+            constructor(x, y, hue) {
+                this.x = x;
+                this.y = y;
+                this.hue = hue;
+                this.angle = random(0, Math.PI * 2);
+                this.speed = random(1, 4);
+                this.friction = 0.95;
+                this.gravity = 0.05;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.alpha = 1;
+                this.decay = random(0.01, 0.03);
             }
 
             update() {
-                if (this.active) {
-                    this.x -= this.speed;
-                    this.y += this.speed;
-                    if (this.x < 0 || this.y > height) {
-                        this.active = false;
-                        this.waitTime = new Date().getTime() + Math.random() * 5000 + 2000; // Random delay
-                    } else {
-                        ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-                        ctx.lineWidth = this.size;
-                        ctx.beginPath();
-                        ctx.moveTo(this.x, this.y);
-                        ctx.lineTo(this.x + this.len, this.y - this.len);
-                        ctx.stroke();
-                    }
-                } else {
-                    if (new Date().getTime() > this.waitTime) {
-                        this.reset();
-                        this.active = true;
-                    }
-                }
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 60%)`;
+                ctx.fill();
+                ctx.globalAlpha = 1;
             }
         }
 
-        function createStars() {
-            stars = [];
-            shootingStars = [];
-            // Screen density adjustment
-            const density = width < 768 ? 8000 : 5000; 
-            const count = Math.floor((width * height) / density);
-            for (let i = 0; i < count; i++) {
-                stars.push(new Star());
+        function createParticles(x, y, hue) {
+            const particleCount = 30; // Gentle explosion, not too many particles
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, hue));
             }
-            // Add 2 shooting stars
-            shootingStars.push(new ShootingStar());
-            shootingStars.push(new ShootingStar());
         }
 
         function animate() {
-            ctx.clearRect(0, 0, width, height);
-            
-            // Draw gradient background overlay for depth
-            const gradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width);
-            gradient.addColorStop(0, "rgba(20, 30, 60, 0)");
-            gradient.addColorStop(1, "rgba(5, 5, 10, 0.4)");
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0,0,width,height);
+            // Slight trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; // Black background with trails
+            ctx.fillRect(0, 0, width, height);
 
-            stars.forEach(star => star.update());
-            shootingStars.forEach(ss => ss.update());
-            
+            // Randomly spawn fireworks
+            if (Math.random() < 0.03) { // Adjust for frequency
+                fireworks.push(new Firework());
+            }
+
+            // Update & Draw Fireworks
+            fireworks = fireworks.filter(fw => !fw.dead);
+            fireworks.forEach(fw => {
+                fw.update();
+                fw.draw();
+            });
+
+            // Update & Draw Particles
+            particles = particles.filter(p => p.alpha > 0);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
             requestAnimationFrame(animate);
         }
 
