@@ -1,201 +1,354 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text2 - Team</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
-    crossorigin="anonymous"></script>
-    <meta name="description" content="Text2 Development Team">
-    <!-- Tailwind CSS for instant styling (kept for spacing/utilities only, not for colors) -->
+    
+    <!-- SEO Standard Optimization -->
+    <title>Text2 Team - Developers & AI Experts | text02.com</title>
+    <meta name="description" content="Meet the Text2 Team: A group of passionate developers and AI experts driving innovation at Text2. Discover our mission, vision, and resources for developers.">
+    <meta name="keywords" content="Text2 Team, Text2 Developers, AI team, Text2 Development Team, Text2 AI, Team, Text2, AI Developers, Text2 Technology, About Text2 Team, Text2 LLM, Text2 API, Text2 Translate, Text2 resources, Text2 mission, text02.com">
+    <meta name="author" content="Text2 Team">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="language" content="en">
+    <meta name="revisit-after" content="7 days">
+    <meta name="google" content="notranslate">
+    <meta name="theme-color" content="#121212">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://text02.com/team">
+    
+    <!-- International targeting and discovery -->
+    <link rel="alternate" hreflang="x-default" href="https://text02.com/team">
+    <link rel="alternate" hreflang="en" href="https://text02.com/team">
+    <link rel="home" href="https://text02.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://text02.com/team">
+    <meta property="og:title" content="Text2 Team - Developers & AI Experts | text02.com">
+    <meta property="og:description" content="Meet the Text2 Team: A group of passionate developers and AI experts driving innovation at Text2. Discover our mission, vision, and resources for developers.">
+    <meta property="og:image" content="https://text02.com/media/thumnel.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Text2 Team - Developers & AI Experts">
+    <meta property="og:site_name" content="Text2">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Text2 Team - Developers & AI Experts | text02.com">
+    <meta name="twitter:description" content="Meet the Text2 Team: A group of passionate developers and AI experts driving innovation at Text2. Discover our mission, vision, and resources for developers.">
+    <meta name="twitter:image" content="https://text02.com/media/thumnel.png">
+    <meta name="twitter:image:alt" content="Text2 Team - Developers & AI Experts">
+    <meta name="twitter:site" content="@Text2click">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Text2 Team">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#121212">
+
+    <!-- Favicons for SEO and devices -->
+    <link rel="icon" type="image/x-icon" href="https://text02.com/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://text02.com/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://text02.com/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://text02.com/favicon-16x16.png">
+    <link rel="manifest" href="https://text02.com/site.webmanifest">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270" crossorigin="anonymous"></script>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Fonts: Inter for Modern SaaS look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        // Check for saved theme preference immediately to prevent flash
+        // Default is now DARK unless 'light' is explicitly saved
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark')
+        } else {
+            document.documentElement.classList.add('dark')
+        }
+
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Define custom colors for dark mode specifically if needed
+                        dark: {
+                            background: '#050505',
+                            surface: '#0F0F0F',
+                            border: '#27272a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        html, body {
-            height: 100%;
-            background: #121212;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            background: #121212;
-            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
-        /* Gradient Panel */
-        .main-panel {
-            background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .header-bar {
-            background: linear-gradient(90deg, #1E1E1E 65%, #242424 100%);
-            border-bottom: 1.5px solid rgba(255,255,255,0.06);
-            box-shadow: 0 1px 8px 0 rgba(0,0,0,0.12);
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .logo-bg {
-            background: #242424;
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Light mode scrollbar */
+            border-radius: 4px;
         }
-        .border-custom {
-            border: 1.5px solid rgba(255,255,255,0.07);
+        .dark ::-webkit-scrollbar-thumb {
+            background: #333; /* Dark mode scrollbar */
         }
-        .footer-bg {
-            background: #181818;
-            border-top: 1.5px solid rgba(255,255,255,0.07);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
-        .main-text { color: #fff; }
-        .muted-text { color: #c0c0c0;}
-        .secondary-text { color: #c0c0c0;}
-        .panel-title {
-            background: linear-gradient(90deg, #4fc3f7 10%, #c0c0c0 90%);
-            color: transparent;
-            background-clip: text;
-            -webkit-background-clip: text;
-        }
-        /* Card Styles */
-        .google-card {
-            background: #191919;
-            border: 1.5px solid rgba(255,255,255,0.07);
-            color: #fff;
-            transition: background .2s, border .2s, box-shadow .2s;
-        }
-        .google-card:hover {
-            background: rgba(79,195,247,0.2);
-            border-color: rgba(79,195,247,0.25);
-            box-shadow: 0 4px 24px 0 rgba(79,195,247,0.05);
-        }
-        .icon-panel {
-            background: rgba(79,195,247,0.08);
-            color: #4fc3f7;
-        }
-        .icon-panel-green {
-            background: rgba(60, 255, 150, 0.10);
-            color: #c0c0c0;
-        }
-        /* Navbar link styles */
-        .nav-link {
-            color: #c0c0c0;
-            transition: color .18s;
-        }
-        .nav-link.active,
-        .nav-link:hover {
-            color: #4fc3f7;
-        }
-        .logo-text {
-            color: #fff;
-        }
-        /* Footer Links */
-        .footer-link {
-            color: #c0c0c0;
-            transition: color .18s;
-        }
-        .footer-link:hover {
-            color: #4fc3f7;
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
+
+    <!-- Structured Data for SEO (Organization & WebPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Text2 Team",
+      "url": "https://text02.com/team",
+      "description": "Meet the Text2 Team: developers and AI experts at Text2 working on innovative AI and technology solutions.",
+      "inLanguage": "en",
+      "image": "https://text02.com/media/thumnel.png",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Text2",
+        "url": "https://text02.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://text02.com/favicon.ico"
+        },
+        "sameAs": [
+          "https://www.facebook.com/text02com",
+          "https://www.youtube.com/@text02com",
+          "https://www.tiktok.com/@text2_",
+          "https://t.me/text2pro",
+          "https://www.instagram.com/text2_magic",
+          "https://x.com/Text2click"
+        ]
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://text02.com"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Text2 Team",
+            "item": "https://text02.com/team"
+          }
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Text2",
+      "url": "https://text02.com",
+      "logo": "https://text02.com/favicon.ico",
+      "sameAs": [
+        "https://www.facebook.com/text02com",
+        "https://www.youtube.com/@text02com",
+        "https://www.tiktok.com/@text2_",
+        "https://t.me/text2pro",
+        "https://www.instagram.com/text2_magic",
+        "https://x.com/Text2click"
+      ]
+    }
+    </script>
 </head>
-<body class="main-panel transition-colors duration-300">
+<body class="flex flex-col min-h-screen relative overflow-x-hidden selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black bg-zinc-50 dark:bg-[#050505] text-zinc-900 dark:text-white transition-colors duration-300">
+
     <!-- HEADER / NAVIGATION -->
-    <header class="header-bar fixed w-full top-0 z-50 shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <header class="fixed w-full top-0 z-50 border-b border-gray-200 dark:border-white/5 bg-white/70 dark:bg-black/60 backdrop-blur-xl transition-colors duration-300">
+        <div class="container mx-auto px-6 h-16 flex justify-between items-center">
             <!-- Logo -->
-            <a href="/" class="flex items-center gap-2 group">
-                <img src="/favicon.ico" alt="Text2 Logo" class="w-8 h-8 logo-bg rounded-lg transition" style="background: #242424;">
-                <span class="logo-text text-xl font-bold tracking-tight">Text2</span>
+            <a href="/" class="flex items-center gap-3 group" aria-label="Text2 homepage">
+                <img src="https://text02.com/favicon.ico" alt="Text2 Logo" class="w-8 h-8 rounded-lg transition-transform group-hover:scale-105 shadow" loading="lazy">
+                <span class="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">Text2</span>
             </a>
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex gap-6 font-medium">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="#" class="nav-link active">Team</a>
-                <a href="about-me.html" class="nav-link">About Me</a>
-            </nav>
-            <!-- Mobile Menu Button (Placeholder) -->
-            <button class="md:hidden text-2xl focus:outline-none text-[#c0c0c0] hover:text-[#4fc3f7]">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+
+            <div class="flex items-center gap-6">
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium" aria-label="Main navigation">
+                    <a href="index.html" class="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">Home</a>
+                    <a href="#" class="text-black dark:text-white font-semibold" aria-current="page">Team</a>
+                    <a href="about-me.html" class="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors">About Me</a>
+                </nav>
+
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 text-gray-800 dark:text-yellow-300 transition-all duration-300 focus:outline-none" aria-label="Toggle dark mode">
+                    <!-- Sun Icon (shown in dark mode) -->
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                    <!-- Moon Icon (shown in light mode) -->
+                    <i class="fa-solid fa-moon block dark:hidden"></i>
+                </button>
+
+                <!-- Mobile Menu Icon -->
+                <button class="md:hidden text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors" aria-label="Open menu">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
         </div>
     </header>
+
     <!-- MAIN CONTENT -->
-    <main class="pt-24 pb-12 container mx-auto px-4">
+    <main class="flex-grow pt-32 pb-20 container mx-auto px-6 max-w-5xl">
         
         <!-- Hero Section -->
-        <section class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 panel-title">
+        <section class="text-center mb-20 relative">
+            <!-- Ambient Glow behind title (Adaptive) -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-black/5 dark:bg-white/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-transparent bg-clip-text bg-gradient-to-b from-black to-gray-600 dark:from-white dark:to-gray-500 transition-all duration-300">
                 Text2 Team
             </h1>
-            <p class="text-lg secondary-text max-w-2xl mx-auto">
-                HI Guys Wellcome to Text2 Team Dev
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-xl mx-auto font-light leading-relaxed transition-colors duration-300">
+                Meet the Text2 Team: passionate developers and AI experts building innovative solutions.
             </p>
         </section>
-        <!-- RESOURCES SECTION (Google Style) -->
-        <section class="mb-16 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-semibold text-center mb-8 secondary-text">Quick Resources</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dev Doc Card -->
-                <a href="https://text02.com/team/dev/note.txt" target="_blank" class="google-card block p-6 rounded-xl border-custom transition duration-200">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 icon-panel rounded-lg">
-                            <i class="fa-solid fa-book-open text-2xl"></i>
-                        </div>
+
+        <!-- RESOURCES SECTION -->
+        <section>
+            <div class="flex items-center justify-between mb-8 border-b border-gray-200 dark:border-white/5 pb-4 transition-colors duration-300">
+                <h2 class="text-xl font-medium text-zinc-900 dark:text-white">Quick Resources</h2>
+                <span class="text-xs font-mono text-gray-500 dark:text-gray-600 uppercase tracking-widest">Dev Tools</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Card 1: Developer Guide -->
+                <a href="https://text02.com/team/dev/note.txt" target="_blank" class="group relative block bg-white dark:bg-[#0F0F0F] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 hover:shadow-lg dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 dark:hover:bg-[#1a1a1a]" rel="noopener">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h3 class="text-lg font-bold mb-1 main-text">Developer Guide</h3>
-                            <p class="text-sm muted-text">
+                            <div class="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-code text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Developer Guide</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                 Comprehensive documentation and notes for developers.
                             </p>
                         </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white transition-colors text-sm"></i>
                     </div>
                 </a>
 
-                <!--API LLM  -->
-                <a href="https://text02.com/team/dev/llm.txt" target="_blank" class="google-card block p-6 rounded-xl border-custom transition duration-200">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 icon-panel rounded-lg">
-                            <i class="fa-solid fa-book-open text-2xl"></i>
-                        </div>
+                <!-- Card 2: API LLM -->
+                <a href="https://text02.com/team/dev/llm.txt" target="_blank" class="group relative block bg-white dark:bg-[#0F0F0F] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 hover:shadow-lg dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 dark:hover:bg-[#1a1a1a]" rel="noopener">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h3 class="text-lg font-bold mb-1 main-text">Get API with Text2</h3>
-                            <p class="text-sm muted-text">
-                                Hi dev, this get API LLM with Text2 Team and you have 100.000 totkens free in one day
+                            <div class="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-microchip text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Get API with Text2</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                Get API LLM access. 100,000 tokens free daily allocation.
                             </p>
                         </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white transition-colors text-sm"></i>
                     </div>
                 </a>
-                <!-- About Us Card -->
-                <a href="https://text02.com/team/dev/translate.txt" class="google-card block p-6 rounded-xl border-custom transition duration-200">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 icon-panel-green rounded-lg">
-                            <i class="fa-solid fa-users text-2xl"></i>
-                        </div>
+
+                <!-- Card 3: Button Translate -->
+                <a href="https://text02.com/team/dev/translate.txt" class="group relative block bg-white dark:bg-[#0F0F0F] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 hover:shadow-lg dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 dark:hover:bg-[#1a1a1a]">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h3 class="text-lg font-bold mb-1 main-text">button translate</h3>
-                            <p class="text-sm muted-text">
-                               User Free Button Transleta by google and text2 team 
+                            <div class="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-language text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">Button Translate</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                User Free Button Translate by Google and Text2 team.
                             </p>
                         </div>
+                        <i class="fa-solid fa-arrow-right text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white transition-colors text-sm"></i>
                     </div>
                 </a>
-                <a href="https://text02.com/about-me.html" class="google-card block p-6 rounded-xl border-custom transition duration-200">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 icon-panel-green rounded-lg">
-                            <i class="fa-solid fa-users text-2xl"></i>
-                        </div>
+
+                <!-- Card 4: About Us -->
+                <a href="https://text02.com/about-me.html" class="group relative block bg-white dark:bg-[#0F0F0F] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 hover:shadow-lg dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300 dark:hover:bg-[#1a1a1a]">
+                    <div class="flex items-start justify-between">
                         <div>
-                            <h3 class="text-lg font-bold mb-1 main-text">About Us</h3>
-                            <p class="text-sm muted-text">
-                                Learn more about our mission, vision, and the team.
+                            <div class="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-white/5 text-black dark:text-white group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-user-group text-sm"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-zinc-900 dark:text-white mb-2 group-hover:translate-x-1 transition-transform">About Us</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                Learn more about our mission, vision, and the Text2 Team.
                             </p>
                         </div>
+                        <i class="fa-solid fa-arrow-right text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white transition-colors text-sm"></i>
                     </div>
                 </a>
+
             </div>
         </section>
+
     </main>
+
     <!-- FOOTER -->
-    <footer class="footer-bg py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="muted-text">&copy; 2025 Text2 Technology. All rights reserved.</p>
-            <div class="mt-4 space-x-4 text-sm">
-                <a href="#" class="footer-link">Terms</a>
-                <a href="#" class="footer-link">Privacy</a>
+    <footer class="border-t border-gray-200 dark:border-white/5 py-10 mt-auto bg-gray-50 dark:bg-black transition-colors duration-300">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-500 dark:text-gray-600 text-sm">
+                &copy; 2025 Text2 Technology. All rights reserved.
+            </p>
+            <div class="flex gap-6 text-sm">
+                <a href="#" class="text-gray-500 hover:text-black dark:text-gray-600 dark:hover:text-white transition-colors">Terms</a>
+                <a href="#" class="text-gray-500 hover:text-black dark:text-gray-600 dark:hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="text-gray-500 hover:text-black dark:text-gray-600 dark:hover:text-white transition-colors">Contact</a>
             </div>
         </div>
     </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        
+        themeToggleBtn.addEventListener('click', function() {
+            // Toggle dark class on html
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        });
+    </script>
 </body>
 </html>
