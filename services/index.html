@@ -316,10 +316,16 @@
             }
         }
 
-        // Luôn bật dark mode khi mở trang (bỏ qua thiết lập cũ)
-        html.classList.add('dark');
-        localStorage.theme = 'dark';
-        setIcon(true);
+        // Init Check - Default to dark mode
+        if (localStorage.theme === 'light') {
+            html.classList.remove('dark');
+            setIcon(false);
+        } else {
+            // Default to dark mode when no preference is set
+            html.classList.add('dark');
+            localStorage.theme = 'dark';
+            setIcon(true);
+        }
     </script>
 </body>
 </html>
