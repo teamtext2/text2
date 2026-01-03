@@ -7,8 +7,8 @@
     <!-- Primary Meta Tags -->
     <title>Text2 - Zip File Online</title>
     <meta name="title" content="Text2 - Zip File Online">
-    <meta name="description" content="Tạo và giải nén file Zip online miễn phí, nhanh chóng ngay trên trình duyệt. Text2 Zip hỗ trợ nén ảnh, video, tài liệu bảo mật tuyệt đối.">
-    <meta name="keywords" content="Text2, Zip File online, nén file online, giải nén zip, zip creator, online zip extractor, text2 zip">
+    <meta name="description" content="Create and extract Zip files online securely in your browser without uploading to a server. Text2 Zip supports photos, videos, and documents.">
+    <meta name="keywords" content="Text2, Zip File online, compress online, extract zip, zip creator, online zip extractor, text2 zip">
     <meta name="author" content="CEO Nhat Anh - Text2 Technology">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://text02.com/app/zip">
@@ -17,7 +17,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://text02.com/app/zip">
     <meta property="og:title" content="Text2 - Zip File Online">
-    <meta property="og:description" content="Công cụ nén và giải nén file Zip trực tuyến siêu tốc, bảo mật, không cần server. Hỗ trợ mọi thiết bị.">
+    <meta property="og:description" content="Super fast, secure online Zip creation and extraction tool. Serverless and mobile-friendly.">
     <meta property="og:image" content="https://text02.com/media/thumnel.png">
     <meta property="og:site_name" content="Text2">
 
@@ -25,7 +25,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://text02.com/app/zip">
     <meta property="twitter:title" content="Text2 - Zip File Online">
-    <meta property="twitter:description" content="Công cụ nén và giải nén file Zip trực tuyến siêu tốc, bảo mật, không cần server.">
+    <meta property="twitter:description" content="Super fast, secure online Zip creation and extraction tool. Serverless and mobile-friendly.">
     <meta property="twitter:image" content="https://text02.com/media/thumnel.png">
 
     <!-- Schema.org Structured Data -->
@@ -204,7 +204,7 @@
             <!-- VIEW: CREATE ZIP -->
             <div id="view-create" class="space-y-6 transition-all duration-300">
                 <!-- Drop Zone -->
-                <div id="drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press" onclick="triggerFileInput()">
+                <div id="drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press" onclick="openUploadChoice()">
                     <!-- Hidden Inputs -->
                     <input type="file" id="file-input" class="hidden" multiple>
                     <input type="file" id="folder-input" class="hidden" webkitdirectory directory multiple>
@@ -213,16 +213,9 @@
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-dark-accentSolid group-hover:text-white transition-colors drop-shadow-[0_0_10px_rgba(79,195,247,0.5)]"></i>
                     </div>
                     
-                    <h3 class="text-xl font-bold text-white group-hover:text-dark-accentSolid transition-colors pointer-events-none">Tap to upload Files</h3>
-                    
-                    <div class="mt-4 flex items-center gap-3 relative z-20">
-                        <span class="text-sm text-dark-textSub font-medium">or</span>
-                        <button onclick="event.stopPropagation(); triggerFolderInput()" class="px-4 py-2 bg-[#121212] border border-dark-border rounded-lg text-xs font-bold text-dark-accentSolid hover:bg-dark-accentSolid hover:text-black transition-all shadow-lg hover:shadow-[0_0_15px_rgba(79,195,247,0.3)]">
-                            <i class="fa-solid fa-folder-open mr-1"></i> Choose Folder
-                        </button>
-                    </div>
-                    
-                    <p class="text-xs text-dark-textSub mt-4 font-medium opacity-60">Drag & Drop folders supported!</p>
+                    <h3 class="text-xl font-bold text-white group-hover:text-dark-accentSolid transition-colors pointer-events-none">Tap to upload</h3>
+                    <p class="text-sm text-dark-textSub mt-2 font-medium opacity-80 pointer-events-none">Select File or Folder</p>
+                    <p class="text-xs text-dark-textSub mt-4 font-medium opacity-40 pointer-events-none">Drag & Drop supported</p>
                 </div>
 
                 <!-- Empty State -->
@@ -270,6 +263,36 @@
 
         </div>
     </main>
+
+    <!-- UPLOAD CHOICE MODAL -->
+    <div id="upload-choice-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity duration-300" onclick="closeUploadChoice()"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none p-6">
+            <div id="upload-choice-content" class="bg-[#1E1E1E] border border-dark-border rounded-3xl p-6 w-full max-w-sm shadow-2xl transform scale-95 opacity-0 transition-all duration-300 pointer-events-auto">
+                <h3 class="text-xl font-bold text-white text-center mb-6">What would you like to upload?</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Select Files -->
+                    <button onclick="selectUploadType('file')" class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#121212] border border-dark-border hover:border-dark-accentSolid hover:bg-dark-accentSolid/10 transition-all group active:scale-95">
+                        <div class="w-14 h-14 rounded-full bg-dark-panel border border-dark-border flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+                            <i class="fa-solid fa-file text-2xl text-dark-accentSolid group-hover:drop-shadow-[0_0_8px_#4fc3f7]"></i>
+                        </div>
+                        <span class="text-white font-bold text-sm">Files</span>
+                        <span class="text-dark-textSub text-[10px] mt-1">Single/Multiple</span>
+                    </button>
+                    
+                    <!-- Select Folder -->
+                    <button onclick="selectUploadType('folder')" class="flex flex-col items-center justify-center p-6 rounded-2xl bg-[#121212] border border-dark-border hover:border-emerald-400 hover:bg-emerald-400/10 transition-all group active:scale-95">
+                        <div class="w-14 h-14 rounded-full bg-dark-panel border border-dark-border flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+                            <i class="fa-solid fa-folder-open text-2xl text-emerald-400 group-hover:drop-shadow-[0_0_8px_#34d399]"></i>
+                        </div>
+                        <span class="text-white font-bold text-sm">Folder</span>
+                        <span class="text-dark-textSub text-[10px] mt-1">Full Structure</span>
+                    </button>
+                </div>
+                <button onclick="closeUploadChoice()" class="mt-6 w-full py-3 text-dark-textSub text-sm font-bold hover:text-white transition-colors rounded-xl hover:bg-[#2a2a2a]">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <!-- PREVIEW MODAL -->
     <div id="preview-modal" class="fixed inset-0 z-[100] hidden">
@@ -405,12 +428,33 @@
             }
         }
 
-        // --- Manual Input Triggers ---
-        function triggerFileInput() {
-            ui.fileInput.click();
+        // --- Upload Choice Modal Logic ---
+        function openUploadChoice() {
+            const modal = document.getElementById('upload-choice-modal');
+            const content = document.getElementById('upload-choice-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
         }
-        function triggerFolderInput() {
-            ui.folderInput.click();
+
+        function closeUploadChoice() {
+            const modal = document.getElementById('upload-choice-modal');
+            const content = document.getElementById('upload-choice-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function selectUploadType(type) {
+            closeUploadChoice();
+            setTimeout(() => {
+                if (type === 'file') ui.fileInput.click();
+                else ui.folderInput.click();
+            }, 300);
         }
 
         // --- File Input Handlers ---
