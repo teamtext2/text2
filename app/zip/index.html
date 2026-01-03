@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Text2 Zip - Dark Mode</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JSZip Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#121212',
+                            panel: '#1E1E1E',
+                            panelTo: '#242424',
+                            border: 'rgba(255,255,255,0.08)',
+                            textMain: '#ffffff',
+                            textSub: '#c0c0c0',
+                            accent: 'rgba(79,195,247,0.2)', // Hover effect
+                            accentSolid: '#4fc3f7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        /* Smooth Scrollbar - Dark */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #424242;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #616161;
+        }
+
+        .app-icon-frame {
+            box-shadow: 0 0 20px rgba(79, 195, 247, 0.15);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Animations */
+        @keyframes slideUpSpring {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            60% { opacity: 1; transform: translateY(-5px) scale(1.02); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-spring-up {
+            animation: slideUpSpring 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); border-color: rgba(79, 195, 247, 0.5); background-color: rgba(79, 195, 247, 0.05); }
+            50% { transform: scale(0.98); border-color: rgba(79, 195, 247, 0.8); background-color: rgba(79, 195, 247, 0.1); }
+        }
+        .active-drop {
+            animation: pulseSoft 1.5s infinite;
+        }
+
+        @keyframes progressStripes {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+        .animate-stripes {
+            background-image: linear-gradient(45deg,rgba(255,255,255,.1) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.1) 75%,transparent 75%,transparent);
+            background-size: 1rem 1rem;
+            animation: progressStripes 1s linear infinite;
+        }
+
+        .btn-press:active { transform: scale(0.96); }
+
+        /* Dark Mode Tab Switcher */
+        .tab-btn { transition: color 0.3s; }
+        .tab-btn.active { color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.3); } 
+        .tab-btn.inactive { color: #616161; } 
+
+        /* Panel Gradient Class */
+        .bg-panel-gradient {
+            background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+        }
+
+        /* Hover Effect Class */
+        .hover-accent:hover {
+            background-color: rgba(79,195,247,0.1);
+            border-color: rgba(79,195,247,0.3);
+        }
+    </style>
+</head>
+<body class="h-[100dvh] flex flex-col overflow-hidden selection:bg-dark-accentSolid selection:text-black">
+
+    <!-- Fixed Header -->
+    <header class="h-16 bg-[#121212]/80 backdrop-blur-xl border-b border-dark-border fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 flex items-center justify-between transition-all duration-300">
+        <div class="flex items-center gap-3 max-w-3xl mx-auto w-full">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black flex items-center justify-center app-icon-frame overflow-hidden cursor-pointer active:scale-90 transition-transform duration-200" onclick="window.location.reload()">
+                <img src="https://text02.com/favicon.ico" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" alt="Text2">
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-white leading-none tracking-tight">Text2 Zip</h1>
+                <div class="flex items-center gap-1 mt-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-dark-accentSolid animate-pulse shadow-[0_0_8px_#4fc3f7]"></span>
+                    <p class="text-[11px] font-semibold text-dark-textSub uppercase tracking-wider">Ready</p>
+                </div>
+            </div>
+            
+            <div class="ml-auto flex items-center gap-2">
+                 <button class="w-10 h-10 rounded-full bg-[#1E1E1E] border border-dark-border flex items-center justify-center text-dark-textSub hover:text-dark-accentSolid hover:border-dark-accentSolid/50 active:bg-dark-panel transition-all btn-press" onclick="window.open('https://text02.com', '_blank')">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-20 pb-36 overflow-y-auto custom-scrollbar px-4 sm:px-6 scroll-smooth">
+        <div class="max-w-3xl mx-auto w-full space-y-6">
+            
+            <!-- Tab Switcher -->
+            <div class="flex p-1.5 bg-[#000000] border border-dark-border rounded-2xl relative">
+                <div id="tab-indicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-[#1E1E1E] border border-dark-border rounded-xl shadow-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></div>
+                <button onclick="switchMode('create')" id="tab-create" class="flex-1 relative z-10 py-2.5 text-sm font-bold tab-btn active transition-colors rounded-xl btn-press">
+                    <i class="fa-solid fa-file-zipper mr-1"></i> Create Zip
+                </button>
+                <button onclick="switchMode('extract')" id="tab-extract" class="flex-1 relative z-10 py-2.5 text-sm font-bold tab-btn inactive transition-colors rounded-xl btn-press">
+                    <i class="fa-solid fa-box-open mr-1"></i> Extract Zip
+                </button>
+            </div>
+
+            <!-- VIEW: CREATE ZIP -->
+            <div id="view-create" class="space-y-6 transition-all duration-300">
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press">
+                    <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" multiple>
+                    
+                    <div class="w-20 h-20 bg-[#121212] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 border border-dark-border shadow-2xl">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-dark-accentSolid group-hover:text-white transition-colors"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white group-hover:text-dark-accentSolid transition-colors">Tap to upload</h3>
+                    <p class="text-sm text-dark-textSub mt-2 font-medium">Super smooth drag & drop</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="text-center py-8 opacity-60">
+                    <p class="text-sm text-dark-textSub font-medium">100% Secure. Local processing.</p>
+                </div>
+
+                <!-- File List -->
+                <div id="file-list-container" class="hidden">
+                    <div class="flex justify-between items-center mb-4 sticky top-0 bg-[#121212]/95 backdrop-blur-md py-3 z-10">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-3">
+                            Files <span class="bg-dark-accentSolid text-black text-xs font-bold px-2.5 py-1 rounded-lg" id="file-count">0</span>
+                        </h2>
+                        <button onclick="clearAllFiles()" class="text-xs font-bold text-red-400 bg-red-900/20 border border-red-500/20 px-4 py-2 rounded-xl btn-press hover:bg-red-900/40 transition-colors">Clear All</button>
+                    </div>
+                    <ul id="file-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-4"></ul>
+                </div>
+            </div>
+
+            <!-- VIEW: EXTRACT ZIP (Hidden by default) -->
+            <div id="view-extract" class="space-y-6 hidden transition-all duration-300">
+                <!-- Drop Zone Extract -->
+                <div id="extract-drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press">
+                    <input type="file" id="zip-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".zip,.rar,.7z">
+                    
+                    <div class="w-20 h-20 bg-[#121212] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 border border-dark-border shadow-2xl">
+                        <i class="fa-solid fa-box-open text-3xl text-emerald-400 group-hover:text-white transition-colors"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">Select ZIP File</h3>
+                    <p class="text-sm text-dark-textSub mt-2 font-medium">to open and extract</p>
+                </div>
+
+                <!-- Extracted List -->
+                <div id="extracted-container" class="hidden">
+                    <div class="flex justify-between items-center mb-4 bg-[#121212]/95 backdrop-blur-md py-3 sticky top-0 z-10">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-3">
+                            Results <span class="bg-emerald-500 text-black text-xs font-bold px-2.5 py-1 rounded-lg" id="extracted-count">0</span>
+                        </h2>
+                        <button onclick="resetExtract()" class="text-xs font-bold text-dark-textSub bg-[#242424] border border-dark-border px-4 py-2 rounded-xl btn-press hover:bg-[#333]">Reset</button>
+                    </div>
+                    <ul id="extracted-list" class="grid grid-cols-1 gap-3 pb-4"></ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- PREVIEW MODAL -->
+    <div id="preview-modal" class="fixed inset-0 z-[100] hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300" onclick="closePreview()"></div>
+        
+        <!-- Content Container -->
+        <div class="absolute inset-4 sm:inset-10 flex items-center justify-center pointer-events-none">
+            <div id="preview-content-box" class="bg-[#1E1E1E] border border-dark-border rounded-3xl w-full max-w-4xl h-full max-h-[90vh] shadow-2xl flex flex-col overflow-hidden pointer-events-auto transform scale-95 opacity-0 transition-all duration-300 relative">
+                
+                <!-- Header -->
+                <div class="h-14 bg-[#1E1E1E] border-b border-dark-border flex items-center justify-between px-4 shrink-0">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div id="preview-icon" class="w-8 h-8 rounded-lg bg-[#121212] border border-dark-border flex items-center justify-center text-dark-accentSolid shrink-0">
+                            <i class="fa-solid fa-file"></i>
+                        </div>
+                        <h3 id="preview-title" class="font-bold text-white truncate">Filename.png</h3>
+                    </div>
+                    <button onclick="closePreview()" class="w-8 h-8 rounded-full bg-[#121212] border border-dark-border hover:bg-[#2a2a2a] text-dark-textSub flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Body (Scrollable) -->
+                <div id="preview-body" class="flex-grow bg-[#121212] flex items-center justify-center p-4 overflow-auto custom-scrollbar relative">
+                    <!-- Dynamic Content -->
+                </div>
+                
+                <!-- Footer (Actions) -->
+                <div class="h-16 bg-[#1E1E1E] border-t border-dark-border flex items-center justify-between px-6 shrink-0">
+                    <span id="preview-info" class="text-xs font-semibold text-dark-textSub">PREVIEW MODE</span>
+                    <a id="preview-download" href="#" download class="px-4 py-2 bg-dark-accentSolid hover:bg-white text-black hover:text-black text-sm font-bold rounded-xl flex items-center gap-2 transition-colors shadow-[0_0_15px_rgba(79,195,247,0.3)]">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Bar (Only for Create Mode) -->
+    <div id="action-bar" class="fixed bottom-0 left-0 right-0 bg-[#1E1E1E]/90 backdrop-blur-xl border-t border-dark-border p-4 pb-safe z-40 transform translate-y-full transition-transform duration-500">
+        <div class="max-w-3xl mx-auto w-full flex flex-col sm:flex-row gap-3 items-center">
+            <div class="w-full sm:w-2/3 bg-[#121212] border border-dark-border rounded-2xl flex items-center px-4 py-3.5 focus-within:border-dark-accentSolid/50 transition-all">
+                <i class="fa-solid fa-pen text-dark-accentSolid mr-3"></i>
+                <input type="text" id="zip-filename" value="text2-archive" class="bg-transparent border-none outline-none w-full text-sm font-bold text-white placeholder-gray-600" placeholder="Archive name...">
+                <span class="text-xs font-black text-gray-500 ml-2 tracking-widest">ZIP</span>
+            </div>
+            <button onclick="generateZip()" class="w-full sm:w-1/3 bg-dark-accentSolid hover:bg-white text-black font-bold py-3.5 rounded-2xl shadow-[0_0_20px_rgba(79,195,247,0.2)] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group">
+                <span class="group-hover:translate-x-1 transition-transform">Download</span>
+                <i class="fa-solid fa-download group-hover:scale-110 transition-transform"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div id="progress-overlay" class="fixed inset-0 bg-[#121212]/90 backdrop-blur-xl z-[60] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="w-full max-w-xs px-6 text-center">
+            <div class="w-20 h-20 bg-[#1E1E1E] border border-dark-border rounded-3xl mx-auto mb-8 flex items-center justify-center animate-bounce shadow-[0_0_30px_rgba(79,195,247,0.15)]">
+                <i class="fa-solid fa-gears text-dark-accentSolid text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Processing...</h3>
+            <p id="progress-detail" class="text-dark-textSub text-sm font-medium mb-6">Just a moment...</p>
+            <div class="w-full h-3 bg-[#000] rounded-full overflow-hidden border border-dark-border">
+                <div id="progress-bar-fill" class="h-full bg-dark-accentSolid animate-stripes rounded-full transition-all duration-200 w-0 box-shadow-[0_0_10px_#4fc3f7]"></div>
+            </div>
+            <p id="progress-text" class="text-dark-accentSolid font-bold mt-3 text-lg">0%</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 bg-[#1E1E1E] border border-dark-border text-white px-6 py-4 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center gap-4 z-[70] -translate-y-[200%] opacity-0 transition-all duration-500 w-auto max-w-[90%]">
+        <div class="w-8 h-8 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm" id="toast-title">Success!</h4>
+            <p class="text-xs text-dark-textSub" id="toast-msg">Operation completed.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let currentMode = 'create'; // 'create' or 'extract'
+        let filesArray = [];
+        let extractedFilesArray = []; // To store extracted blobs for preview
+        
+        const ui = {
+            createView: document.getElementById('view-create'),
+            extractView: document.getElementById('view-extract'),
+            tabIndicator: document.getElementById('tab-indicator'),
+            actionBar: document.getElementById('action-bar'),
+            // Create Elements
+            dropZone: document.getElementById('drop-zone'),
+            fileInput: document.getElementById('file-input'),
+            fileList: document.getElementById('file-list'),
+            fileListContainer: document.getElementById('file-list-container'),
+            fileCount: document.getElementById('file-count'),
+            emptyState: document.getElementById('empty-state'),
+            // Extract Elements
+            extractDropZone: document.getElementById('extract-drop-zone'),
+            zipInput: document.getElementById('zip-input'),
+            extractedContainer: document.getElementById('extracted-container'),
+            extractedList: document.getElementById('extracted-list'),
+            extractedCount: document.getElementById('extracted-count'),
+            // Modal
+            modal: document.getElementById('preview-modal'),
+            modalContentBox: document.getElementById('preview-content-box'),
+            previewBody: document.getElementById('preview-body'),
+            previewTitle: document.getElementById('preview-title'),
+            previewIcon: document.getElementById('preview-icon'),
+            previewDownload: document.getElementById('preview-download'),
+            previewInfo: document.getElementById('preview-info'),
+            // Common
+            overlay: document.getElementById('progress-overlay'),
+            progressFill: document.getElementById('progress-bar-fill'),
+            progressText: document.getElementById('progress-text'),
+            progressDetail: document.getElementById('progress-detail'),
+            toast: document.getElementById('toast'),
+            toastTitle: document.getElementById('toast-title'),
+            toastMsg: document.getElementById('toast-msg')
+        };
+
+        // --- Mode Switching ---
+        function switchMode(mode) {
+            currentMode = mode;
+            const btnCreate = document.getElementById('tab-create');
+            const btnExtract = document.getElementById('tab-extract');
+
+            if (mode === 'create') {
+                ui.tabIndicator.style.transform = 'translateX(0)';
+                ui.createView.classList.remove('hidden');
+                ui.extractView.classList.add('hidden');
+                btnCreate.classList.replace('inactive', 'active');
+                btnExtract.classList.replace('active', 'inactive');
+                if(filesArray.length > 0) ui.actionBar.classList.remove('translate-y-full');
+            } else {
+                ui.tabIndicator.style.transform = 'translateX(102%)';
+                ui.createView.classList.add('hidden');
+                ui.extractView.classList.remove('hidden');
+                btnCreate.classList.replace('active', 'inactive');
+                btnExtract.classList.replace('inactive', 'active');
+                ui.actionBar.classList.add('translate-y-full');
+            }
+        }
+
+        // --- Drag & Drop Setup Helper ---
+        function setupDragDrop(zone, input, callback) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+                zone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+            });
+            ['dragenter', 'dragover'].forEach(evt => zone.addEventListener(evt, () => zone.classList.add('active-drop')));
+            ['dragleave', 'drop'].forEach(evt => zone.addEventListener(evt, () => zone.classList.remove('active-drop')));
+            
+            zone.addEventListener('drop', e => callback(e.dataTransfer.files));
+            input.addEventListener('change', function() { callback(this.files); this.value = ''; });
+        }
+
+        setupDragDrop(ui.dropZone, ui.fileInput, (files) => {
+            Array.from(files).forEach(f => {
+                if (!filesArray.some(existing => existing.name === f.name && existing.size === f.size)) {
+                    filesArray.push(f);
+                }
+            });
+            updateCreateUI(true);
+        });
+
+        setupDragDrop(ui.extractDropZone, ui.zipInput, (files) => {
+            if (files.length > 0) processZipFile(files[0]);
+        });
+
+
+        // --- Create Logic ---
+        function updateCreateUI(isAdding) {
+            ui.fileCount.innerText = filesArray.length;
+            if (filesArray.length > 0) {
+                ui.fileListContainer.classList.remove('hidden');
+                ui.emptyState.classList.add('hidden');
+                if(currentMode === 'create') ui.actionBar.classList.remove('translate-y-full');
+            } else {
+                ui.fileListContainer.classList.add('hidden');
+                ui.emptyState.classList.remove('hidden');
+                ui.actionBar.classList.add('translate-y-full');
+            }
+            
+            ui.fileList.innerHTML = '';
+            filesArray.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.className = 'bg-panel-gradient p-3.5 rounded-2xl border border-dark-border shadow-md flex items-center gap-3 group transition-all duration-200 hover-accent cursor-pointer relative overflow-hidden';
+                if(isAdding) { li.style.animationDelay = `${index*50}ms`; li.classList.add('animate-spring-up'); }
+                
+                let icon = getIconClass(file.name);
+                li.onclick = (e) => {
+                    // Prevent preview if clicking remove button
+                    if(e.target.closest('button')) return;
+                    openPreview(index, 'create');
+                };
+
+                li.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl bg-[#121212] border border-dark-border flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
+                        <i class="${icon.icon} ${icon.text} text-lg"></i>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-sm font-bold text-white truncate group-hover:text-dark-accentSolid transition-colors">${file.name}</p>
+                        <p class="text-[10px] text-dark-textSub font-medium">${formatBytes(file.size)}</p>
+                    </div>
+                    <button onclick="removeFile(${index})" class="w-8 h-8 flex items-center justify-center text-dark-textSub hover:text-red-400 rounded-lg active:scale-90 z-10 relative">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+                ui.fileList.appendChild(li);
+            });
+        }
+
+        function removeFile(index) {
+            filesArray.splice(index, 1);
+            updateCreateUI(false);
+        }
+        function clearAllFiles() { filesArray = []; updateCreateUI(false); }
+
+        async function generateZip() {
+            if (filesArray.length === 0) return;
+            showOverlay(true, "Compressing files...");
+            
+            const zip = new JSZip();
+            filesArray.forEach(f => zip.file(f.name, f));
+            let name = document.getElementById('zip-filename').value.trim() || 'text2-archive';
+            if(!name.toLowerCase().endsWith('.zip')) name += '.zip';
+
+            try {
+                const blob = await zip.generateAsync({type:"blob", compression:"DEFLATE"}, (meta) => updateProgress(meta.percent, "Processing: " + (meta.currentFile || '...')));
+                downloadBlob(blob, name);
+                showToast("Success!", "Zip file downloaded.");
+            } catch(e) { alert(e); } finally { showOverlay(false); }
+        }
+
+
+        // --- Extract Logic ---
+        async function processZipFile(file) {
+            if (!file.name.toLowerCase().endsWith('.zip') && file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed') {
+                showToast("Error!", "Please select a .zip file", true);
+                return;
+            }
+
+            showOverlay(true, "Reading ZIP file...");
+            ui.extractedList.innerHTML = ''; 
+            extractedFilesArray = []; // Clear storage
+            
+            try {
+                const zip = new JSZip();
+                const contents = await zip.loadAsync(file);
+                
+                ui.extractedContainer.classList.remove('hidden');
+                
+                const entries = Object.keys(contents.files).map(name => ({
+                    name: name,
+                    entry: contents.files[name]
+                })).sort((a,b) => (a.entry.dir === b.entry.dir) ? 0 : a.entry.dir ? -1 : 1);
+
+                ui.extractedCount.innerText = entries.length;
+
+                for (let i = 0; i < entries.length; i++) {
+                    const item = entries[i];
+                    if (item.entry.dir) continue; 
+                    
+                    const blob = await item.entry.async("blob");
+                    
+                    // Store for preview
+                    extractedFilesArray.push({
+                        name: item.name,
+                        blob: blob,
+                        size: blob.size
+                    });
+                    
+                    const currentIndex = extractedFilesArray.length - 1; // Correct index for this file
+
+                    const li = document.createElement('li');
+                    li.className = 'bg-panel-gradient p-3 rounded-xl border border-dark-border shadow-md flex items-center gap-3 animate-spring-up cursor-pointer group hover-accent';
+                    li.style.animationDelay = `${i * 30}ms`;
+                    
+                    let icon = getIconClass(item.name);
+
+                    // Add click to preview
+                    li.onclick = (e) => {
+                        if(e.target.closest('a')) return; // ignore if click download btn
+                        openPreview(currentIndex, 'extract');
+                    };
+
+                    li.innerHTML = `
+                        <div class="w-10 h-10 rounded-xl bg-[#121212] border border-dark-border flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="${icon.icon} ${icon.text}"></i>
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <p class="text-sm font-bold text-white truncate group-hover:text-dark-accentSolid transition-colors" title="${item.name}">${item.name}</p>
+                            <p class="text-[10px] text-dark-textSub font-medium">${formatBytes(blob.size)}</p>
+                        </div>
+                        <i class="fa-solid fa-eye text-gray-500 group-hover:text-dark-accentSolid mr-2 text-sm"></i>
+                    `;
+                    ui.extractedList.appendChild(li);
+                }
+                showToast("Success!", `Found ${extractedFilesArray.length} files.`);
+
+            } catch (err) {
+                console.error(err);
+                showToast("Error!", "Corrupted or invalid ZIP file.", true);
+            } finally {
+                showOverlay(false);
+            }
+        }
+
+        function resetExtract() {
+            ui.extractedList.innerHTML = '';
+            ui.extractedContainer.classList.add('hidden');
+            ui.zipInput.value = '';
+            extractedFilesArray = [];
+        }
+
+        // --- Preview Logic (The New Feature!) ---
+        function openPreview(index, source) {
+            const fileObj = source === 'create' ? filesArray[index] : extractedFilesArray[index];
+            if(!fileObj) return;
+
+            // Determine blob or file object
+            const blob = fileObj.blob || fileObj; 
+            const name = fileObj.name;
+            const type = blob.type;
+            
+            // Set Header
+            ui.previewTitle.innerText = name;
+            ui.previewInfo.innerText = formatBytes(blob.size);
+            
+            // Create download link
+            const url = URL.createObjectURL(blob);
+            ui.previewDownload.href = url;
+            ui.previewDownload.download = name;
+
+            // Set Icon
+            let icon = getIconClass(name);
+            ui.previewIcon.className = `w-8 h-8 rounded-lg bg-[#121212] border border-dark-border flex items-center justify-center ${icon.text} shrink-0`;
+            ui.previewIcon.innerHTML = `<i class="${icon.icon}"></i>`;
+
+            // Render Content
+            ui.previewBody.innerHTML = '';
+            
+            if (type.startsWith('image/') || name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = 'max-w-full max-h-full object-contain rounded-lg shadow-lg border border-dark-border';
+                ui.previewBody.appendChild(img);
+            } 
+            else if (type.startsWith('video/') || name.match(/\.(mp4|webm|mov)$/i)) {
+                const video = document.createElement('video');
+                video.src = url;
+                video.controls = true;
+                video.className = 'max-w-full max-h-full rounded-lg shadow-lg bg-black border border-dark-border';
+                ui.previewBody.appendChild(video);
+            }
+            else if (type.startsWith('audio/') || name.match(/\.(mp3|wav|ogg)$/i)) {
+                const wrapper = document.createElement('div');
+                wrapper.className = "text-center p-10 bg-[#1E1E1E] border border-dark-border rounded-2xl shadow-sm";
+                wrapper.innerHTML = `<div class="w-20 h-20 bg-[#121212] rounded-full flex items-center justify-center mx-auto mb-4 text-dark-accentSolid border border-dark-border"><i class="fa-solid fa-music text-3xl"></i></div>`;
+                const audio = document.createElement('audio');
+                audio.src = url;
+                audio.controls = true;
+                audio.className = "w-full min-w-[300px]";
+                wrapper.appendChild(audio);
+                ui.previewBody.appendChild(wrapper);
+            }
+            else if (type === 'application/pdf' || name.endsWith('.pdf')) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.className = 'w-full h-full rounded-lg border border-dark-border bg-white';
+                ui.previewBody.appendChild(iframe);
+            }
+            else if (name.match(/\.(txt|md|js|html|css|json|py|xml|csv)$/i) || type.startsWith('text/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const pre = document.createElement('pre');
+                    pre.className = 'w-full h-full overflow-auto p-4 bg-[#121212] text-green-400 rounded-lg text-xs font-mono whitespace-pre-wrap border border-dark-border';
+                    pre.innerText = e.target.result;
+                    ui.previewBody.appendChild(pre);
+                };
+                reader.readAsText(blob);
+            }
+            else {
+                // Fallback
+                const div = document.createElement('div');
+                div.className = 'text-center';
+                div.innerHTML = `
+                    <div class="w-24 h-24 bg-[#121212] rounded-full flex items-center justify-center mx-auto mb-4 text-gray-600 border border-dark-border">
+                        <i class="fa-solid fa-file-circle-question text-4xl"></i>
+                    </div>
+                    <p class="text-dark-textSub font-medium">Cannot preview this file</p>
+                    <p class="text-xs text-gray-500 mt-1">Please download to open</p>
+                `;
+                ui.previewBody.appendChild(div);
+            }
+
+            // Show Modal
+            ui.modal.classList.remove('hidden');
+            // Animation
+            setTimeout(() => {
+                ui.modalContentBox.classList.remove('scale-95', 'opacity-0');
+                ui.modalContentBox.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closePreview() {
+            ui.modalContentBox.classList.remove('scale-100', 'opacity-100');
+            ui.modalContentBox.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                ui.modal.classList.add('hidden');
+                ui.previewBody.innerHTML = ''; // Clean up
+                // Revoke object URL to save memory (optional but good practice)
+                if(ui.previewDownload.href) URL.revokeObjectURL(ui.previewDownload.href);
+            }, 300);
+        }
+
+
+        // --- Helpers ---
+        function getIconClass(name) {
+            name = name.toLowerCase();
+            if (name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/)) return { text: 'text-purple-400', icon: 'fa-solid fa-image' };
+            if (name.endsWith('.pdf')) return { text: 'text-red-400', icon: 'fa-solid fa-file-pdf' };
+            if (name.match(/\.(mp4|mov|webm)$/)) return { text: 'text-pink-400', icon: 'fa-solid fa-video' };
+            if (name.match(/\.(mp3|wav)$/)) return { text: 'text-yellow-400', icon: 'fa-solid fa-music' };
+            if (name.match(/\.(js|html|css|py|json|txt)$/)) return { text: 'text-blue-400', icon: 'fa-solid fa-code' };
+            return { text: 'text-gray-400', icon: 'fa-solid fa-file' };
+        }
+
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function showOverlay(show, msg = "") {
+            if (show) {
+                ui.overlay.classList.remove('hidden');
+                ui.progressDetail.innerText = msg;
+                ui.progressFill.style.width = '0%';
+                ui.progressText.innerText = '0%';
+                setTimeout(() => ui.overlay.classList.remove('opacity-0'), 10);
+            } else {
+                ui.overlay.classList.add('opacity-0');
+                setTimeout(() => ui.overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function updateProgress(percent, msg) {
+            const p = percent.toFixed(0);
+            ui.progressFill.style.width = `${p}%`;
+            ui.progressText.innerText = `${p}%`;
+            if (msg) ui.progressDetail.innerText = msg;
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+
+        function showToast(title, msg, isError = false) {
+            ui.toastTitle.innerText = title;
+            ui.toastMsg.innerText = msg;
+            ui.toast.querySelector('.rounded-full').className = `w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-opacity-30 ${isError ? 'bg-red-500/10 border-red-500 text-red-400' : 'bg-green-500/10 border-green-500 text-green-400'}`;
+            ui.toast.querySelector('i').className = isError ? 'fa-solid fa-exclamation' : 'fa-solid fa-check';
+
+            ui.toast.classList.remove('-translate-y-[200%]', 'opacity-0');
+            ui.toast.classList.add('translate-y-0', 'opacity-100');
+            
+            if (navigator.vibrate) navigator.vibrate(50);
+
+            setTimeout(() => {
+                ui.toast.classList.add('-translate-y-[200%]', 'opacity-0');
+                ui.toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
