@@ -152,54 +152,54 @@
 
     <!-- Header -->
     <header class="bg-gray-dark shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <nav class="container mx-auto px-3 sm:px-4 py-2 sm:py-3 flex justify-between items-center">
             <!-- Logo and App Name -->
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 sm:gap-2">
                 <!-- Logo Icon (using custom favicon) -->
                 <a href="https://text2.click" target="_blank" class="flex items-center" title="Text2 - Official Homepage">
                     <img 
                         src="https://text02.com/game/favicon.ico" 
                         alt="Text2 Logo - Official Text2 icon"
                         title="Text2 Game - Online game center from Text2"
-                        class="w-6 h-6 rounded object-cover"
+                        class="w-5 h-5 sm:w-6 sm:h-6 rounded object-cover"
                         width="24"
                         height="24"
                         loading="eager"
                     >
                 </a>
-                <span class="text-white text-xl font-bold">Text2 Game</span>
+                <span class="text-white text-base sm:text-lg md:text-xl font-bold">Text2 Game</span>
             </div>
             
             <!-- Back to Home Button -->
-            <a href="https://text2.click" target="_blank" class="p-2 rounded-full text-gray-light hover:text-white hover:bg-gray-medium transition-colors duration-200" aria-label="Go to Text2 homepage" title="Back to Text2 homepage">
-                <i data-lucide="home" class="w-5 h-5" aria-hidden="true"></i>
+            <a href="https://text2.click" target="_blank" class="p-1.5 sm:p-2 rounded-full text-gray-light hover:text-white hover:bg-gray-medium transition-colors duration-200" aria-label="Go to Text2 homepage" title="Back to Text2 homepage">
+                <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true"></i>
             </a>
         </nav>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto p-4 md:p-6">
+    <main class="container mx-auto px-3 sm:px-4 md:px-6 py-4 md:py-6">
         
         <!-- Search Bar -->
-        <div class="relative mb-6">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-light">
-                <i data-lucide="search" class="w-5 h-5" aria-hidden="true"></i>
+        <div class="relative mb-4 sm:mb-6">
+            <span class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-light">
+                <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true"></i>
             </span>
             <input 
                 type="search" 
                 id="search-input"
                 placeholder="Search Text2 games..."
                 aria-label="Search games in Text2 Game"
-                class="w-full bg-gray-dark border border-gray-medium text-white placeholder-gray-light text-sm rounded-lg focus:ring-accent focus:border-accent block py-3 pl-12 pr-4 transition-all duration-200"
+                class="w-full bg-gray-dark border border-gray-medium text-white placeholder-gray-light text-xs sm:text-sm rounded-lg focus:ring-accent focus:border-accent block py-2 sm:py-3 pl-10 sm:pl-12 pr-3 sm:pr-4 transition-all duration-200"
             >
         </div>
 
         <!-- Hero video (full rectangular, no curve) -->
-        <div class="mb-8">
+        <div class="mb-6 sm:mb-8">
             <div id="hero" class="relative overflow-hidden bg-gray-dark">
                 <video 
                     id="hero-video" 
-                    class="w-full h-[60vh] md:h-[70vh] object-cover" 
+                    class="w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] object-cover" 
                     playsinline 
                     autoplay 
                     muted 
@@ -213,36 +213,36 @@
                     Your browser does not support the video tag.
                 </video>
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 pointer-events-none"></div>
-                <div class="absolute left-4 bottom-6 md:left-12 md:bottom-12 text-white">
-                    <h1 class="text-2xl md:text-4xl font-bold">Text2 Game — Introduction</h1>
-                    <p class="text-sm md:text-base text-gray-light mt-1">Discover the unique world of games from Text2. Play the latest and upcoming games now.</p>
+                <div class="absolute left-3 sm:left-4 md:left-12 bottom-4 sm:bottom-6 md:bottom-12 text-white">
+                    <h1 class="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold">Text2 Game — Introduction</h1>
+                    <p class="text-xs sm:text-sm md:text-base text-gray-light mt-1">Discover the unique world of games from Text2. Play the latest and upcoming games now.</p>
                 </div>
             </div>
 
             <!-- Title and Filter (under the hero) -->
-            <div class="flex justify-between items-center mt-6 mb-4">
-                <h2 class="text-white text-2xl font-semibold">ALL TEXT2 GAMES</h2>
-                <button class="p-2 rounded-lg text-gray-light hover:text-white hover:bg-gray-dark transition-colors duration-200" aria-label="Filter Text2 games" title="Filter and sort games">
-                     <i data-lucide="swords" class="w-5 h-5" aria-hidden="true"></i>
+            <div class="flex justify-between items-center mt-4 sm:mt-6 mb-3 sm:mb-4">
+                <h2 class="text-white text-lg sm:text-xl md:text-2xl font-semibold">ALL TEXT2 GAMES</h2>
+                <button class="p-1.5 sm:p-2 rounded-lg text-gray-light hover:text-white hover:bg-gray-dark transition-colors duration-200" aria-label="Filter Text2 games" title="Filter and sort games">
+                     <i data-lucide="swords" class="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true"></i>
                 </button>
             </div>
 
             <!-- App Grid Display -->
-            <div id="game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-12">
+            <div id="game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4 mb-8 sm:mb-12">
                 <!-- Games will be inserted here by JavaScript -->
             </div>
         </div>
 
         <!-- Research Apps Section -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-white text-2xl font-semibold">UPCOMING TEXT2 GAMES</h2>
+        <div class="flex justify-between items-center mb-3 sm:mb-4">
+            <h2 class="text-white text-lg sm:text-xl md:text-2xl font-semibold">UPCOMING TEXT2 GAMES</h2>
             <div class="flex items-center gap-2">
-                <span class="bg-accent text-white text-xs px-2 py-1 rounded-full">BETA ACCESS</span>
+                <span class="bg-accent text-white text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">BETA ACCESS</span>
             </div>
         </div>
 
         <!-- Research App Grid Display -->
-        <div id="upcoming-game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div id="upcoming-game-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
             <!-- Upcoming games will be inserted here by JavaScript -->
         </div>
 
@@ -285,23 +285,23 @@
 
             games.forEach(game => {
                 const gameCard = `
-                    <div class="bg-gray-dark rounded-lg p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
+                    <div class="bg-gray-dark rounded-lg p-2 sm:p-3 md:p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
                         <a href="${game.url}" target="_blank" title="Play ${game.name} - Game from Text2">
                             <img 
                                 src="${game.icon}" 
                                 alt="${game.name} - Upcoming game from Text2 Game"
                                 title="${game.name} - Play free games at Text2 Game"
-                                class="w-16 h-16 mb-3 rounded-xl object-cover bg-gray-medium"
+                                class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-1.5 sm:mb-2 md:mb-3 rounded-lg sm:rounded-xl object-cover bg-gray-medium"
                                 width="64"
                                 height="64"
                                 loading="lazy"
                                 onerror="handleImageError(this)"
                             >
                         </a>
-                        <h3 class="text-white font-semibold text-base mb-1 w-full truncate" title="${game.name} - Text2 Game">
+                        <h3 class="text-white font-semibold text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1 w-full truncate px-1" title="${game.name} - Text2 Game">
                             ${game.name}
                         </h3>
-                        <p class="text-gray-light text-xs w-full overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                        <p class="text-gray-light text-[10px] sm:text-xs w-full overflow-hidden px-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                             ${game.description}
                         </p>
                     </div>
@@ -325,23 +325,23 @@
 
             games.forEach(game => {
                 const gameCard = `
-                    <div class="bg-gray-dark rounded-lg p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
+                    <div class="bg-gray-dark rounded-lg p-2 sm:p-3 md:p-4 flex flex-col items-center text-center transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-accent/10 hover:-translate-y-1 cursor-pointer">
                         <a href="${game.url}" target="_blank" title="Play ${game.name} - Game from Text2">
                             <img 
                                 src="${game.icon}" 
                                 alt="${game.name} - Free game from Text2 Game"
                                 title="${game.name} - Play free online games at Text2 Game"
-                                class="w-16 h-16 mb-3 rounded-xl object-cover bg-gray-medium"
+                                class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-1.5 sm:mb-2 md:mb-3 rounded-lg sm:rounded-xl object-cover bg-gray-medium"
                                 width="64"
                                 height="64"
                                 loading="lazy"
                                 onerror="handleImageError(this)"
                             >
                         </a>
-                        <h3 class="text-white font-semibold text-base mb-1 w-full truncate" title="${game.name} - Text2 Game">
+                        <h3 class="text-white font-semibold text-xs sm:text-sm md:text-base mb-0.5 sm:mb-1 w-full truncate px-1" title="${game.name} - Text2 Game">
                             ${game.name}
                         </h3>
-                        <p class="text-gray-light text-xs w-full overflow-hidden" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                        <p class="text-gray-light text-[10px] sm:text-xs w-full overflow-hidden px-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                             ${game.description}
                         </p>
                     </div>
