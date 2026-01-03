@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dịch vụ Email Doanh Nghiệp - Text2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #ffffff;
+    }
+
+    /* Header */
+    .site-header {
+      background: #1e1e1e;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 20px;
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-inner a {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-inner img {
+      width: 36px;
+      height: 36px;
+    }
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    /* Main container */
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: linear-gradient(180deg, #1e1e1e, #242424);
+      padding: 40px 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    h1, h2, h3 {
+      color: #ffffff;
+      margin-top: 1.5em;
+    }
+
+    h1:first-child { margin-top: 0; }
+
+    p {
+      line-height: 1.7;
+      margin: 12px 0;
+      color: #c0c0c0;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 12px 0 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: #c0c0c0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 16px 0;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .contact {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(255,255,255,0.08);
+    }
+
+    .contact a {
+      color: #4fc3f7;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .contact a:hover {
+      background: rgba(79,195,247,0.2);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 24px 16px;
+        margin: 16px;
+      }
+      .brand-name { font-size: 18px; }
+    }
+  
+    /* Image frame */
+    .image-frame {
+      position: relative;
+      padding: 10px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #1e1e1e, #242424);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 12px 30px rgba(0,0,0,0.6);
+      margin: 20px 0 28px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .image-frame:hover {
+      transform: translateY(-4px);
+      box-shadow: inset 0 0 0 1px rgba(79,195,247,0.25), 0 18px 40px rgba(0,0,0,0.8);
+    }
+
+    .image-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+  
+    /* Global box sizing for consistent layout */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* Responsive widths */
+    .header-inner {
+      width: min(100% - 24px, 1100px);
+    }
+
+    .container {
+      width: min(100% - 32px, 960px);
+    }
+
+    /* Fluid typography */
+    h1 { font-size: clamp(24px, 4vw, 34px); }
+    h2 { font-size: clamp(20px, 3.2vw, 26px); }
+    h3 { font-size: clamp(18px, 2.6vw, 22px); }
+    p, li { font-size: clamp(14px, 2.6vw, 16px); }
+
+    /* Improve spacing on small screens */
+    @media (max-width: 480px) {
+      .site-header { padding: 10px 12px; }
+      .container { padding: 20px 14px; }
+      .brand-name { font-size: 16px; }
+      .image-frame { padding: 8px; }
+    }
+
+    /* Tablet tweaks */
+    @media (min-width: 481px) and (max-width: 900px) {
+      .container { padding: 28px 22px; }
+    }
+
+    /* Large screens */
+    @media (min-width: 1200px) {
+      .container { padding: 48px 42px; }
+    }
+
+  
+    /* Make text pop more */
+    h1, h2, h3 {
+      letter-spacing: 0.2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    h1 {
+      background: linear-gradient(90deg, #ffffff, #b3e5fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    strong { color: #ffffff; }
+
+    p, li { color: #d0d0d0; }
+
+    /* Header should be clean, no image frame look */
+    .site-header img {
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+  
+    /* Header sizing & alignment fix */
+    .site-header {
+      padding: 10px 16px;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      width: min(100% - 24px, 1100px);
+    }
+
+    .site-header img {
+      width: 28px;
+      height: 28px;
+      max-width: 28px;
+      max-height: 28px;
+      object-fit: contain;
+      margin: 0;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+    .brand-name {
+      line-height: 1;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header with logo + brand -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="https://text02.com">
+        <img src="https://text02.com/favicon.ico" alt="Text2 Logo" />
+        <span class="brand-name">Text2</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container">
+
+    <h1>Dịch vụ Email Doanh Nghiệp Chuyên Nghiệp</h1>
+
+    <p>
+      Chúng tôi cung cấp dịch vụ thiết lập email doanh nghiệp, giúp cá nhân và tổ chức sở hữu hòm thư điện tử với tên miền riêng 
+      (ví dụ: <strong>tenban@tenmien.com</strong>), dễ dàng tùy chỉnh theo nhu cầu kinh doanh của bạn.
+    </p>
+
+    <p class="highlight">
+      Chỉ với 200 - 500 một lần duy nhất, bạn sẽ có email doanh nghiệp được thiết lập độc quyền vĩnh viễn.
+    </p>
+
+    <h2>Lợi ích nổi bật</h2>
+
+    <ul>
+      <li><strong>Sử dụng đơn giản:</strong> Không cần kỹ thuật viên hay kiến thức phức tạp. Gửi và nhận mail trực tiếp trên Gmail quen thuộc.</li>
+    </ul>
+
+    <!-- Giữ nguyên src hình ảnh, bạn tự add file vào thư mục images -->
+    <div class="image-frame"><img src="images/image1.png" alt="Giao diện cấu hình email" /></div>
+
+    <ul>
+      <li><strong>Tích hợp Gmail:</strong> Không cần cài đặt thêm, sử dụng trực tiếp trên web/app Gmail của Google.</li>
+    </ul>
+
+    <div class="image-frame"><img src="images/image3.png" alt="Sử dụng Gmail với email doanh nghiệp" /></div>
+
+    <ul>
+      <li><strong>Hoạt động bình thường:</strong> Nhận và gửi email như tài khoản thông thường ngay sau khi thiết lập.</li>
+      <li><strong>Xây dựng thương hiệu:</strong> Sở hữu icon email chuyên nghiệp mà không tốn chi phí đắt đỏ.</li>
+    </ul>
+
+    <div class="image-frame"><img src="images/image2.png" alt="Biểu tượng email doanh nghiệp" /></div>
+
+    <ul>
+      <li><strong>Chống spam vượt trội:</strong> Nhận qua MX Cloudflare và gửi qua SPF Google giúp tăng độ tin cậy.</li>
+      <li><strong>Dung lượng lớn:</strong> Phụ thuộc gói Google One, linh hoạt theo nhu cầu sử dụng.</li>
+    </ul>
+
+    <div class="contact">
+      <p><strong>Liên hệ Text2 Team ngay:</strong></p>
+      <p>Mail: <a href="mailto:mail@text02.com">mail@text02.com</a></p>
+      <p>Website: <a href="https://text02.com">text02.com</a></p>
+    </div>
+
+  </main>
+
+</body>
+</html>
