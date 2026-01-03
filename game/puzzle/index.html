@@ -112,24 +112,24 @@
 
     <!-- === APP HEADER === -->
     <!-- Gradient Background for Panel: Dark Gray Gradient -->
-    <header class="shrink-0 h-16 bg-gradient-to-r from-[#1E1E1E] to-[#242424] flex items-center justify-between px-4 shadow-lg z-20 relative border-b border-white/5">
+    <header class="shrink-0 h-14 sm:h-16 bg-gradient-to-r from-[#1E1E1E] to-[#242424] flex items-center justify-between px-3 sm:px-4 shadow-lg z-20 relative border-b border-white/5">
         <!-- Home Button (Updated Link) -->
-        <a href="https://text02.com/" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#242424] text-white shadow-md hover:bg-[#4fc3f7]/20 active:scale-90 transition-all border border-white/5">
-            <img src="https://text02.com/favicon.ico" alt="Home" class="w-5 h-5 drop-shadow-sm">
+        <a href="https://text02.com/" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#242424] text-white shadow-md hover:bg-[#4fc3f7]/20 active:scale-90 transition-all border border-white/5">
+            <img src="https://text02.com/favicon.ico" alt="Home" class="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-sm">
         </a>
 
         <!-- Center: Score & High Score -->
         <div class="flex flex-col items-center justify-center">
-            <div id="score-display" class="text-3xl font-bold text-white leading-none drop-shadow-md font-mono transition-transform">0</div>
-            <div class="text-[10px] text-[#c0c0c0] font-bold tracking-wider flex items-center gap-1 mt-1">
-                <i data-lucide="trophy" class="w-3 h-3 text-[#c0c0c0]"></i> 
+            <div id="score-display" class="text-2xl sm:text-3xl font-bold text-white leading-none drop-shadow-md font-mono transition-transform">0</div>
+            <div class="text-[9px] sm:text-[10px] text-[#c0c0c0] font-bold tracking-wider flex items-center gap-1 mt-0.5 sm:mt-1">
+                <i data-lucide="trophy" class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#c0c0c0]"></i> 
                 <span id="highscore-display" class="text-[#c0c0c0]">0</span>
             </div>
         </div>
         
         <!-- Settings Button -->
-        <button id="btn-settings" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#242424] text-white shadow-md hover:bg-[#4fc3f7]/20 active:scale-90 transition-all border border-white/5">
-            <i data-lucide="settings" class="w-5 h-5 drop-shadow-sm"></i>
+        <button id="btn-settings" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#242424] text-white shadow-md hover:bg-[#4fc3f7]/20 active:scale-90 transition-all border border-white/5">
+            <i data-lucide="settings" class="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-sm"></i>
         </button>
     </header>
 
@@ -329,40 +329,48 @@
                     this.canvas.style.width = `${this.width}px`;
                     this.canvas.style.height = `${this.height}px`;
 
-                    const padding = 16;
-                    const availableHeightForBoard = this.height - 200; 
+                    // Mobile optimization
+                    const isMobile = this.width < 768;
+                    const padding = isMobile ? 12 : 16;
+                    const trayHeightMobile = isMobile ? 90 : 120;
+                    const availableHeightForBoard = this.height - (isMobile ? 160 : 200); 
                     const maxBoardWidth = this.width - padding * 2;
                     const boardSize = Math.min(maxBoardWidth, availableHeightForBoard);
                     
                     this.cellSize = Math.floor(boardSize / GRID_SIZE);
                     this.gridOriginX = (this.width - this.cellSize * GRID_SIZE) / 2;
-                    this.gridOriginY = 20; 
+                    this.gridOriginY = isMobile ? 10 : 20;
+                    this.isMobile = isMobile;
+                    this.trayHeightMobile = trayHeightMobile;
 
                     this.updateBlockPositions();
                 }
             }
 
             updateBlockPositions() {
-                const trayTopMargin = 20;
+                const isMobile = this.isMobile || this.width < 768;
+                const trayTopMargin = isMobile ? 12 : 20;
+                const trayBottomMargin = isMobile ? 8 : 20;
                 this.trayY = this.gridOriginY + this.cellSize * GRID_SIZE + trayTopMargin;
-                this.trayHeight = Math.max(120, this.height - this.trayY - 20); 
+                this.trayHeight = Math.max(this.trayHeightMobile || (isMobile ? 90 : 120), this.height - this.trayY - trayBottomMargin); 
 
                 const blockCenterY = this.trayY + this.trayHeight / 2;
-                const availableWidth = this.width;
+                const availableWidth = this.width - (isMobile ? 24 : 32);
                 const slotWidth = availableWidth / 3;
+                const blockScale = isMobile ? 0.5 : 0.6;
 
                 this.blocks.forEach((block, index) => {
                     if (!block.placed) {
-                        const blockW = block.matrix[0].length * this.cellSize * 0.6;
-                        const blockH = block.matrix.length * this.cellSize * 0.6;
+                        const blockW = block.matrix[0].length * this.cellSize * blockScale;
+                        const blockH = block.matrix.length * this.cellSize * blockScale;
                         
-                        block.homeX = slotWidth * index + slotWidth / 2 - blockW / 2;
+                        block.homeX = (this.width - availableWidth) / 2 + slotWidth * index + slotWidth / 2 - blockW / 2;
                         block.homeY = blockCenterY - blockH / 2;
                         
                         if (block !== this.dragBlock && !this.animatingBlocks.includes(block)) {
                             block.x = block.homeX;
                             block.y = block.homeY;
-                            block.scale = 0.6; 
+                            block.scale = blockScale; 
                         }
                     }
                 });
@@ -370,6 +378,8 @@
 
             spawnBlocks() {
                 this.blocks = [];
+                const isMobile = this.isMobile || (this.width && this.width < 768);
+                const defaultScale = isMobile ? 0.5 : 0.6;
                 for (let i = 0; i < 3; i++) {
                     const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
                     const matrix = shape.matrix.map(row => [...row]);
@@ -380,7 +390,7 @@
                         placed: false,
                         x: 0, 
                         y: 0,
-                        scale: 0.6
+                        scale: defaultScale
                     });
                 }
                 this.updateBlockPositions();
@@ -496,16 +506,18 @@
 
             updateAnimations() {
                 // 1. Return-to-home animation
+                const isMobile = this.isMobile || this.width < 768;
+                const targetScale = isMobile ? 0.5 : 0.6;
                 for (let i = this.animatingBlocks.length - 1; i >= 0; i--) {
                     const b = this.animatingBlocks[i];
                     b.x += (b.homeX - b.x) * 0.2;
                     b.y += (b.homeY - b.y) * 0.2;
-                    b.scale += (0.6 - b.scale) * 0.2;
+                    b.scale += (targetScale - b.scale) * 0.2;
                     
                     if (Math.abs(b.x - b.homeX) < 1 && Math.abs(b.y - b.homeY) < 1) {
                         b.x = b.homeX;
                         b.y = b.homeY;
-                        b.scale = 0.6;
+                        b.scale = targetScale;
                         this.animatingBlocks.splice(i, 1); 
                     }
                 }
@@ -578,16 +590,19 @@
 
                 // --- 2. TRAY (Block container) ---
                 if (this.trayHeight > 0) {
+                    const isMobile = this.isMobile || this.width < 768;
                     ctx.fillStyle = COLORS.trayBg;
                     ctx.strokeStyle = COLORS.trayBorder;
                     ctx.lineWidth = 1;
                     
-                    const trayW = this.width - 32; 
-                    const trayX = 16;
+                    const trayPadding = isMobile ? 12 : 16;
+                    const trayW = this.width - trayPadding * 2; 
+                    const trayX = trayPadding;
+                    const trayRadius = isMobile ? 12 : 16;
                     
                     ctx.beginPath();
                     if (ctx.roundRect) {
-                        ctx.roundRect(trayX, this.trayY, trayW, this.trayHeight, 16);
+                        ctx.roundRect(trayX, this.trayY, trayW, this.trayHeight, trayRadius);
                     } else {
                         ctx.rect(trayX, this.trayY, trayW, this.trayHeight);
                     }
