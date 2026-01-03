@@ -1,29 +1,44 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- === SEO META TAGS === -->
-    <title>Text2 - Block Puzzle</title>
-    <meta name="description" content="Chơi Text2 - Block Puzzle, game xếp hình khối băng giải đố trí tuệ hấp dẫn. Giao diện Dark Mode đẹp mắt, âm thanh thư giãn. Chơi ngay miễn phí tại Text02.">
-    <meta name="keywords" content="Text2 - Block Puzzle, Block Puzzle, game xếp hình, game giải đố, puzzle game, ice block puzzle, text02">
+    <title>Text2 - Block Puzzle game</title>
+    <meta name="description" content="Play Text2 - Block Puzzle, an engaging ice block puzzle game. Beautiful Dark Mode interface with relaxing sounds. Play for free at Text02.">
+    <meta name="keywords" content="Text2 - Block Puzzle game, Block Puzzle, puzzle game, block puzzle, ice block puzzle, text02, brain game">
     <meta name="author" content="Text02">
     <link rel="canonical" href="https://text02.com/game/puzzle">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="google" content="notranslate"> 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
+    crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6J85STMJ14');
+  </script>
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://text02.com/game/puzzle">
-    <meta property="og:title" content="Text2 - Block Puzzle">
-    <meta property="og:description" content="Thử thách trí tuệ với Text2 - Block Puzzle. Game xếp hình khối băng phong cách Dark Mode cực cuốn.">
+    <meta property="og:title" content="Text2 - Block Puzzle game">
+    <meta property="og:description" content="Challenge your mind with Text2 - Block Puzzle. Ice block puzzle game with stunning Dark Mode style.">
     <meta property="og:image" content="https://text02.com/media/thumnel.png">
     <meta property="og:site_name" content="Text02">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://text02.com/game/puzzle">
-    <meta property="twitter:title" content="Text2 - Block Puzzle">
-    <meta property="twitter:description" content="Thử thách trí tuệ với Text2 - Block Puzzle. Game xếp hình khối băng phong cách Dark Mode cực cuốn.">
+    <meta property="twitter:title" content="Text2 - Block Puzzle game">
+    <meta property="twitter:description" content="Challenge your mind with Text2 - Block Puzzle. Ice block puzzle game with stunning Dark Mode style.">
     <meta property="twitter:image" content="https://text02.com/media/thumnel.png">
 
     <!-- Schema.org Structured Data -->
@@ -31,10 +46,10 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Text2 - Block Puzzle",
+      "name": "Text2 - Block Puzzle game",
       "url": "https://text02.com/game/puzzle",
       "image": "https://text02.com/media/thumnel.png",
-      "description": "Game xếp hình khối băng Text2 - Block Puzzle với giao diện Dark Mode hiện đại, âm thanh ASMR thư giãn.",
+      "description": "Text2 - Block Puzzle game with modern Dark Mode interface and relaxing ASMR sounds.",
       "applicationCategory": "GameApplication",
       "genre": "Puzzle",
       "operatingSystem": "Any",
@@ -78,7 +93,7 @@
             50% { transform: scale(1.05); }
         }
         
-        /* Hiệu ứng pulse màu xanh dương nhạt cho hợp với theme tối + băng */
+        /* Pulse effect with light blue color to match dark theme + ice */
         @keyframes pulseIce {
             0%, 100% { transform: scale(1); color: #bae6fd; }
             50% { transform: scale(1.2); color: #38bdf8; text-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
@@ -134,21 +149,21 @@
             </button>
             
             <h2 class="text-2xl font-bold text-white mb-6 flex items-center justify-center gap-2">
-                <i data-lucide="settings" class="w-7 h-7"></i> Cài Đặt
+                <i data-lucide="settings" class="w-7 h-7"></i> Settings
             </h2>
             
             <div class="space-y-4">
                 <!-- Sound Toggle -->
                 <button id="btn-toggle-sound" class="w-full py-3 px-6 font-bold rounded-xl shadow-md flex items-center justify-between transition-all bg-[#242424] hover:bg-[#4fc3f7]/20 text-white border border-white/5 active:scale-95">
                     <span class="flex items-center gap-2">
-                        <i id="icon-sound" data-lucide="volume-2" class="w-5 h-5"></i> Âm thanh
+                        <i id="icon-sound" data-lucide="volume-2" class="w-5 h-5"></i> Sound
                     </span>
-                    <span id="text-sound-status" class="text-xs font-bold px-3 py-1 rounded-full bg-[#4caf50] text-white shadow-md">BẬT</span>
+                    <span id="text-sound-status" class="text-xs font-bold px-3 py-1 rounded-full bg-[#4caf50] text-white shadow-md">ON</span>
                 </button>
                 
                 <!-- Restart -->
                 <button id="btn-restart-settings" class="w-full py-3 px-6 font-bold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all bg-[#ff9800] hover:bg-[#f57c00] active:bg-[#e65100] active:scale-95 text-white shadow-lg">
-                    <i data-lucide="refresh-cw" class="w-5 h-5"></i> Chơi Lại Từ Đầu
+                    <i data-lucide="refresh-cw" class="w-5 h-5"></i> Restart Game
                 </button>
             </div>
         </div>
@@ -157,40 +172,40 @@
     <!-- === GAME OVER MODAL === -->
     <div id="modal-gameover" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4 animate-fade-in">
         <div class="bg-gradient-to-b from-[#1E1E1E] to-[#242424] p-6 rounded-2xl shadow-2xl border border-white/10 text-center w-full max-w-sm animate-bounce-small">
-            <h2 class="text-3xl font-bold text-white mb-2">Đóng Băng!</h2>
-            <p class="text-[#c0c0c0] mb-6">Bạn đã hết nước đi.</p>
+            <h2 class="text-3xl font-bold text-white mb-2">Game Over!</h2>
+            <p class="text-[#c0c0c0] mb-6">You have no more moves.</p>
             
             <div class="bg-[#121212] p-4 rounded-xl mb-6 shadow-inner border border-white/5">
-                <div class="text-sm text-[#c0c0c0] mb-1 uppercase tracking-wider">Điểm của bạn</div>
+                <div class="text-sm text-[#c0c0c0] mb-1 uppercase tracking-wider">Your Score</div>
                 <div id="final-score" class="text-5xl font-bold text-[#4fc3f7] drop-shadow-[0_0_10px_rgba(79,195,247,0.5)] font-mono">0</div>
             </div>
 
             <button id="btn-restart-gameover" class="w-full py-3 px-6 font-bold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all bg-[#4caf50] hover:bg-[#43a047] active:bg-[#388e3c] active:scale-95 text-lg text-white shadow-lg">
-                <i data-lucide="refresh-cw" class="w-6 h-6"></i> Chơi Lại Ngay
+                <i data-lucide="refresh-cw" class="w-6 h-6"></i> Play Again
             </button>
         </div>
     </div>
 
     <!-- === GAME LOGIC SCRIPT === -->
     <script>
-        // --- CẤU HÌNH MỚI (DARK UI + ICE BLOCKS) ---
+        // --- NEW CONFIGURATION (DARK UI + ICE BLOCKS) ---
         const GRID_SIZE = 10;
         const COLORS = {
-            background: '#121212', // Đen xám đậm (Nền App)
-            boardBg: '#1E1E1E',    // Xám đậm (Nền Bàn Cờ)
-            trayBg: 'rgba(30, 30, 30, 0.6)', // Nền khay chứa tối màu
-            trayBorder: 'rgba(255, 255, 255, 0.08)', // Viền trắng mờ
-            gridLine: 'rgba(255, 255, 255, 0.05)', // Kẻ lưới mờ
-            cellEmpty: '#242424', // Ô trống xám đậm
+            background: '#121212', // Dark gray (App Background)
+            boardBg: '#1E1E1E',    // Dark gray (Board Background)
+            trayBg: 'rgba(30, 30, 30, 0.6)', // Dark tray background
+            trayBorder: 'rgba(255, 255, 255, 0.08)', // Faded white border
+            gridLine: 'rgba(255, 255, 255, 0.05)', // Faded grid line
+            cellEmpty: '#242424', // Dark gray empty cell
             
-            // Ice Block Colors (Giữ nguyên hiệu ứng băng)
-            // Màu băng sẽ nổi bật trên nền tối
+            // Ice Block Colors (Keep ice effect)
+            // Ice colors will stand out on dark background
             iceLight: '#bae6fd', 
             iceDark: '#0284c7',  
             
-            highlightValid: 'rgba(79, 195, 247, 0.2)', // Xanh dương nhạt (theo yêu cầu)
-            highlightInvalid: 'rgba(239, 68, 68, 0.25)', // Đỏ mờ
-            floatingText: '#ffffff' // Chữ trắng nổi bật
+            highlightValid: 'rgba(79, 195, 247, 0.2)', // Light blue (as requested)
+            highlightInvalid: 'rgba(239, 68, 68, 0.25)', // Faded red
+            floatingText: '#ffffff' // White text stands out
         };
 
         const SHAPES = [
@@ -231,7 +246,7 @@
             const now = audioCtx.currentTime;
 
             if (type === 'place') {
-                // Tiếng đặt khối băng
+                // Sound of placing ice block
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(400, now);
                 osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
@@ -240,7 +255,7 @@
                 osc.start(now);
                 osc.stop(now + 0.1);
             } else if (type === 'clear') {
-                // Tiếng vỡ băng
+                // Sound of ice breaking
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(800, now);
                 osc.frequency.linearRampToValueAtTime(1200, now + 0.1);
@@ -372,7 +387,7 @@
                 this.checkGameOver();
             }
 
-            // --- VẼ KHỐI BĂNG (Giữ nguyên logic vẽ băng để nổi bật trên nền tối) ---
+            // --- DRAW ICE BLOCK (Keep ice drawing logic to stand out on dark background) ---
             drawIceTexture(x, y, w, h, filled = false) {
                 const ctx = this.ctx;
                 
@@ -407,7 +422,7 @@
                 ctx.lineTo(x, y + h);
                 ctx.stroke();
 
-                ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'; // Tối hơn chút để hợp nền đen
+                ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)'; // Darker to match black background
                 ctx.beginPath();
                 ctx.moveTo(x + w, y);
                 ctx.lineTo(x + w, y + h);
@@ -424,7 +439,7 @@
                 const cellSize = this.cellSize * scale;
 
                 if (shadow) {
-                    ctx.shadowColor = "rgba(79, 195, 247, 0.4)"; // Shadow màu xanh dương nhạt
+                    ctx.shadowColor = "rgba(79, 195, 247, 0.4)"; // Light blue shadow
                     ctx.shadowBlur = 15;
                     ctx.shadowOffsetY = 10;
                 } else {
@@ -530,7 +545,7 @@
                 ctx.fillStyle = COLORS.boardBg;
                 const boardSize = this.cellSize * GRID_SIZE;
                 
-                // Board Shadow / Glow (Giảm bớt glow xanh để hợp nền đen)
+                // Board Shadow / Glow (Reduce blue glow to match black background)
                 ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
                 ctx.shadowBlur = 20;
                 ctx.shadowOffsetY = 5;
@@ -561,7 +576,7 @@
                     }
                 }
 
-                // --- 2. TRAY (Khay chứa khối) ---
+                // --- 2. TRAY (Block container) ---
                 if (this.trayHeight > 0) {
                     ctx.fillStyle = COLORS.trayBg;
                     ctx.strokeStyle = COLORS.trayBorder;
@@ -641,7 +656,7 @@
                 ctx.font = "bold 24px monospace";
                 ctx.textAlign = "center";
                 for (const ft of this.floatingTexts) {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${ft.alpha})`; // Chữ trắng nổi bật trên nền đen
+                    ctx.fillStyle = `rgba(255, 255, 255, ${ft.alpha})`; // White text stands out on black background
                     ctx.shadowColor = "rgba(0,0,0,0.8)";
                     ctx.shadowBlur = 4;
                     ctx.fillText(ft.text, ft.x, ft.y);
@@ -887,7 +902,7 @@
 
         btnToggleSound.addEventListener('click', () => {
             soundEnabled = !soundEnabled;
-            textSoundStatus.innerText = soundEnabled ? 'BẬT' : 'TẮT';
+            textSoundStatus.innerText = soundEnabled ? 'ON' : 'OFF';
             textSoundStatus.className = `text-xs font-bold px-3 py-1 rounded-full text-white ${soundEnabled ? 'bg-[#4caf50] shadow-md' : 'bg-[#555]'} transition-colors`;
             iconSound.setAttribute('data-lucide', soundEnabled ? 'volume-2' : 'volume-x');
             lucide.createIcons();
