@@ -1,587 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1722731267767270"
-  crossorigin="anonymous"></script>
-  <!-- Canonical and Alternate -->
-  <link rel="canonical" href="https://text02.com/app" />
-  <meta property="og:url" content="https://text02.com/app" />
-  <meta property="og:site_name" content="Text2 - App Center" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Primary Meta Tags -->
+    <title>Text2 - Zip File Online</title>
+    <meta name="title" content="Text2 - Zip File Online">
+    <meta name="description" content="Tạo và giải nén file Zip online miễn phí, nhanh chóng ngay trên trình duyệt. Text2 Zip hỗ trợ nén ảnh, video, tài liệu bảo mật tuyệt đối.">
+    <meta name="keywords" content="Text2, Zip File online, nén file online, giải nén zip, zip creator, online zip extractor, text2 zip">
+    <meta name="author" content="CEO Nhat Anh - Text2 Technology">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://text02.com/app/zip">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://text02.com/app/zip">
+    <meta property="og:title" content="Text2 - Zip File Online">
+    <meta property="og:description" content="Công cụ nén và giải nén file Zip trực tuyến siêu tốc, bảo mật, không cần server. Hỗ trợ mọi thiết bị.">
+    <meta property="og:image" content="https://text02.com/media/thumnel.png">
+    <meta property="og:site_name" content="Text2">
 
-  <!-- SEO Title and Description -->
-  <title>Text2 - App Center</title>
-  <meta name="description" content="Text2 - App Center: Discover, search, and use the best free utility, creative, productivity, and game apps online. Explore the ecosystem of Text2 now!">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://text02.com/app/zip">
+    <meta property="twitter:title" content="Text2 - Zip File Online">
+    <meta property="twitter:description" content="Công cụ nén và giải nén file Zip trực tuyến siêu tốc, bảo mật, không cần server.">
+    <meta property="twitter:image" content="https://text02.com/media/thumnel.png">
 
-  <!-- Schema Markup -->
-  <script type="application/ld+json">
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Text2 - App Center",
-      "url": "https://text02.com/app",
-      "description": "Text2 - App Center: Discover, search, and use the best free utility, creative, productivity, and game apps online. Explore the ecosystem of Text2 now!",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Text2",
-        "url": "https://text02.com",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://text02.com/apple-touch-icon.png"
+      "@type": "WebApplication",
+      "name": "Text2 - Zip File Online",
+      "url": "https://text02.com/app/zip",
+      "image": "https://text02.com/media/thumnel.png",
+      "description": "Create and extract Zip files online securely in your browser without uploading to a server.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "author": {
+          "@type": "Person",
+          "name": "Nhat Anh",
+          "jobTitle": "CEO",
+          "url": "https://text02.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- JSZip Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#121212',
+                            panel: '#1E1E1E',
+                            panelTo: '#242424',
+                            border: 'rgba(255,255,255,0.08)',
+                            textMain: '#ffffff',
+                            textSub: '#c0c0c0',
+                            accent: 'rgba(79,195,247,0.2)',
+                            accentSolid: '#4fc3f7',
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 
-  <meta name="theme-color" content="#121212">
-  <meta name="google" content="notranslate"> 
-  <meta property="og:title" content="Text2 - App Center" />
-  <meta property="og:description" content="Explore all apps from Text2 - App Center. Discover powerful utility, productivity, creative tools, and games. Text2 - App Center is your one-stop app ecosystem." />
-  <meta property="og:image" content="https://text02.com/apple-touch-icon.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Text2 - App Center" />
-  <meta name="twitter:description" content="Explore all apps from Text2 - App Center. Discover powerful utility, productivity, creative tools, and games." />
-  <meta name="twitter:image" content="https://text02.com/apple-touch-icon.png" />
-  <meta name="robots" content="index, follow" />
-  <meta name="keywords" content="Text2, App Center, Text2 App Center, Text2 tools, productivity apps, creative apps, utility apps, games, free web apps, app store, text02.com" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+            background-color: #121212;
+            color: #ffffff;
+        }
 
-  <!-- Favicon & App Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+        /* Smooth Scrollbar - Dark */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #242424;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4fc3f7;
+        }
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        .app-icon-frame {
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-  <style>
-    :root {
-      --bg-body: #121212;
-      --panel-gradient: linear-gradient(135deg,#1E1E1E 0%, #242424 100%);
-      --bg-card: #1E1E1E;
-      --bg-card-hover: #242424;
-      --text-primary: #fff;
-      --text-secondary: #c0c0c0;
-      --accent-blue: rgba(79,195,247,1);
-      --accent-efx: rgba(79,195,247,0.2);
-      --border: rgba(255,255,255,0.07);
-      --border-hover: rgba(79,195,247,0.2);
-      --radius-xl: 24px;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --nav-height: 64px;
-      --safe-area-top: env(safe-area-inset-top);
-      --safe-area-bottom: env(safe-area-inset-bottom);
-    }
+        /* Animations */
+        @keyframes slideUpSpring {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            60% { opacity: 1; transform: translateY(-5px) scale(1.02); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-spring-up {
+            animation: slideUpSpring 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      margin: 0;
-      padding: 0;
-    }
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); border-color: rgba(79, 195, 247, 0.3); background-color: rgba(79, 195, 247, 0.05); }
+            50% { transform: scale(0.99); border-color: rgba(79, 195, 247, 0.6); background-color: rgba(79, 195, 247, 0.15); }
+        }
+        .active-drop {
+            animation: pulseSoft 1.5s infinite;
+        }
 
-    body {
-      font-family: 'Inter',system-ui,-apple-system,sans-serif;
-      background: var(--bg-body);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-bottom: calc(20px + var(--safe-area-bottom));
-    }
+        @keyframes progressStripes {
+            from { background-position: 1rem 0; }
+            to { background-position: 0 0; }
+        }
+        .animate-stripes {
+            background-image: linear-gradient(45deg,rgba(255,255,255,.1) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.1) 75%,transparent 75%,transparent);
+            background-size: 1rem 1rem;
+            animation: progressStripes 1s linear infinite;
+        }
 
-    /* --- Animations --- */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .btn-press:active { transform: scale(0.96); }
 
-    /* --- Header & Nav --- */
-    .app-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--panel-gradient);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: calc(12px + var(--safe-area-top)) 16px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background 0.3s;
-    }
+        /* Dark Mode Tab Switcher */
+        .tab-btn { transition: all 0.3s; }
+        .tab-btn.active { color: #ffffff; text-shadow: 0 0 10px rgba(79,195,247,0.4); } 
+        .tab-btn.inactive { color: #c0c0c0; }
+        .tab-btn:hover { color: #ffffff; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text-primary);
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-    .brand img {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .back-btn:hover,
-    .back-btn:focus {
-      background: var(--accent-efx);
-      border-color: var(--border-hover);
-      outline: none;
-    }
-    .back-btn:active { transform: scale(0.92); }
+        /* Panel Gradient Class */
+        .bg-panel-gradient {
+            background: linear-gradient(135deg, #1E1E1E 0%, #242424 100%);
+        }
 
-    /* --- Main Container --- */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 16px;
-      background: var(--panel-gradient);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.16);
-    }
-
-    /* --- Hero Section --- */
-    .hero {
-      text-align: center;
-      margin-bottom: 24px;
-      animation: fadeIn 0.5s ease-out;
-    }
-    .hero h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: -0.02em;
-    }
-    .hero p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
-
-    /* --- Search & Filter --- */
-    .controls-wrapper {
-      position: sticky;
-      top: calc(var(--nav-height) + var(--safe-area-top) + 5px);
-      z-index: 90;
-      margin-bottom: 24px;
-    }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 20px -8px rgba(0,0,0,0.3);
-    }
-    .search-box input {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 14px 48px 14px 20px;
-      border-radius: var(--radius-xl);
-      color: var(--text-primary);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.3s, background 0.3s;
-      font-weight: 500;
-    }
-    .search-box input:focus {
-      border-color: var(--accent-blue);
-      background: #23272e;
-      box-shadow: 0 0 0 1.5px var(--accent-efx);
-    }
-    .search-icon {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-secondary);
-      pointer-events: none;
-      transition: color 0.3s;
-    }
-    .search-box input:focus ~ .search-icon { color: var(--accent-blue); }
-
-    /* Horizontal Scroll Filters */
-    .filter-scroll {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      margin: 0 -16px;
-      padding: 0 16px 8px;
-    }
-    .filter-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .filter-chip {
-      background: var(--bg-card);
-      border: 1.1px solid var(--border);
-      color: var(--text-secondary);
-      padding: 8px 18px;
-      border-radius: 100px;
-      font-size: 0.92rem;
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.26s, border-color 0.26s, color 0.2s;
-    }
-
-    .filter-chip:hover,
-    .filter-chip:focus {
-      background: var(--accent-efx);
-      border-color: var(--border-hover);
-      color: var(--text-primary);
-      outline: none;
-    }
-    .filter-chip.active {
-      background: var(--accent-efx);
-      color: #4fc3f7;
-      border-color: var(--accent-blue);
-      font-weight: 700;
-      box-shadow: 0 2px 9px var(--accent-efx);
-    }
-
-    /* --- App Grid --- */
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 16px;
-      padding-left: 4px;
-    }
-    .section-title {
-      font-size: 1.23rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      opacity: 0.96;
-    }
-    .app-count {
-      color: #4fc3f7;
-      font-size: 0.96rem;
-      font-weight: 600;
-    }
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 16px;
-      padding-bottom: 20px;
-    }
-    .app-card {
-      background: var(--bg-card);
-      border: 1.1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 22px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      text-decoration: none;
-      transition: background 0.23s, border-color 0.24s, box-shadow 0.23s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      will-change: transform;
-    }
-    /* Subtle blue hover/light glass effect */
-    .app-card::before {
-      content: '';
-      pointer-events: none;
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg,transparent,rgba(79,195,247,0.07),transparent);
-      transition: 0.5s;
-    }
-    .app-card:hover::before {
-      left: 100%;
-    }
-    .app-card:hover,
-    .app-card:focus {
-      transform: translateY(-4px) scale(1.013);
-      background: var(--bg-card-hover);
-      border-color: var(--border-hover);
-      box-shadow: 0 12px 28px -10px rgba(79,195,247,0.15);
-      outline: none;
-    }
-    .app-card:active {
-      transform: scale(0.985);
-    }
-    .app-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
-      margin-bottom: 11px;
-      object-fit: cover;
-      box-shadow: 0 3px 11px rgba(0,0,0,0.2);
-      background: #16181a;
-      transition: transform 0.22s cubic-bezier(.55,1.1,.66,1.19);
-    }
-    .app-card:hover .app-icon,
-    .app-card:focus .app-icon {
-      transform: scale(1.055);
-    }
-    .app-name {
-      color: var(--text-primary);
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 4px;
-      line-height: 1.21;
-    }
-    .app-desc {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      line-height: 1.45;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-word;
-    }
-
-    /* --- Empty State --- */
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 56px 18px;
-      color: var(--text-secondary);
-    }
-    .no-results svg {
-      width: 48px; height: 48px; margin-bottom: 16px;
-      opacity: 0.32;
-      stroke: #4fc3f7;
-    }
-
-    /* --- Responsive Tweaks --- */
-    @media (min-width: 640px) {
-      .container {padding: 32px 28px;}
-      .apps-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 20px;
-      }
-      .filter-scroll {justify-content: center; margin: 0; padding-bottom: 0;}
-    }
-    @media (min-width: 1024px) {
-      .container {padding: 48px 32px;}
-      .apps-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
-        gap: 28px;
-      }
-    }
-
-    /* Footer tweaks for dark/XD blue accent */
-    footer {
-      background: none;
-      color: var(--text-secondary) !important;
-      font-size:0.93rem !important;
-      border-top: 1px solid var(--border);
-      margin-top: 30px;
-    }
-    footer a {
-      color: #4fc3f7 !important;
-      text-decoration: none;
-    }
-    footer a:hover, footer a:focus {
-      text-decoration: underline;
-      color: #bde6fa !important;
-      outline: none;
-    }
-  </style>
+        /* Hover Effect Class */
+        .hover-accent:hover {
+            background-color: rgba(79,195,247,0.1);
+            border-color: rgba(79,195,247,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
-<body>
-  <!-- Navigation -->
-  <header class="app-header">
-    <a href="https://text02.com" class="brand">
-      <img src="/apple-touch-icon.png" alt="Text2 Logo" width="32" height="32" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIi8+PC9zdmc+'">
-      <span>Text2</span>
-    </a>
-    <a href="https://text02.com" class="back-btn" aria-label="Go Home">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-      </svg>
-    </a>
-  </header>
+<body class="h-[100dvh] flex flex-col overflow-hidden selection:bg-dark-accentSolid selection:text-[#121212]">
 
-  <main class="container" itemscope itemtype="https://schema.org/WebPage">
-    <!-- Hero -->
-
-    <!-- Controls -->
-    <section class="controls-wrapper">
-      <form class="search-box" role="search" aria-label="Search Text2 App Center">
-        <input type="text" id="appSearchInput" placeholder="Search apps, games..." autocomplete="off" aria-label="Search apps or games">
-        <div class="search-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+    <!-- Fixed Header -->
+    <header class="h-16 bg-[#121212]/90 backdrop-blur-xl border-b border-dark-border fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 flex items-center justify-between transition-all duration-300">
+        <div class="flex items-center gap-3 max-w-3xl mx-auto w-full">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E1E1E] to-[#242424] flex items-center justify-center app-icon-frame overflow-hidden cursor-pointer active:scale-90 transition-transform duration-200" onclick="window.location.href='https://text02.com'">
+                <img src="https://text02.com/favicon.ico" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" alt="Text2">
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-white leading-none tracking-tight">Text2 Zip</h1>
+                <div class="flex items-center gap-1 mt-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-dark-accentSolid animate-pulse shadow-[0_0_8px_#4fc3f7]"></span>
+                    <p class="text-[11px] font-semibold text-dark-textSub uppercase tracking-wider">Pro</p>
+                </div>
+            </div>
+            
+            <div class="ml-auto flex items-center gap-2">
+                 <button class="w-10 h-10 rounded-full bg-[#1E1E1E] border border-dark-border flex items-center justify-center text-dark-textSub hover:text-dark-accentSolid hover:bg-dark-accent hover:border-dark-accentSolid/30 active:bg-dark-panel transition-all btn-press" onclick="window.location.href='https://text02.com'">
+                    <i class="fa-solid fa-house"></i>
+                </button>
+            </div>
         </div>
-      </form>
-      <nav class="filter-scroll" aria-label="Filter app by category">
-        <div class="filter-chip active" data-filter="all">All</div>
-        <div class="filter-chip" data-filter="productivity">Productivity</div>
-        <div class="filter-chip" data-filter="creative">Creative</div>
-        <div class="filter-chip" data-filter="utility">Utility</div>
-        <div class="filter-chip" data-filter="game">Game</div>
-      </nav>
-    </section>
+    </header>
 
-    <!-- Grid -->
-    <section id="appsContainer">
-      <div class="section-header">
-        <span class="section-title">Explore</span>
-        <span class="app-count" id="appCount"></span>
-      </div>
-      <div class="apps-grid" id="appsGrid">
-        <!-- Rendered by JS -->
-      </div>
-      <div id="noResults" class="no-results" style="display: none;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <h3>No apps found</h3>
-        <p>Try a different keyword!</p>
-      </div>
-    </section>
-  </main>
+    <!-- Main Content -->
+    <main class="flex-grow pt-20 pb-36 overflow-y-auto custom-scrollbar px-4 sm:px-6 scroll-smooth">
+        <div class="max-w-3xl mx-auto w-full space-y-6">
+            
+            <!-- Tab Switcher -->
+            <div class="flex p-1.5 bg-[#000000]/50 border border-dark-border rounded-2xl relative backdrop-blur-sm">
+                <div id="tab-indicator" class="absolute left-1.5 top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-panel-gradient border border-dark-border rounded-xl shadow-lg transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"></div>
+                <button onclick="switchMode('create')" id="tab-create" class="flex-1 relative z-10 py-2.5 text-sm font-bold tab-btn active transition-colors rounded-xl btn-press">
+                    <i class="fa-solid fa-file-zipper mr-1"></i> Create Zip
+                </button>
+                <button onclick="switchMode('extract')" id="tab-extract" class="flex-1 relative z-10 py-2.5 text-sm font-bold tab-btn inactive transition-colors rounded-xl btn-press">
+                    <i class="fa-solid fa-box-open mr-1"></i> Extract Zip
+                </button>
+            </div>
 
-  <footer style="text-align:center; padding:32px 0 8px;" itemscope itemtype="https://schema.org/WPFooter">
-    <span>
-      &copy; <span itemprop="copyrightYear"><?=(new Date()).getFullYear?.()||'2024'?></span>
-      <a href="https://text02.com/app" itemprop="url">
-        Text2 - App Center
-      </a>
-      &middot;
-      <a href="https://text02.com">Back to Homepage</a>
-    </span>
-  </footer>
+            <!-- VIEW: CREATE ZIP -->
+            <div id="view-create" class="space-y-6 transition-all duration-300">
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press" onclick="triggerFileInput()">
+                    <!-- Hidden Inputs -->
+                    <input type="file" id="file-input" class="hidden" multiple>
+                    <input type="file" id="folder-input" class="hidden" webkitdirectory directory multiple>
+                    
+                    <div class="w-20 h-20 bg-[#121212] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 border border-dark-border shadow-2xl shadow-black/50 pointer-events-none">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-dark-accentSolid group-hover:text-white transition-colors drop-shadow-[0_0_10px_rgba(79,195,247,0.5)]"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white group-hover:text-dark-accentSolid transition-colors pointer-events-none">Tap to upload Files</h3>
+                    
+                    <div class="mt-4 flex items-center gap-3 relative z-20">
+                        <span class="text-sm text-dark-textSub font-medium">or</span>
+                        <button onclick="event.stopPropagation(); triggerFolderInput()" class="px-4 py-2 bg-[#121212] border border-dark-border rounded-lg text-xs font-bold text-dark-accentSolid hover:bg-dark-accentSolid hover:text-black transition-all shadow-lg hover:shadow-[0_0_15px_rgba(79,195,247,0.3)]">
+                            <i class="fa-solid fa-folder-open mr-1"></i> Choose Folder
+                        </button>
+                    </div>
+                    
+                    <p class="text-xs text-dark-textSub mt-4 font-medium opacity-60">Drag & Drop folders supported!</p>
+                </div>
 
-  <script>
-    // Data (SEO: All app names/keywords as content)
-    const appsData = [
-      { name: "Doc", description: "Take notes quickly", url: "https://text02.com/app/doc", icon: "https://text02.com/app/doc/apple-touch-icon.png", category: "productivity" },
-      { name: "Note", description: "Text2-note", url: "https://text02.com/app/note", icon: "https://text02.com/app/note/apple-touch-icon.png", category: "productivity" },
-      { name: "Translate", description: "Translate text", url: "https://text02.com/app/translate", icon: "https://text02.com/app/translate/apple-touch-icon.png", category: "utility" },
-      { name: "Countday", description: "Text-countday", url: "https://text02.com/app/countday", icon: "https://text02.com/app/countday/apple-touch-icon.png", category: "utility" },
-      { name: "Create QR", description: "Generate QR codes", url: "https://text02.com/app/qr", icon: "https://text02.com/app/qr/apple-touch-icon.png", category: "utility" },
-      { name: "Scan QR", description: "Scan QR codes", url: "https://text02.com/app/qr/scan", icon: "https://text02.com/app/qr/scan/apple-touch-icon.png", category: "utility" },
-      { name: "Grammar", description: "Check grammar", url: "https://text02.com/app/grammar", icon: "https://text02.com/app/grammar/apple-touch-icon.png", category: "productivity" },
-      { name: "Chat AI", description: "Chat with AI", url: "https://text02.com/app/chat", icon: "https://text02.com/app/chat/apple-touch-icon.png", category: "productivity" },
-      { name: "Camera", description: "Camera tools", url: "https://text02.com/app/camera", icon: "https://text02.com/app/camera/apple-touch-icon.png", category: "creative" },
-      { name: "HTML View", description: "View HTML files", url: "https://text02.com/app/html", icon: "https://text02.com/app/html/apple-touch-icon.png", category: "utility" },
-      { name: "Calendar", description: "Manage dates", url: "https://text02.com/app/calendar", icon: "https://text02.com/app/calendar/apple-touch-icon.png", category: "productivity" },
-      { name: "Img Design", description: "Design images", url: "https://text02.com/app/img", icon: "https://text02.com/app/img/apple-touch-icon.png", category: "creative" },
-      { name: "Create Img", description: "AI Image Generator", url: "https://text02.com/app/create-img", icon: "https://text02.com/app/create-img/apple-touch-icon.png", category: "creative" },
-      { name: "Love Match", description: "Love fortune", url: "https://text02.com/app/love", icon: "https://text02.com/app/love/apple-touch-icon.png", category: "utility" },
-      { name: "Add Luts", description: "Apply LUTs", url: "https://text02.com/app/luts", icon: "https://text02.com/app/luts/apple-touch-icon.png", category: "creative" },
-      { name: "Weather", description: "Check weather", url: "https://text02.com/app/weather", icon: "https://text02.com/app/weather/apple-touch-icon.png", category: "utility" },
-      { name: "Game Chess", description: "Play game chess", url: "https://text02.com/game/chess", icon: "https://text02.com/game/chess/apple-touch-icon.png", category: "game" },
-      { name: "Game Caro", description: "Play Caro", url: "https://text02.com/game/caro", icon: "https://text02.com/game/caro/apple-touch-icon.png", category: "game" }
-    ];
+                <!-- Empty State -->
+                <div id="empty-state" class="text-center py-8 opacity-60">
+                    <p class="text-sm text-dark-textSub font-medium">100% Secure. Local processing.</p>
+                </div>
 
-    let currentFilter = "all";
-    let searchQuery = "";
+                <!-- File List -->
+                <div id="file-list-container" class="hidden">
+                    <div class="flex justify-between items-center mb-4 sticky top-0 bg-[#121212]/95 backdrop-blur-md py-3 z-10">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-3">
+                            Items <span class="bg-dark-accentSolid text-[#121212] text-xs font-bold px-2.5 py-1 rounded-lg shadow-[0_0_10px_rgba(79,195,247,0.3)]" id="file-count">0</span>
+                        </h2>
+                        <button onclick="clearAllFiles()" class="text-xs font-bold text-dark-textSub bg-[rgba(255,255,255,0.05)] border border-dark-border px-4 py-2 rounded-xl btn-press hover:bg-[rgba(255,255,255,0.1)] hover:text-white transition-colors">Clear All</button>
+                    </div>
+                    <ul id="file-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-4"></ul>
+                </div>
+            </div>
 
-    function renderApps() {
-      const appsGrid = document.getElementById("appsGrid");
-      const noResults = document.getElementById("noResults");
-      const appCount = document.getElementById("appCount");
+            <!-- VIEW: EXTRACT ZIP (Hidden by default) -->
+            <div id="view-extract" class="space-y-6 hidden transition-all duration-300">
+                <!-- Drop Zone Extract -->
+                <div id="extract-drop-zone" class="w-full h-64 sm:h-72 border-2 border-dashed border-dark-border bg-panel-gradient rounded-[2rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover-accent group relative overflow-hidden btn-press">
+                    <input type="file" id="zip-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept=".zip,.rar,.7z">
+                    
+                    <div class="w-20 h-20 bg-[#121212] rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 border border-dark-border shadow-2xl shadow-black/50">
+                        <i class="fa-solid fa-box-open text-3xl text-dark-accentSolid group-hover:text-white transition-colors drop-shadow-[0_0_10px_rgba(79,195,247,0.5)]"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white group-hover:text-dark-accentSolid transition-colors">Select ZIP File</h3>
+                    <p class="text-sm text-dark-textSub mt-2 font-medium">to open and extract</p>
+                </div>
 
-      requestAnimationFrame(() => {
-        let filteredApps = appsData.filter(app => {
-          const matchesFilter = currentFilter === "all" || app.category === currentFilter;
-          const matchesSearch = !searchQuery ||
-            app.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            app.description.toLowerCase().includes(searchQuery.toLowerCase());
-          return matchesFilter && matchesSearch;
+                <!-- Extracted List -->
+                <div id="extracted-container" class="hidden">
+                    <div class="flex justify-between items-center mb-4 bg-[#121212]/95 backdrop-blur-md py-3 sticky top-0 z-10">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-3">
+                            Results <span class="bg-dark-accentSolid text-[#121212] text-xs font-bold px-2.5 py-1 rounded-lg shadow-[0_0_10px_rgba(79,195,247,0.3)]" id="extracted-count">0</span>
+                        </h2>
+                        <button onclick="resetExtract()" class="text-xs font-bold text-dark-textSub bg-[rgba(255,255,255,0.05)] border border-dark-border px-4 py-2 rounded-xl btn-press hover:bg-[rgba(255,255,255,0.1)] hover:text-white">Reset</button>
+                    </div>
+                    <ul id="extracted-list" class="grid grid-cols-1 gap-3 pb-4"></ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- PREVIEW MODAL -->
+    <div id="preview-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md transition-opacity duration-300" onclick="closePreview()"></div>
+        <div class="absolute inset-4 sm:inset-10 flex items-center justify-center pointer-events-none">
+            <div id="preview-content-box" class="bg-[#1E1E1E] border border-dark-border rounded-3xl w-full max-w-4xl h-full max-h-[90vh] shadow-2xl shadow-black flex flex-col overflow-hidden pointer-events-auto transform scale-95 opacity-0 transition-all duration-300 relative">
+                <div class="h-16 bg-[#121212] border-b border-dark-border flex items-center justify-between px-6 shrink-0">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <div id="preview-icon" class="w-9 h-9 rounded-lg bg-[#1E1E1E] border border-dark-border flex items-center justify-center text-dark-accentSolid shrink-0">
+                            <i class="fa-solid fa-file"></i>
+                        </div>
+                        <h3 id="preview-title" class="font-bold text-white text-lg truncate">Filename.png</h3>
+                    </div>
+                    <button onclick="closePreview()" class="w-9 h-9 rounded-full bg-[#1E1E1E] border border-dark-border hover:bg-[#2a2a2a] text-dark-textSub hover:text-white flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="preview-body" class="flex-grow bg-[#121212] flex items-center justify-center p-4 overflow-auto custom-scrollbar relative"></div>
+                <div class="h-20 bg-[#121212] border-t border-dark-border flex items-center justify-between px-6 shrink-0">
+                    <span id="preview-info" class="text-xs font-bold text-dark-textSub uppercase tracking-wider">PREVIEW MODE</span>
+                    <a id="preview-download" href="#" download class="px-6 py-3 bg-dark-accentSolid hover:bg-white text-[#121212] text-sm font-bold rounded-xl flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(79,195,247,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Bar (Create Mode) -->
+    <div id="action-bar" class="fixed bottom-0 left-0 right-0 bg-[#121212]/90 backdrop-blur-xl border-t border-dark-border p-4 pb-safe z-40 transform translate-y-full transition-transform duration-500">
+        <div class="max-w-3xl mx-auto w-full flex flex-col sm:flex-row gap-3 items-center">
+            <div class="w-full sm:w-2/3 bg-[#1E1E1E] border border-dark-border rounded-2xl flex items-center px-4 py-3.5 focus-within:border-dark-accentSolid/50 focus-within:bg-[#242424] transition-all">
+                <i class="fa-solid fa-pen text-dark-accentSolid mr-3"></i>
+                <input type="text" id="zip-filename" value="text2-archive" class="bg-transparent border-none outline-none w-full text-sm font-bold text-white placeholder-[#666]" placeholder="Archive name...">
+                <span class="text-xs font-black text-dark-textSub ml-2 tracking-widest">ZIP</span>
+            </div>
+            <button onclick="generateZip()" class="w-full sm:w-1/3 bg-dark-accentSolid hover:bg-white text-[#121212] font-bold py-3.5 rounded-2xl shadow-[0_0_20px_rgba(79,195,247,0.3)] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 group">
+                <span class="group-hover:translate-x-1 transition-transform">Download</span>
+                <i class="fa-solid fa-download group-hover:scale-110 transition-transform"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div id="progress-overlay" class="fixed inset-0 bg-[#121212]/95 backdrop-blur-xl z-[60] flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="w-full max-w-xs px-6 text-center">
+            <div class="w-20 h-20 bg-[#1E1E1E] border border-dark-border rounded-3xl mx-auto mb-8 flex items-center justify-center animate-bounce shadow-[0_0_30px_rgba(79,195,247,0.15)]">
+                <i class="fa-solid fa-gears text-dark-accentSolid text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Processing...</h3>
+            <p id="progress-detail" class="text-dark-textSub text-sm font-medium mb-6">Just a moment...</p>
+            <div class="w-full h-3 bg-[#000] rounded-full overflow-hidden border border-dark-border">
+                <div id="progress-bar-fill" class="h-full bg-dark-accentSolid animate-stripes rounded-full transition-all duration-200 w-0 box-shadow-[0_0_10px_#4fc3f7]"></div>
+            </div>
+            <p id="progress-text" class="text-dark-accentSolid font-bold mt-3 text-lg">0%</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 bg-[#1E1E1E] border border-dark-border text-white px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] flex items-center gap-4 z-[70] -translate-y-[200%] opacity-0 transition-all duration-500 w-auto max-w-[90%]">
+        <div class="w-10 h-10 rounded-full bg-dark-accentSolid/10 border border-dark-accentSolid/30 flex items-center justify-center text-dark-accentSolid shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="font-bold text-sm" id="toast-title">Success!</h4>
+            <p class="text-xs text-dark-textSub" id="toast-msg">Operation completed.</p>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let currentMode = 'create'; // 'create' or 'extract'
+        // filesArray stores items: { file: FileObject, path: String }
+        let filesArray = [];
+        let extractedFilesArray = []; 
+        
+        const ui = {
+            createView: document.getElementById('view-create'),
+            extractView: document.getElementById('view-extract'),
+            tabIndicator: document.getElementById('tab-indicator'),
+            actionBar: document.getElementById('action-bar'),
+            // Create Elements
+            dropZone: document.getElementById('drop-zone'),
+            fileInput: document.getElementById('file-input'),
+            folderInput: document.getElementById('folder-input'),
+            fileList: document.getElementById('file-list'),
+            fileListContainer: document.getElementById('file-list-container'),
+            fileCount: document.getElementById('file-count'),
+            emptyState: document.getElementById('empty-state'),
+            // Extract Elements
+            extractDropZone: document.getElementById('extract-drop-zone'),
+            zipInput: document.getElementById('zip-input'),
+            extractedContainer: document.getElementById('extracted-container'),
+            extractedList: document.getElementById('extracted-list'),
+            extractedCount: document.getElementById('extracted-count'),
+            // Modal & Common
+            modal: document.getElementById('preview-modal'),
+            modalContentBox: document.getElementById('preview-content-box'),
+            previewBody: document.getElementById('preview-body'),
+            previewTitle: document.getElementById('preview-title'),
+            previewIcon: document.getElementById('preview-icon'),
+            previewDownload: document.getElementById('preview-download'),
+            previewInfo: document.getElementById('preview-info'),
+            overlay: document.getElementById('progress-overlay'),
+            progressFill: document.getElementById('progress-bar-fill'),
+            progressText: document.getElementById('progress-text'),
+            progressDetail: document.getElementById('progress-detail'),
+            toast: document.getElementById('toast'),
+            toastTitle: document.getElementById('toast-title'),
+            toastMsg: document.getElementById('toast-msg')
+        };
+
+        // --- Mode Switching ---
+        function switchMode(mode) {
+            currentMode = mode;
+            const btnCreate = document.getElementById('tab-create');
+            const btnExtract = document.getElementById('tab-extract');
+
+            if (mode === 'create') {
+                ui.tabIndicator.style.transform = 'translateX(0)';
+                ui.createView.classList.remove('hidden');
+                ui.extractView.classList.add('hidden');
+                btnCreate.classList.replace('inactive', 'active');
+                btnExtract.classList.replace('active', 'inactive');
+                if(filesArray.length > 0) ui.actionBar.classList.remove('translate-y-full');
+            } else {
+                ui.tabIndicator.style.transform = 'translateX(102%)';
+                ui.createView.classList.add('hidden');
+                ui.extractView.classList.remove('hidden');
+                btnCreate.classList.replace('active', 'inactive');
+                btnExtract.classList.replace('inactive', 'active');
+                ui.actionBar.classList.add('translate-y-full');
+            }
+        }
+
+        // --- Manual Input Triggers ---
+        function triggerFileInput() {
+            ui.fileInput.click();
+        }
+        function triggerFolderInput() {
+            ui.folderInput.click();
+        }
+
+        // --- File Input Handlers ---
+        ui.fileInput.addEventListener('change', function() {
+            handleFiles(Array.from(this.files), false); // Files: isDirectory = false
+            this.value = '';
         });
 
-        appCount.textContent = `(${filteredApps.length})`;
+        ui.folderInput.addEventListener('change', function() {
+            // webkitDirectory files have webkitRelativePath
+            handleFiles(Array.from(this.files), true); 
+            this.value = '';
+        });
 
-        // Use Fragment for minimal reflow
-        const fragment = document.createDocumentFragment();
+        // --- Drag & Drop with Folder Recursion ---
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            ui.dropZone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+        });
+        ['dragenter', 'dragover'].forEach(evt => ui.dropZone.addEventListener(evt, () => ui.dropZone.classList.add('active-drop')));
+        ['dragleave', 'drop'].forEach(evt => ui.dropZone.addEventListener(evt, () => ui.dropZone.classList.remove('active-drop')));
+        
+        ui.dropZone.addEventListener('drop', async (e) => {
+            const items = e.dataTransfer.items;
+            if (items) {
+                // Use FileSystemEntry API for folders
+                let allFiles = [];
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i].webkitGetAsEntry();
+                    if (item) {
+                        await traverseFileTree(item, "", allFiles);
+                    }
+                }
+                addToFilesArray(allFiles);
+            } else {
+                // Fallback
+                handleFiles(Array.from(e.dataTransfer.files), false);
+            }
+        });
 
-        if (filteredApps.length === 0) {
-          appsGrid.style.display = "none";
-          noResults.style.display = "block";
-        } else {
-          appsGrid.style.display = "grid";
-          noResults.style.display = "none";
-          appsGrid.innerHTML = ""; // Clear current
+        // Extract Mode D&D (Simple, no recursion needed for just reading zip)
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            ui.extractDropZone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+        });
+        ui.extractDropZone.addEventListener('drop', e => {
+            if (e.dataTransfer.files.length > 0) processZipFile(e.dataTransfer.files[0]);
+        });
+        ui.zipInput.addEventListener('change', function() {
+            if(this.files.length > 0) processZipFile(this.files[0]);
+            this.value = '';
+        });
 
-          filteredApps.forEach((app, index) => {
-            const a = document.createElement("a");
-            a.className = "app-card";
-            a.href = app.url;
-            a.target = "_blank";
-            a.rel = "noopener noreferrer";
-            a.setAttribute("title", app.name + " - " + app.description + " | Text2 - App Center");
-            // Stagger animation
-            a.style.animation = `fadeIn 0.5s ease-out ${index * 0.05}s backwards`;
-
-            // Fallback for icons
-            const fallbackIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzBjMGMwIiBzdHJva2Utd2lkdGg9IjEiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjUiLz48L3N2Zz4=`;
-
-            a.innerHTML = `
-              <img src="${app.icon}" class="app-icon" alt="${app.name} - ${app.description} | Text2 App Center" loading="lazy" onerror="this.src='${fallbackIcon}'">
-              <div class="app-name">${app.name}</div>
-              <div class="app-desc">${app.description}</div>
-            `;
-            fragment.appendChild(a);
-          });
-
-          appsGrid.appendChild(fragment);
+        // --- Recursive Directory Reader ---
+        async function traverseFileTree(item, path, fileList) {
+            path = path || "";
+            if (item.isFile) {
+                // Get file object
+                const file = await new Promise((resolve, reject) => item.file(resolve, reject));
+                // Add custom path property used for zipping
+                fileList.push({ file: file, path: path + file.name });
+            } else if (item.isDirectory) {
+                const dirReader = item.createReader();
+                // Read entries (readEntries might not return all if > 100, so need loop usually, but for simple usage this works mostly)
+                // Proper way to read all entries:
+                const entries = await readAllEntries(dirReader);
+                for (let i = 0; i < entries.length; i++) {
+                    await traverseFileTree(entries[i], path + item.name + "/", fileList);
+                }
+            }
         }
-      });
-    }
 
-    // Interactions
-    const searchInput = document.getElementById("appSearchInput");
-    // Smooth Filter Switching
-    document.querySelectorAll(".filter-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        document.querySelector(".filter-chip.active").classList.remove("active");
-        chip.classList.add("active");
-        currentFilter = chip.dataset.filter;
-        // Haptic feedback simulation
-        if (navigator.vibrate) navigator.vibrate(10);
-        renderApps();
-      });
-    });
+        function readAllEntries(dirReader) {
+            return new Promise((resolve, reject) => {
+                let entries = [];
+                const read = () => {
+                    dirReader.readEntries(result => {
+                        if (result.length > 0) {
+                            entries = entries.concat(result);
+                            read(); // Continue reading
+                        } else {
+                            resolve(entries);
+                        }
+                    }, reject);
+                };
+                read();
+            });
+        }
 
-    // Debounce Search
-    let timeout;
-    searchInput.addEventListener("input", (e) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        searchQuery = e.target.value.trim();
-        renderApps();
-      }, 150);
-    });
+        // --- Logic: Add to State ---
+        function handleFiles(files, fromFolderInput) {
+            let processedFiles = [];
+            files.forEach(f => {
+                // If from folder input, use webkitRelativePath. If standard file input, just name.
+                let p = (fromFolderInput && f.webkitRelativePath) ? f.webkitRelativePath : f.name;
+                processedFiles.push({ file: f, path: p });
+            });
+            addToFilesArray(processedFiles);
+        }
 
-    // Init
-    renderApps();
-  </script>
+        function addToFilesArray(newItems) {
+            newItems.forEach(item => {
+                // Deduplicate based on path + size
+                if (!filesArray.some(existing => existing.path === item.path && existing.file.size === item.file.size)) {
+                    filesArray.push(item);
+                }
+            });
+            updateCreateUI(true);
+        }
+
+        // --- Create UI Update ---
+        function updateCreateUI(isAdding) {
+            ui.fileCount.innerText = filesArray.length;
+            if (filesArray.length > 0) {
+                ui.fileListContainer.classList.remove('hidden');
+                ui.emptyState.classList.add('hidden');
+                if(currentMode === 'create') ui.actionBar.classList.remove('translate-y-full');
+            } else {
+                ui.fileListContainer.classList.add('hidden');
+                ui.emptyState.classList.remove('hidden');
+                ui.actionBar.classList.add('translate-y-full');
+            }
+            
+            ui.fileList.innerHTML = '';
+            filesArray.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'bg-panel-gradient p-3.5 rounded-2xl border border-dark-border shadow-md flex items-center gap-3 group transition-all duration-200 hover-accent cursor-pointer relative overflow-hidden';
+                if(isAdding) { li.style.animationDelay = `${index*30}ms`; li.classList.add('animate-spring-up'); }
+                
+                let icon = getIconClass(item.file.name);
+                
+                li.onclick = (e) => {
+                    if(e.target.closest('button')) return;
+                    openPreview(index, 'create');
+                };
+
+                // Display Path or Name? Let's display Name but tooltip Path
+                let displayName = item.path.split('/').pop();
+                let displayPath = item.path; 
+
+                li.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl bg-[#121212] border border-dark-border flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
+                        <i class="${icon.icon} ${icon.text} text-lg"></i>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-sm font-bold text-white truncate group-hover:text-dark-accentSolid transition-colors">${displayName}</p>
+                        <p class="text-[10px] text-dark-textSub font-medium truncate opacity-70">${displayPath}</p>
+                    </div>
+                    <button onclick="removeFile(${index})" class="w-8 h-8 flex items-center justify-center text-dark-textSub hover:text-red-400 rounded-lg active:scale-90 z-10 relative">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                `;
+                ui.fileList.appendChild(li);
+            });
+        }
+
+        function removeFile(index) {
+            filesArray.splice(index, 1);
+            updateCreateUI(false);
+        }
+        function clearAllFiles() { filesArray = []; updateCreateUI(false); }
+
+        async function generateZip() {
+            if (filesArray.length === 0) return;
+            showOverlay(true, "Compressing files...");
+            
+            const zip = new JSZip();
+            filesArray.forEach(item => {
+                // Add file with full path to zip
+                zip.file(item.path, item.file);
+            });
+            
+            let name = document.getElementById('zip-filename').value.trim() || 'text2-archive';
+            if(!name.toLowerCase().endsWith('.zip')) name += '.zip';
+
+            try {
+                const blob = await zip.generateAsync({type:"blob", compression:"DEFLATE"}, (meta) => updateProgress(meta.percent, "Processing: " + (meta.currentFile || '...')));
+                downloadBlob(blob, name);
+                showToast("Success!", "Zip file downloaded.");
+            } catch(e) { alert(e); } finally { showOverlay(false); }
+        }
+
+        // --- Extract Logic (Standard) ---
+        async function processZipFile(file) {
+            if (!file.name.toLowerCase().endsWith('.zip') && file.type !== 'application/zip') {
+                showToast("Error!", "Please select a .zip file", true);
+                return;
+            }
+
+            showOverlay(true, "Reading ZIP file...");
+            ui.extractedList.innerHTML = ''; 
+            extractedFilesArray = []; 
+            
+            try {
+                const zip = new JSZip();
+                const contents = await zip.loadAsync(file);
+                
+                ui.extractedContainer.classList.remove('hidden');
+                
+                // Sort files
+                const entries = Object.keys(contents.files).map(name => ({
+                    name: name,
+                    entry: contents.files[name]
+                })).sort((a,b) => (a.entry.dir === b.entry.dir) ? 0 : a.entry.dir ? -1 : 1);
+
+                ui.extractedCount.innerText = entries.length;
+
+                for (let i = 0; i < entries.length; i++) {
+                    const item = entries[i];
+                    if (item.entry.dir) continue; 
+                    
+                    const blob = await item.entry.async("blob");
+                    
+                    extractedFilesArray.push({ name: item.name, blob: blob, size: blob.size });
+                    const currentIndex = extractedFilesArray.length - 1;
+
+                    const li = document.createElement('li');
+                    li.className = 'bg-panel-gradient p-3 rounded-xl border border-dark-border shadow-md flex items-center gap-3 animate-spring-up cursor-pointer group hover-accent';
+                    li.style.animationDelay = `${i * 30}ms`;
+                    
+                    let icon = getIconClass(item.name);
+
+                    li.onclick = (e) => {
+                        if(e.target.closest('a')) return;
+                        openPreview(currentIndex, 'extract');
+                    };
+
+                    li.innerHTML = `
+                        <div class="w-10 h-10 rounded-xl bg-[#121212] border border-dark-border flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                            <i class="${icon.icon} ${icon.text}"></i>
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <p class="text-sm font-bold text-white truncate group-hover:text-dark-accentSolid transition-colors" title="${item.name}">${item.name}</p>
+                            <p class="text-[10px] text-dark-textSub font-medium">${formatBytes(blob.size)}</p>
+                        </div>
+                        <i class="fa-solid fa-eye text-dark-textSub group-hover:text-dark-accentSolid mr-2 text-sm"></i>
+                    `;
+                    ui.extractedList.appendChild(li);
+                }
+                showToast("Success!", `Found ${extractedFilesArray.length} files.`);
+
+            } catch (err) {
+                console.error(err);
+                showToast("Error!", "Invalid ZIP file.", true);
+            } finally {
+                showOverlay(false);
+            }
+        }
+        function resetExtract() { ui.extractedList.innerHTML = ''; ui.extractedContainer.classList.add('hidden'); ui.zipInput.value = ''; extractedFilesArray = []; }
+
+        // --- Preview Logic ---
+        function openPreview(index, source) {
+            const itemObj = source === 'create' ? filesArray[index] : extractedFilesArray[index];
+            if(!itemObj) return;
+
+            const blob = itemObj.file || itemObj.blob; 
+            const name = itemObj.path ? itemObj.path.split('/').pop() : itemObj.name;
+            const size = blob.size;
+            const type = blob.type;
+            
+            ui.previewTitle.innerText = name;
+            ui.previewInfo.innerText = formatBytes(size);
+            const url = URL.createObjectURL(blob);
+            ui.previewDownload.href = url;
+            ui.previewDownload.download = name;
+
+            let icon = getIconClass(name);
+            ui.previewIcon.className = `w-9 h-9 rounded-lg bg-[#121212] border border-dark-border flex items-center justify-center ${icon.text} shrink-0`;
+            ui.previewIcon.innerHTML = `<i class="${icon.icon}"></i>`;
+
+            ui.previewBody.innerHTML = '';
+            
+            if (type.startsWith('image/') || name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
+                const img = document.createElement('img');
+                img.src = url; img.className = 'max-w-full max-h-full object-contain rounded-lg shadow-lg border border-dark-border';
+                ui.previewBody.appendChild(img);
+            } 
+            else if (type.startsWith('video/') || name.match(/\.(mp4|webm|mov)$/i)) {
+                const video = document.createElement('video');
+                video.src = url; video.controls = true; video.className = 'max-w-full max-h-full rounded-lg shadow-lg bg-black border border-dark-border';
+                ui.previewBody.appendChild(video);
+            }
+            else if (type.startsWith('audio/') || name.match(/\.(mp3|wav|ogg)$/i)) {
+                const wrapper = document.createElement('div');
+                wrapper.className = "text-center p-10 bg-[#1E1E1E] border border-dark-border rounded-2xl shadow-sm";
+                wrapper.innerHTML = `<div class="w-20 h-20 bg-[#121212] rounded-full flex items-center justify-center mx-auto mb-4 text-dark-accentSolid border border-dark-border shadow-[0_0_20px_rgba(79,195,247,0.2)]"><i class="fa-solid fa-music text-3xl"></i></div>`;
+                const audio = document.createElement('audio'); audio.src = url; audio.controls = true; audio.className = "w-full min-w-[300px]";
+                wrapper.appendChild(audio); ui.previewBody.appendChild(wrapper);
+            }
+            else if (type === 'application/pdf' || name.endsWith('.pdf')) {
+                const iframe = document.createElement('iframe'); iframe.src = url; iframe.className = 'w-full h-full rounded-lg border border-dark-border bg-white';
+                ui.previewBody.appendChild(iframe);
+            }
+            else if (name.match(/\.(txt|md|js|html|css|json|py|xml|csv)$/i) || type.startsWith('text/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const pre = document.createElement('pre');
+                    pre.className = 'w-full h-full overflow-auto p-4 bg-[#121212] text-dark-accentSolid rounded-lg text-xs font-mono whitespace-pre-wrap border border-dark-border';
+                    pre.innerText = e.target.result;
+                    ui.previewBody.appendChild(pre);
+                };
+                reader.readAsText(blob);
+            }
+            else {
+                const div = document.createElement('div'); div.className = 'text-center';
+                div.innerHTML = `<div class="w-24 h-24 bg-[#121212] rounded-full flex items-center justify-center mx-auto mb-4 text-dark-textSub border border-dark-border"><i class="fa-solid fa-file-circle-question text-4xl"></i></div><p class="text-dark-textSub font-medium">Cannot preview this file</p>`;
+                ui.previewBody.appendChild(div);
+            }
+
+            ui.modal.classList.remove('hidden');
+            setTimeout(() => { ui.modalContentBox.classList.remove('scale-95', 'opacity-0'); ui.modalContentBox.classList.add('scale-100', 'opacity-100'); }, 10);
+        }
+        function closePreview() {
+            ui.modalContentBox.classList.remove('scale-100', 'opacity-100'); ui.modalContentBox.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { ui.modal.classList.add('hidden'); ui.previewBody.innerHTML = ''; if(ui.previewDownload.href) URL.revokeObjectURL(ui.previewDownload.href); }, 300);
+        }
+
+        // --- Utils ---
+        function getIconClass(name) {
+            name = name.toLowerCase();
+            if (name.match(/\.(jpg|jpeg|png|gif|webp|svg)$/)) return { text: 'text-purple-400', icon: 'fa-solid fa-image' };
+            if (name.endsWith('.pdf')) return { text: 'text-red-400', icon: 'fa-solid fa-file-pdf' };
+            if (name.match(/\.(mp4|mov|webm)$/)) return { text: 'text-pink-400', icon: 'fa-solid fa-video' };
+            if (name.match(/\.(mp3|wav)$/)) return { text: 'text-yellow-400', icon: 'fa-solid fa-music' };
+            if (name.match(/\.(js|html|css|py|json|txt)$/)) return { text: 'text-blue-400', icon: 'fa-solid fa-code' };
+            return { text: 'text-dark-textSub', icon: 'fa-solid fa-file' };
+        }
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+        function showOverlay(show, msg = "") {
+            if (show) {
+                ui.overlay.classList.remove('hidden'); ui.progressDetail.innerText = msg; ui.progressFill.style.width = '0%'; ui.progressText.innerText = '0%';
+                setTimeout(() => ui.overlay.classList.remove('opacity-0'), 10);
+            } else { ui.overlay.classList.add('opacity-0'); setTimeout(() => ui.overlay.classList.add('hidden'), 300); }
+        }
+        function updateProgress(percent, msg) {
+            const p = percent.toFixed(0); ui.progressFill.style.width = `${p}%`; ui.progressText.innerText = `${p}%`; if (msg) ui.progressDetail.innerText = msg;
+        }
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+        function showToast(title, msg, isError = false) {
+            ui.toastTitle.innerText = title; ui.toastMsg.innerText = msg;
+            ui.toast.querySelector('.rounded-full').className = `w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-opacity-30 ${isError ? 'bg-red-500/10 border-red-500 text-red-400' : 'bg-dark-accentSolid/10 border-dark-accentSolid text-dark-accentSolid'}`;
+            ui.toast.querySelector('i').className = isError ? 'fa-solid fa-exclamation' : 'fa-solid fa-check';
+            ui.toast.classList.remove('-translate-y-[200%]', 'opacity-0'); ui.toast.classList.add('translate-y-0', 'opacity-100');
+            if (navigator.vibrate) navigator.vibrate(50);
+            setTimeout(() => { ui.toast.classList.add('-translate-y-[200%]', 'opacity-0'); ui.toast.classList.remove('translate-y-0', 'opacity-100'); }, 3000);
+        }
+    </script>
 </body>
 </html>
